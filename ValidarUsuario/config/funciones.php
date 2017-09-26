@@ -1,0 +1,884 @@
+<?php
+
+	/**
+	 * @autor iberlot
+	 * @version 20140926
+	 *
+	 * Funciones utilizadas por el sistema
+	 */
+
+	include("config/conexion.php");
+	require_once("config/variables.php");
+	//require_once("consultas.php");
+	require_once("config/config.php");
+	require_once("/u00/cgi-bin/clases/phpmailer/class.phpmailer.php");
+
+/*
+	function error($numero, $texto, $istru, $linea)
+	{
+		$ddf = fopen ('/web/logs/errorRequerimientos.log', 'a');
+		fwrite ($ddf, "[" . date ("r") . "] Error $numero:$texto *** var_export($istru) *** en linea $linea\r\n");
+		fclose ($ddf);
+	}
+	set_error_handler ('error');
+*/
+	/**
+	 * Devuelve el usuario encerrado entre parentesis
+	 *
+	 * @param string $cadena Cadena en la que se encuetra el texto encerrado entre parentesis a extraer
+	 * @return string $final Texto que se encuentra entre parentesis extraido para su uso
+	 */
+	function usuario($cadena)
+	{
+		$maximo= strlen ($cadena);
+		$ide= "(";
+		$ide2= ")";
+		$total= strpos($cadena,$ide);
+		$total2= stripos($cadena,$ide2);
+		$total3= ($maximo-$total2-1);
+		$final= substr ($cadena,$total+1,-1);
+
+		return $final;
+	}
+
+	/**
+	 * Devuelve los datos del usuario Referente
+	 *
+	 * @param int $anio a�o del requerimiento del que se quiere saber el referente
+	 * @param int $reque Numero del requerimiento del que se quiere saber el referente
+	 *
+	 * @return string $final Texto que se encuentra entre parentesis extraido para su uso
+	 */
+	function usrRefernt($anio, $reque)
+	{
+		include("config.php");
+		include("conexion.php");
+
+		$sqlUsrRefernet = "SELECT NRO_DOC, TIPO_DOC FROM PORTAL.USRREFERENT Where  ANIO = '".$anio."' and REQUERIMIENTO = '".$reque."'";
+		$stmtRefer = oci_parse($linkOracle, $sqlUsrRefernet);
+		oci_execute($stmtRefer) or die (' Error en sqlUsrRefernet '.var_dump($sqlUsrRefernet).' en linea '.__LINE__);
+		$refer = oci_fetch_array($stmtRefer, OCI_ASSOC+OCI_RETURN_NULLS);
+
+		$referNumDoc = $refer['NRO_DOC'];
+		$referTipDoc = $refer['TIPO_DOC'];
+
+		list ($nuevoReqRefer, $referentCuenta, $EmailRefernt) = datosPersona($refer['NRO_DOC'], $refer['TIPO_DOC']);
+
+		return array ($nuevoReqRefer, $referentCuenta, $EmailRefernt);
+	}
+
+	/**
+	 * Devuelve los datos del usuario ingresando numero y tipo de documento
+	 *
+	 * @param int $nroDoc Numero del documento
+	 * @param string $tipoDoc Tipo de documento
+	 *
+	 * @return array $personaNombre, $persona['CUENTA'], $EmailPersona con los diferentes datos
+	 */
+	function datosPersona($nroDoc, $tipoDoc)
+	{
+		include("config.php");
+		include("conexion.php");
+
+		$sqlDatosPersona = "SELECT * FROM PORTAL.USUARIO_WEB Where tipo_documento = '".$tipoDoc."' and nro_doc = '".$nroDoc."'";
+		$stmtDatosPersona = oci_parse($linkOracle, $sqlDatosPersona);
+		oci_execute($stmtDatosPersona) or die (' Error en sqlDatosPersona '.var_dump($sqlDatosPersona).' en linea '.__LINE__);
+		$persona = oci_fetch_array($stmtDatosPersona, OCI_ASSOC+OCI_RETURN_NULLS);
+
+		if($persona)
+		{
+			$personaNombre = substr($persona['NOMBRE'],0,50).'	('.substr($persona['CUENTA'],0,50).')';
+			$EmailPersona = $persona['EMAIL'];
+		}
+
+		return @array ($personaNombre, $persona['CUENTA'], $EmailPersona);
+	}
+
+	function validarEmail($str)
+	{
+		#$string = "first.last@domain.co.uk";
+		if (preg_match(	'/^[^0-9][a-zA-Z0-9_]+([.][a-zA-Z0-9_]+)*[@][a-zA-Z0-9_]+([.][a-zA-Z0-9_]+)*[.][a-zA-Z]{2,4}$/',$str))
+		{
+	    return 1;
+		}
+		return 0;
+	}
+
+	function fecha_DD_MM_YYYY_Oracle($fecha_inicio)
+	{
+			$fecha_inicio 		= str_replace('-','',$fecha_inicio);
+		$fecha_inicio 		= str_replace('/','',$fecha_inicio);
+		#$dato_post_fecha_recibo_usal = preg_replace('([^0-9])', '', $dato_post_valorcuota);
+		$dd   =substr($fecha_inicio,-2);
+		$mm   =substr($fecha_inicio,4,2);
+		$yyyy = substr($fecha_inicio,0,4);
+		if ($fecha_inicio)
+		{
+			$fecha_inicio = $dd."/".$mm."/".$yyyy;
+		}
+		return $fecha_inicio;
+	}
+
+	/**
+	 * invierte el orden de la fecha para que quede en el formato dia-mes-a�o
+	 *
+	 * @param date $fecha fecha con el formato ano-mes-dia
+	 * @return string $aux
+	 */
+	function invertirFecha ($fecha)
+	{
+
+		list($ano,$mes,$dia) = explode('-',$fecha);
+		$aux=$dia."-".$mes."-".$ano;
+
+		return $aux;
+	}
+
+	/**
+	 * devuelve el dia correspondiente de la semana en formato de tres letras
+	 *
+	 * @param date $fecha fecha con el formato ano-mes-dia
+	 * @return string $dias
+	 */
+	function nombreDiacorto ($fecha)
+	{
+
+		list($ano,$mes,$dia) = explode('-',$fecha);
+		$dias = array('Dom', 'Lun', 'Mar', 'Mie', 'Jue', 'Vie', 'Sab', '86776');
+
+		return $dias[date("w", mktime(0, 0, 0, $mes, $dia, $ano))];
+	}
+
+	/**
+	 * devuelve la suma de dias
+	 *
+	 * @param date $fecha fecha con el formato ano-mes-dia
+	 * @param int $dia numero de dias a sumar
+	 * @return date fecha con los dias sumados
+	 */
+	function sumaDia($fecha,$dia)
+	{
+		list($year,$mon,$day) = explode('-',$fecha);
+
+		return date('Y-m-d',mktime(0,0,0,$mon,$day+$dia,$year));
+	}
+
+	/**
+	 * Diferencia de d�as - Fecha mayor, Fecha menor
+	 *
+	 * @param array $fecha2 fecha mayor con el formato ano-mes-dia
+	 * @param array $fecha1 fecha menor con el formato ano-mes-dia
+	 * @return date $dias_diferencia fecha con los dias restados
+	 */
+	function diferenciaDias($fecha2,$fecha1)
+	{
+		list($ano2,$mes2,$dia2) = explode('-',$fecha1);
+		list($ano1,$mes1,$dia1) = explode('-',$fecha2);
+
+		//calculo timestam de las dos fechas
+		$timestamp1 = mktime(0,0,0,$mes1,$dia1,$ano1);
+		$timestamp2 = mktime(0,0,0,$mes2,$dia2,$ano2);
+
+		//resto a una fecha la otra
+		$segundos_diferencia = $timestamp1 - $timestamp2;
+
+		//convierto segundos en d�as
+		$dias_diferencia = $segundos_diferencia / (60 * 60 * 24);
+
+		return round($dias_diferencia);
+	}
+
+	/**
+	 * Chequea que la fecha ingresada sea correcta
+	 *
+	 * @param int $d El d�a que est� dentro del n�mero de d�as del mes m dado. Los a�os a bisiestos son tomados en consideraci�n.
+	 * @param int $m El mes entre 1 y 12 inclusive.
+	 * @param int $a El a�o entre 1 y 32767 inclusive.
+	 *
+	 * @return bool puede ser 0 o 1 dependiendo si la fecha es correcta o no
+	 */
+	function fechaCorrecta($d,$m,$a)
+	{
+		$c=checkdate($m,$d,$a);
+		if ($c)
+		return 1;
+		else
+		return 0;
+	}
+
+	/**
+	 *
+	 */
+	function calcularMminutosExcedentes($hora1,$hora2)
+	{
+		$separar[1]=explode(':',$hora1);
+		$separar[2]=explode(':',$hora2);
+
+		$total_minutos_trasncurridos[1] = ($separar[1][0]*60)+$separar[1][1];
+		$total_minutos_trasncurridos[2] = ($separar[2][0]*60)+$separar[2][1];
+		$total_minutos_trasncurridos = $total_minutos_trasncurridos[1]-$total_minutos_trasncurridos[2];
+
+		return($total_minutos_trasncurridos);
+
+	}
+
+	function generar_mensaje_detalle_boleta($id_boleta,$estado_boleta)
+	{
+		##Generar informe y mensaje
+				$query_boleta = "select * from  tesoreria.boletas where estado_boleta=$estado_boleta and id_boleta = ".$id_boleta;
+				#print $query_boleta."<BR/>";
+				$db_administrativa = &conectarBD();
+				$rs_boleta = $db_administrativa->Execute($query_boleta );
+
+				$arr_boleta = $rs_boleta->FetchRow();
+
+				$faesca         = $arr_boleta['FAESCA'];
+				$id_institucion = $arr_boleta['ID_INSTITUCION'];
+				$cohorte        = $arr_boleta['COHORTE'];
+				$comision       = $arr_boleta['COMISION'];
+
+				#Busco la informaci�n del convenio
+
+				$query_convenio = "select DISTINCT CO.FAESCA, CO.ID_INSTITUCION, CO.COHORTE, CO.COMISION, CO.PAGO_ANUAL, CO.PORCENTAJE,
+				CO.CONVENIO, CO.TIPO_CONVENIO , CO.FECHA_INICIO, I.DESCRIPCION
+				from tesoreria.convenio CO, tesoreria.instituciones I where
+				CO.ID_INSTITUCION = $id_institucion AND
+				I.ID_INSTITUCION = CO.ID_INSTITUCION AND
+				CO.COHORTE = $cohorte and
+				CO.COMISION = $comision and
+				CO.FAESCA = $faesca and
+				I.activo, muid=1";
+
+				#print $query_convenio."<BR>";
+
+				$convenio_rs = $db_administrativa->Execute($query_convenio );
+				$row_convenio = $convenio_rs->FetchRow();
+
+				$instituto_desc = $row_convenio[DESCRIPCION];
+				$tipo_convenio = $row_convenio[TIPO_CONVENIO];
+				$convenio = $row_convenio[CONVENIO];
+				$pago_anual = $row_convenio[PAGO_ANUAL];
+
+				$porcentaje = $row_convenio[PORCENTAJE];
+				$fecha_inicio = $row_convenio[FECHA_INICIO];
+
+				$fecha_inicio 		= str_replace('-','',$fecha_inicio);
+				$fecha_inicio 		= str_replace('/','',$fecha_inicio);
+				$dd_inicio   =substr($fecha_inicio,-2);
+				$mm_inicio   =substr($fecha_inicio,4,2);
+				$yyyy_inicio = substr($fecha_inicio,0,4);
+
+				if ($fecha_inicio)
+				{
+					$fecha_inicio = $dd_inicio."/".$mm_inicio."/".$yyyy_inicio;
+				}
+
+				$mensaje_email = "<head><title>Detalle de boleta </title></head><body>";
+				$mensaje_email .="Detalle de boleta a generar, ante cualquier consulta comunicarse al xxxx o v�a email a sadsd\@salvador.edu.ar<BR>";
+				$mensaje_email .="<table border=0 align=\"center\">";
+				$mensaje_email .= "<tr>";
+				$mensaje_email .='<td style="background-color: gainsboro;">'."<b>Instituto:</b> $instituto_desc</td></tr>";
+				$mensaje_email .="<tr><td><BR>";
+				$mensaje_email .="<table border=0 align=\"center\">";
+
+				$mensaje_email .='<tr  style="background-color: gainsboro;">';
+				$mensaje_email .="<th>FAESCA</th>";
+
+				$mensaje_email .="<th>Cohorte</th>";
+				$mensaje_email .="<th>Comisi�n</th>";
+				$mensaje_email .="<th>Tipo de convenio</th>";
+				$mensaje_email .="<th>Fecha de inicio</th>";
+				$mensaje_email .="</tr>";
+
+				$mensaje_email .="<tr align=\"center\">";
+				$mensaje_email .="<td>$faesca</td>";
+				$mensaje_email .="<td>$cohorte</td>";
+				$mensaje_email .="<td>$comision</td>";
+
+				if ($tipo_convenio)
+				{
+					$mensaje_email .="<td>Pago fijo:$pago_anual</td>";
+				}
+				else
+				{
+					$mensaje_email .="<td>Porcentaje:$porcentaje ".'%'."</td>";
+				}
+				$mensaje_email .="<td>$fecha_inicio</td>";
+				$mensaje_email .="</tr>";
+				$mensaje_email .="<tr><td colspan=5>";
+
+				$query_ciclo_boleta = "select *  from tesoreria.convenio CO,tesoreria.ciclo CI, tesoreria.instituciones I where
+									CI.FAESCA = '$faesca' and
+									CI.FAESCA = CO.FAESCA and
+									CI.COHORTE= $cohorte and
+									CI.COHORTE= CO.COHORTE and
+									CI.COMISION = $comision and
+									CI.COMISION = CO.COMISION and
+									CI.ID_INSTITUCION = $id_institucion and
+									CI.ID_INSTITUCION = I.ID_INSTITUCION AND
+									CI.ID_INSTITUCION = CO.ID_INSTITUCION AND
+									I.activo, muid = 1
+									order by cuota,tipo_cuota";
+
+				#print $query_ciclo_boleta."<BR>";
+
+				$fecha_hoy = date("m/d/Y");
+				#$fecha_ciclo_hoy = mktime(0, 0, 0, date("m")  , date("d"), date("y"));
+
+				$fecha_ciclo_inicio_mes = mktime(0, 0, 0, date("m")  , 1, date("y"));
+				if ($fecha_inicio)
+				{
+					$fecha_inicio_ciclo = mktime(0, 0, 0, 1  , 1, $cohorte);
+				}
+				else
+				{
+					$fecha_inicio_ciclo = mktime(0, 0, 0, $mm_inicio  , 1, $cohorte);
+				}
+
+
+
+				$ciclo_rs_boleta = $db_administrativa->Execute($query_ciclo_boleta);
+
+				if($ciclo_rs_boleta)
+				{
+					$mensaje_email .="<BR>";
+					$mensaje_email .='<table align="center"  border="1" style="border-width: medium;   border-spacing: 0px;   border-style: outset;   border-color: gray;   border-collapse: collapse;   background-color: white;">';
+
+					$mensaje_email .= '<tr style="background-color: gainsboro;" align=\"center\" >';
+					$mensaje_email .= "<th>Nro cuota - Mes/A�o</th>";
+					$mensaje_email .= "<th>Tipo de cuota</th>";
+					$mensaje_email .= "<th>Cantidad de alumno</th>";
+					$mensaje_email .= "<th>Precio de cuota</th>";
+					$mensaje_email .= "<th>A recaudar</th>";
+					$mensaje_email .= "<th>% USAL</th>";
+					$mensaje_email .= "<th>Depositado</th>";
+					$mensaje_email .= "<th>Nro recibo</th>";
+					$mensaje_email .= "<th>Fecha de recibo</th>";
+					$mensaje_email .= "</tr>";
+
+					while ($row_ciclo_boleta = $ciclo_rs_boleta->FetchRow())
+					{
+						$fecha_ciclo_cuota = mktime(0, 0, 0, $mm_inicio+$indice  , 1, $cohorte);
+
+						$fecha_ciclo_cuota_date= date("m/Y",$fecha_ciclo_cuota );
+						$fecha_ciclo_inicio_mes_date = date("Y/m/d",$fecha_ciclo_inicio_mes );
+
+						if ($fecha_ciclo_inicio_mes - $fecha_ciclo_cuota >= 0 )
+						{
+							$indice=	$row_ciclo_boleta[CUOTA];
+							if (!$tipo_convenio)
+							{
+								$acumulado = ($row_ciclo_boleta[CANTIDADALUMNOS]*$row_ciclo_boleta[VALORCUOTA]);
+								$porciento_usal = $acumulado*($porcentaje/100);
+							}
+
+							$mensaje_email .= '<tr align="center" >';
+							$mensaje_email .= "<td>$indice - $fecha_ciclo_cuota_date</td>";
+							$mensaje_email .= "<td>$row_ciclo_boleta[TIPO_CUOTA]</td>";
+							$mensaje_email .= "<td>$row_ciclo_boleta[CANTIDADALUMNOS]</td>";
+							$mensaje_email .= '<td>$'.$row_ciclo_boleta[VALORCUOTA]."</td>";
+							$mensaje_email .= '<td>$'.number_format($acumulado, 2, ",", ".")."</td>";
+							$mensaje_email .= "<td>$porciento_usal</td>";
+							$mensaje_email .= '<td>$'.number_format($row_ciclo_boleta[DEPOSITADO], 2, ",", ".")."</td>";
+							$mensaje_email .= "<td>$row_ciclo_boleta[NRO_RECIBO]</td>";
+							if ($row_ciclo_boleta[FECHA_RECIBO])
+							{
+								$fecha_recibo = $row_ciclo_boleta[FECHA_RECIBO];
+								$fecha_recibo 		= str_replace('-','',$fecha_recibo);
+								$fecha_recibo 		= str_replace('/','',$fecha_recibo);
+
+								$dd   =substr($fecha_recibo,-2);
+								$mm   =substr($fecha_recibo,4,2);
+								$yyyy = substr($fecha_recibo,0,4);
+								$fecha_recibo = $dd."/".$mm."/".$yyyy;
+
+							}
+							else
+							{
+								$fecha_recibo = '';
+							}
+
+							$mensaje_email .= "<td>$fecha_recibo</td>";
+							$mensaje_email .= "</tr>";
+
+							$acumulado_a_recaudar 			+= $acumulado;
+							$acumulado_depositado 		+= $row_ciclo_boleta[DEPOSITADO];
+							$acumulado_usal += $porciento_usal;
+						}
+					}
+					$mensaje_email .= "</table>";
+
+					$mensaje_email .= "<BR>Totales al: $fecha_hoy<BR>";
+					$mensaje_email .= '<table align="center"  border="1" style="border-width: medium;   border-spacing: 0px;   border-style: outset;   border-color: gray;   border-collapse: collapse;   background-color: white;">';
+
+					$mensaje_email .= '<tr style="background-color: gainsboro;" align="center" >';
+					$mensaje_email .= "<th>Devengado:</th>";
+					$mensaje_email .= "<th>Ingresado</th>";
+					$mensaje_email .= "<th>A favor de la USAL</th>";
+					$mensaje_email .= "</TR>";
+
+					if ($tipo_convenio)
+					{
+						$acumulado_usal = $pago_anual;
+					}
+
+
+					$mensaje_email .= '<tr align="center" >';
+					$mensaje_email .= "<td>\$ ".number_format($acumulado_usal, 2, ",", ".")."</td>";
+					$mensaje_email .= "<td>\$ ".number_format($acumulado_depositado, 2, ",", ".")."</td>";
+					$mensaje_email .= "<td>\$ ".number_format(($acumulado_usal - $acumulado_depositado) , 2, ",", ".")."</td>";
+					$mensaje_email .= "</TR>";
+					$mensaje_email .= "</table>";
+
+				}
+
+				$db_administrativa->Close();
+
+				return $mensaje_email ;
+	}
+
+	function interfazBoleInst_Out()
+	{
+		if (($fp=fopen(INTERFAZ_OUT."genebole.txt","w")) !== false)
+		{
+
+
+				$query_boletas = "select * from tesoreria.boletas B where estado_boleta in (3,5,6) and id_institucion not like '%*%' order by id_boleta";
+
+				$db_administrativa = &conectarBD();
+				$boletas_rs = $db_administrativa->Execute($query_boletas);
+
+			 	if ($boletas_rs)
+			 	{
+			 		$boletas_array = array();
+
+
+					while ($row_boletas = $boletas_rs->FetchRow())
+					{
+						#ID_BOLETA                                 NOT NULL NUMBER(9)
+						$ID_BOLETA            =$row_boletas['ID_BOLETA'];
+						$linea_array = sprintf("%09s",$ID_BOLETA);
+						#NRO_CONVENIO                                       VARCHAR2(4)
+						$NRO_CONVENIO         =$row_boletas['NRO_CONVENIO'];
+						$linea_array .= sprintf("%04s",$NRO_CONVENIO);
+						#FECHA_VENCIMIENTO                                  VARCHAR2(8)
+						$FECHA_VENCIMIENTO    =$row_boletas['FECHA_VENCIMIENTO'];
+						$FECHA_VENCIMIENTO = substr($FECHA_VENCIMIENTO,-4).substr($FECHA_VENCIMIENTO,2,2).substr($FECHA_VENCIMIENTO,0,2);
+						$linea_array .= sprintf("%08s",$FECHA_VENCIMIENTO);
+						#IMPORTE                                            VARCHAR2(11)
+						$IMPORTE              =$row_boletas['IMPORTE'];
+						$linea_array .= sprintf("%011s",$IMPORTE);
+						#FECHA_EMISION                                      VARCHAR2(8)
+						$FECHA_EMISION        =$row_boletas['FECHA_EMISION'];
+						$FECHA_EMISION 		= str_replace('-','',$FECHA_EMISION);
+						$FECHA_EMISION = substr($FECHA_EMISION,-4).substr($FECHA_EMISION,2,2).substr($FECHA_EMISION,0,2);
+						$linea_array .= sprintf("%08s",$FECHA_EMISION);
+						#TIPO_BOLETA                                        VARCHAR2(1)
+						$TIPO_BOLETA          =$row_boletas['TIPO_BOLETA'];
+						$linea_array .= sprintf("%01s",$TIPO_BOLETA);
+						#DATOS_BOLETA                                       VARCHAR2(9)
+						$DATOS_BOLETA         =$row_boletas['DATOS_BOLETA'];
+						$linea_array .= sprintf("%09s",$DATOS_BOLETA);
+						#MONEDA                                             VARCHAR2(1)
+						$MONEDA               =$row_boletas['MONEDA'];
+						$linea_array .= sprintf("%01s",$MONEDA);
+						#COHORTE                                            VARCHAR2(4)
+						$COHORTE              =$row_boletas['COHORTE'];
+						$linea_array .= sprintf("%04s",$COHORTE);
+						#COMISION                                           VARCHAR2(1)
+						$COMISION             =$row_boletas['COMISION'];
+						$linea_array .= sprintf("%01s",$COMISION);
+
+						#ID_INSTITUCION                                     VARCHAR2(2)
+						$ID_INSTITUCION       =$row_boletas['ID_INSTITUCION'];
+						$linea_array .= sprintf("%02s",$ID_INSTITUCION);
+						#DATOS_INSTITUCION                                  VARCHAR2(11)
+						$DATOS_INSTITUCION    =$row_boletas['DATOS_INSTITUCION'];
+						$linea_array .= sprintf("%011s",$DATOS_INSTITUCION);
+						#STUDENT                                            VARCHAR2(8)
+						$STUDENT              =$row_boletas['STUDENT'];
+						$linea_array .= sprintf("%08s",$STUDENT);
+						#TIPODOC                                            VARCHAR2(3)
+						$TIPODOC              =$row_boletas['TIPODOC'];
+						$linea_array .= sprintf("%-3s",$TIPODOC);
+						#NRODOC
+						$NRODOC               =$row_boletas['NRODOC'];
+						$linea_array .= sprintf("%12s",$NRODOC);
+						#FAESCA                                             VARCHAR2(6)
+						$FAESCA               =$row_boletas['FAESCA'];
+						$linea_array .= sprintf("%06s",$FAESCA);
+						#DIGITO                                             VARCHAR2(1)
+						$DIGITO               =$row_boletas['DIGITO'];
+						$linea_array .= sprintf("%01s",$DIGITO);
+						#LUGAR                                              VARCHAR2(100)
+						$LUGAR                =$row_boletas['LUGAR'];
+						$linea_array .= sprintf("%-100s",$LUGAR);
+						#CUOTA                                              VARCHAR2(2)
+						$CUOTA                =$row_boletas['CUOTA'];
+						$linea_array .= sprintf("%02s",$CUOTA);
+						#ESTADO_BOLETA                                      NUMBER(1)
+						$ESTADO_BOLETA        =$row_boletas['ESTADO_BOLETA'];
+						$linea_array .= sprintf("%01s",$ESTADO_BOLETA);
+						#FECHA_ALTA                                         DATE
+						$FECHA_ALTA           =$row_boletas['FECHA_ALTA'];
+						$FECHA_ALTA 		= str_replace('-','',$FECHA_ALTA);
+						$linea_array .= sprintf("%08s",$FECHA_ALTA);
+						#FECHA_ENVIO                                        DATE
+						$FECHA_ENVIO          =$row_boletas['FECHA_ENVIO'];
+						$FECHA_ENVIO 		= str_replace('-','',$FECHA_ENVIO);
+						$linea_array .= sprintf("%08s",$FECHA_ENVIO);
+						#USUARIO                                            VARCHAR2(30)
+						$USUARIO              =$row_boletas['USUARIO'];
+						$linea_array .= sprintf("%-30s",$USUARIO);
+
+						$query_institucion = "select DESCRIPCION,CTACONTABLE from tesoreria.instituciones where id_institucion = '".$row_boletas['ID_INSTITUCION']."' ";
+						#$db = &conectarBD();
+						#echo $query_institucion;
+						$rs_institucion = $db_administrativa->Execute($query_institucion );
+						$arr_institucion = $rs_institucion->FetchRow();
+
+						$nombre = $arr_institucion['DESCRIPCION'];
+						$ctacontable = $arr_institucion['CTACONTABLE'];
+
+						if ($row_boletas['TIPO_BOLETA'])
+						{
+							$query_alumno = 'select id, lname , fname  from appgral.person  ,studentc.student   where person=intern and person = '.$row_boletas['STUDENT']." ";
+							#$db = &conectarBD();
+
+							$rs_alumno = $db_administrativa->Execute($query_alumno );
+							$arr_alumno = $rs_alumno->FetchRow();
+							$apellido = $arr_alumno['LNAME'];
+							$nombre = $arr_alumno['FNAME'];
+							$documento_alumno = $arr_alumno['ID'];
+
+							$NOMBRE              =$apellido.", ".$nombre;
+
+							$NOMBRE = substr($NOMBRE,0,50);
+							$ctacontable = '';
+							$linea_array .= sprintf("%-50s",$NOMBRE);
+							$linea_array .= sprintf("%-10s",$ctacontable);
+
+						}
+						else
+						{
+							$nombre = substr($nombre,0,50);
+							$linea_array .= sprintf("%-50s",$nombre);
+							$linea_array .= sprintf("%-10s",$ctacontable);
+						}
+
+
+
+						$boletas_array[] = $linea_array;
+						#echo                     $linea_array."\n";
+						fwrite($fp,$linea_array."\n");
+					}
+
+					fclose($fp);
+				}
+				else
+				{
+					echo "Error al escribir interfaz";
+				}
+			}
+			else
+			{
+				echo "Error al abrir archivo de interfaz";
+			}
+
+				$db_administrativa->Close();
+
+	}
+
+	function interfazInstituciones($str)
+	{
+		if (($fp=fopen("institu.dat","w")) !== false)
+		{
+
+			$query_convenio = "select * from tesoreria.instituciones I";
+			$db_convenio = &conectarBD();
+			$convenio_rs = $db_convenio->Execute($query_convenio );
+
+		 	if ($convenio_rs)
+		 	{
+		 		$instituciones_array = array();
+
+
+				while ($row_convenio = $convenio_rs->FetchRow())
+				{
+					#print_r($row_convenio);
+					#ID_INSTITUCION  NOT NULL NUMBER(2)
+					$ID_INSTITUCION = $row_convenio['ID_INSTITUCION'];
+					$linea_array = sprintf("%-02s",$ID_INSTITUCION);
+					#DESCRIPCION          VARCHAR2(120)
+					$DESCRIPCION = $row_convenio['DESCRIPCION'];
+					$linea_array .= sprintf("%-120s",$DESCRIPCION);
+					#DESCRIPCION_CORTA_1  VARCHAR2(50)
+#					$DESCRIPCION_CORTA_1 = $row_convenio['DESCRIPCION_CORTA_1'];
+#					$linea_array .= sprintf("%-50s",$DESCRIPCION_CORTA_1);
+					#DESCRIPCION_CORTA_2  VARCHAR2(50)
+#					$DESCRIPCION_CORTA_2 = $row_convenio['DESCRIPCION_CORTA_2'];
+#					$linea_array .= sprintf("%-50s",$DESCRIPCION_CORTA_2);
+					#ABREVIACION          VARCHAR2(50)
+#					$ABREVIACION = $row_convenio['ABREVIACION'];
+#					$linea_array .= sprintf("%-50s",$ABREVIACION);
+					#PROVINCIA            VARCHAR2(30)
+#					$PROVINCIA = $row_convenio['PROVINCIA'];
+#					$linea_array .= sprintf("%-30s",$PROVINCIA);
+					#LOCALIDAD            VARCHAR2(30)
+#					$LOCALIDAD = $row_convenio['LOCALIDAD'];
+#					$linea_array .= sprintf("%-30s",$LOCALIDAD);
+					#DIRECTOR             VARCHAR2(60)
+#					$DIRECTOR = $row_convenio['DIRECTOR'];
+#					$linea_array .= sprintf("%-60s",$DIRECTOR);
+					#EMAIL_DIRECTOR       VARCHAR2(60)
+#					$EMAIL_DIRECTOR = $row_convenio['EMAIL_DIRECTOR'];
+#					$linea_array .= sprintf("%-60s",$EMAIL_DIRECTOR);
+#					#TEL__DIRECTOR        VARCHAR2(60)
+#					$TEL_DIRECTOR = $row_convenio['TEL_DIRECTOR'];
+#					$linea_array .= sprintf("%-60s",$TEL_DIRECTOR);
+#					#VICEDIRECTOR         VARCHAR2(60)
+#					$VICEDIRECTOR = $row_convenio['VICEDIRECTOR'];
+#					$linea_array .= sprintf("%-60s",$VICEDIRECTOR);
+#					#TEL_VICEDIRECTOR     VARCHAR2(60)
+#					$TEL_VICEDIRECTOR               =$row_convenio['TEL_VICEDIRECTOR'];
+#					$linea_array .= sprintf("%-60s",$TEL_VICEDIRECTOR);
+#					#REPRESENTANTE_LEGAL  VARCHAR2(60)
+#					$REPRESENTANTE_LEGAL            =$row_convenio['REPRESENTANTE_LEGAL'];
+#					$linea_array .= sprintf("%-60s",$REPRESENTANTE_LEGAL);
+#					#TEL_REPRESENTANTE_LEGAL                            VARCHAR2(60)
+#					$TEL_REPRESENTANTE_LEGAL        =$row_convenio['TEL_REPRESENTANTE_LEGAL'];
+#					$linea_array .= sprintf("%-60s",$TEL_REPRESENTANTE_LEGAL);
+#					#ADMINISTRADOR        VARCHAR2(60)
+#					$ADMINISTRADOR                  =$row_convenio['ADMINISTRADOR'];
+#					$linea_array .= sprintf("%-60s",$ADMINISTRADOR);
+#					#EMAIL_ADMINISTRADOR  VARCHAR2(60)
+#					$EMAIL_ADMINISTRADOR            =$row_convenio['EMAIL_ADMINISTRADOR'];
+#					$linea_array .= sprintf("%-60s",$EMAIL_ADMINISTRADOR);
+#					#COORDINADOR          VARCHAR2(60)
+#					$COORDINADOR                    =$row_convenio['COORDINADOR'];
+#					$linea_array .= sprintf("%-60s",$COORDINADOR);
+#					#EMAIL_COORDINADOR    VARCHAR2(60)
+#					$EMAIL_COORDINADOR              =$row_convenio['EMAIL_COORDINADOR'];
+#					$linea_array .= sprintf("%-60s",$EMAIL_COORDINADOR);
+#					#TEL_COORDINADOR      VARCHAR2(60)
+#					$TEL_COORDINADOR                =$row_convenio['TEL_COORDINADOR'];
+#					$linea_array .= sprintf("%-60s",$TEL_COORDINADOR);
+#					#SECRETARIO_GENERAL   VARCHAR2(60)
+#					$SECRETARIO_GENERAL             =$row_convenio['SECRETARIO_GENERAL'];
+#					$linea_array .= sprintf("%-60s",$SECRETARIO_GENERAL);
+#					#TEL_SECRETARIO_GENERAL                             VARCHAR2(60)
+#					$TEL_SECRETARIO_GENERAL         =$row_convenio['TEL_SECRETARIO_GENERAL'];
+#					$linea_array .= sprintf("%-60s",$TEL_SECRETARIO_GENERAL);
+#					#EMAIL_SECRETARIO_GENERAL                           VARCHAR2(60)
+#					$EMAIL_SECRETARIO_GENERAL       =$row_convenio['EMAIL_SECRETARIO_GENERAL'];
+#					$linea_array .= sprintf("%-60s",$EMAIL_SECRETARIO_GENERAL);
+#					#SECRETARIO_ADJUNTO   VARCHAR2(60)
+#					$SECRETARIO_ADJUNTO             =$row_convenio['SECRETARIO_ADJUNTO'];
+#					$linea_array .= sprintf("%-60s",$SECRETARIO_ADJUNTO);
+#					#TEL_SECRETARIO_ADJUNTO                             VARCHAR2(60)
+#					$TEL_SECRETARIO_ADJUNTO         =$row_convenio['TEL_SECRETARIO_ADJUNTO'];
+#					$linea_array .= sprintf("%-60s",$TEL_SECRETARIO_ADJUNTO);
+#					#EMAIL_SECRETARIO_ADJUNTO                           VARCHAR2(60)
+#					$EMAIL_SECRETARIO_ADJUNTO       =$row_convenio['EMAIL_SECRETARIO_ADJUNTO'];
+#					$linea_array .= sprintf("%-60s",$EMAIL_SECRETARIO_ADJUNTO);
+#					#DIRECCION            VARCHAR2(100)
+#					$DIRECCION                      =$row_convenio['DIRECCION'];
+#					$linea_array .= sprintf("%-100s",$DIRECCION);
+#					#TEL                  VARCHAR2(60)
+#					$TEL                            =$row_convenio['TEL'];
+#					$linea_array .= sprintf("%-60s",$TEL);
+#					#EMAIL_GRAL           VARCHAR2(60)
+#					$EMAIL_GRAL                     =$row_convenio['EMAIL_GRAL'];
+#					$linea_array .= sprintf("%-60s",$EMAIL_GRAL);
+#					#CUIT                 VARCHAR2(60)
+					$CUIT                           =$row_convenio['CUIT'];
+					$linea_array .= sprintf("%-11s",$CUIT);
+					#EXPTE                VARCHAR2(11)
+#					$EXPTE                          =$row_convenio['EXPTE'];
+#					$linea_array .= sprintf("%-60s",$EXPTE);
+					#CTACONTABLE          VARCHAR2(9)
+					$CTACONTABLE                    =$row_convenio['CTACONTABLE'];
+					$linea_array .= sprintf("%-9s",$CTACONTABLE);
+          #AFIP                 VARCHAR2(7)
+#					$AFIP                           =$row_convenio['AFIP'];
+#					$linea_array .= sprintf("%-7s",$AFIP);
+#					#activo, muid               NUMBER(1)
+#					$activo, muid                         =$row_convenio['activo, muid'];
+#					$linea_array .= sprintf("%-1s",$activo, muid);
+#					#EMAIL_INSTITUTO_1    VARCHAR2(60)
+#					$EMAIL_INSTITUTO_1              =$row_convenio['EMAIL_INSTITUTO_1'];
+#					$linea_array .= sprintf("%-60s",$EMAIL_INSTITUTO_1);
+#					#EMAIL_INSTITUTO_2    VARCHAR2(60)
+#					$EMAIL_INSTITUTO_2              =$row_convenio['EMAIL_INSTITUTO_2'];
+#					$linea_array .= sprintf("%-60s",$EMAIL_INSTITUTO_2);
+#					#EMAIL_INSTITUTO_3    VARCHAR2(60)
+#					$EMAIL_INSTITUTO_3              =$row_convenio['EMAIL_INSTITUTO_3'];
+#					$linea_array .= sprintf("%-60s",$EMAIL_INSTITUTO_3);
+#					#CONTACTO1            VARCHAR2(60)
+#					$CONTACTO1                      =$row_convenio['CONTACTO1'];
+#					$linea_array .= sprintf("%-60s",$CONTACTO1);
+#					#EMAIL1               VARCHAR2(60)
+#					$EMAIL1                         =$row_convenio['EMAIL1'];
+#					$linea_array .= sprintf("%-60s",$EMAIL1);
+#					#VARCHAR2(60),                 #VARCHAR2(60),'];          #CONTACTO2            VARCHAR2(60)
+#					$CONTACTO2                      =$row_convenio['CONTACTO2'];
+#					$linea_array .= sprintf("%-60s",$CONTACTO2);
+#					#VARCHAR2(60),                 #VARCHAR2(60),']);          #EMAIL2               VARCHAR2(60)
+#					$EMAIL2                         =$row_convenio['EMAIL2'];
+#					$linea_array .= sprintf("%-60s",$EMAIL2);
+#					#VARCHAR2(60),                 #VARCHAR2(60),'];          #FECHA_ALTA           DATE
+#					$fecha_alta                     =$row_convenio['FECHA_ALTA'];
+#					$fecha_alta 		= str_replace('-','',$fecha_alta);
+#					$linea_array .= sprintf("%-08s",$fecha_alta);
+#					#date,                         #date,']);                  #FECHA_MOD            DATE
+#					$fecha_mod                      =$row_convenio['FECHA_MOD'];
+#					$fecha_mod 		= str_replace('-','',$fecha_mod);
+#					$linea_array .= sprintf("%-08s",$fecha_mod);
+#					#date,                         #date,'];                  #USUARIO              VARCHAR2(30)
+#					$usuario                        =$row_convenio['USUARIO'];
+#					$linea_array .= sprintf("%-30s",$usuario);
+					#VARCHAR2(30)                  =#VARCHAR2(30)
+
+
+					$instituciones_array[] = $linea_array;
+					#echo                     $linea_array."\n";
+					fwrite($fp,$linea_array."\n");
+				}
+
+				fclose($fp);
+			}
+			else
+			{
+				echo "Error mientras se escribe la interfaz"."<BR>";
+			}
+		}
+		else
+			{
+				echo "Error al intentar abrir el archivo de interfaz"."<BR>";
+			}
+	}
+
+	//Function to sanitize values received from the form. Prevents SQL injection
+	function calcularDigitoVerificador($str)
+	{
+		$digito = 0;
+		$digito_array = "9713";
+		$indice_array = 0;
+
+#		Adjudicaci�n del digito - (Ponderador 9713).
+#		1.	Cada digito de los componentes a verificar deber� multiplicarse por:
+
+
+		for($i=0;$i<strlen($str);$i++)
+		{
+
+#		2.	Se efectuara la suma de los productos parciales del punto 1).
+			$digito +=($str[$i]*$digito_array[$indice_array]);
+			$indice_array++;
+			if ($indice_array >= strlen($digito_array))
+			{
+				$indice_array = 0;
+			}
+    	#echo $i." ".$str[$i]." * ".$digito_array[$indice_array]."= ".($str[$i]*$digito_array[$indice_array])."<BR/>";
+		}
+		#echo $digito."<BR/>";
+
+#	3.	Del resultado de dicha suma se considerara solo el ultimo digito.
+	$digito =  substr($digito, -1);
+#echo "3 ".$digito."<BR/>";
+
+#4.	Se obtendr� el digito verificador, realizando la diferencia entre el numero 10 y el digito se�alado en el punto 3).
+
+$digito =  (10-$digito);
+#echo "4 ".$digito."<BR/>";
+
+#5.	Si el digito verificador obtenido fuera "10", se adjudicara por convenci�n el valor "0".
+$digito =  substr($digito, -1);
+#echo "5 ".$digito."<BR/>";
+
+		return ($digito);
+	}
+
+	//Function to sanitize values received from the form. Prevents SQL injection
+	function clean($str)
+	{
+		$str = @trim($str);
+		if(get_magic_quotes_gpc())
+		{
+			$str = stripslashes($str);
+		}
+		//return mysql_real_escape_string($str);
+		return ($str);
+	}
+
+	function save_image($inPath,$outPath)
+	{ //Download images from remote server
+		$in=    fopen($inPath, "rb");
+		$out=   fopen($outPath, "wb");
+		while ($chunk = fread($in,8192))
+		{
+			fwrite($out, $chunk, 8192);
+		}
+		fclose($in);
+		fclose($out);
+	}
+
+	function mantenimiento()
+	{
+		echo '<script language="javascript" type="text/javascript">
+						window.location.href="Mantenimiento.php?backurl="+window.location.href;
+					</script>';
+
+		exit;
+	}
+
+	/**
+	 * Verifica que el usuario cargado en el campo DERIVADO sea una persona
+	 * y recupera sus datos, en caso contrario recupera los datos del departamento
+	 *
+	 * @param int $d El d�a que est� dentro del n�mero de d�as del mes m dado. Los a�os a bisiestos son tomados en consideraci�n.
+	 * @param int $m El mes entre 1 y 12 inclusive.
+	 * @param int $a El a�o entre 1 y 32767 inclusive.
+	 *
+	 * @return bool puede ser 0 o 1 dependiendo si la fecha es correcta o no
+	 */
+
+	 function datosDerivado($derivado)
+	{
+		include("config.php");
+		include("conexion.php");
+
+		$sqlUsuarioWeb = "Select * from portal.usuario_web where upper(cuenta) = '".strtoupper($derivado)."'";
+		$stmtUsuarioWeb = oci_parse($linkOracle, $sqlUsuarioWeb);
+		oci_execute($stmtUsuarioWeb) or die (' Error en sqlUsuarioWeb '.var_dump($sqlUsuarioWeb).' en linea '.__LINE__);
+		$UsuarioWeb = oci_fetch_array($stmtUsuarioWeb, OCI_ASSOC+OCI_RETURN_NULLS);
+
+		if($UsuarioWeb)
+		{
+			$personaNombre = $UsuarioWeb['NOMBRE'];
+			$EmailPersona = $UsuarioWeb['EMAIL'];
+			$dni = $UsuarioWeb['NRO_DOC'];
+			$generica = $UsuarioWeb['GENERICO'];
+		}
+
+		return @array ($personaNombre, $UsuarioWeb['CUENTA'], $EmailPersona, $dni, $generica);
+	}
+
+
+	function convertir_especiales_html($str){
+		if (!isset($GLOBALS["carateres_latinos"])){
+			$todas = get_html_translation_table(HTML_ENTITIES, ENT_NOQUOTES);
+			$etiquetas = get_html_translation_table(HTML_SPECIALCHARS, ENT_NOQUOTES);
+			$GLOBALS["carateres_latinos"] = array_diff($todas, $etiquetas);
+		}
+		$str = strtr($str, $GLOBALS["carateres_latinos"]);
+		return $str;
+	}
+
+	
+	function limpiarString($texto)
+	{
+		$textoLimpio = preg_replace('([^A-Za-z0-9])', '', $texto);
+		return $textoLimpio;
+	}
+?>

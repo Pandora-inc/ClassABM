@@ -1,0 +1,80 @@
+body,td,th {
+	font-family: Tahoma, sans-serif;
+	font-size: 11px;
+}
+body {
+	margin-left: 0px;
+	margin-top: 0px;
+	margin-right: 0px;
+	margin-bottom: 0px;
+}
+.style3 {color: #FFFFFF; font-weight: bold;}
+.style4 {font-family: Tahoma, sans-serif; font-size: 11px; color: #000000;}
+.style6 {color: #FFFFFF}
+/* hide the close x on the loading screen */
+.estiloPantallaCargando .ui-dialog-titlebar-close {
+	display: none;
+}
+.Calendario {
+	color: #FFFFFF;
+	text-decoration: none;
+}
+a.Calendario:active {
+}
+a.Calendario:hover {
+	color: #FFFF00;
+	text-decoration: none;
+}
+a.Calendario:link {  font-family: Tahoma, sans-serif; font-size: 11px; color: #FFFFFF; text-decoration: none}
+a.Calendario:visited {  }
+
+.Links {
+	font-family: Tahoma, sans-serif;
+	font-size: 11px;
+	color: #666666;
+	text-decoration: none;
+}
+a.Links:active {
+}
+a.Links:hover {
+	color: #0066FF;
+	text-decoration: none;
+}
+a.Links:link {  font-family: Tahoma, sans-serif; font-size: 11px; color: #666666; text-decoration: none}
+a.Links:visited {  }
+.LinkTitulo {
+	font-family: Tahoma, sans-serif;
+	font-size: 14px;
+	color: #FF9900;
+	text-decoration: none;
+	font-weight: bold;
+}
+a.LinkTitulo:active {
+}
+a.LinkTitulo:hover {
+	color: #0066CC;
+}
+a.LinkTitulo:link {
+	font-family: Tahoma, sans-serif;
+	font-size: 14px;
+	color: #FF9900;
+	text-decoration: none;
+	font-weight: bold;
+}
+a.LinkTitulo:visited {
+}
+
+.mlistado tbody tr:hover {
+	color:#001550;
+	border-radius:3px;
+	-moz-border-radius: 3px; 
+	/*outline:1px solid #8fb9d0;*/
+	background: -webkit-linear-gradient(top, #f5fcff,#d5eefb ); /* For Safari 5.1 to 6.0 */
+	background: -o-linear-gradient(top, #f5fcff,#d5eefb); /* For Opera 11.1 to 12.0 */
+	background: -moz-linear-gradient(top, #f5fcff,#d5eefb); /* For Firefox 3.6 to 15 */
+	background: linear-gradient(top, #f5fcff,#d5eefb); /* Standard syntax */
+   -webkit-box-shadow:0px 0px 0px 1px rgba(143, 185, 208, 1);
+	-moz-box-shadow:0px 0px 0px 1px rgba(143, 185, 208, 1);
+	box-shadow:0px 0px 0px 1px rgba(143, 185, 208, 1);	
+	opacity: .8;
+}

@@ -1,0 +1,640 @@
+/*
+  miAbmPHP
+  author: Andres Carizza www.andrescarizza.com.ar
+  css version: 2.5
+*/
+.mabm {
+	
+}
+
+/* estilo de los listados */
+.mabm .mlistado {
+	border: 1px #E5E5E5 solid;
+	border-collapse: collapse;
+	width: 100%;
+}
+
+.mabm .mtitulo {
+	float: left;
+	color: #6A6A6A;
+}
+
+.mabm .mbotonera {
+	float: right;
+	margin-left: 30px;
+}
+
+.mabm .mlistado .btnAgregar {
+	border: 1px solid #14B614;
+	color: #FFFFFF;
+	font-family: Tahoma;
+	font-size: 11px;
+	font-weight: bold;
+	padding: 5px 18px 5px 18px;
+	height: 25px;
+	border-radius: 3px;
+	-moz-border-radius: 3px;
+	-webkit-border-radius: 3px;
+	background: -webkit-gradient(linear, left top, left bottom, from(#15C115), to(#109110));
+	background: -moz-linear-gradient(top, #15C115 0%, #109110);
+}
+
+.mabm .mlistado .btnAgregar:hover {
+	border-color: #006300;
+	cursor: pointer;
+}
+
+.mabm .mlistado .btnExcel {
+	background: url('../img/excel.png') no-repeat scroll 0 0 transparent;
+	border: 0 none;
+	height: 16px;
+	width: 16px;
+	margin-right: 6px;
+	cursor: pointer;
+}
+
+.mabm .mlistado .btnExcel:hover {
+	opacity: 0.7;
+	filter: alpha(opacity = 70);
+}
+
+.mabm .mlistado .btnCsv {
+	background: url('../img/csv.png') no-repeat scroll 0 0 transparent;
+	border: 0 none;
+	height: 16px;
+	width: 16px;
+	margin-right: 15px;
+	cursor: pointer;
+}
+
+.mabm .mlistado .btnCsv:hover {
+	opacity: 0.7;
+	filter: alpha(opacity = 70);
+}
+
+.mabm .mtituloColEditar {
+	text-align: center !important;
+	width: 16px;
+	color: #333 !important;
+}
+
+.mabm .mtituloColBorrar {
+	text-align: center !important;
+	width: 16px;
+	color: #333 !important;
+}
+
+.mabm .celdaEditar {
+	text-align: center;
+}
+
+.mabm .celdaBorrar {
+	text-align: center;
+}
+
+.mabm .mlistado TH {
+	font-weight: normal;
+	text-align: left;
+	padding: 5px;
+	border: 1px solid #E5E5E5;
+	background: #f4f4f4; /* Old browsers */
+	background: -moz-linear-gradient(top, #f4f4f4 1%, #d8d8d8 100%); /* FF3.6+ */
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(1%, #f4f4f4), color-stop(100%, #d8d8d8)); /* Chrome,Safari4+ */
+	background: -webkit-linear-gradient(top, #f4f4f4 1%, #d8d8d8 100%); /* Chrome10+,Safari5.1+ */
+	background: -o-linear-gradient(top, #f4f4f4 1%, #d8d8d8 100%); /* Opera 11.10+ */
+	background: -ms-linear-gradient(top, #f4f4f4 1%, #d8d8d8 100%); /* IE10+ */
+	background: linear-gradient(top, #f4f4f4 1%, #d8d8d8 100%); /* W3C */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f4f4f4', endColorstr='#d8d8d8', GradientType=0); /* IE6-8 */
+}
+
+.mabm .mlistado TH A {
+	color: #333 !important;
+	text-decoration: none !important;
+}
+
+.mabm .mlistado TH A:hover {
+	text-decoration: underline !important;
+}
+
+.mabm .mlistado TD {
+	padding: 5px;
+	border-left: 1px solid #E5E5E5;
+	border-right: 1px solid #E5E5E5;
+}
+
+.mabm .mlistado TR.rallado1 {
+	/* filas impares */
+	background-color: #FDFDFD;
+}
+
+.mabm .mlistado TR.rallado {
+	/* filas pares */
+	background-color: #F6F6F6;
+}
+
+.mabm .mlistado TD .label {
+	display: inline;
+	padding: .2em .5em .3em;
+	font-size: 85%;
+	font-weight: bold;
+	line-height: 1;
+	color: #fff;
+	text-align: center;
+	white-space: nowrap;
+	vertical-align: baseline;
+	border-radius: .25em;
+}
+
+.mabm .mlistado THEAD TH {
+	background: silver;
+	line-height: 25px;
+	font-weight: bold;
+	text-align: left;
+	text-shadow: 0 1px 0 rgba(255, 255, 255, 0.7);
+	letter-spacing: 1px;
+	color: #464646;
+	padding: 5px;
+	border: 1px solid #E5E5E5;
+	border-bottom: 0;
+	background: #f9f9f9; /* Old browsers */
+	background: -moz-linear-gradient(top, #f9f9f9 1%, #d3d3d3 100%); /* FF3.6+ */
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(1%, #f9f9f9), color-stop(100%, #d3d3d3)); /* Chrome,Safari4+ */
+	background: -webkit-linear-gradient(top, #f9f9f9 1%, #d3d3d3 100%); /* Chrome10+,Safari5.1+ */
+	background: -o-linear-gradient(top, #f9f9f9 1%, #d3d3d3 100%); /* Opera 11.10+ */
+	background: -ms-linear-gradient(top, #f9f9f9 1%, #d3d3d3 100%); /* IE10+ */
+	background: linear-gradient(top, #f9f9f9 1%, #d3d3d3 100%); /* W3C */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f9f9f9', endColorstr='#d3d3d3', GradientType=0); /* IE6-8 */
+}
+
+.mabm .mlistado THEAD TH DIV {
+	font-size: 15px !important;
+}
+
+.mabm .mlistado TFOOT TH {
+	font-weight: normal;
+	text-align: left;
+	background-color: #EFEFEF;
+	color: black;
+	padding: 9px;
+}
+
+.mabm .mlistado TFOOT TH A {
+	
+}
+
+.mabm .mlistado TFOOT TH A {
+	text-decoration: none !important;
+}
+
+.mabm .mlistado .noHayRegistros {
+	text-align: center;
+	line-height: 30px;
+	color: gray;
+}
+
+.mabm .mbuscar {
+	background: none;
+}
+
+.mabm .mbuscar fieldset {
+	border: 1px solid #D7D7D7;
+	margin-bottom: 5px;
+	border-radius: 5px;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+}
+
+.mabm .mbuscar fieldset legend {
+	color: #8C8C8C;
+	font-size: 12px;
+}
+
+.mabm .mbuscar th {
+	background: #F9F9F9 !important;
+	font-weight: normal !important;
+	filter: none !important;
+}
+
+.mabm .mbuscar th form {
+	
+}
+
+.mabm .mbuscar th form label {
+	width: 80px;
+	display: inline-block;
+	text-align: right !important;
+	letter-spacing: 0 !important;
+	line-height: 20px !important;
+	margin-right: 4px;
+	font-size: 12px;
+}
+
+.mabm .mbuscar th form div {
+	display: inline;
+	margin: 3px;
+	line-height: 20px;
+	font-size: 12px;
+	color: #8C8C8C;
+}
+
+.mabm .mbuscar th form .mNuevaLinea {
+	clear: both;
+	display: block;
+	height: 0;
+}
+
+.mabm .mbuscar th form .mBotonesB {
+	float: right;
+}
+
+.mabm .mbuscar th form .mBotonBuscar {
+	background: url('../img/buscar.png') no-repeat scroll 6px 4px #CCCCCC;
+	border: 1px solid #959595;
+	color: #333333;
+	font-family: Tahoma;
+	font-size: 11px;
+	font-weight: normal;
+	padding: 5px 8px 5px 28px;
+	border-radius: 3px;
+	-moz-border-radius: 3px;
+	-webkit-border-radius: 3px;
+}
+
+.mabm .mbuscar th form .mBotonBuscar:hover {
+	cursor: pointer;
+	background-color: #ddd;
+}
+
+.mabm .mbuscar th form .mBotonLimpiar {
+	background: #EAEAEA;
+	border: 1px solid #CCCCCC;
+	color: #333333;
+	font-family: Tahoma;
+	font-size: 11px;
+	font-weight: normal;
+	padding: 5px 8px;
+	border-radius: 3px;
+	-moz-border-radius: 3px;
+	-webkit-border-radius: 3px;
+}
+
+.mabm .mbuscar th form .mBotonLimpiar:hover {
+	cursor: pointer;
+	background-color: #ddd;
+}
+
+.mabm .mbuscar th form .input-text {
+	width: 140px;
+	background: #ffffff;
+	border: 1px solid #E0E0E0;
+	padding: 4px;
+	letter-spacing: 0 !important;
+	border-radius: 3px;
+	-moz-border-radius: 3px;
+	-webkit-border-radius: 3px;
+}
+
+.mabm .mbuscar th form .input-fecha {
+	width: 140px;
+	background: #ffffff;
+	border: 1px solid #E0E0E0;
+	padding: 4px;
+	letter-spacing: 0 !important;
+	border-radius: 3px;
+	-moz-border-radius: 3px;
+	-webkit-border-radius: 3px;
+}
+
+.mabm .mbuscar th form .input-select {
+	background: #ffffff;
+	border: 1px solid #E0E0E0;
+	padding: 4px;
+	width: 150px;
+	letter-spacing: 0 !important;
+	border-radius: 3px;
+	-moz-border-radius: 3px;
+	-webkit-border-radius: 3px;
+}
+
+/* para los formularios de ingreso de datos */
+.mabm .mformulario {
+	border: 1px solid #E5E5E5;
+	background-color: #FCFCFC;
+	border-collapse: collapse;
+	width: 100%;
+}
+
+.mabm .mformulario THEAD TH {
+	font-weight: bold;
+	font-size: 17px;
+	text-align: left;
+	text-shadow: 0 1px 0 rgba(255, 255, 255, 0.7);
+	letter-spacing: 1px;
+	border: 1px solid #D7D7D7;
+	padding: 3px;
+	padding-left: 15px;
+	line-height: 35px;
+	color: #6A6A6A;
+	background: #f9f9f9; /* Old browsers */
+	background: -moz-linear-gradient(top, #f9f9f9 1%, #d3d3d3 100%); /* FF3.6+ */
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(1%, #f9f9f9), color-stop(100%, #d3d3d3)); /* Chrome,Safari4+ */
+	background: -webkit-linear-gradient(top, #f9f9f9 1%, #d3d3d3 100%); /* Chrome10+,Safari5.1+ */
+	background: -o-linear-gradient(top, #f9f9f9 1%, #d3d3d3 100%); /* Opera 11.10+ */
+	background: -ms-linear-gradient(top, #f9f9f9 1%, #d3d3d3 100%); /* IE10+ */
+	background: linear-gradient(top, #f9f9f9 1%, #d3d3d3 100%); /* W3C */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f9f9f9', endColorstr='#d3d3d3', GradientType=0); /* IE6-8 */
+}
+
+.mabm .mformulario TFOOT TH {
+	font-weight: bold;
+	text-align: center;
+	background-color: #EFEFEF;
+	border: 1px solid #D7D7D7;
+	padding: 7px 3px;
+}
+
+.mabm .mformulario TH {
+	font-weight: bold;
+	text-align: right;
+	text-shadow: 0 1px 0 rgba(255, 255, 255, 0.7);
+	padding-right: 15px;
+	padding-left: 0px;
+	background-color: #F7F7F7;
+	border-bottom: 1px dashed #EDEDED;
+	color: #666;
+	width: 25%;
+}
+
+.mabm .mformulario TH .indRequerido {
+	background: orange;
+	width: 2px;
+	height: 8px;
+	display: inline-block;
+}
+
+.mabm .mformulario TD {
+	padding: 10px 15px;
+	border-bottom: 1px dashed #F3F3F3;
+	position: relative !important;
+}
+
+.mabm .mformulario .separador {
+	background-color: #F7F7F7;
+	border-left: 1px solid #E5E5E5;
+	border-right: 1px solid #E5E5E5;
+	color: #848484;
+	font-size: 12px;
+	font-weight: bold;
+	padding: 10px;
+	text-align: center;
+}
+
+.mabm .mformulario .input-text {
+	width: 98%;
+	background: #ffffff;
+	border: 1px solid #E0E0E0;
+	padding: 4px;
+	border-radius: 3px;
+	-moz-border-radius: 3px;
+	-webkit-border-radius: 3px;
+}
+
+.mabm .mformulario .input-fecha {
+	width: 98%;
+	background: #ffffff;
+	border: 1px solid #E0E0E0;
+	padding: 4px;
+	border-radius: 3px;
+	-moz-border-radius: 3px;
+	-webkit-border-radius: 3px;
+}
+
+.mabm .mformulario .input-textarea {
+	width: 98%;
+	height: 100px;
+	background: #ffffff;
+	border: 1px solid #E0E0E0;
+	padding: 4px;
+	border-radius: 3px;
+	-moz-border-radius: 3px;
+	-webkit-border-radius: 3px;
+}
+
+.mabm .mformulario .input-select {
+	background: #ffffff;
+	border: 1px solid #E0E0E0;
+	padding: 4px;
+	width: 99%;
+	border-radius: 3px;
+	-moz-border-radius: 3px;
+	-webkit-border-radius: 3px;
+}
+
+.mabm .mformulario .input-button {
+	border: 1px solid #A3A3A3;
+	color: #FFFFFF;
+	font-family: Tahoma;
+	font-size: 11px;
+	font-weight: bold;
+	padding: 7px 18px 7px 18px;
+	border-radius: 3px;
+	-moz-border-radius: 3px;
+	-webkit-border-radius: 3px;
+	background: -webkit-gradient(linear, left top, left bottom, from(#D6D6D6), to(#A4A4A4));
+	background: -moz-linear-gradient(top, #D6D6D6 0%, #A4A4A4);
+}
+
+.mabm .mformulario .input-button:hover {
+	border-color: #5E5E5E;
+	cursor: pointer;
+}
+
+.mabm .mformulario .input-submit {
+	border: 1px solid #12A212;
+	color: #FFFFFF;
+	font-family: Tahoma;
+	font-size: 11px;
+	font-weight: bold;
+	padding: 7px 18px 7px 18px;
+	border-radius: 3px;
+	-moz-border-radius: 3px;
+	-webkit-border-radius: 3px;
+	background: -webkit-gradient(linear, left top, left bottom, from(#15C115), to(#109110));
+	background: -moz-linear-gradient(top, #15C115 0%, #109110);
+}
+
+.mabm .mformulario .input-submit:hover {
+	border-color: #006300;
+	cursor: pointer;
+}
+
+.mabm .mformulario .divBtnExtra {
+	float: right;
+	margin-right: 5px;
+}
+
+.mabm .mformulario .divBtnAceptar {
+	float: right;
+	margin-right: 5px;
+}
+
+.mabm .mformulario .divBtnCancelar {
+	float: left;
+	margin-left: 5px;
+}
+
+.mabm .merror {
+	background: #F7F1EF url('../img/icon-alert.png') 5px 5px no-repeat;
+	border-top: 4px solid #C40000;
+	border-bottom: 4px solid #C40000;
+	color: #000;
+	margin-top: 5px;
+	padding-left: 40px;
+	padding-right: 20px;
+	padding-top: 10px;
+	padding-bottom: 10px;
+	margin-bottom: 10px;
+}
+
+.mabm .paginado {
+	
+}
+
+.mabm .paginado .rotuloTotalRegistros {
+	color: #6A6A6A;
+}
+
+.mabm .paginado .link_pagina_actual, .mabm .paginado .ant_desact, .mabm .paginado .sig_desact {
+	background-color: #ffffff;
+	border: 1px solid #D4D4D4;
+	padding: 5px;
+	font-size: 11px;
+	text-decoration: none !important;
+}
+
+.mabm .paginado .link_pagina {
+	background-color: #EFEFEF;
+	border: 1px solid #D4D4D4;
+	padding: 5px;
+	font-size: 11px;
+	text-decoration: none !important;
+}
+
+.mabm .paginado a.link_pagina:hover {
+	background-color: #E3E3E3;
+	border: 1px solid #D4D4D4;
+	text-decoration: none !important;
+}
+
+.mabm .paginado .link_ant, .mabm .paginado .link_sig {
+	background-color: #EFEFEF;
+	border: 1px solid #D4D4D4;
+	padding: 5px;
+	font-size: 11px;
+	text-decoration: none !important;
+}
+
+.mabm .paginado a.link_ant:hover, .mabm .paginado a.link_sig:hover {
+	background-color: #E3E3E3;
+	border: 1px solid #D4D4D4;
+	text-decoration: none !important;
+}
+
+.mabm .paginado .link_pri, .mabm .paginado .link_ult {
+	background-color: #EFEFEF;
+	border: 1px solid #D4D4D4;
+	padding: 5px;
+	font-size: 11px;
+	text-decoration: none !important;
+}
+
+.mabm .paginado a.link_pri:hover, .mabm .paginado a.link_ult:hover {
+	background-color: #E3E3E3;
+	border: 1px solid #D4D4D4;
+	text-decoration: none !important;
+}
+
+.ui-tooltip, .arrow:after {
+	background: white;
+	border: 2px solid white;
+}
+
+.ui-tooltip {
+	padding: 10px 20px;
+	color: black;
+	border-radius: 10px;
+	font-size: 11px;
+	box-shadow: 0 0 7px black;
+}
+
+.arrow {
+	width: 70px;
+	height: 16px;
+	overflow: hidden;
+	position: absolute;
+	left: 50%;
+	margin-left: -35px;
+	bottom: -16px;
+}
+
+.arrow.top {
+	top: -16px;
+	bottom: auto;
+}
+
+.arrow.left {
+	left: 20%;
+}
+
+.arrow:after {
+	content: "";
+	position: absolute;
+	left: 20px;
+	top: -20px;
+	width: 25px;
+	height: 25px;
+	box-shadow: 6px 5px 9px -9px black;
+	-webkit-transform: rotate(45deg);
+	-moz-transform: rotate(45deg);
+	-ms-transform: rotate(45deg);
+	-o-transform: rotate(45deg);
+	tranform: rotate(45deg);
+}
+
+.arrow.top:after {
+	bottom: -20px;
+	top: auto;
+}
+
+.elementForm {
+	width: 100%;
+	overflow: hidden;
+}
+
+.tituloItemsForm {
+	width: 25%;
+	float: left;
+	text-align: right;
+	display: table-cell;
+	line-height: 250%;
+}
+
+.itemsForm {
+	width: 70%;
+	float: left;
+	display: table-cell;
+}
+
+.select2
+{
+	width: 100%;
+}
+
+.currency {
+  padding-left:12px;
+}
+
+.currency-symbol {
+  position:absolute;
+  padding: 2px 5px;
+}
