@@ -1,0 +1,1214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
+    <meta charset="utf-8"/>
+    <title>API Documentation</title>
+    <meta name="author" content=""/>
+    <meta name="description" content=""/>
+
+    <link href="../css/bootstrap-combined.no-icons.min.css" rel="stylesheet">
+    <link href="../css/font-awesome.min.css" rel="stylesheet">
+    <link href="../css/prism.css" rel="stylesheet" media="all"/>
+    <link href="../css/template.css" rel="stylesheet" media="all"/>
+    
+    <!--[if lt IE 9]>
+    <script src="../js/html5.js"></script>
+    <![endif]-->
+    <script src="../js/jquery-1.11.0.min.js"></script>
+    <script src="../js/ui/1.10.4/jquery-ui.min.js"></script>
+    <script src="../js/bootstrap.min.js"></script>
+    <script src="../js/jquery.smooth-scroll.js"></script>
+    <script src="../js/prism.min.js"></script>
+    <!-- TODO: Add http://jscrollpane.kelvinluck.com/ to style the scrollbars for browsers not using webkit-->
+    <script type="text/javascript">
+    function loadExternalCodeSnippets() {
+        Array.prototype.slice.call(document.querySelectorAll('pre[data-src]')).forEach(function (pre) {
+            var src = pre.getAttribute('data-src');
+            var extension = (src.match(/\.(\w+)$/) || [, ''])[1];
+            var language = 'php';
+
+            var code = document.createElement('code');
+            code.className = 'language-' + language;
+
+            pre.textContent = '';
+
+            code.textContent = 'Loading…';
+
+            pre.appendChild(code);
+
+            var xhr = new XMLHttpRequest();
+
+            xhr.open('GET', src, true);
+
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState == 4) {
+
+                    if (xhr.status < 400 && xhr.responseText) {
+                        code.textContent = xhr.responseText;
+
+                        Prism.highlightElement(code);
+                    }
+                    else if (xhr.status >= 400) {
+                        code.textContent = '✖ Error ' + xhr.status + ' while fetching file: ' + xhr.statusText;
+                    }
+                    else {
+                        code.textContent = '✖ Error: File does not exist or is empty';
+                    }
+                }
+            };
+
+            xhr.send(null);
+        });
+    }
+
+    $(document).ready(function(){
+        loadExternalCodeSnippets();
+    });
+    $('#source-view').on('shown', function () {
+        loadExternalCodeSnippets();
+    })
+</script>
+
+    <link rel="shortcut icon" href="../images/favicon.ico"/>
+    <link rel="apple-touch-icon" href="../images/apple-touch-icon.png"/>
+    <link rel="apple-touch-icon" sizes="72x72" href="../images/apple-touch-icon-72x72.png"/>
+    <link rel="apple-touch-icon" sizes="114x114" href="../images/apple-touch-icon-114x114.png"/>
+</head>
+<body>
+
+<div class="navbar navbar-fixed-top">
+    <div class="navbar-inner">
+        <div class="container">
+            <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                <i class="icon-ellipsis-vertical"></i>
+            </a>
+            <a class="brand" href="../index.html">API Documentation</a>
+
+            <div class="nav-collapse">
+                <ul class="nav pull-right">
+                                        <li class="dropdown" id="charts-menu">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            Charts <b class="caret"></b>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a href="../graphs/class.html">
+                                    <i class="icon-list-alt"></i>&#160;Class hierarchy diagram
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="dropdown" id="reports-menu">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            Reports <b class="caret"></b>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a href="../reports/errors.html">
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    <i class="icon-list-alt"></i>&#160;Errors <span class="label label-info pull-right">98</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="../reports/markers.html">
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    <i class="icon-list-alt"></i>&#160;Markers <span class="label label-info pull-right">100</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="../reports/deprecated.html">
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            <i class="icon-list-alt"></i>&#160;Deprecated <span class="label label-info pull-right">8</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!--<div class="go_to_top">-->
+    <!--<a href="#___" style="color: inherit">Back to top&#160;&#160;<i class="icon-upload icon-white"></i></a>-->
+    <!--</div>-->
+</div>
+
+<div id="___" class="container-fluid">
+        <section class="row-fluid">
+        <div class="span2 sidebar">
+                                <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle " data-toggle="collapse" data-target="#namespace-631479419"></a>
+                                <a href="../namespaces/default.html" style="margin-left: 30px; padding-left: 0">\</a>
+            </div>
+            <div id="namespace-631479419" class="accordion-body collapse in">
+                <div class="accordion-inner">
+
+                    
+                    <ul>
+                                                                                                    <li class="class"><a href="../classes/class_abm.html">class_abm</a></li>
+                                                    <li class="class"><a href="../classes/class_abm2.html">class_abm2</a></li>
+                                                    <li class="class"><a href="../classes/class_abmCp.html">class_abmCp</a></li>
+                                                    <li class="class"><a href="../classes/class_campo.html">class_campo</a></li>
+                                                    <li class="class"><a href="../classes/class_db.html">class_db</a></li>
+                                                    <li class="class"><a href="../classes/class_institucion.html">class_institucion</a></li>
+                                                    <li class="class"><a href="../classes/class_orderby.html">class_orderby</a></li>
+                                                    <li class="class"><a href="../classes/class_paginado.html">class_paginado</a></li>
+                                                    <li class="class"><a href="../classes/class_persona.html">class_persona</a></li>
+                                                    <li class="class"><a href="../classes/class_sitio.html">class_sitio</a></li>
+                                                    <li class="class"><a href="../classes/consulta.html">consulta</a></li>
+                                                    <li class="class"><a href="../classes/validar.html">validar</a></li>
+                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+        </div>
+    </section>
+    <section class="row-fluid">
+        <div class="span10 offset2">
+            <div class="row-fluid">
+                <div class="span8 content class">
+                    <nav>
+                                                <a href="../namespaces/default.html">\</a> <i class="icon-level-up"></i>
+                                            </nav>
+                    <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal"><i class="icon-code"></i></a>
+
+                    <h1><small>\</small>class_paginado</h1>
+                    <p><em>Class para el paginado de registros.</em></p>
+                    <p>Realiza de forma eficiente la consulta a BD para contar la cantidad de registros
+y traer solo los necesarios. Imprime el paginador con Anterior Siguiente y los numeros de paginas.</p>
+<p>USAR:
+include(&quot;class_paginado.php&quot;);
+$paginado = new class_paginado;
+$paginado-&gt;registros_por_pagina = 20;
+$result = $paginado-&gt;query($query);</p>
+                    
+                                        
+                    <section id="summary">
+                        <h2>Summary</h2>
+                        <section class="row-fluid heading">
+                            <section class="span4">
+                                <a href="#methods">Methods</a>
+                            </section>
+                            <section class="span4">
+                                <a href="#properties">Properties</a>
+                            </section>
+                            <section class="span4">
+                                <a href="#constants">Constants</a>
+                            </section>
+                        </section>
+                        <section class="row-fluid public">
+                            <section class="span4">
+                                                                    <a href="../classes/class_paginado.html#method_query" class="">query()</a><br />
+                                                                    <a href="../classes/class_paginado.html#method_get_paginado" class="">get_paginado()</a><br />
+                                                                    <a href="../classes/class_paginado.html#method_mostrar_paginado" class="">mostrar_paginado()</a><br />
+                                                            </section>
+                            <section class="span4">
+                                                                    <a href="../classes/class_paginado.html#property_parent_self" class="">$parent_self</a><br />
+                                                                    <a href="../classes/class_paginado.html#property_nombre_var_registro" class="">$nombre_var_registro</a><br />
+                                                                    <a href="../classes/class_paginado.html#property_registros_por_pagina" class="">$registros_por_pagina</a><br />
+                                                                    <a href="../classes/class_paginado.html#property_cant_link_paginas_adelante" class="">$cant_link_paginas_adelante</a><br />
+                                                                    <a href="../classes/class_paginado.html#property_cant_link_paginas_atras" class="">$cant_link_paginas_atras</a><br />
+                                                                    <a href="../classes/class_paginado.html#property_siguiente" class="">$siguiente</a><br />
+                                                                    <a href="../classes/class_paginado.html#property_anterior" class="">$anterior</a><br />
+                                                                    <a href="../classes/class_paginado.html#property_siguiente_des" class="">$siguiente_des</a><br />
+                                                                    <a href="../classes/class_paginado.html#property_anterior_des" class="">$anterior_des</a><br />
+                                                                    <a href="../classes/class_paginado.html#property_primera" class="">$primera</a><br />
+                                                                    <a href="../classes/class_paginado.html#property_ultima" class="">$ultima</a><br />
+                                                                    <a href="../classes/class_paginado.html#property_mostrar_ultima_primera_pagina" class="">$mostrar_ultima_primera_pagina</a><br />
+                                                                    <a href="../classes/class_paginado.html#property_mostrar_anterior_sigiente_inabilitado" class="">$mostrar_anterior_sigiente_inabilitado</a><br />
+                                                                    <a href="../classes/class_paginado.html#property_str_ir_a" class="">$str_ir_a</a><br />
+                                                                    <a href="../classes/class_paginado.html#property_str_total" class="">$str_total</a><br />
+                                                                    <a href="../classes/class_paginado.html#property_str_registro" class="">$str_registro</a><br />
+                                                                    <a href="../classes/class_paginado.html#property_str_registros" class="">$str_registros</a><br />
+                                                                    <a href="../classes/class_paginado.html#property_str_paginas" class="">$str_paginas</a><br />
+                                                                    <a href="../classes/class_paginado.html#property_total_registros" class="">$total_registros</a><br />
+                                                                    <a href="../classes/class_paginado.html#property_pagina" class="">$pagina</a><br />
+                                                                    <a href="../classes/class_paginado.html#property_total_paginas" class="">$total_paginas</a><br />
+                                                                    <a href="../classes/class_paginado.html#property_mostrarTotalRegistros" class="">$mostrarTotalRegistros</a><br />
+                                                                    <a href="../classes/class_paginado.html#property_mostrarPalabraPaginas" class="">$mostrarPalabraPaginas</a><br />
+                                                                    <a href="../classes/class_paginado.html#property_ejecutarQueryOriginalParaContar" class="">$ejecutarQueryOriginalParaContar</a><br />
+                                                                    <a href="../classes/class_paginado.html#property_variablesNoConservar" class="">$variablesNoConservar</a><br />
+                                                                    <a href="../classes/class_paginado.html#property_cssClassPaginado" class="">$cssClassPaginado</a><br />
+                                                                    <a href="../classes/class_paginado.html#property_sumarBusqueda" class="">$sumarBusqueda</a><br />
+                                                            </section>
+                            <section class="span4">
+                                                                    <em>No constants found</em>
+                                                            </section>
+                        </section>
+                        <section class="row-fluid protected">
+                            <section class="span4">
+                                                                    <em>No protected methods found</em>
+                                                            </section>
+                            <section class="span4">
+                                                                    <em>No protected properties found</em>
+                                                            </section>
+                            <section class="span4">
+                                <em>N/A</em>
+                            </section>
+                        </section>
+                        <section class="row-fluid private">
+                            <section class="span4">
+                                                                    <em>No private methods found</em>
+                                                            </section>
+                            <section class="span4">
+                                                                    <a href="../classes/class_paginado.html#property_registro" class="">$registro</a><br />
+                                                                    <a href="../classes/class_paginado.html#property_desde_reg" class="">$desde_reg</a><br />
+                                                                    <a href="../classes/class_paginado.html#property_hasta_reg" class="">$hasta_reg</a><br />
+                                                            </section>
+                            <section class="span4">
+                                <em>N/A</em>
+                            </section>
+                        </section>
+                    </section>
+                </div>
+                <aside class="span4 detailsbar">
+                                        
+                    
+                    <dl>
+                        <dt>File</dt>
+                            <dd><a href="../files/class_paginado.html"><div class="path-wrapper">class_paginado.php</div></a></dd>
+                                                <dt>Package</dt>
+                            <dd><div class="namespace-wrapper">Default</div></dd>
+                                                <dt>Class hierarchy</dt>
+                            <dd class="hierarchy">
+                                                                                                                                                                    <div class="namespace-wrapper">\class_paginado</div>
+                            </dd>
+
+                        
+                        
+                        
+                        
+                                                                        </dl>
+                    <h2>Tags</h2>
+                    <table class="table table-condensed">
+                                            <tr>
+                            <th>
+                                author
+                            </th>
+                            <td>
+                                                                    <p>Andres Carizza www.andrescarizza.com.ar</p>
+                                                                    <p>iberlot &lt;@&gt; ivanberlot@gmail.com</p>
+                                                            </td>
+                        </tr>
+                                            <tr>
+                            <th>
+                                version
+                            </th>
+                            <td>
+                                                                    <p>Se modifico para que devolviera 1 en vez de $db-&gt;result ($result_paginado, 0, &quot;cantidad&quot;); cuando el conteo de rows fuera igual a uno.
+Con esto se corrige el error de que no mostraba datos cuando habia un unico registro.</p>
+                                                                    <p>Se actualizaron las funciones obsoletas y corrigieron algunos errores.</p>
+                                                            </td>
+                        </tr>
+                                            <tr>
+                            <th>
+                                uses
+                            </th>
+                            <td>
+                                                                    
+                                                            </td>
+                        </tr>
+                                        </table>
+                </aside>
+            </div>
+
+                        
+                                    <a id="properties" name="properties"></a>
+            <div class="row-fluid">
+                <div class="span8 content class">
+                    <h2>Properties</h2>
+                </div>
+                <aside class="span4 detailsbar"></aside>
+            </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property_parent_self" name="property_parent_self" class="anchor"></a>
+            <article class="property">
+                <h3 class="public ">$parent_self</h3>
+                <pre class="signature">$parent_self : </pre>
+                <p><em>archivo sobre el cual se realiza el paginado (ej: $_SERVER[&#039;PHP_SELF&#039;])</em></p>
+                
+
+                                <h4>Type</h4>
+                
+                                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property_nombre_var_registro" name="property_nombre_var_registro" class="anchor"></a>
+            <article class="property">
+                <h3 class="public ">$nombre_var_registro</h3>
+                <pre class="signature">$nombre_var_registro : </pre>
+                <p><em>nombre de la variable registro con la que hace el paginado (la que pasa por GET)</em></p>
+                
+
+                                <h4>Type</h4>
+                
+                                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property_registros_por_pagina" name="property_registros_por_pagina" class="anchor"></a>
+            <article class="property">
+                <h3 class="public ">$registros_por_pagina</h3>
+                <pre class="signature">$registros_por_pagina : </pre>
+                <p><em>cantidad de registros por p&amp;aacute;gina</em></p>
+                
+
+                                <h4>Type</h4>
+                
+                                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property_cant_link_paginas_adelante" name="property_cant_link_paginas_adelante" class="anchor"></a>
+            <article class="property">
+                <h3 class="public ">$cant_link_paginas_adelante</h3>
+                <pre class="signature">$cant_link_paginas_adelante : </pre>
+                <p><em>cantidad de links para adelante despues del actual.</em></p>
+                <blockquote>
+<p>5&lt; 7 8 9 10</p>
+</blockquote>
+
+                                <h4>Type</h4>
+                
+                                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property_cant_link_paginas_atras" name="property_cant_link_paginas_atras" class="anchor"></a>
+            <article class="property">
+                <h3 class="public ">$cant_link_paginas_atras</h3>
+                <pre class="signature">$cant_link_paginas_atras : </pre>
+                <p><em>cantidad de links para atras antes del actual.</em></p>
+                <p>1 2 3 4 &gt;5&lt;</p>
+
+                                <h4>Type</h4>
+                
+                                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property_siguiente" name="property_siguiente" class="anchor"></a>
+            <article class="property">
+                <h3 class="public ">$siguiente</h3>
+                <pre class="signature">$siguiente : </pre>
+                <p><em>string o html para el link Siguiente (ej: &lt;img src=&#039;img/siguiente.gif&#039; border=0&gt;)</em></p>
+                
+
+                                <h4>Type</h4>
+                
+                                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property_anterior" name="property_anterior" class="anchor"></a>
+            <article class="property">
+                <h3 class="public ">$anterior</h3>
+                <pre class="signature">$anterior : </pre>
+                <p><em>string o html para el link Anterior (ej: &lt;img src=&#039;img/anterior.gif&#039; border=0&gt;)</em></p>
+                
+
+                                <h4>Type</h4>
+                
+                                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property_siguiente_des" name="property_siguiente_des" class="anchor"></a>
+            <article class="property">
+                <h3 class="public ">$siguiente_des</h3>
+                <pre class="signature">$siguiente_des : </pre>
+                <p><em>string o html para Siguiente cuando esta inabilitado</em></p>
+                
+
+                                <h4>Type</h4>
+                
+                                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property_anterior_des" name="property_anterior_des" class="anchor"></a>
+            <article class="property">
+                <h3 class="public ">$anterior_des</h3>
+                <pre class="signature">$anterior_des : </pre>
+                <p><em>string o html para Anterior cuando esta inabilitado</em></p>
+                
+
+                                <h4>Type</h4>
+                
+                                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property_primera" name="property_primera" class="anchor"></a>
+            <article class="property">
+                <h3 class="public ">$primera</h3>
+                <pre class="signature">$primera : </pre>
+                <p><em>string o html para el link primera pagina (ej: &lt;img src=&#039;img/primera.gif&#039; border=0&gt;)</em></p>
+                
+
+                                <h4>Type</h4>
+                
+                                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property_ultima" name="property_ultima" class="anchor"></a>
+            <article class="property">
+                <h3 class="public ">$ultima</h3>
+                <pre class="signature">$ultima : </pre>
+                <p><em>string o html para el link ultima pagina (ej: &lt;img src=&#039;img/ultima.gif&#039; border=0&gt;)</em></p>
+                
+
+                                <h4>Type</h4>
+                
+                                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property_mostrar_ultima_primera_pagina" name="property_mostrar_ultima_primera_pagina" class="anchor"></a>
+            <article class="property">
+                <h3 class="public ">$mostrar_ultima_primera_pagina</h3>
+                <pre class="signature">$mostrar_ultima_primera_pagina : </pre>
+                <p><em>si muestra los links para ir a la ultima y primera pagina *</em></p>
+                
+
+                                <h4>Type</h4>
+                
+                                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property_mostrar_anterior_sigiente_inabilitado" name="property_mostrar_anterior_sigiente_inabilitado" class="anchor"></a>
+            <article class="property">
+                <h3 class="public ">$mostrar_anterior_sigiente_inabilitado</h3>
+                <pre class="signature">$mostrar_anterior_sigiente_inabilitado : </pre>
+                <p><em>si esta en true no muestra los links de siguiente y anterior cuando estan inabilitados *</em></p>
+                
+
+                                <h4>Type</h4>
+                
+                                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property_str_ir_a" name="property_str_ir_a" class="anchor"></a>
+            <article class="property">
+                <h3 class="public ">$str_ir_a</h3>
+                <pre class="signature">$str_ir_a : </pre>
+                <p><em>string para el title de los links de los numeros de pagina</em></p>
+                
+
+                                <h4>Type</h4>
+                
+                                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property_str_total" name="property_str_total" class="anchor"></a>
+            <article class="property">
+                <h3 class="public ">$str_total</h3>
+                <pre class="signature">$str_total : </pre>
+                <p><em>string para Total</em></p>
+                
+
+                                <h4>Type</h4>
+                
+                                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property_str_registro" name="property_str_registro" class="anchor"></a>
+            <article class="property">
+                <h3 class="public ">$str_registro</h3>
+                <pre class="signature">$str_registro : </pre>
+                <p><em></em></p>
+                
+
+                                <h4>Type</h4>
+                
+                                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property_str_registros" name="property_str_registros" class="anchor"></a>
+            <article class="property">
+                <h3 class="public ">$str_registros</h3>
+                <pre class="signature">$str_registros : </pre>
+                <p><em></em></p>
+                
+
+                                <h4>Type</h4>
+                
+                                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property_str_paginas" name="property_str_paginas" class="anchor"></a>
+            <article class="property">
+                <h3 class="public ">$str_paginas</h3>
+                <pre class="signature">$str_paginas : </pre>
+                <p><em></em></p>
+                
+
+                                <h4>Type</h4>
+                
+                                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property_total_registros" name="property_total_registros" class="anchor"></a>
+            <article class="property">
+                <h3 class="public ">$total_registros</h3>
+                <pre class="signature">$total_registros : </pre>
+                <p><em>total de registros en total</em></p>
+                
+
+                                <h4>Type</h4>
+                
+                                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property_pagina" name="property_pagina" class="anchor"></a>
+            <article class="property">
+                <h3 class="public ">$pagina</h3>
+                <pre class="signature">$pagina : </pre>
+                <p><em>pagina actual</em></p>
+                
+
+                                <h4>Type</h4>
+                
+                                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property_total_paginas" name="property_total_paginas" class="anchor"></a>
+            <article class="property">
+                <h3 class="public ">$total_paginas</h3>
+                <pre class="signature">$total_paginas : </pre>
+                <p><em>total de paginas</em></p>
+                
+
+                                <h4>Type</h4>
+                
+                                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property_mostrarTotalRegistros" name="property_mostrarTotalRegistros" class="anchor"></a>
+            <article class="property">
+                <h3 class="public ">$mostrarTotalRegistros</h3>
+                <pre class="signature">$mostrarTotalRegistros : </pre>
+                <p><em>si muestra el total de registros al lado del paginado</em></p>
+                
+
+                                <h4>Type</h4>
+                
+                                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property_mostrarPalabraPaginas" name="property_mostrarPalabraPaginas" class="anchor"></a>
+            <article class="property">
+                <h3 class="public ">$mostrarPalabraPaginas</h3>
+                <pre class="signature">$mostrarPalabraPaginas : </pre>
+                <p><em>si muestra la palabra &quot;P&amp;aacute;ginas:&quot; al lado del paginado</em></p>
+                
+
+                                <h4>Type</h4>
+                
+                                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property_ejecutarQueryOriginalParaContar" name="property_ejecutarQueryOriginalParaContar" class="anchor"></a>
+            <article class="property">
+                <h3 class="public ">$ejecutarQueryOriginalParaContar</h3>
+                <pre class="signature">$ejecutarQueryOriginalParaContar : </pre>
+                <p><em>ejecutar el SQL original para contar la cantidad de registros, de otra manera se modifica el query para contar la cantidad de registros de una manera m&amp;aacute;s rapida, aunque a veces falla al modificarlo</em></p>
+                
+
+                                <h4>Type</h4>
+                
+                                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property_variablesNoConservar" name="property_variablesNoConservar" class="anchor"></a>
+            <article class="property">
+                <h3 class="public ">$variablesNoConservar</h3>
+                <pre class="signature">$variablesNoConservar : </pre>
+                <p><em>un array con las variables que el paginador no debe conservar al cambiar de pagina.</em></p>
+                <p>(ej: $variablesNoConservar=array('agregado','modificado','msg');)</p>
+
+                                <h4>Type</h4>
+                
+                                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property_cssClassPaginado" name="property_cssClassPaginado" class="anchor"></a>
+            <article class="property">
+                <h3 class="public ">$cssClassPaginado</h3>
+                <pre class="signature">$cssClassPaginado : </pre>
+                <p><em>para asignar un estilo css diferente.</em></p>
+                <p>Nombres de estilos css: paginado (DIV) -&gt; link_ant, ant_desact (SPAN), link_pagina_actual (SPAN), link_pagina, link_sig, sig_desact (SPAN), rotuloTotalRegistros (SPAN)</p>
+
+                                <h4>Type</h4>
+                
+                                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property_sumarBusqueda" name="property_sumarBusqueda" class="anchor"></a>
+            <article class="property">
+                <h3 class="public ">$sumarBusqueda</h3>
+                <pre class="signature">$sumarBusqueda : </pre>
+                <p><em></em></p>
+                
+
+                                <h4>Type</h4>
+                
+                                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property_registro" name="property_registro" class="anchor"></a>
+            <article class="property">
+                <h3 class="private ">$registro</h3>
+                <pre class="signature">$registro : </pre>
+                <p><em></em></p>
+                
+
+                                <h4>Type</h4>
+                
+                                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property_desde_reg" name="property_desde_reg" class="anchor"></a>
+            <article class="property">
+                <h3 class="private ">$desde_reg</h3>
+                <pre class="signature">$desde_reg : </pre>
+                <p><em></em></p>
+                
+
+                                <h4>Type</h4>
+                
+                                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property_hasta_reg" name="property_hasta_reg" class="anchor"></a>
+            <article class="property">
+                <h3 class="private ">$hasta_reg</h3>
+                <pre class="signature">$hasta_reg : </pre>
+                <p><em></em></p>
+                
+
+                                <h4>Type</h4>
+                
+                                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                            
+                                    <a id="methods" name="methods"></a>
+            <div class="row-fluid">
+                <div class="span8 content class"><h2>Methods</h2></div>
+                <aside class="span4 detailsbar"></aside>
+            </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_query" name="method_query" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">query()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">query(string  <span class="argument">$sqlQuery</span>, object  <span class="argument">$db</span>) : array</pre>
+                <p><em>Ejecuta el query de mysql (que no debe tener LIMIT) que cuenta el total de registros
+y el que retorna solo los registros que corresponden a la pagina actual.</em></p>
+                
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>string</td>
+                                <td>$sqlQuery </td>
+                                <td><p>query a ejecutar</p></td>
+                            </tr>
+                                                    <tr>
+                                <td>object</td>
+                                <td>$db </td>
+                                <td><p>clase de coneccion a la base de datos.</p></td>
+                            </tr>
+                                            </table>
+                
+                
+                                    <h4>Returns</h4>
+                    array
+                                            &mdash; <p>resultado d ela consulta.</p>
+                                    				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            since
+                        </th>
+                        <td>
+                                                            3.6.1                                <p>Se modifico para que devolviera 1 en vez de $db-&gt;result ($result_paginado, 0, &quot;cantidad&quot;); cuando el conteo de rows fuera igual a uno.
+Con esto se corrige el error de que no mostraba datos cuando habia un unico registro.</p>
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_get_paginado" name="method_get_paginado" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">get_paginado()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">get_paginado() </pre>
+                <p><em>Retorna el HTML del paginado</em></p>
+                
+
+                
+                
+                				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_mostrar_paginado" name="method_mostrar_paginado" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">mostrar_paginado()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">mostrar_paginado() </pre>
+                <p><em>Imprime el paginado</em></p>
+                
+
+                
+                
+                				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                                                    </div>
+    </section>
+
+    <div id="source-view" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="source-view-label" aria-hidden="true">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            <h3 id="source-view-label">class_paginado.php</h3>
+        </div>
+        <div class="modal-body">
+            <pre data-src="../files/class_paginado.php.txt" class="language-php line-numbers"></pre>
+        </div>
+    </div>
+
+    <footer class="row-fluid">
+        <section class="span10 offset2">
+            <section class="row-fluid">
+                <section class="span10 offset1">
+                    <section class="row-fluid footer-sections">
+                        <section class="span4">
+                                                        <h1><i class="icon-code"></i></h1>
+                            <div>
+                                <ul>
+                                                                    </ul>
+                            </div>
+                        </section>
+                        <section class="span4">
+                                                        <h1><i class="icon-bar-chart"></i></h1>
+                            <div>
+                                <ul>
+                                    <li><a href="../graphs/class.html">Class Hierarchy Diagram</a></li>
+                                </ul>
+                            </div>
+                        </section>
+                        <section class="span4">
+                                                        <h1><i class="icon-pushpin"></i></h1>
+                            <div>
+                                <ul>
+                                    <li><a href="../reports/errors.html">Errors</a></li>
+                                    <li><a href="../reports/markers.html">Markers</a></li>
+                                </ul>
+                            </div>
+                        </section>
+                    </section>
+                </section>
+            </section>
+            <section class="row-fluid">
+                <section class="span10 offset1">
+                    <hr />
+                    Documentation is powered by <a href="http://www.phpdoc.org/">phpDocumentor </a> and authored
+                    on September 24th, 2018 at 11:10.
+                </section>
+            </section>
+        </section>
+    </footer>
+</div>
+
+</body>
+</html>

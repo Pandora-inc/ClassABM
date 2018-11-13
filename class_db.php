@@ -5,20 +5,21 @@
  * Recuperacion e insercion de datos, conexiones ect.
  *
  * @author iberlot <@> ivanberlot@gmail.com
- *        
- * @version 3.1.2
+ *
+ * @version 3.1.3
  *          (A partir de la version 3.0 - Se actualizaron las funciones obsoletas y corrigieron algunos errores.)
  *          (A partir de la version 3.1 - Se incluye la opcion de parametrizar las consultas.)
  *          (A partir de la version 3.1.1 - Se Se modifico para que los parametros no contemplaran el parentesis de sierre, ademas de que en el
  *          debug el valor de estos apareciera comentado)
  *          (A partir de la version 3.1.2 - Se corrigio el error que no mostraba los errores generados en oracle.)
- *         
- * @package clase DB
+ *          (A partir de la version 3.1.3 - Se agragan las funciones creadoras de consultas por medio de arrays de datos.)
+ *
  * @category Edicion
- *          
- *          
+ *
+ * @todo Hay que acomodar el manejo de errores para que quede mas practico.
+ *
  * @link config/includes.php - Archivo con todos los includes del sistema
- *      
+ *
  */
 
 /*
@@ -31,7 +32,51 @@
  * por favor, incremente el siguiente contador como una advertencia para el
  * siguiente colega:
  *
- * totalHorasPerdidasAqui = 175
+ * totalHorasPerdidasAqui = 177
+ *
+ */
+/**
+ * Esta clase se va a encargar de todo lo referente a las bases de datos.
+ * Recuperacion e insercion de datos, conexiones ect.
+ *
+ *
+ * deprecated las funciones de mssql dejan de funcionar en cualquier momento.
+ *
+ * @author iberlot
+ * @example $db = new class_db ($dbSever, $dbUser, $dbPass, $dbBase);
+ *          $db->connect ();
+ *
+ *          $db->dieOnError = true;
+ *          $db->mostrarErrores = true;
+ *          $db->debug = true;
+ *
+ *          $sql = "SELECT * FROM tabla WHERE 1 = 1 AND pepinos = :peps" ;
+ *
+ *          $parametros = "";
+ *          $parametros[] = $pepinos;
+ *
+ *          $result = $db->query ($sql, $esParam = true, $parametros);
+ *
+ *          while ($rst = $db->fetch_array ($result))
+ *          {
+ *          echo $rst['CAMPO_1'];
+ *          echo $rst['CAMPO_2'];
+ *          }
+ *
+ *
+ *          $sql = "INSERT INTO tabla (id ,pepinos) VALUES (:id, :peps)";
+ *
+ *          $parametros = "";
+ *          $parametros[] = $ID;
+ *          $parametros[] = $pepinos;
+ *
+ *          $db->query ($sql, $esParam = true, $parametros);
+ *
+ *          // use function class_db\fetch_array;
+ *          // use function class_db\fetch_assoc;
+ *          // use function class_db\num_rows;
+ *          // use function class_db\query;
+ *          // use function mysqli\real_escape_string;
  *
  */
 class class_db
@@ -42,28 +87,30 @@ class class_db
 	 * @var bool
 	 */
 	public $debug = false;
-	
+
 	/**
 	 * Graba log con los errores de BD *
 	 */
 	public $grabarArchivoLogError = false;
-	
+
 	/**
 	 * Graba log con todas las consultas realizadas *
 	 */
 	public $grabarArchivoLogQuery = false;
-	
+
 	/**
 	 * Imprime cuando hay errores sql *
 	 */
 	public $mostrarErrores = true;
-	
+
 	/**
 	 * Usar die() si hay un error de sql.
 	 * Esto es util para etapa de desarrollo *
+	 *
+	 * @var boolean
 	 */
 	public $dieOnError = false;
-	
+
 	/**
 	 * Setear un email para enviar email cuando hay errores sql *
 	 */
@@ -72,16 +119,16 @@ class class_db
 	/**
 	 * Parametros basicos necesarios para el funcionamiento de la clase
 	 *
-	 * @param mixed $host
+	 * @param string $host
 	 *        	Ip o nombre del servidor al que se va a conectar
-	 * @param mixed $user
+	 * @param string $user
 	 *        	Usuario de conexion a la base
-	 * @param mixed $pass
-	 *        	Contraseña de conexion a la base
-	 * @param mixed $db        	
-	 * @param mixed $charset
+	 * @param string $pass
+	 *        	Contrase�a de conexion a la base
+	 * @param string $db
+	 * @param string $charset
 	 *        	Juego de caracteres de la conexion
-	 * @param mixed $dbtype
+	 * @param string $dbtype
 	 *        	El tipo de DB (mysql, oracle o mssql)
 	 * @param bool $commit
 	 *        	true en caso de habilitar el autocommit y false para deshabilitarlo (por defecto en true)
@@ -103,31 +150,31 @@ class class_db
 	 */
 	public function connect()
 	{
-		if($this->dbtype == 'mysql')
+		if ($this->dbtype == 'mysql')
 		{
-			$this->con = mysqli_connect($this->dbHost, $this->dbUser, $this->dbPass) or die(mysqli_error($this->con));
-			mysqli_select_db($this->con, $this->dbName) or die(mysqli_error($this->con));
-			
-			if($this->commit == false)
+			$this->con = mysqli_connect ($this->dbHost, $this->dbUser, $this->dbPass) or die (mysqli_error ($this->con));
+			mysqli_select_db ($this->con, $this->dbName) or die (mysqli_error ($this->con));
+
+			if ($this->commit == false)
 			{
 				/* activar la autoconsigna */
-				mysqli_autocommit($this->con, FALSE);
+				mysqli_autocommit ($this->con, FALSE);
 			}
 			// mysqli_set_charset ($this->con, $this->charset) or die (mysqli_error ($this->con));
 		}
-		elseif($this->dbtype == 'oracle')
+		elseif ($this->dbtype == 'oracle')
 		{
 			// Conectar al servicio XE (es deicr, la base de datos) en la maquina "localhost"
-			
-			$this->con = oci_connect($this->dbUser, $this->dbPass, $this->dbHost, $this->charset);
-			
-			if(!$this->con)
+
+			$this->con = oci_connect ($this->dbUser, $this->dbPass, $this->dbHost, $this->charset);
+
+			if (!$this->con)
 			{
-				$e = oci_error();
-				trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
+				$e = oci_error ();
+				trigger_error (htmlentities ($e['message'], ENT_QUOTES), E_USER_ERROR);
 			}
 		}
-		elseif($this->dbtype == 'mssql')
+		elseif ($this->dbtype == 'mssql')
 		{
 			/**
 			 * Creamos la conexion con la base de datos SQLServer
@@ -135,17 +182,17 @@ class class_db
 			/*
 			 * Esta coneccion esta obsoleta y hay que modificarla
 			 */
-			
+
 			// Connect to MSSQL
-			$this->con = mssql_connect($this->dbHost, $this->dbUser, $this->dbPass);
-			
-			if(!$this->con)
+			$this->con = mssql_connect ($this->dbHost, $this->dbUser, $this->dbPass);
+
+			if (!$this->con)
 			{
-				die('Algo fue mal mientras se conectaba a MSSQL');
+				die ('Algo fue mal mientras se conectaba a MSSQL');
 			}
 			else
 			{
-				mssql_select_db($this->dbName, $this->con);
+				mssql_select_db ($this->dbName, $this->con);
 			}
 		}
 	}
@@ -153,28 +200,31 @@ class class_db
 	/**
 	 * Funcion que devuelve el codigo de error de la consulta
 	 *
+	 * @param object $result
+	 *        	- Si el objeto del que lebanter el error no es el defoult.
+	 *
 	 * @return string Con el codigo del error
 	 */
 	public function errorNro($result = "")
 	{
 		// Grabamos el codigo de error en una variable
-		if($this->dbtype == 'mysql')
+		if ($this->dbtype == 'mysql')
 		{
-			return mysqli_errno($this->con);
+			return mysqli_errno ($this->con);
 		}
-		elseif($this->dbtype == 'oracle')
+		elseif ($this->dbtype == 'oracle')
 		{
-			if($result!="")
+			if ($result != "")
 			{
-				$e = oci_error($result);
+				$e = oci_error ($result);
 			}
-			else 
+			else
 			{
-				$e = oci_error($this->con);
+				$e = oci_error ($this->con);
 			}
-			return htmlentities($e['code']);
+			return htmlentities ($e['code']);
 		}
-		elseif($this->dbtype == 'mssql')
+		elseif ($this->dbtype == 'mssql')
 		{
 			return "666";
 		}
@@ -183,179 +233,252 @@ class class_db
 	/**
 	 * Funcion que devuelve el texto del error de la consulta
 	 *
+	 * @param object $result
+	 *        	- Si el objeto del que lebanter el error no es el defoult.
+	 *
 	 * @return string Con el texto del error
 	 */
 	public function error($result = "")
 	{
 		// Grabamos el codigo de error en una variable
-		if($this->dbtype == 'mysql')
+		if ($this->dbtype == 'mysql')
 		{
-			return mysqli_error($this->con);
+			return mysqli_error ($this->con);
 		}
-		elseif($this->dbtype == 'oracle')
+		elseif ($this->dbtype == 'oracle')
 		{
-		if($result!="")
+			if ($result != "")
 			{
-				$e = oci_error($result);
+				$e = oci_error ($result);
 			}
-			else 
+			else
 			{
-				$e = oci_error($this->con);
+				$e = oci_error ($this->con);
 			}
-			return htmlentities($e['message']);
+			return htmlentities ($e['message']);
 		}
-		elseif($this->dbtype == 'mssql')
+		elseif ($this->dbtype == 'mssql')
 		{
-			return mssql_get_last_message();
+			return mssql_get_last_message ();
 		}
 	}
 
 	/**
 	 *
-	 * @todo Funcion que se encarga de ejecutar las cunsultas SELECT
-	 *      
-	 * @todo A tener en cuenta, por el momento se recomienda no usar texto entre comillas
-	 *       con el simbolo dos puntos ( : ) dentro de la consulta, por lo menos dentro de las consultas parametrizadas.
-	 *      
+	 * Funcion que se encarga de ejecutar las cunsultas SELECT
+	 *
+	 * A tener en cuenta, por el momento se recomienda no usar texto entre comillas
+	 * con el simbolo dos puntos ( : ) dentro de la consulta, por lo menos dentro de las consultas parametrizadas.
+	 *
+	 * @version 1.0.2 Se corrigio la funcion para que se pudieran usar consultas parametrizadas en mysql.
+	 *
 	 * @param string $str_query
 	 *        	codigo de la query a ejecutar
 	 * @param bool $esParam
 	 *        	Define si la consulta va a ser parametrizada o no. (por defecto false)
 	 * @param array $parametros
 	 *        	Array con los parametros a pasar.
-	 *        	
-	 * @return unknown
+	 *
+	 * @return array
 	 */
 	public function query($str_query, $esParam = false, $parametros = "")
 	{
-		global $debug, $debugsql, $sitio;
-		
+
 		/**
+		 * Consulata a la base de datos ya compilada
 		 *
-		 * @var mixed $result Consulata a la base de datos ya compilada
+		 * @var mixed $result
 		 */
 		$result = "";
-		
-		if($this->dbtype == 'mysql')
-		{
-			$result = mysqli_query($this->con, $str_query);
-		}
-		elseif($this->dbtype == 'oracle')
-		{ // Recuperamos los datos del estado del requerimiento
-			$result = oci_parse($this->con, $str_query);
-			
-			if($esParam == true)
-			{
-				$cantidad = substr_count($str_query, ':');
-				
-				$para = explode(':', $str_query);
 
-// 				print_r($para);				
-				
+		if ($this->dbtype == 'mysql')
+		{
+			if ($esParam == true)
+			{
+				$cantParam = "";
+				$pepinos = "";
+				$param_arr = array ();
+
+				$cantidad = substr_count ($str_query, ':');
+
+				$para = explode (':', $str_query);
+
 				for($i = 0; $i < $cantidad; $i++)
 				{
 					$e = $i + 1;
-					
-					$paraY = explode(' ', $para[$e]);
-					$paraY[0] = str_replace(")", "", $paraY[0]);
-					$paraY[0] = str_replace(";", "", $paraY[0]);
-					$paraY[0] = trim(str_replace(",", "", $paraY[0]));
-					
-// 					print_r($paraY[0]);
-					
-					oci_bind_by_name($result, ":$paraY[0]", $parametros[$i]);
-					// print_r($result.', ":'.$paraY[0].'", '.$parametros[$i]."<Br />");
+
+					$paraY = explode (' ', $para[$e]);
+					$paraY[0] = str_replace (")", "", $paraY[0]);
+					$paraY[0] = str_replace (";", "", $paraY[0]);
+					$paraY[0] = trim (str_replace (",", "", $paraY[0]));
+
+					$cantParam .= "s";
+
+					$str_query = str_replace (":$paraY[0]", "?", $str_query);
 				}
-			}
-			
-			
-			if($this->commit == false)
-			{
-				oci_execute($result, OCI_NO_AUTO_COMMIT);
+				/* ligar par�metros para marcadores */
+				array_push ($param_arr, $cantParam);
+
+				// FIXME - hasta que se encuentre otra solucion se va a usar un case y se va a hacer manual
+				$e = count ($parametros);
+
+				$stmt = mysqli_prepare ($this->con, $str_query);
+
+				switch ($e)
+				{
+					case 1 :
+						mysqli_stmt_bind_param ($stmt, $cantParam, $parametros[0]);
+						break;
+					case 2 :
+						mysqli_stmt_bind_param ($stmt, $cantParam, $parametros[0], $parametros[1]);
+						break;
+					case 3 :
+						mysqli_stmt_bind_param ($stmt, $cantParam, $parametros[0], $parametros[1], $parametros[2]);
+						break;
+					case 4 :
+						mysqli_stmt_bind_param ($stmt, $cantParam, $parametros[0], $parametros[1], $parametros[2], $parametros[3]);
+						break;
+					case 5 :
+						mysqli_stmt_bind_param ($stmt, $cantParam, $parametros[0], $parametros[1], $parametros[2], $parametros[3], $parametros[4]);
+						break;
+					case 6 :
+						mysqli_stmt_bind_param ($stmt, $cantParam, $parametros[0], $parametros[1], $parametros[2], $parametros[3], $parametros[4], $parametros[5]);
+						break;
+					case 7 :
+						mysqli_stmt_bind_param ($stmt, $cantParam, $parametros[0], $parametros[1], $parametros[2], $parametros[3], $parametros[4], $parametros[5], $parametros[6]);
+						break;
+					case 8 :
+						mysqli_stmt_bind_param ($stmt, $cantParam, $parametros[0], $parametros[1], $parametros[2], $parametros[3], $parametros[4], $parametros[5], $parametros[6], $parametros[7]);
+						break;
+					case 9 :
+						mysqli_stmt_bind_param ($stmt, $cantParam, $parametros[0], $parametros[1], $parametros[2], $parametros[3], $parametros[4], $parametros[5], $parametros[6], $parametros[7], $parametros[8]);
+						break;
+					case 10 :
+						mysqli_stmt_bind_param ($stmt, $cantParam, $parametros[0], $parametros[1], $parametros[2], $parametros[3], $parametros[4], $parametros[5], $parametros[6], $parametros[7], $parametros[8], $parametros[9]);
+						break;
+				}
+
+				mysqli_stmt_execute ($stmt);
+
+				$result = mysqli_stmt_get_result ($stmt);
 			}
 			else
 			{
-				oci_execute($result);
+				$result = mysqli_query ($this->con, $str_query);
 			}
 		}
-		elseif($this->dbtype == 'mssql')
+		elseif ($this->dbtype == 'oracle')
+		{ // Recuperamos los datos del estado del requerimiento
+			$result = oci_parse ($this->con, $str_query);
+
+			if ($esParam == true)
+			{
+				$cantidad = substr_count ($str_query, ':');
+
+				$para = explode (':', $str_query);
+
+				for($i = 0; $i < $cantidad; $i++)
+				{
+					$e = $i + 1;
+
+					$paraY = explode (' ', $para[$e]);
+					$paraY[0] = str_replace (")", "", $paraY[0]);
+					$paraY[0] = str_replace (";", "", $paraY[0]);
+					$paraY[0] = trim (str_replace (",", "", $paraY[0]));
+
+					oci_bind_by_name ($result, ":$paraY[0]", $parametros[$i]);
+				}
+			}
+
+			if ($this->commit == false)
+			{
+				oci_execute ($result, OCI_NO_AUTO_COMMIT);
+			}
+			else
+			{
+				oci_execute ($result);
+			}
+		}
+		elseif ($this->dbtype == 'mssql')
 		{
 			// preguntamos si ese ususario ya esta registrado en la tabla
-			$result = mssql_query($str_query, $this->con);
+			$result = mssql_query ($str_query, $this->con);
 		}
-		
+
 		// Empezamos el debug de la consulta
-		if($this->debug)
+		if ($this->debug)
 		{
 			echo "<div style='background-color:#E8E8FF; padding:10px; margin:10px; font-family:Arial; font-size:11px; border:1px solid blue'>";
-			echo $this->format_query_imprimir($str_query);
-			
-			if($esParam == true)
+			echo $this->format_query_imprimir ($str_query);
+
+			if ($esParam == true)
 			{
-				$this->imprimirParam($str_query, $parametros);
+				$this->imprimirParam ($str_query, $parametros);
 			}
-			
+
 			echo "</div>";
 		}
-		
-		if(isset($this->debugsql))
+
+		if (isset ($this->debugsql))
 		{
-			consola($str_query);
+			consola ($str_query);
 		}
-		
-		if($this->grabarArchivoLogQuery)
+
+		if ($this->grabarArchivoLogQuery)
 		{
-			$str_log = date("d/m/Y H:i:s") . " " . getenv("REQUEST_URI") . "\n";
+			$str_log = date ("d/m/Y H:i:s") . " " . getenv ("REQUEST_URI") . "\n";
 			$str_log .= $str_query;
 			$str_log .= "\n------------------------------------------------------\n";
-			error_log($str_log);
+			error_log ($str_log);
 		}
-		
-		$errorNo = $this->errorNro($result);
-		
-		if($errorNo != 0 and $errorNo != 1062)
+
+		$errorNo = $this->errorNro ($result);
+
+		if ($errorNo != 0 and $errorNo != 1062)
 		{ // el error 1062 es "Duplicate entry"
-			if($this->mostrarErrores)
+			if ($this->mostrarErrores)
 			{
 				echo "<div style='background-color:#FFECEC; padding:10px; margin:10px; font-family:Arial; font-size:11px; border:1px solid red'>";
-				echo "<B>Error:</B> " . $this->error($result) . "<br><br>";
-				echo "<B>P&aacute;gina:</B> " . getenv("REQUEST_URI") . "<br>";
-				echo "<br>" . $this->format_query_imprimir($str_query);
+				echo "<B>Error:</B> " . $this->error ($result) . "<br><br>";
+				echo "<B>P&aacute;gina:</B> " . getenv ("REQUEST_URI") . "<br>";
+				echo "<br>" . $this->format_query_imprimir ($str_query);
 
-				if($esParam == true)
+				if ($esParam == true)
 				{
-					$this->imprimirParam($str_query, $parametros);
+					$this->imprimirParam ($str_query, $parametros);
 				}
-				
+
 				echo "</div>";
 			}
 			else
 			{
 				echo "DB Error";
 			}
-			if($this->dieOnError)
+			if ($this->dieOnError)
 			{
-				die("class_db die()");
+				die ("class_db die()");
 			}
-			
-			if($this->grabarArchivoLogError)
+
+			if ($this->grabarArchivoLogError)
 			{
 				$str_log = "******************* ERROR ****************************\n";
-				$str_log .= date("d/m/Y H:i:s") . " " . getenv("REQUEST_URI") . "\n";
-				$str_log .= "IP del visitante: " . getenv("REMOTE_ADDR") . "\n";
-				$str_log .= "Error: " . $this->error() . "\n";
+				$str_log .= date ("d/m/Y H:i:s") . " " . getenv ("REQUEST_URI") . "\n";
+				$str_log .= "IP del visitante: " . getenv ("REMOTE_ADDR") . "\n";
+				$str_log .= "Error: " . $this->error () . "\n";
 				$str_log .= $str_query;
 				$str_log .= "\n------------------------------------------------------\n";
-				error_log($str_log);
+				error_log ($str_log);
 			}
-			
+
 			// envio de aviso de error
-			if($this->emailAvisoErrorSql != "")
+			if ($this->emailAvisoErrorSql != "")
 			{
-				@mail($this->emailAvisoErrorSql, "Error MySQL", "Error: " . $this->error() . "\n\nP&aacute;gina:" . getenv("REQUEST_URI") . "\n\nIP del visitante:" . getenv("REMOTE_ADDR") . "\n\nQuery:" . $str_query);
+				@mail ($this->emailAvisoErrorSql, "Error MySQL", "Error: " . $this->error () . "\n\nP&aacute;gina:" . getenv ("REQUEST_URI") . "\n\nIP del visitante:" . getenv ("REMOTE_ADDR") . "\n\nQuery:" . $str_query);
 			}
+
+			throw new Exception ($this->error ($result));
 		}
-		
+
 		return $result;
 	}
 
@@ -366,41 +489,89 @@ class class_db
 	 *        	consulta de la cual devolver el fetch_assoc
 	 * @param string $limpiarEntidadesHTML
 	 *        	true/false
-	 * @return Devuelve el fetch_assoc de $result
+	 * @return array - Devuelve el fetch_assoc de $result
 	 */
 	public function fetch_assoc($result, $limpiarEntidadesHTML = false)
 	{
-		if($this->dbtype == 'mysql')
+		if ($this->dbtype == 'mysql')
 		{
-			if($limpiarEntidadesHTML)
+			if ($limpiarEntidadesHTML)
 			{
-				return limpiarEntidadesHTML(mysqli_fetch_assoc($result));
+				return limpiarEntidadesHTML (mysqli_fetch_assoc ($result));
 			}
 			else
 			{
-				return mysqli_fetch_assoc($result);
+				return mysqli_fetch_assoc ($result);
 			}
 		}
-		elseif($this->dbtype == 'oracle')
+		elseif ($this->dbtype == 'oracle')
 		{
-			if($limpiarEntidadesHTML)
+			if ($limpiarEntidadesHTML)
 			{
-				return limpiarEntidadesHTML(oci_fetch_assoc($result));
+				return limpiarEntidadesHTML (oci_fetch_assoc ($result));
 			}
 			else
 			{
-				return oci_fetch_assoc($result);
+				return oci_fetch_assoc ($result);
 			}
 		}
-		elseif($this->dbtype == 'mssql')
+		elseif ($this->dbtype == 'mssql')
 		{
-			if($limpiarEntidadesHTML)
+			if ($limpiarEntidadesHTML)
 			{
-				return limpiarEntidadesHTML(mssql_fetch_assoc($result));
+				return limpiarEntidadesHTML (mssql_fetch_assoc ($result));
 			}
 			else
 			{
-				return mssql_fetch_assoc($result);
+				return mssql_fetch_assoc ($result);
+			}
+		}
+	}
+
+	/**
+	 * Devuelve el fetch_row de una consulta dada
+	 *
+	 * @name fetch_row
+	 * @param string $result
+	 *        	consulta de la cual devolver el fetch_assoc
+	 * @param bool $limpiarEntidadesHTML
+	 *        	true/false
+	 * @return array - Obtiene una fila de datos del conjunto de resultados y la devuelve como un array enumerado, donde cada columna es almacenada en un �ndice del array comenzando por 0 (cero). Cada llamada subsiguiente a esta funci�n devolver� la siguiente fila del conjunto de resultados, o NULL si no hay m�s filas.
+	 *
+	 */
+	public function fetch_row($result, $limpiarEntidadesHTML = false)
+	{
+		if ($this->dbtype == 'mysql')
+		{
+			if ($limpiarEntidadesHTML)
+			{
+				return limpiarEntidadesHTML (mysqli_fetch_row ($result));
+			}
+			else
+			{
+				return mysqli_fetch_row ($result);
+			}
+		}
+		elseif ($this->dbtype == 'oracle')
+		{
+			if ($limpiarEntidadesHTML)
+			{
+				return limpiarEntidadesHTML (oci_fetch_row ($result));
+			}
+			else
+			{
+				return oci_fetch_row ($result);
+			}
+		}
+		elseif ($this->dbtype == 'mssql')
+		{
+			if ($limpiarEntidadesHTML)
+			{
+				return limpiarEntidadesHTML (mssql_fetch_row ($result));
+			}
+			else
+			{
+				return mssql_fetch_row ($result);
 			}
 		}
 	}
@@ -412,41 +583,89 @@ class class_db
 	 *        	consulta de la cual devolver el fetch_array
 	 * @param string $limpiarEntidadesHTML
 	 *        	true/false
-	 * @return Devuelve el fetch_array de $result
+	 * @return resource Devuelve el fetch_array de $result
 	 */
 	public function fetch_array($result, $limpiarEntidadesHTML = false)
 	{
-		if($this->dbtype == 'mysql')
+		if ($this->dbtype == 'mysql')
 		{
-			if($limpiarEntidadesHTML)
+			if ($limpiarEntidadesHTML)
 			{
-				return limpiarEntidadesHTML(mysqli_fetch_array($result));
+				return limpiarEntidadesHTML (mysqli_fetch_array ($result));
 			}
 			else
 			{
-				return mysqli_fetch_array($result);
+				return mysqli_fetch_array ($result);
 			}
 		}
-		elseif($this->dbtype == 'oracle')
+		elseif ($this->dbtype == 'oracle')
 		{
-			if($limpiarEntidadesHTML)
+			if ($limpiarEntidadesHTML)
 			{
-				return limpiarEntidadesHTML(oci_fetch_array($result));
+				return limpiarEntidadesHTML (oci_fetch_array ($result));
 			}
 			else
 			{
-				return oci_fetch_array($result);
+				return oci_fetch_array ($result);
 			}
 		}
-		elseif($this->dbtype == 'mssql')
+		elseif ($this->dbtype == 'mssql')
 		{
-			if($limpiarEntidadesHTML)
+			if ($limpiarEntidadesHTML)
 			{
-				return limpiarEntidadesHTML(mssql_fetch_array($result));
+				return limpiarEntidadesHTML (mssql_fetch_array ($result));
 			}
 			else
 			{
-				return mssql_fetch_array($result);
+				return mssql_fetch_array ($result);
+			}
+		}
+	}
+
+	/**
+	 * Devuelve el fetch_all de una consulta dada
+	 *
+	 * @param mixed $result
+	 *        	consulta de la cual devolver el fetch_array
+	 * @param string $limpiarEntidadesHTML
+	 *        	true/false
+	 * @return resource Devuelve el fetch_all de $result
+	 */
+	public function fetch_all($result, $limpiarEntidadesHTML = false)
+	{
+		if ($this->dbtype == 'mysql')
+		{
+			if ($limpiarEntidadesHTML)
+			{
+				return limpiarEntidadesHTML (mysqli_fetch_all ($result));
+			}
+			else
+			{
+				return mysqli_fetch_all ($result);
+			}
+		}
+		elseif ($this->dbtype == 'oracle')
+		{
+			if ($limpiarEntidadesHTML)
+			{
+				oci_fetch_all ($result, $rst);
+				return limpiarEntidadesHTML ($rst);
+			}
+			else
+			{
+				oci_fetch_all ($result, $rst);
+				return $rst;
+			}
+		}
+		elseif ($this->dbtype == 'mssql')
+		{
+			if ($limpiarEntidadesHTML)
+			{
+				return limpiarEntidadesHTML (mssql_fetch_array ($result));
+			}
+			else
+			{
+				return mssql_fetch_array ($result);
 			}
 		}
 	}
@@ -456,21 +675,21 @@ class class_db
 	 *
 	 * @param mixed $result
 	 *        	consulta de la cual devolver el fetch_object
-	 * @return Devuelve el fetch_object de $result
+	 * @return object el fetch_object de $result
 	 */
 	public function fetch_object($result)
 	{
-		if($this->dbtype == 'mysql')
+		if ($this->dbtype == 'mysql')
 		{
-			return mysqli_fetch_object($result);
+			return mysqli_fetch_object ($result);
 		}
-		elseif($this->dbtype == 'oracle')
+		elseif ($this->dbtype == 'oracle')
 		{
-			return oci_fetch_object($result);
+			return oci_fetch_object ($result);
 		}
-		elseif($this->dbtype == 'mssql')
+		elseif ($this->dbtype == 'mssql')
 		{
-			return mssql_fetch_object($result);
+			return mssql_fetch_object ($result);
 		}
 	}
 
@@ -482,17 +701,17 @@ class class_db
 	 */
 	public function num_rows($result)
 	{
-		if($this->dbtype == 'mysql')
+		if ($this->dbtype == 'mysql')
 		{
-			return mysqli_num_rows($result);
+			return mysqli_num_rows ($result);
 		}
-		elseif($this->dbtype == 'oracle')
+		elseif ($this->dbtype == 'oracle')
 		{
-			return oci_fetch_all($result, $res);
+			return oci_fetch_all ($result, $res);
 		}
-		elseif($this->dbtype == 'mssql')
+		elseif ($this->dbtype == 'mssql')
 		{
-			return mssql_num_rows($result);
+			return mssql_num_rows ($result);
 		}
 	}
 
@@ -504,36 +723,42 @@ class class_db
 	 */
 	public function num_fields($result)
 	{
-		if($this->dbtype == 'mysql')
+		if ($this->dbtype == 'mysql')
 		{
-			return mysqli_num_fields($result);
+			return mysqli_num_fields ($result);
 		}
-		elseif($this->dbtype == 'oracle')
+		elseif ($this->dbtype == 'oracle')
 		{
-			return oci_num_fields($result);
+			return oci_num_fields ($result);
 		}
-		elseif($this->dbtype == 'mssql')
+		elseif ($this->dbtype == 'mssql')
 		{
-			return mssql_num_fields($result);
+			return mssql_num_fields ($result);
 		}
 	}
 
 	/**
-	 * Devuelve el número de registros afectado por la última sentencia SQL de escritura
+	 * Devuelve el numero de registros afectado por la ultima sentencia SQL de escritura
+	 *
+	 * @param mixed $stid
+	 *        	Obligatorio para oracle es la consulta sobre la que se trabaja.$this
+	 *
+	 * @return mixed la cantidad de filas afectadas
+	 *
 	 */
-	public function affected_rows($stid="")
+	public function affected_rows($stid = "")
 	{
-		if($this->dbtype == 'mysql')
+		if ($this->dbtype == 'mysql')
 		{
-			return mysqli_affected_rows($this->con);
+			return mysqli_affected_rows ($this->con);
 		}
-		elseif($this->dbtype == 'oracle')
+		elseif ($this->dbtype == 'oracle')
 		{
-			return oci_num_rows($stid);
+			return oci_num_rows ($stid);
 		}
-		elseif($this->dbtype == 'mssql')
+		elseif ($this->dbtype == 'mssql')
 		{
-			return mssql_rows_affected($this->con);
+			return mssql_rows_affected ($this->con);
 		}
 	}
 
@@ -549,20 +774,20 @@ class class_db
 	 */
 	public function insert_id($campoId, $tabla)
 	{
-		if($this->dbtype == 'mysql')
-		{
-			return mysqli_insert_id($this->con);
-		}
-		else
-		{
-			$sql = 'SELECT MAX(' . $campoId . ') ID FROM ' . $tabla;
-			
-			$result = $this->query($sql);
-			
-			$id = $this->fetch_array($result);
-			
-			return $id['ID'];
-		}
+		// if ($this->dbtype == 'mysql')
+		// {
+		// return mysqli_insert_id ($this->con);
+		// }
+		// else
+		// {
+		$sql = 'SELECT MAX(' . $campoId . ') ID FROM ' . $tabla;
+
+		$result = $this->query ($sql);
+
+		$id = $this->fetch_array ($result);
+
+		return $id['ID'];
+		// }
 	}
 
 	/**
@@ -570,17 +795,17 @@ class class_db
 	 */
 	public function close()
 	{
-		if($this->dbtype == 'mysql')
+		if ($this->dbtype == 'mysql')
 		{
-			return mysqli_close($this->con);
+			return mysqli_close ($this->con);
 		}
-		elseif($this->dbtype == 'oracle')
+		elseif ($this->dbtype == 'oracle')
 		{
-			return oci_close($this->con);
+			return oci_close ($this->con);
 		}
-		elseif($this->dbtype == 'mssql')
+		elseif ($this->dbtype == 'mssql')
 		{
-			return mssql_close($this->con);
+			return mssql_close ($this->con);
 		}
 	}
 
@@ -595,8 +820,8 @@ class class_db
 	{
 		// print_r($this->con." - ".$string);
 		// return mysqli_real_escape_string ($this->con, $string);
-		return addslashes($string);
-		
+		return addslashes ($string);
+
 		// exit ("db".$string);
 	}
 
@@ -609,28 +834,30 @@ class class_db
 	 */
 	private function format_query_imprimir($str_query)
 	{
-		$str_query_debug = nl2br(htmlentities($str_query));
-		$str_query_debug = str_replace("SELECT", "<span style='color:green;font-weight:bold;'>SELECT</span>", $str_query_debug);
-		$str_query_debug = str_replace("INSERT", "<span style='color:#660000;font-weight:bold;'>INSERT</span>", $str_query_debug);
-		$str_query_debug = str_replace("UPDATE", "<span style='color:#FF6600;font-weight:bold;'>UPDATE</span>", $str_query_debug);
-		$str_query_debug = str_replace("REPLACE", "<span style='color:#FF6600;font-weight:bold;'>UPDATE</span>", $str_query_debug);
-		$str_query_debug = str_replace("DELETE", "<span style='color:#CC0000;font-weight:bold;'>DELETE</span>", $str_query_debug);
-		$str_query_debug = str_replace("FROM", "<br/><B>FROM</B>", $str_query_debug);
-		$str_query_debug = str_replace("WHERE", "<br/><B>WHERE</B>", $str_query_debug);
-		$str_query_debug = str_replace("ORDER BY", "<br/><B>ORDER BY</B>", $str_query_debug);
-		$str_query_debug = str_replace("GROUP BY", "<br/><B>GROUP BY</B>", $str_query_debug);
-		$str_query_debug = str_replace("INTO", "<br/><B>INTO</B>", $str_query_debug);
-		$str_query_debug = str_replace("VALUES", "<br/><B>VALUES</B>", $str_query_debug);
-		$str_query_debug = str_replace(" AND ", "<B> AND </B>", $str_query_debug);
-		
-		$str_query_debug = str_replace(" AS ", "<span style='color:magenta;font-weight:bold;'> AS </span>", $str_query_debug);
-		$str_query_debug = str_replace("INNER", "<br/><span style='color:magenta;font-weight:bold;'>INNER</span>", $str_query_debug);
-		$str_query_debug = str_replace("LEFT", "<br/><span style='color:magenta;font-weight:bold;'>LEFT</span>", $str_query_debug);
-		$str_query_debug = str_replace("RIGHT", "<br/><span style='color:magenta;font-weight:bold;'>RIGHT</span>", $str_query_debug);
-		$str_query_debug = str_replace("FULL", "<br/><span style='color:magenta;font-weight:bold;'>FULL</span>", $str_query_debug);
-		$str_query_debug = str_replace("JOIN", "<span style='color:magenta;font-weight:bold;'>JOIN</span>", $str_query_debug);
-		$str_query_debug = str_replace(" ON ", "<span style='color:magenta;font-weight:bold;'> ON </span>", $str_query_debug);
-		
+		$str_query_debug = nl2br (htmlentities ($str_query));
+		$str_query_debug = str_replace ("SELECT", "<span style='color:green;font-weight:bold;'>SELECT</span>", $str_query_debug);
+		$str_query_debug = str_replace ("INSERT", "<span style='color:#660000;font-weight:bold;'>INSERT</span>", $str_query_debug);
+		$str_query_debug = str_replace ("UPDATE", "<span style='color:#FF6600;font-weight:bold;'>UPDATE</span>", $str_query_debug);
+		$str_query_debug = str_replace ("REPLACE", "<span style='color:#FF6600;font-weight:bold;'>UPDATE</span>", $str_query_debug);
+		$str_query_debug = str_replace ("DELETE", "<span style='color:#CC0000;font-weight:bold;'>DELETE</span>", $str_query_debug);
+		$str_query_debug = str_replace ("FROM", "<br/><span style='color:green;font-weight:bold;'>FROM</span>", $str_query_debug);
+		$str_query_debug = str_replace ("WHERE", "<br/><span style='color:green;font-weight:bold;'>WHERE</span>", $str_query_debug);
+		$str_query_debug = str_replace ("ORDER BY", "<br/><span style='color:green;font-weight:bold;'>ORDER BY</span>", $str_query_debug);
+		$str_query_debug = str_replace ("GROUP BY", "<br/><span style='color:green;font-weight:bold;'>GROUP BY</span>", $str_query_debug);
+		$str_query_debug = str_replace ("INTO", "<br/><B>INTO</B>", $str_query_debug);
+		$str_query_debug = str_replace ("VALUES", "<br/><B>VALUES</B>", $str_query_debug);
+		$str_query_debug = str_replace (" AND ", "<B> AND </B>", $str_query_debug);
+
+		$str_query_debug = str_replace (" AS ", "<span style='color:magenta;font-weight:bold;'> AS </span>", $str_query_debug);
+		$str_query_debug = str_replace ("INNER", "<br/><span style='color:magenta;font-weight:bold;'>INNER</span>", $str_query_debug);
+		$str_query_debug = str_replace ("LEFT", "<br/><span style='color:magenta;font-weight:bold;'>LEFT</span>", $str_query_debug);
+		$str_query_debug = str_replace ("RIGHT", "<br/><span style='color:magenta;font-weight:bold;'>RIGHT</span>", $str_query_debug);
+		$str_query_debug = str_replace ("FULL", "<br/><span style='color:magenta;font-weight:bold;'>FULL</span>", $str_query_debug);
+		$str_query_debug = str_replace ("JOIN", "<span style='color:magenta;font-weight:bold;'>JOIN</span>", $str_query_debug);
+		$str_query_debug = str_replace (" ON ", "<span style='color:magenta;font-weight:bold;'> ON </span>", $str_query_debug);
+
+		$str_query_debug = str_replace ("TO_CHAR", "<span style='color:pink;font-weight:bold;'>TO_CHAR</span>", $str_query_debug);
+
 		return $str_query_debug;
 	}
 
@@ -651,15 +878,15 @@ class class_db
 	public function getValue($table, $field, $id, $fieldId = "id")
 	{
 		$sql = "SELECT $field FROM $table WHERE $fieldId='$id'";
-		$result = query($sql);
-		
-		if($result and num_rows($result) == 1)
+		$result = query ($sql);
+
+		if ($result and num_rows ($result) == 1)
 		{
-			if($fila = fetch_assoc($result))
+			if ($fila = fetch_assoc ($result))
 			{
-				if($this->dbtype == 'oracle')
+				if ($this->dbtype == 'oracle')
 				{
-					return $fila[strtoupper($field)];
+					return $fila[strtoupper ($field)];
 				}
 				else
 				{
@@ -683,22 +910,24 @@ class class_db
 	 *        	Valor para seleccionar con el campo clave
 	 * @param string $fieldId
 	 *        	Campo clave de la tabla
+	 * @param boolean $limpiarEntidadesHTML
+	 *        	En caso de ser true realiza la limpiesa de las entidades.
 	 * @return array mysqli_fetch_assoc o false
 	 */
 	public function getRow($table, $id, $fieldId = "id", $limpiarEntidadesHTML = false)
 	{
 		$sql = "SELECT * FROM $table WHERE $fieldId='$id'";
-		$result = query($sql);
-		
-		if($result and num_rows($result) == 1)
+		$result = query ($sql);
+
+		if ($result and num_rows ($result) == 1)
 		{
-			if($limpiarEntidadesHTML)
+			if ($limpiarEntidadesHTML)
 			{
-				return limpiarEntidadesHTML(fetch_array($result));
+				return limpiarEntidadesHTML (fetch_array ($result));
 			}
 			else
 			{
-				return fetch_array($result);
+				return fetch_array ($result);
 			}
 		}
 		else
@@ -726,38 +955,38 @@ class class_db
 	 * @param int $nivel
 	 *        	No enviar (es unicamente para recursividad)
 	 * @return array Formato: array("nivel" => X, "dato" => X, "id" => X, "padreId" => X);
-	 *        
+	 *
 	 *         Un codigo de ejemplo para hacer un arbol de categorias con links:
-	 *        
+	 *
 	 *         for ($i=0; $i<count($arbol); $i++){
 	 *         echo str_repeat("&nbsp;&nbsp;&nbsp;", $arbol[$i][nivel])."<a href='admin_categorias.php?c=".$arbol[$i][id]."'>".$arbol[$i][dato]."</a><br/>";
 	 *         }
 	 */
 	public function getArbol($tabla, $campoId, $campoPadreId, $campoDato, $orderBy, $padreId = 0, $nivel = 0)
 	{
-		$tabla = real_escape_string($tabla);
-		$campoId = real_escape_string($campoId);
-		$campoPadreId = real_escape_string($campoPadreId);
-		$campoDato = real_escape_string($campoDato);
-		$orderBy = real_escape_string($orderBy);
-		$padreId = real_escape_string($padreId);
-		
-		$result = $this->query("SELECT * FROM $tabla WHERE $campoPadreId='$padreId' ORDER BY $orderBy");
-		
+		$tabla = real_escape_string ($tabla);
+		$campoId = real_escape_string ($campoId);
+		$campoPadreId = real_escape_string ($campoPadreId);
+		$campoDato = real_escape_string ($campoDato);
+		$orderBy = real_escape_string ($orderBy);
+		$padreId = real_escape_string ($padreId);
+
+		$result = $this->query ("SELECT * FROM $tabla WHERE $campoPadreId='$padreId' ORDER BY $orderBy");
+
 		$arrayRuta = array ();
-		
-		while($fila = $this->fetch_array($result))
+
+		while ($fila = $this->fetch_array ($result))
 		{
 			$arrayRuta[] = array (
 					"nivel" => $nivel,
 					"dato" => $fila[$campoDato],
 					"id" => $fila[$campoId],
-					"padreId" => $fila[$campoPadreId] 
+					"padreId" => $fila[$campoPadreId]
 			);
-			$retArrayFunc = $this->getArbol($tabla, $campoId, $campoPadreId, $campoDato, $orderBy, $fila[$campoId], $nivel + 1);
-			$arrayRuta = array_merge($arrayRuta, $retArrayFunc);
+			$retArrayFunc = $this->getArbol ($tabla, $campoId, $campoPadreId, $campoDato, $orderBy, $fila[$campoId], $nivel + 1);
+			$arrayRuta = array_merge ($arrayRuta, $retArrayFunc);
 		}
-		
+
 		return $arrayRuta;
 	}
 
@@ -780,28 +1009,28 @@ class class_db
 	 */
 	public function getArbolRuta($tabla, $campoId, $campoPadreId, $campoDato, $id)
 	{
-		$tabla = real_escape_string($tabla);
-		$campoId = real_escape_string($campoId);
-		$campoPadreId = real_escape_string($campoPadreId);
-		$campoDato = real_escape_string($campoDato);
-		$id = real_escape_string($id);
-		
-		if($id == 0)
+		$tabla = real_escape_string ($tabla);
+		$campoId = real_escape_string ($campoId);
+		$campoPadreId = real_escape_string ($campoPadreId);
+		$campoDato = real_escape_string ($campoDato);
+		$id = real_escape_string ($id);
+
+		if ($id == 0)
 			return;
-		
+
 		$arrayRuta = array ();
-		
-		$result = $this->query("SELECT $campoId, $campoDato, $campoPadreId FROM $tabla WHERE $campoId='$id'");
-		
-		while($this->num_rows($result) == 1 or $fila[$campoId] == '0')
+
+		$result = $this->query ("SELECT $campoId, $campoDato, $campoPadreId FROM $tabla WHERE $campoId='$id'");
+
+		while ($this->num_rows ($result) == 1 or $fila[$campoId] == '0')
 		{
-			$fila = $this->fetch_assoc($result);
+			$fila = $this->fetch_assoc ($result);
 			$arrayRuta[$fila[$campoId]] = $fila[$campoDato];
-			$result = $this->query("SELECT $campoId, $campoDato, $campoPadreId FROM $tabla WHERE $campoId='" . $fila[$campoPadreId] . "'");
+			$result = $this->query ("SELECT $campoId, $campoDato, $campoPadreId FROM $tabla WHERE $campoId='" . $fila[$campoPadreId] . "'");
 		}
-		
-		$arrayRuta = array_reverse($arrayRuta, true);
-		
+
+		$arrayRuta = array_reverse ($arrayRuta, true);
+
 		return $arrayRuta;
 	}
 
@@ -830,44 +1059,44 @@ class class_db
 	 */
 	public function insertFromPost($tabla, $campos = array(), $adicionales = "")
 	{
-		
+
 		// campos de $_POST
-		foreach($_POST as $campo => $valor)
+		foreach ($_POST as $campo => $valor)
 		{
-			if(is_array($campos) and count($campos) > 0)
+			if (is_array ($campos) and count ($campos) > 0)
 			{
 				// solo los campos indicados
-				if(in_array($campo, $campos))
+				if (in_array ($campo, $campos))
 				{
-					if($camposInsert != "")
+					if ($camposInsert != "")
 					{
 						$camposInsert .= ", ";
 					}
-					$camposInsert .= "`$campo`='" . real_escape_string($valor) . "'";
+					$camposInsert .= "`$campo`='" . real_escape_string ($valor) . "'";
 				}
 			}
 			else
 			{
 				// van todos los campos que vengan en $_POST
-				if($camposInsert != "")
+				if ($camposInsert != "")
 				{
 					$camposInsert .= ", ";
 				}
-				$camposInsert .= "`$campo`='" . real_escape_string($valor) . "'";
+				$camposInsert .= "`$campo`='" . real_escape_string ($valor) . "'";
 			}
 		}
-		
+
 		// campos adicionales
-		if($adicionales != "")
+		if ($adicionales != "")
 		{
-			if($camposInsert != "")
+			if ($camposInsert != "")
 			{
 				$camposInsert .= ", ";
 			}
 			$camposInsert .= $adicionales;
 		}
-		
-		return $this->query("INSERT INTO $tabla SET $camposInsert");
+
+		return $this->query ("INSERT INTO $tabla SET $camposInsert");
 	}
 
 	/**
@@ -897,106 +1126,117 @@ class class_db
 	 */
 	public function updateFromPost($tabla, $where, $campos = array(), $adicionales = "")
 	{
-		
+
 		// campos de $_POST
-		foreach($_POST as $campo => $valor)
+		foreach ($_POST as $campo => $valor)
 		{
-			if(is_array($campos) and count($campos) > 0)
+			if (is_array ($campos) and count ($campos) > 0)
 			{
 				// solo los campos indicados
-				if(in_array($campo, $campos))
+				if (in_array ($campo, $campos))
 				{
-					if($camposInsert != "")
+					if ($camposInsert != "")
 						$camposInsert .= ", ";
-					$camposInsert .= "`$campo`='" . real_escape_string($valor) . "'";
+					$camposInsert .= "`$campo`='" . real_escape_string ($valor) . "'";
 				}
 			}
 			else
 			{
 				// van todos los campos que vengan en $_POST
-				if($camposInsert != "")
+				if ($camposInsert != "")
 					$camposInsert .= ", ";
-				$camposInsert .= "`$campo`='" . real_escape_string($valor) . "'";
+				$camposInsert .= "`$campo`='" . real_escape_string ($valor) . "'";
 			}
 		}
-		
+
 		// campos adicionales
-		if($adicionales != "")
+		if ($adicionales != "")
 		{
-			if($camposInsert != "")
+			if ($camposInsert != "")
 				$camposInsert .= ", ";
 			$camposInsert .= $adicionales;
 		}
-		
-		return $this->query("UPDATE $tabla SET $camposInsert WHERE $where");
+
+		return $this->query ("UPDATE $tabla SET $camposInsert WHERE $where");
 	}
 
 	/**
 	 * Imprime los parametros pasados a la consulta
-	 * 
-	 * @param unknown $str_query - Consulta
-	 * @param array $parametros - Parametros pasados
+	 *
+	 * @param string $str_query
+	 *        	- Consulta
+	 * @param array $parametros
+	 *        	- Parametros pasados
 	 */
 	private function imprimirParam($str_query, $parametros)
 	{
 		echo "<Br /><Br />";
-		
-		if($this->dbtype == 'mysql')
+
+		if ($this->dbtype == 'mysql')
 		{
 		}
-		elseif($this->dbtype == 'oracle')
+		elseif ($this->dbtype == 'oracle')
 		{
-			$cantidad = substr_count($str_query, ':');
-			
-			$para = explode(':', $str_query);
-				
+			$cantidad = substr_count ($str_query, ':');
+
+			$para = explode (':', $str_query);
+
 			for($i = 0; $i < $cantidad; $i++)
 			{
-			$e = $i + 1;
-		
-			$paraY = explode(' ', $para[$e]);
-		
-			$paraY[0] = trim(str_replace(",", "", $paraY[0]));
-		
-			$paraY[0] = str_replace(")", "", $paraY[0]);
-		
-			echo "-- :" . $paraY[0] . " = " . $parametros[$i] . "<Br />";
+				$e = $i + 1;
+
+				$paraY = explode (' ', $para[$e]);
+
+				$paraY[0] = trim (str_replace (",", "", $paraY[0]));
+
+				$paraY[0] = str_replace (")", "", $paraY[0]);
+
+				echo "-- :" . $paraY[0] . " = " . $parametros[$i] . "<Br />";
 			}
 		}
 	}
-	
+
 	/**
 	 * Devuelve el valor de un campo de la fila obtenida
 	 *
-	 * @param unknown $result        	
-	 * @param unknown $row        	
-	 * @param string $field        	
+	 * @param mixed $result
+	 * @param mixed $row
+	 * @param string $field
 	 */
 	public function result($result, $row, $field = null)
 	{
-		if($this->dbtype == 'mysql')
+		if ($this->dbtype == 'mysql')
 		{
-			return mysqli_result($result, $row, $field);
+			return $this->mysqli_result ($result, $row, $field);
 		}
-		elseif($this->dbtype == 'oracle')
+		elseif ($this->dbtype == 'oracle')
 		{
-			return oci_result($result, $field);
+			return oci_result ($result, $field);
 		}
-		elseif($this->dbtype == 'mssql')
+		elseif ($this->dbtype == 'mssql')
 		{
-			return mssql_result($result, $row, $field);
+			return mssql_result ($result, $row, $field);
 		}
 	}
 
+	/**
+	 * Ajustar el puntero de resultado a una fila arbitraria del resultado
+	 *
+	 * @param object $result
+	 *        	- Resultado de la consulta con el cual trabajar.
+	 * @param int $row_number
+	 *        	- Numero de fila a la cual apuntar.
+	 * @return object El resultado con el puntero modificado.
+	 */
 	public function data_seek($result, $row_number)
 	{
-		if($this->dbtype == 'mysql')
+		if ($this->dbtype == 'mysql')
 		{
-			return mysqli_data_seek($result, $row_number);
+			return mysqli_data_seek ($result, $row_number);
 		}
-		elseif($this->dbtype == 'mssql')
+		elseif ($this->dbtype == 'mssql')
 		{
-			return mssql_data_seek($result, $row_number);
+			return mssql_data_seek ($result, $row_number);
 		}
 	}
 
@@ -1005,50 +1245,379 @@ class class_db
 	 */
 	public function commit()
 	{
-		if($this->dbtype == 'mysql')
+		if ($this->dbtype == 'mysql')
 		{
-			$r = mysqli_commit($this->con);
-			if(!$r)
+			$r = mysqli_commit ($this->con);
+			if (!$r)
 			{
-				$e = mysqli_error($this->con);
-				trigger_error(htmlentities($e['message']), E_USER_ERROR);
+				$e = mysqli_error ($this->con);
+				trigger_error (htmlentities ($e['message']), E_USER_ERROR);
 			}
 		}
-		elseif($this->dbtype == 'oracle')
+		elseif ($this->dbtype == 'oracle')
 		{
-			$r = oci_commit($this->con);
-			if(!$r)
+			$r = oci_commit ($this->con);
+			if (!$r)
 			{
-				$e = oci_error($this->con);
-				trigger_error(htmlentities($e['message']), E_USER_ERROR);
+				$e = oci_error ($this->con);
+				trigger_error (htmlentities ($e['message']), E_USER_ERROR);
 			}
 		}
 	}
-	
 
 	/**
 	 * Realiza el rollback en caso de que el autocommit este off
 	 */
 	public function rollback()
 	{
-		if($this->dbtype == 'mysql')
+		if ($this->dbtype == 'mysql')
 		{
-			$r = mysqli_rollback($this->con);
-			if(!$r)
+			$r = mysqli_rollback ($this->con);
+			if (!$r)
 			{
-				$e = mysqli_error($this->con);
-				trigger_error(htmlentities($e['message']), E_USER_ERROR);
+				$e = mysqli_error ($this->con);
+				trigger_error (htmlentities ($e['message']), E_USER_ERROR);
 			}
 		}
-		elseif($this->dbtype == 'oracle')
+		elseif ($this->dbtype == 'oracle')
 		{
-			$r = oci_rollback($this->con);
-			if(!$r)
+			$r = oci_rollback ($this->con);
+			if (!$r)
 			{
-				$e = oci_error($this->con);
-				trigger_error(htmlentities($e['message']), E_USER_ERROR);
+				$e = oci_error ($this->con);
+				trigger_error (htmlentities ($e['message']), E_USER_ERROR);
 			}
 		}
 	}
+
+	/**
+	 * Genera un string para agregar a la consulta convirtiendo una fecha en string
+	 * Usa el tipo correspondiente para cada motor.
+	 *
+	 * @author iberlot <@> iberlot@usal.edu.ar
+	 * @name toChar
+	 *
+	 * @param string $campo
+	 *        	- Nombre del campo del que se extrae la fecha
+	 * @param string $nombre
+	 *        	- Nombre que eremos que tenga luego AS ......
+	 * @param string $mascara
+	 *        	- Si queremos que use alguna mascara personalizada
+	 * @throws Exception
+	 * @return string|Error
+	 */
+	public function toChar($campo, $nombre = "", $mascara = "")
+	{
+		try
+		{
+			if ($nombre != "")
+			{
+				$nombre = " AS " . $nombre;
+			}
+			else
+			{
+				$nombre = "";
+			}
+
+			if ($this->dbtype == 'mysql')
+			{
+				if ($mascara == "")
+				{
+					$mascara = "%Y-%m-%d";
+				}
+
+				$retorno = "DATE_FORMAT(" . $campo . ",'" . $mascara . "') " . $nombre;
+			}
+			elseif ($this->dbtype == 'oracle')
+			{
+				if ($mascara == "")
+				{
+					$mascara = "RRRR-MM-DD";
+				}
+
+				$retorno = "TO_CHAR(" . $campo . ", '" . $mascara . "') " . $nombre;
+			}
+			elseif ($this->dbtype == 'mssql')
+			{
+				$retorno = "CONVERT(VARCHAR(10), " . $campo . ", 120) " . $nombre;
+			}
+			else
+			{
+				throw new Exception ('ERROR: No hay definido un tipo de base de datos');
+			}
+
+			return $retorno;
+		}
+		catch (Exception $e)
+		{
+			return $e->getMessage ();
+		}
+	}
+
+	/**
+	 * Genera un string para agregar a la consulta convirtiendo un string en una fecha
+	 * Usa el tipo correspondiente para cada motor.
+	 *
+	 * @author iberlot <@> iberlot@usal.edu.ar
+	 * @name toDate
+	 *
+	 * @param string $valor
+	 *        	- Dato a convertir en fecha
+	 * @param string $mascara
+	 *        	- Si queremos que use alguna mascara personalizada
+	 * @throws Exception
+	 * @return string|Error
+	 */
+	public function toDate($valor, $mascara = "")
+	{
+		try
+		{
+			if ($this->dbtype == 'mysql')
+			{
+				if ($mascara == "")
+				{
+					$mascara = "%Y-%m-%d";
+				}
+				else
+				{
+					$mascara = str_replace ('YYYY', '%Y', $mascara);
+					$mascara = str_replace ('RRRR', '%Y', $mascara);
+					$mascara = str_replace ('yyyy', '%Y', $mascara);
+					$mascara = str_replace ('yy', '%y', $mascara);
+					$mascara = str_replace ('YY', '%y', $mascara);
+					$mascara = str_replace ('mm', '%m', $mascara);
+					$mascara = str_replace ('MM', '%m', $mascara);
+					$mascara = str_replace ('dd', '%d', $mascara);
+					$mascara = str_replace ('DD', '%d', $mascara);
+				}
+
+				$retorno = " STR_TO_DATE('" . $valor . "','" . $mascara . "') ";
+			}
+			elseif ($this->dbtype == 'oracle')
+			{
+				if ($mascara == "")
+				{
+					$mascara = "RRRR-MM-DD";
+				}
+
+				$retorno = "TO_CHAR('" . $valor . "', '" . $mascara . "') ";
+			}
+			elseif ($this->dbtype == 'mssql')
+			{
+				$retorno = " CONVERT(DATETIME, " . $valor . ", 120) ";
+			}
+			else
+			{
+				throw new Exception ('ERROR: No hay definido un tipo de base de datos');
+			}
+
+			return $retorno;
+		}
+		catch (Exception $e)
+		{
+			return $e->getMessage ();
+		}
+	}
+
+	/**
+	 * es el equivalente a mysql_result.
+	 *
+	 * @param string $res
+	 *        	- result
+	 * @param number $row
+	 * @param number $col
+	 * @return mixed
+	 */
+	public function mysqli_result($res, $row = 0, $col = 0)
+	{
+		$numrows = mysqli_num_rows ($res);
+		if ($numrows && $row <= ($numrows - 1) && $row >= 0)
+		{
+			mysqli_data_seek ($res, $row);
+			$resrow = (is_numeric ($col)) ? mysqli_fetch_row ($res) : mysqli_fetch_assoc ($res);
+			if (isset ($resrow[$col]))
+			{
+				return $resrow[$col];
+			}
+		}
+		return false;
+	}
+
+	/**
+	 * Recive un array con los campos a insertar en una tabla y el nombre de la tabla y en base a eso arma la consulta de insert y carga el array de parametros.
+	 *
+	 * @param String[] $array
+	 *        	- Los valores del array van a ser el valor a insertar en la tabla y los indices el nombre del campo.
+	 * @param String $tabla
+	 *        	- Nombre de la tabla en la que se va a insertar.
+	 * @param mixed[] $parametros
+	 *        	- Array de parametros, se pasa por parametro y se borra antes de usar.
+	 * @return string - Retorna el string de la consulta de insercion preparada, adicionalmente el array parametros queda cargado con los parametros a utilizar.
+	 */
+	public function prepararConsultaInsert($array, $tabla, &$parametros)
+	{
+		try
+		{
+			$parametros = array ();
+			$campos = array ();
+			$valores = array ();
+
+			foreach ($array as $clave => $valor)
+			{
+				if (strpos ($valor, "TO_DATE") === false)
+				{
+					$campos[] = " " . $clave . " ";
+					$valores[] = " :" . $clave . " ";
+					$parametros[] = $valor;
+				}
+				else
+				{
+					$campos[] = " " . $clave . " ";
+					$valores[] = $valor;
+					// $parametros[] = $valor;
+				}
+			}
+
+			$campos = implode (", ", $campos);
+			$valores = implode (", ", $valores);
+		}
+		catch (Exception $e)
+		{
+			if ($db->debug == true)
+			{
+				return __LINE__ . " - " . __FILE__ . " - " . $e->getMessage ();
+			}
+			else
+			{
+				return $e->getMessage ();
+			}
+
+			if ($db->dieOnError == true)
+			{
+				exit ();
+			}
+		}
+		return "INSERT INTO $tabla (" . $campos . ") VALUES (" . $valores . ")";
+	}
+
+	/**
+	 * Recive un array con los campos a modificar en una tabla y el nombre de la tabla y en base a eso arma la consulta de Update y carga el array de parametros.
+	 *
+	 * @param String[] $array
+	 *        	- Los valores del array van a ser el valor a modificar en la tabla y los indices el nombre del campo.
+	 * @param String $tabla
+	 *        	- Nombre de la tabla en la que se va a modificar.
+	 * @param mixed[] $parametros
+	 *        	- Array de parametros, se pasa por parametro y se borra antes de usar.
+	 * @param String[] $where
+	 *        	- Los valores del array van a ser el valor a usar en el where y los indices el nombre del campo.
+	 *
+	 * @return string - Retorna el string de la consulta de modificacion preparada, adicionalmente el array parametros queda cargado con los parametros a utilizar.
+	 */
+	public function prepararConsultaUpdate($array, $tabla, &$parametros, $where)
+	{
+		try
+		{
+			$parametros = array ();
+			$campos = array ();
+			$valores = array ();
+
+			foreach ($array as $clave => $valor)
+			{
+				if (strpos ($valor, "TO_DATE") === false)
+				{
+					$campos[] = " " . $clave . " = :" . $clave . " ";
+					$parametros[] = $valor;
+				}
+				else
+				{
+					$campos[] = " " . $clave . " = " . $valor;
+					// $parametros[] = $valor;
+				}
+			}
+			$campos = implode (", ", $campos);
+
+			foreach ($where as $clave => $valor)
+			{
+				$wheres[] = " " . $clave . " = :" . $clave . " ";
+				$parametros[] = $valor;
+			}
+			$wheres = implode (" AND ", $wheres);
+		}
+		catch (Exception $e)
+		{
+			if ($db->debug == true)
+			{
+				return __LINE__ . " - " . __FILE__ . " - " . $e->getMessage ();
+			}
+			else
+			{
+				return $e->getMessage ();
+			}
+
+			if ($db->dieOnError == true)
+			{
+				exit ();
+			}
+		}
+		return "UPDATE $tabla SET " . $campos . " WHERE 1=1 AND " . $wheres;
+	}
+
+	/**
+	 * Recive un array con los campos a buscar en una tabla y el nombre de la tabla y en base a eso arma la consulta de Select y carga el array de parametros.
+	 *
+	 * @param String $tabla
+	 *        	- Nombre de la tabla en la que se va a modificar.
+	 * @param mixed[] $parametros
+	 *        	- Array de parametros, se pasa por parametro y se borra antes de usar.
+	 * @param String $where
+	 *        	- Los valores del array van a ser el valor a usar en el where y los indices el nombre del campo.
+	 * @param String[] $array
+	 *        	- Los valores del array van a ser el valor a modificar en la tabla y los indices el nombre del campo.
+	 *
+	 * @return string - Retorna el string de la consulta de Select preparada, adicionalmente el array parametros queda cargado con los parametros a utilizar.
+	 */
+	public function prepararConsultaSelect($tabla, &$parametros, $wheres = "1=1", $array = "*")
+	{
+		try
+		{
+			$parametros = array ();
+			$campos = array ();
+			$valores = array ();
+
+			if (is_array ($array))
+			{
+				$campos = implode (", ", $array);
+			}
+
+			foreach ($where as $clave => $valor)
+			{
+				$wheres[] = " " . $clave . " = :" . $clave . " ";
+				$parametros[] = $valor;
+			}
+
+			if ($wheres != "1=1")
+			{
+				$wheres = implode (" AND ", $wheres);
+			}
+		}
+		catch (Exception $e)
+		{
+			if ($db->debug == true)
+			{
+				return __LINE__ . " - " . __FILE__ . " - " . $e->getMessage ();
+			}
+			else
+			{
+				return $e->getMessage ();
+			}
+
+			if ($db->dieOnError == true)
+			{
+				exit ();
+			}
+		}
+
+		return "SELECT " . $array . " " . $tabla . " WHERE " . $wheres;
+	}
 }
-?>

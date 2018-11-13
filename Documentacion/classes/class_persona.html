@@ -1,0 +1,3713 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
+    <meta charset="utf-8"/>
+    <title>API Documentation</title>
+    <meta name="author" content=""/>
+    <meta name="description" content=""/>
+
+    <link href="../css/bootstrap-combined.no-icons.min.css" rel="stylesheet">
+    <link href="../css/font-awesome.min.css" rel="stylesheet">
+    <link href="../css/prism.css" rel="stylesheet" media="all"/>
+    <link href="../css/template.css" rel="stylesheet" media="all"/>
+    
+    <!--[if lt IE 9]>
+    <script src="../js/html5.js"></script>
+    <![endif]-->
+    <script src="../js/jquery-1.11.0.min.js"></script>
+    <script src="../js/ui/1.10.4/jquery-ui.min.js"></script>
+    <script src="../js/bootstrap.min.js"></script>
+    <script src="../js/jquery.smooth-scroll.js"></script>
+    <script src="../js/prism.min.js"></script>
+    <!-- TODO: Add http://jscrollpane.kelvinluck.com/ to style the scrollbars for browsers not using webkit-->
+    <script type="text/javascript">
+    function loadExternalCodeSnippets() {
+        Array.prototype.slice.call(document.querySelectorAll('pre[data-src]')).forEach(function (pre) {
+            var src = pre.getAttribute('data-src');
+            var extension = (src.match(/\.(\w+)$/) || [, ''])[1];
+            var language = 'php';
+
+            var code = document.createElement('code');
+            code.className = 'language-' + language;
+
+            pre.textContent = '';
+
+            code.textContent = 'Loading…';
+
+            pre.appendChild(code);
+
+            var xhr = new XMLHttpRequest();
+
+            xhr.open('GET', src, true);
+
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState == 4) {
+
+                    if (xhr.status < 400 && xhr.responseText) {
+                        code.textContent = xhr.responseText;
+
+                        Prism.highlightElement(code);
+                    }
+                    else if (xhr.status >= 400) {
+                        code.textContent = '✖ Error ' + xhr.status + ' while fetching file: ' + xhr.statusText;
+                    }
+                    else {
+                        code.textContent = '✖ Error: File does not exist or is empty';
+                    }
+                }
+            };
+
+            xhr.send(null);
+        });
+    }
+
+    $(document).ready(function(){
+        loadExternalCodeSnippets();
+    });
+    $('#source-view').on('shown', function () {
+        loadExternalCodeSnippets();
+    })
+</script>
+
+    <link rel="shortcut icon" href="../images/favicon.ico"/>
+    <link rel="apple-touch-icon" href="../images/apple-touch-icon.png"/>
+    <link rel="apple-touch-icon" sizes="72x72" href="../images/apple-touch-icon-72x72.png"/>
+    <link rel="apple-touch-icon" sizes="114x114" href="../images/apple-touch-icon-114x114.png"/>
+</head>
+<body>
+
+<div class="navbar navbar-fixed-top">
+    <div class="navbar-inner">
+        <div class="container">
+            <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                <i class="icon-ellipsis-vertical"></i>
+            </a>
+            <a class="brand" href="../index.html">API Documentation</a>
+
+            <div class="nav-collapse">
+                <ul class="nav pull-right">
+                                        <li class="dropdown" id="charts-menu">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            Charts <b class="caret"></b>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a href="../graphs/class.html">
+                                    <i class="icon-list-alt"></i>&#160;Class hierarchy diagram
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="dropdown" id="reports-menu">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            Reports <b class="caret"></b>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a href="../reports/errors.html">
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    <i class="icon-list-alt"></i>&#160;Errors <span class="label label-info pull-right">98</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="../reports/markers.html">
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    <i class="icon-list-alt"></i>&#160;Markers <span class="label label-info pull-right">100</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="../reports/deprecated.html">
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            <i class="icon-list-alt"></i>&#160;Deprecated <span class="label label-info pull-right">8</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!--<div class="go_to_top">-->
+    <!--<a href="#___" style="color: inherit">Back to top&#160;&#160;<i class="icon-upload icon-white"></i></a>-->
+    <!--</div>-->
+</div>
+
+<div id="___" class="container-fluid">
+        <section class="row-fluid">
+        <div class="span2 sidebar">
+                                <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle " data-toggle="collapse" data-target="#namespace-2133893247"></a>
+                                <a href="../namespaces/default.html" style="margin-left: 30px; padding-left: 0">\</a>
+            </div>
+            <div id="namespace-2133893247" class="accordion-body collapse in">
+                <div class="accordion-inner">
+
+                    
+                    <ul>
+                                                                                                    <li class="class"><a href="../classes/class_abm.html">class_abm</a></li>
+                                                    <li class="class"><a href="../classes/class_abm2.html">class_abm2</a></li>
+                                                    <li class="class"><a href="../classes/class_abmCp.html">class_abmCp</a></li>
+                                                    <li class="class"><a href="../classes/class_campo.html">class_campo</a></li>
+                                                    <li class="class"><a href="../classes/class_db.html">class_db</a></li>
+                                                    <li class="class"><a href="../classes/class_institucion.html">class_institucion</a></li>
+                                                    <li class="class"><a href="../classes/class_orderby.html">class_orderby</a></li>
+                                                    <li class="class"><a href="../classes/class_paginado.html">class_paginado</a></li>
+                                                    <li class="class"><a href="../classes/class_persona.html">class_persona</a></li>
+                                                    <li class="class"><a href="../classes/class_sitio.html">class_sitio</a></li>
+                                                    <li class="class"><a href="../classes/consulta.html">consulta</a></li>
+                                                    <li class="class"><a href="../classes/validar.html">validar</a></li>
+                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+        </div>
+    </section>
+    <section class="row-fluid">
+        <div class="span10 offset2">
+            <div class="row-fluid">
+                <div class="span8 content class">
+                    <nav>
+                                                <a href="../namespaces/default.html">\</a> <i class="icon-level-up"></i>
+                                            </nav>
+                    <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal"><i class="icon-code"></i></a>
+
+                    <h1><small>\</small>class_persona</h1>
+                    <p><em>Clase encargada del manejo de todos los datos referentes a la persona.</em></p>
+                    
+                    
+                                        
+                    <section id="summary">
+                        <h2>Summary</h2>
+                        <section class="row-fluid heading">
+                            <section class="span4">
+                                <a href="#methods">Methods</a>
+                            </section>
+                            <section class="span4">
+                                <a href="#properties">Properties</a>
+                            </section>
+                            <section class="span4">
+                                <a href="#constants">Constants</a>
+                            </section>
+                        </section>
+                        <section class="row-fluid public">
+                            <section class="span4">
+                                                                    <a href="../classes/class_persona.html#method_listarPerson" class="">listarPerson()</a><br />
+                                                                    <a href="../classes/class_persona.html#method_listarPersonFacu" class="">listarPersonFacu()</a><br />
+                                                                    <a href="../classes/class_persona.html#method_buscarAppers" class="">buscarAppers()</a><br />
+                                                                    <a href="../classes/class_persona.html#method_buscarPerson" class="">buscarPerson()</a><br />
+                                                                    <a href="../classes/class_persona.html#method_buscarPerdoc" class="">buscarPerdoc()</a><br />
+                                                                    <a href="../classes/class_persona.html#method_buscarTargeta" class="">buscarTargeta()</a><br />
+                                                                    <a href="../classes/class_persona.html#method_buscarUsuarioWeb" class="">buscarUsuarioWeb()</a><br />
+                                                                    <a href="../classes/class_persona.html#method_datosPersona" class="">datosPersona()</a><br />
+                                                                    <a href="../classes/class_persona.html#method_setPersonaExistente" class="">setPersonaExistente()</a><br />
+                                                                    <a href="../classes/class_persona.html#method_modApers" class="">modApers()</a><br />
+                                                                    <a href="../classes/class_persona.html#method_validarCuit" class="">validarCuit()</a><br />
+                                                                    <a href="../classes/class_persona.html#method_buscarCatXPerson" class="">buscarCatXPerson()</a><br />
+                                                                    <a href="../classes/class_persona.html#method_getNombreYApellido" class="">getNombreYApellido()</a><br />
+                                                                    <a href="../classes/class_persona.html#method_nuevoPerdoc" class="">nuevoPerdoc()</a><br />
+                                                                    <a href="../classes/class_persona.html#method_nuevoCatXPerson" class="">nuevoCatXPerson()</a><br />
+                                                                    <a href="../classes/class_persona.html#method_updateCatXPerson" class="">updateCatXPerson()</a><br />
+                                                                    <a href="../classes/class_persona.html#method_inserPerson" class="">inserPerson()</a><br />
+                                                                    <a href="../classes/class_persona.html#method_nuevaPersona" class="">nuevaPersona()</a><br />
+                                                            </section>
+                            <section class="span4">
+                                                                    <a href="../classes/class_persona.html#property_debug" class="">$debug</a><br />
+                                                                    <a href="../classes/class_persona.html#property_grabarArchivoLogError" class="">$grabarArchivoLogError</a><br />
+                                                                    <a href="../classes/class_persona.html#property_grabarArchivoLogQuery" class="">$grabarArchivoLogQuery</a><br />
+                                                                    <a href="../classes/class_persona.html#property_mostrarErrores" class="">$mostrarErrores</a><br />
+                                                                    <a href="../classes/class_persona.html#property_dieOnError" class="">$dieOnError</a><br />
+                                                                    <a href="../classes/class_persona.html#property_emailAvisoErrorSql" class="">$emailAvisoErrorSql</a><br />
+                                                                    <a href="../classes/class_persona.html#property_db_link" class="">$db_link</a><br />
+                                                                    <a href="../classes/class_persona.html#property_nombreCompleto" class="">$nombreCompleto</a><br />
+                                                                    <a href="../classes/class_persona.html#property_person" class="">$person</a><br />
+                                                                    <a href="../classes/class_persona.html#property_docNumero" class="">$docNumero</a><br />
+                                                                    <a href="../classes/class_persona.html#property_docTipo" class="">$docTipo</a><br />
+                                                                    <a href="../classes/class_persona.html#property_cuil" class="">$cuil</a><br />
+                                                                    <a href="../classes/class_persona.html#property_emailPersonal" class="">$emailPersonal</a><br />
+                                                                    <a href="../classes/class_persona.html#property_emailProfecional" class="">$emailProfecional</a><br />
+                                                                    <a href="../classes/class_persona.html#property_personTelPersonal" class="">$personTelPersonal</a><br />
+                                                                    <a href="../classes/class_persona.html#property_personTelPersonal2" class="">$personTelPersonal2</a><br />
+                                                                    <a href="../classes/class_persona.html#property_personTelCelular" class="">$personTelCelular</a><br />
+                                                                    <a href="../classes/class_persona.html#property_personTelProfecional" class="">$personTelProfecional</a><br />
+                                                                    <a href="../classes/class_persona.html#property_categoria" class="">$categoria</a><br />
+                                                                    <a href="../classes/class_persona.html#property_foto_persona" class="">$foto_persona</a><br />
+                                                                    <a href="../classes/class_persona.html#property_birdate" class="">$birdate</a><br />
+                                                                    <a href="../classes/class_persona.html#property_marstat" class="">$marstat</a><br />
+                                                                    <a href="../classes/class_persona.html#property_nation" class="">$nation</a><br />
+                                                                    <a href="../classes/class_persona.html#property_tnation" class="">$tnation</a><br />
+                                                                    <a href="../classes/class_persona.html#property_sexo" class="">$sexo</a><br />
+                                                                    <a href="../classes/class_persona.html#property_idCuenta" class="">$idCuenta</a><br />
+                                                                    <a href="../classes/class_persona.html#property_emailCuenta" class="">$emailCuenta</a><br />
+                                                                    <a href="../classes/class_persona.html#property_cuentaAcademica" class="">$cuentaAcademica</a><br />
+                                                                    <a href="../classes/class_persona.html#property_cuentaAdministrativa" class="">$cuentaAdministrativa</a><br />
+                                                                    <a href="../classes/class_persona.html#property_cuentaAlumno" class="">$cuentaAlumno</a><br />
+                                                                    <a href="../classes/class_persona.html#property_cuentaDocente" class="">$cuentaDocente</a><br />
+                                                                    <a href="../classes/class_persona.html#property_cuentaExterno" class="">$cuentaExterno</a><br />
+                                                                    <a href="../classes/class_persona.html#property_cuentaGenerica" class="">$cuentaGenerica</a><br />
+                                                                    <a href="../classes/class_persona.html#property_cuentaOperador" class="">$cuentaOperador</a><br />
+                                                                    <a href="../classes/class_persona.html#property_fraseDeSeguridad" class="">$fraseDeSeguridad</a><br />
+                                                                    <a href="../classes/class_persona.html#property_vtoDeLaCuenta" class="">$vtoDeLaCuenta</a><br />
+                                                                    <a href="../classes/class_persona.html#property_altaDeLaCuenta" class="">$altaDeLaCuenta</a><br />
+                                                                    <a href="../classes/class_persona.html#property_bajaDeLaCuenta" class="">$bajaDeLaCuenta</a><br />
+                                                                    <a href="../classes/class_persona.html#property_country" class="">$country</a><br />
+                                                                    <a href="../classes/class_persona.html#property_poldiv" class="">$poldiv</a><br />
+                                                                    <a href="../classes/class_persona.html#property_city" class="">$city</a><br />
+                                                                    <a href="../classes/class_persona.html#property_rcountry" class="">$rcountry</a><br />
+                                                                    <a href="../classes/class_persona.html#property_rpoldiv" class="">$rpoldiv</a><br />
+                                                                    <a href="../classes/class_persona.html#property_rcity" class="">$rcity</a><br />
+                                                                    <a href="../classes/class_persona.html#property_direCalle" class="">$direCalle</a><br />
+                                                                    <a href="../classes/class_persona.html#property_direNumero" class="">$direNumero</a><br />
+                                                                    <a href="../classes/class_persona.html#property_direPiso" class="">$direPiso</a><br />
+                                                                    <a href="../classes/class_persona.html#property_direDto" class="">$direDto</a><br />
+                                                                    <a href="../classes/class_persona.html#property_direCodPos" class="">$direCodPos</a><br />
+                                                                    <a href="../classes/class_persona.html#property_domicilio" class="">$domicilio</a><br />
+                                                                    <a href="../classes/class_persona.html#property_legajo" class="">$legajo</a><br />
+                                                                    <a href="../classes/class_persona.html#property_fIngreso" class="">$fIngreso</a><br />
+                                                                    <a href="../classes/class_persona.html#property_fbaja" class="">$fbaja</a><br />
+                                                                    <a href="../classes/class_persona.html#property_cuit" class="">$cuit</a><br />
+                                                                    <a href="../classes/class_persona.html#property_reingreso" class="">$reingreso</a><br />
+                                                                    <a href="../classes/class_persona.html#property_inicioCargo" class="">$inicioCargo</a><br />
+                                                                    <a href="../classes/class_persona.html#property_actividad" class="">$actividad</a><br />
+                                                                    <a href="../classes/class_persona.html#property_antiguedad" class="">$antiguedad</a><br />
+                                                                    <a href="../classes/class_persona.html#property_cajaDeAhorro" class="">$cajaDeAhorro</a><br />
+                                                                    <a href="../classes/class_persona.html#property_cajaJubilacion" class="">$cajaJubilacion</a><br />
+                                                                    <a href="../classes/class_persona.html#property_cargo" class="">$cargo</a><br />
+                                                                    <a href="../classes/class_persona.html#property_codigoAlta" class="">$codigoAlta</a><br />
+                                                                    <a href="../classes/class_persona.html#property_titulo" class="">$titulo</a><br />
+                                                                    <a href="../classes/class_persona.html#property_codigoTitulo" class="">$codigoTitulo</a><br />
+                                                                    <a href="../classes/class_persona.html#property_nroJubilacion" class="">$nroJubilacion</a><br />
+                                                                    <a href="../classes/class_persona.html#property_nroSindicato" class="">$nroSindicato</a><br />
+                                                                    <a href="../classes/class_persona.html#property_obraSocial" class="">$obraSocial</a><br />
+                                                                    <a href="../classes/class_persona.html#property_redito" class="">$redito</a><br />
+                                                                    <a href="../classes/class_persona.html#property_seguro" class="">$seguro</a><br />
+                                                                    <a href="../classes/class_persona.html#property_sucursalCtaBanco" class="">$sucursalCtaBanco</a><br />
+                                                                    <a href="../classes/class_persona.html#property_tipoCtaBanco" class="">$tipoCtaBanco</a><br />
+                                                                    <a href="../classes/class_persona.html#property_unidadContrato" class="">$unidadContrato</a><br />
+                                                                    <a href="../classes/class_persona.html#property_tipobco" class="">$tipobco</a><br />
+                                                                    <a href="../classes/class_persona.html#property_esposa" class="">$esposa</a><br />
+                                                                    <a href="../classes/class_persona.html#property_familiarACargo" class="">$familiarACargo</a><br />
+                                                                    <a href="../classes/class_persona.html#property_FamiliaNumerosa" class="">$FamiliaNumerosa</a><br />
+                                                                    <a href="../classes/class_persona.html#property_hijos" class="">$hijos</a><br />
+                                                                    <a href="../classes/class_persona.html#property_guarderia" class="">$guarderia</a><br />
+                                                                    <a href="../classes/class_persona.html#property_hijoIncapasitado" class="">$hijoIncapasitado</a><br />
+                                                                    <a href="../classes/class_persona.html#property_prenatal" class="">$prenatal</a><br />
+                                                                    <a href="../classes/class_persona.html#property_preescolar" class="">$preescolar</a><br />
+                                                                    <a href="../classes/class_persona.html#property_escuelaMedia" class="">$escuelaMedia</a><br />
+                                                                    <a href="../classes/class_persona.html#property_escuelaPrimaria" class="">$escuelaPrimaria</a><br />
+                                                            </section>
+                            <section class="span4">
+                                                                    <em>No constants found</em>
+                                                            </section>
+                        </section>
+                        <section class="row-fluid protected">
+                            <section class="span4">
+                                                                    <em>No protected methods found</em>
+                                                            </section>
+                            <section class="span4">
+                                                                    <em>No protected properties found</em>
+                                                            </section>
+                            <section class="span4">
+                                <em>N/A</em>
+                            </section>
+                        </section>
+                        <section class="row-fluid private">
+                            <section class="span4">
+                                                                    <a href="../classes/class_persona.html#method_comprobarExisteDato" class="">comprobarExisteDato()</a><br />
+                                                                    <a href="../classes/class_persona.html#method_recuNacion" class="">recuNacion()</a><br />
+                                                                    <a href="../classes/class_persona.html#method_errores" class="">errores()</a><br />
+                                                            </section>
+                            <section class="span4">
+                                                                    <em>No private properties found</em>
+                                                            </section>
+                            <section class="span4">
+                                <em>N/A</em>
+                            </section>
+                        </section>
+                    </section>
+                </div>
+                <aside class="span4 detailsbar">
+                                        
+                    
+                    <dl>
+                        <dt>File</dt>
+                            <dd><a href="../files/class_persona.html"><div class="path-wrapper">class_persona.php</div></a></dd>
+                                                <dt>Package</dt>
+                            <dd><div class="namespace-wrapper">Classes_USAL</div></dd>
+                                                <dt>Class hierarchy</dt>
+                            <dd class="hierarchy">
+                                                                                                                                                                    <div class="namespace-wrapper">\class_persona</div>
+                            </dd>
+
+                        
+                        
+                        
+                        
+                                                                        </dl>
+                    <h2>Tags</h2>
+                    <table class="table table-condensed">
+                                            <tr>
+                            <th>
+                                author
+                            </th>
+                            <td>
+                                                                    <p>iberlot &lt;@&gt; ivanberlot@gmail.com</p>
+                                                            </td>
+                        </tr>
+                                            <tr>
+                            <th>
+                                name
+                            </th>
+                            <td>
+                                                                    <p>class_persona</p>
+                                                            </td>
+                        </tr>
+                                            <tr>
+                            <th>
+                                version
+                            </th>
+                            <td>
+                                                                    <ul>
+<li>Version de inicio</li>
+</ul>
+                                                            </td>
+                        </tr>
+                                            <tr>
+                            <th>
+                                category
+                            </th>
+                            <td>
+                                                                    <p>General</p>
+                                                            </td>
+                        </tr>
+                                            <tr>
+                            <th>
+                                todo
+                            </th>
+                            <td>
+                                                                    <p>El usuario que se conecta a la base debe tener los siguientes permisos -</p>
+<ul>
+<li>SELECT :
+portal.usuario_web | appgral.apers | appgral.person | appgral.perdoc | appgral.personca | interfaz.estadocredenca | appgral.lnumber</li>
+<li>UPDATE :
+appgral.apers | appgral.lnumber | appgral.perdoc</li>
+<li>INSERT :
+appgral.apers | appgral.perdoc |</li>
+</ul>
+                                                            </td>
+                        </tr>
+                                        </table>
+                </aside>
+            </div>
+
+                        
+                                    <a id="properties" name="properties"></a>
+            <div class="row-fluid">
+                <div class="span8 content class">
+                    <h2>Properties</h2>
+                </div>
+                <aside class="span4 detailsbar"></aside>
+            </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property_debug" name="property_debug" class="anchor"></a>
+            <article class="property">
+                <h3 class="public ">$debug</h3>
+                <pre class="signature">$debug : boolean</pre>
+                <p><em>Muestra por pantalla diferentes codigos para facilitar el debug</em></p>
+                
+
+                                <h4>Type</h4>
+                boolean
+                                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property_grabarArchivoLogError" name="property_grabarArchivoLogError" class="anchor"></a>
+            <article class="property">
+                <h3 class="public ">$grabarArchivoLogError</h3>
+                <pre class="signature">$grabarArchivoLogError : </pre>
+                <p><em>Graba log con los errores *</em></p>
+                
+
+                                <h4>Type</h4>
+                
+                                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property_grabarArchivoLogQuery" name="property_grabarArchivoLogQuery" class="anchor"></a>
+            <article class="property">
+                <h3 class="public ">$grabarArchivoLogQuery</h3>
+                <pre class="signature">$grabarArchivoLogQuery : </pre>
+                <p><em>Graba log con todas las consultas realizadas *</em></p>
+                
+
+                                <h4>Type</h4>
+                
+                                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property_mostrarErrores" name="property_mostrarErrores" class="anchor"></a>
+            <article class="property">
+                <h3 class="public ">$mostrarErrores</h3>
+                <pre class="signature">$mostrarErrores : </pre>
+                <p><em>Imprime cuando hay errores *</em></p>
+                
+
+                                <h4>Type</h4>
+                
+                                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property_dieOnError" name="property_dieOnError" class="anchor"></a>
+            <article class="property">
+                <h3 class="public ">$dieOnError</h3>
+                <pre class="signature">$dieOnError : </pre>
+                <p><em>Usar exit() en caso de detectar un error .</em></p>
+                <p>Esto es util para etapa de desarrollo *</p>
+
+                                <h4>Type</h4>
+                
+                                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property_emailAvisoErrorSql" name="property_emailAvisoErrorSql" class="anchor"></a>
+            <article class="property">
+                <h3 class="public ">$emailAvisoErrorSql</h3>
+                <pre class="signature">$emailAvisoErrorSql : </pre>
+                <p><em>Setear un email para enviar email cuando hay errores sql *</em></p>
+                
+
+                                <h4>Type</h4>
+                
+                                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property_db_link" name="property_db_link" class="anchor"></a>
+            <article class="property">
+                <h3 class="public ">$db_link</h3>
+                <pre class="signature">$db_link : string</pre>
+                <p><em></em></p>
+                
+
+                                <h4>Type</h4>
+                string
+                &mdash; - Se le pasara en caso de necesitar algun link para acceder                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property_nombreCompleto" name="property_nombreCompleto" class="anchor"></a>
+            <article class="property">
+                <h3 class="public ">$nombreCompleto</h3>
+                <pre class="signature">$nombreCompleto : string</pre>
+                <p><em></em></p>
+                
+
+                                <h4>Type</h4>
+                string
+                &mdash; Nombre completo de la persona (formado de la forma $apellido . &quot; &quot; . $realname)                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property_person" name="property_person" class="anchor"></a>
+            <article class="property">
+                <h3 class="public ">$person</h3>
+                <pre class="signature">$person : integer</pre>
+                <p><em></em></p>
+                
+
+                                <h4>Type</h4>
+                integer
+                &mdash; Numero de person (id de la tabla) de la persona
+     PERSON - NUMBER(8,0)                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property_docNumero" name="property_docNumero" class="anchor"></a>
+            <article class="property">
+                <h3 class="public ">$docNumero</h3>
+                <pre class="signature">$docNumero : string</pre>
+                <p><em>Numero de documento de la persona</em></p>
+                
+
+                                <h4>Type</h4>
+                string
+                &mdash; &lt;Br&gt;
+     @ubicacionBase appgral.perdoc.docno - VARCHAR2(30 BYTE)                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            todo
+                        </th>
+                        <td>
+                                                            <p>Este campo es obligatorio a la hora de crear personas.</p>
+<pre><code>  &lt;Br&gt;
+  Hay que tener en cuenta que el campo appgral.perdoc.isKey debe se igual a 1</code></pre>
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property_docTipo" name="property_docTipo" class="anchor"></a>
+            <article class="property">
+                <h3 class="public ">$docTipo</h3>
+                <pre class="signature">$docTipo : string</pre>
+                <p><em>Tipo de documento de la persona</em></p>
+                
+
+                                <h4>Type</h4>
+                string
+                &mdash; &lt;Br&gt;
+     @ubicacionBase appgral.perdoc.typdoc - VARCHAR2(10 BYTE)                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            todo
+                        </th>
+                        <td>
+                                                            <p>Este campo es obligatorio a la hora de crear personas.</p>
+<pre><code>  &lt;Br&gt;
+  Hay que tener en cuenta que el campo appgral.perdoc.isKey debe se igual a 1
+  &lt;Br&gt;
+  El listado con los tipos de documentos y sus descripciones se encuetran en appgral.tdoc</code></pre>
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property_cuil" name="property_cuil" class="anchor"></a>
+            <article class="property">
+                <h3 class="public ">$cuil</h3>
+                <pre class="signature">$cuil : string</pre>
+                <p><em>Numero de cuil de la persona</em></p>
+                
+
+                                <h4>Type</h4>
+                string
+                &mdash; &lt;Br&gt;
+     @ubicacionBase appgral.perdoc.docno - VARCHAR2(30 BYTE)
+     &lt;Br&gt;
+     Hay que tener en cuenta que el campo appgral.perdoc.isKey debe se igual a 0
+     y que el campo appgral.perdoc.typdoc = &#039;CUIL&#039;                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property_emailPersonal" name="property_emailPersonal" class="anchor"></a>
+            <article class="property">
+                <h3 class="public ">$emailPersonal</h3>
+                <pre class="signature">$emailPersonal : string</pre>
+                <p><em>Direccion de mail de la persona</em></p>
+                
+
+                                <h4>Type</h4>
+                string
+                &mdash; &lt;Br&gt;
+     @ubicacionBase appgral.apers.val - VARCHAR2(100 BYTE)
+     Siempre que: appgral.apers.pattrib = &#039;TELE&#039; y appgral.apers.shortdes = &#039;E-MAIL&#039;                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property_emailProfecional" name="property_emailProfecional" class="anchor"></a>
+            <article class="property">
+                <h3 class="public ">$emailProfecional</h3>
+                <pre class="signature">$emailProfecional : string</pre>
+                <p><em>Direccion de mail de la persona</em></p>
+                
+
+                                <h4>Type</h4>
+                string
+                &mdash; &lt;Br&gt;
+     @ubicacionBase appgral.apers.val - VARCHAR2(100 BYTE)
+     &lt;Br&gt;
+     Siempre que: appgral.apers.pattrib = &#039;TELE&#039; y appgral.apers.shortdes = &#039;E-MAILP&#039;                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property_personTelPersonal" name="property_personTelPersonal" class="anchor"></a>
+            <article class="property">
+                <h3 class="public ">$personTelPersonal</h3>
+                <pre class="signature">$personTelPersonal : integer</pre>
+                <p><em>Numero de telefono de la persona</em></p>
+                
+
+                                <h4>Type</h4>
+                integer
+                &mdash; &lt;Br&gt;
+     @ubicacionBase appgral.apers.val - VARCHAR2(100 BYTE)
+     &lt;Br&gt;
+     Siempre que: appgral.apers.pattrib = &#039;TELE&#039; y appgral.apers.shortdes = &#039;NUMERO&#039;                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property_personTelPersonal2" name="property_personTelPersonal2" class="anchor"></a>
+            <article class="property">
+                <h3 class="public ">$personTelPersonal2</h3>
+                <pre class="signature">$personTelPersonal2 : integer</pre>
+                <p><em>Numero de telefono de la persona</em></p>
+                
+
+                                <h4>Type</h4>
+                integer
+                &mdash; &lt;Br&gt;
+     @ubicacionBase appgral.apers.val - VARCHAR2(100 BYTE)
+     &lt;Br&gt;
+     Siempre que: appgral.apers.pattrib = &#039;TELE&#039; y appgral.apers.shortdes = &#039;NUMERO2&#039;                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property_personTelCelular" name="property_personTelCelular" class="anchor"></a>
+            <article class="property">
+                <h3 class="public ">$personTelCelular</h3>
+                <pre class="signature">$personTelCelular : integer</pre>
+                <p><em>Numero de telefono de la persona</em></p>
+                
+
+                                <h4>Type</h4>
+                integer
+                &mdash; &lt;Br&gt;
+     @ubicacionBase appgral.apers.val - VARCHAR2(100 BYTE)
+     &lt;Br&gt;
+     Siempre que: appgral.apers.pattrib = &#039;TELE&#039; y appgral.apers.shortdes = &#039;NUMEROCEL&#039;                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property_personTelProfecional" name="property_personTelProfecional" class="anchor"></a>
+            <article class="property">
+                <h3 class="public ">$personTelProfecional</h3>
+                <pre class="signature">$personTelProfecional : integer</pre>
+                <p><em>Numero de telefono de la persona</em></p>
+                
+
+                                <h4>Type</h4>
+                integer
+                &mdash; &lt;Br&gt;
+     @ubicacionBase appgral.apers.val - VARCHAR2(100 BYTE)
+     &lt;Br&gt;
+     Siempre que: appgral.apers.pattrib = &#039;TELE&#039; y appgral.apers.shortdes = &#039;NUMEROP&#039;                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property_categoria" name="property_categoria" class="anchor"></a>
+            <article class="property">
+                <h3 class="public ">$categoria</h3>
+                <pre class="signature">$categoria : array</pre>
+                <p><em>Guarda un listado con las categorias a las que pertenece la persona</em></p>
+                
+
+                                <h4>Type</h4>
+                array
+                &mdash; &lt;Br&gt;
+     @ubicacionBase appgral.catxperson.categoria - NUMBER(2,0)
+     &lt;Br&gt;
+     &lt;Br&gt;
+     0 Academico &lt;Br&gt;
+     1 Administrativo &lt;Br&gt;
+     2 Docente &lt;Br&gt;
+     3 Alumno &lt;Br&gt;
+     4 Proveedor / Externo? &lt;Br&gt;                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property_foto_persona" name="property_foto_persona" class="anchor"></a>
+            <article class="property">
+                <h3 class="public ">$foto_persona</h3>
+                <pre class="signature">$foto_persona : string</pre>
+                <p><em>Direccion donde se encuentra la foto de la persona dentro de la carpeta de fotos
+se arma de la siguiente manera</em></p>
+                
+
+                                <h4>Type</h4>
+                string
+                &mdash; &lt;code&gt;
+     &lt;?php
+     substr($person, - 1).&quot;/&quot;.substr($person, - 2, 1).&quot;/&quot;.substr($person, - 3, 1).&quot;/&quot;.$person.&quot;.jpg&quot;;
+     ?&gt;
+     &lt;/code&gt;                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            version
+                        </th>
+                        <td>
+                                                            <p>Se modifico para que se usara el person en vez del doc asi no se generan conflictos
+cuando hay cambios en los mismos.</p>
+                                                    </td>
+                    </tr>
+                                    <tr>
+                        <th>
+                            example
+                        </th>
+                        <td>
+                                                            <p>el Person 112469 quedaria:
+9/6/4/112469.jpg</p>
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property_birdate" name="property_birdate" class="anchor"></a>
+            <article class="property">
+                <h3 class="public ">$birdate</h3>
+                <pre class="signature">$birdate : string</pre>
+                <p><em>Fecha de nacimiento de la persona</em></p>
+                
+
+                                <h4>Type</h4>
+                string
+                &mdash; - Date &lt;Br&gt;
+     @ubicacionBase appgral.person.birdate - DATE                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            todo
+                        </th>
+                        <td>
+                                                            <p>el formato correcto para pasar este dato deberia ser 'RRRR-MM-DD' o su equivalente Año-mes-dia.</p>
+                                                            <p>Este campo es obligatorio a la hora de crear personas.</p>
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property_marstat" name="property_marstat" class="anchor"></a>
+            <article class="property">
+                <h3 class="public ">$marstat</h3>
+                <pre class="signature">$marstat : mixed</pre>
+                <p><em>Estado civil de la persona</em></p>
+                
+
+                                <h4>Type</h4>
+                mixed
+                &mdash; &lt;Br&gt;
+     @ubicacionBase appgral.person.marstat - NUMBER(1,0)
+     &lt;Br&gt;
+     &lt;Br&gt;
+     0 = Soltero/a &lt;Br&gt;
+     1 = Casado/a &lt;Br&gt;
+     2 = Viudo/a &lt;Br&gt;
+     3 = Separado/a &lt;Br&gt;
+     4 = Divorciado/da &lt;Br&gt;
+     5 = Union de hecho                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            todo
+                        </th>
+                        <td>
+                                                            <p>Este campo es obligatorio a la hora de crear personas.</p>
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property_nation" name="property_nation" class="anchor"></a>
+            <article class="property">
+                <h3 class="public ">$nation</h3>
+                <pre class="signature">$nation : string</pre>
+                <p><em>Nacionalidad de la persona</em></p>
+                
+
+                                <h4>Type</h4>
+                string
+                &mdash; &lt;Br&gt;
+     @ubicacionBase appgral.person.nation - VARCHAR2(3 BYTE)                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            todo
+                        </th>
+                        <td>
+                                                            <p>Este campo es obligatorio a la hora de crear personas.</p>
+<pre><code>  &lt;Br&gt;
+  La tabla de referencia al dato es appgral.country.
+  Mas espesificamente appgral.country.nation</code></pre>
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property_tnation" name="property_tnation" class="anchor"></a>
+            <article class="property">
+                <h3 class="public ">$tnation</h3>
+                <pre class="signature">$tnation : integer</pre>
+                <p><em>Tipo de nacionalizacion de la persona</em></p>
+                
+
+                                <h4>Type</h4>
+                integer
+                &mdash; &lt;Br&gt;
+     @ubicacionBase appgral.person.tnation - NUMBER(1,0)
+     &lt;Br&gt;
+     &lt;Br&gt;
+     0 = Argentino &lt;Br&gt;
+     1 = Extrangero &lt;Br&gt;
+     2 = Naturalizado &lt;Br&gt;
+     3 = Por Opcion                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            todo
+                        </th>
+                        <td>
+                                                            <p>Este campo es obligatorio a la hora de crear personas.</p>
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property_sexo" name="property_sexo" class="anchor"></a>
+            <article class="property">
+                <h3 class="public ">$sexo</h3>
+                <pre class="signature">$sexo : boolean</pre>
+                <p><em>Sexo de la persona</em></p>
+                
+
+                                <h4>Type</h4>
+                boolean
+                &mdash; &lt;Br&gt;
+     @ubicacionBase appgral.person.sex - NUMBER(1,0)
+     &lt;Br&gt;
+     &lt;Br&gt;
+     0 = Mujer &lt;Br&gt;
+     1 = Hombre                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            todo
+                        </th>
+                        <td>
+                                                            <p>Este campo es obligatorio a la hora de crear personas.</p>
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property_idCuenta" name="property_idCuenta" class="anchor"></a>
+            <article class="property">
+                <h3 class="public ">$idCuenta</h3>
+                <pre class="signature">$idCuenta : integer</pre>
+                <p><em>Id de la Cuenta de la persona.</em></p>
+                
+
+                                <h4>Type</h4>
+                integer
+                &mdash; &lt;Br&gt;
+     @ubicacionBase portal.usuario_web.id - NUMBER(10,0)                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property_emailCuenta" name="property_emailCuenta" class="anchor"></a>
+            <article class="property">
+                <h3 class="public ">$emailCuenta</h3>
+                <pre class="signature">$emailCuenta : string</pre>
+                <p><em>Direccion de mail relacionada a la cuenta de la persona.</em></p>
+                
+
+                                <h4>Type</h4>
+                string
+                &mdash; &lt;Br&gt;
+     @ubicacionBase portal.usuario_web.email - VARCHAR2(200 BYTE)                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property_cuentaAcademica" name="property_cuentaAcademica" class="anchor"></a>
+            <article class="property">
+                <h3 class="public ">$cuentaAcademica</h3>
+                <pre class="signature">$cuentaAcademica : boolean</pre>
+                <p><em>Especifica si la persona es un academico o no.</em></p>
+                
+
+                                <h4>Type</h4>
+                boolean
+                &mdash; &lt;Br&gt;
+     @ubicacionBase portal.usuario_web.academico - NUMBER(1,0)                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property_cuentaAdministrativa" name="property_cuentaAdministrativa" class="anchor"></a>
+            <article class="property">
+                <h3 class="public ">$cuentaAdministrativa</h3>
+                <pre class="signature">$cuentaAdministrativa : boolean</pre>
+                <p><em>Especifica si la persona es un administrativo o no.</em></p>
+                
+
+                                <h4>Type</h4>
+                boolean
+                &mdash; &lt;Br&gt;
+     @ubicacionBase portal.usuario_web.administrativo - NUMBER(1,0)                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property_cuentaAlumno" name="property_cuentaAlumno" class="anchor"></a>
+            <article class="property">
+                <h3 class="public ">$cuentaAlumno</h3>
+                <pre class="signature">$cuentaAlumno : boolean</pre>
+                <p><em>Especifica si la persona es un alumno o no.</em></p>
+                
+
+                                <h4>Type</h4>
+                boolean
+                &mdash; &lt;Br&gt;
+     @ubicacionBase portal.usuario_web.alumno - NUMBER(1,0)                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property_cuentaDocente" name="property_cuentaDocente" class="anchor"></a>
+            <article class="property">
+                <h3 class="public ">$cuentaDocente</h3>
+                <pre class="signature">$cuentaDocente : boolean</pre>
+                <p><em>Especifica si la persona es un docente o no.</em></p>
+                
+
+                                <h4>Type</h4>
+                boolean
+                &mdash; &lt;Br&gt;
+     @ubicacionBase portal.usuario_web.docente - NUMBER(1,0)                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property_cuentaExterno" name="property_cuentaExterno" class="anchor"></a>
+            <article class="property">
+                <h3 class="public ">$cuentaExterno</h3>
+                <pre class="signature">$cuentaExterno : boolean</pre>
+                <p><em>Especifica si la persona es un externo o no.</em></p>
+                
+
+                                <h4>Type</h4>
+                boolean
+                &mdash; &lt;Br&gt;
+     @ubicacionBase portal.usuario_web.externo - NUMBER(1,0)                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property_cuentaGenerica" name="property_cuentaGenerica" class="anchor"></a>
+            <article class="property">
+                <h3 class="public ">$cuentaGenerica</h3>
+                <pre class="signature">$cuentaGenerica : boolean</pre>
+                <p><em>Especifica si la cuenta asociada a la persona es generica o no.</em></p>
+                
+
+                                <h4>Type</h4>
+                boolean
+                &mdash; &lt;Br&gt;
+     @ubicacionBase portal.usuario_web.generico - NUMBER(1,0)                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property_cuentaOperador" name="property_cuentaOperador" class="anchor"></a>
+            <article class="property">
+                <h3 class="public ">$cuentaOperador</h3>
+                <pre class="signature">$cuentaOperador : boolean</pre>
+                <p><em>Especifica si la cuenta asociada a la persona es del tipo operador o no.</em></p>
+                
+
+                                <h4>Type</h4>
+                boolean
+                &mdash; &lt;Br&gt;
+     @ubicacionBase portal.usuario_web.operador - NUMBER(1,0)                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property_fraseDeSeguridad" name="property_fraseDeSeguridad" class="anchor"></a>
+            <article class="property">
+                <h3 class="public ">$fraseDeSeguridad</h3>
+                <pre class="signature">$fraseDeSeguridad : string</pre>
+                <p><em>Frace de seguridad de la cuenta de la persona utilizada
+para la recuperacion de contraseñas.</em></p>
+                
+
+                                <h4>Type</h4>
+                string
+                &mdash; &lt;Br&gt;
+     @ubicacionBase portal.usuario_web.frase - VARCHAR2(250 BYTE)                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property_vtoDeLaCuenta" name="property_vtoDeLaCuenta" class="anchor"></a>
+            <article class="property">
+                <h3 class="public ">$vtoDeLaCuenta</h3>
+                <pre class="signature">$vtoDeLaCuenta : string</pre>
+                <p><em>Fecha de vencimiento de la cuenta de la persona</em></p>
+                
+
+                                <h4>Type</h4>
+                string
+                &mdash; - Date&lt;Br&gt;
+     @ubicacionBase portal.usuario_web.fecha_venc - DATE                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property_altaDeLaCuenta" name="property_altaDeLaCuenta" class="anchor"></a>
+            <article class="property">
+                <h3 class="public ">$altaDeLaCuenta</h3>
+                <pre class="signature">$altaDeLaCuenta : string</pre>
+                <p><em>Fecha de alta de la cuenta de la persona</em></p>
+                
+
+                                <h4>Type</h4>
+                string
+                &mdash; - Date &lt;Br&gt;
+     @ubicacionBase portal.usuario_web.fecha_alta - DATE                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property_bajaDeLaCuenta" name="property_bajaDeLaCuenta" class="anchor"></a>
+            <article class="property">
+                <h3 class="public ">$bajaDeLaCuenta</h3>
+                <pre class="signature">$bajaDeLaCuenta : string</pre>
+                <p><em>Fecha de baja de la cuenta de la persona</em></p>
+                
+
+                                <h4>Type</h4>
+                string
+                &mdash; - Date &lt;Br&gt;
+     @ubicacionBase portal.usuario_web.fecha_baja - DATE                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property_country" name="property_country" class="anchor"></a>
+            <article class="property">
+                <h3 class="public ">$country</h3>
+                <pre class="signature">$country : string</pre>
+                <p><em>Pais de nacimiento de la persona</em></p>
+                
+
+                                <h4>Type</h4>
+                string
+                &mdash; &lt;Br&gt;
+     @ubicacionBase appgral.person.country - VARCHAR2(3 BYTE)
+     &lt;Br&gt;
+     &lt;Br&gt;
+     La tabla de referencia al dato es appgral.country                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            todo
+                        </th>
+                        <td>
+                                                            <p>Este campo es obligatorio a la hora de crear personas.</p>
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property_poldiv" name="property_poldiv" class="anchor"></a>
+            <article class="property">
+                <h3 class="public ">$poldiv</h3>
+                <pre class="signature">$poldiv : string</pre>
+                <p><em>Provincia de nacimiento de la persona</em></p>
+                
+
+                                <h4>Type</h4>
+                string
+                &mdash; &lt;Br&gt;
+     @ubicacionBase appgral.person.poldiv - VARCHAR2(3 BYTE)
+     &lt;Br&gt;
+     &lt;Br&gt;
+     La tabla de referencia al dato es appgral.poldiv                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            todo
+                        </th>
+                        <td>
+                                                            <p>Este campo es obligatorio a la hora de crear personas.</p>
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property_city" name="property_city" class="anchor"></a>
+            <article class="property">
+                <h3 class="public ">$city</h3>
+                <pre class="signature">$city : string</pre>
+                <p><em>Ciudad de nacimiento de la persona</em></p>
+                
+
+                                <h4>Type</h4>
+                string
+                &mdash; &lt;Br&gt;
+     @ubicacionBase appgral.person.city - VARCHAR2(10 BYTE)
+     &lt;Br&gt;
+     &lt;Br&gt;
+     La tabla de referencia al dato es appgral.city                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            todo
+                        </th>
+                        <td>
+                                                            <p>Este campo es obligatorio a la hora de crear personas.</p>
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property_rcountry" name="property_rcountry" class="anchor"></a>
+            <article class="property">
+                <h3 class="public ">$rcountry</h3>
+                <pre class="signature">$rcountry : string</pre>
+                <p><em>Pais de residencia de la persona</em></p>
+                
+
+                                <h4>Type</h4>
+                string
+                &mdash; &lt;Br&gt;
+     @ubicacionBase appgral.person.rcountry - VARCHAR2(3 BYTE)
+     &lt;Br&gt;
+     &lt;Br&gt;
+     La tabla de referencia al dato es appgral.country                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            todo
+                        </th>
+                        <td>
+                                                            <p>Este campo es obligatorio a la hora de crear personas.</p>
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property_rpoldiv" name="property_rpoldiv" class="anchor"></a>
+            <article class="property">
+                <h3 class="public ">$rpoldiv</h3>
+                <pre class="signature">$rpoldiv : string</pre>
+                <p><em>Provincia de residencia de la persona.</em></p>
+                
+
+                                <h4>Type</h4>
+                string
+                &mdash; &lt;Br&gt;
+     @ubicacionBase appgral.person.rpoldiv - VARCHAR2(3 BYTE)
+     &lt;Br&gt;
+     &lt;Br&gt;
+     La tabla de referencia al dato es appgral.poldiv                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            todo
+                        </th>
+                        <td>
+                                                            <p>Este campo es obligatorio a la hora de crear personas.</p>
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property_rcity" name="property_rcity" class="anchor"></a>
+            <article class="property">
+                <h3 class="public ">$rcity</h3>
+                <pre class="signature">$rcity : string</pre>
+                <p><em>Ciudad de residencia de la persona</em></p>
+                
+
+                                <h4>Type</h4>
+                string
+                &mdash; &lt;Br&gt;
+     @ubicacionBase appgral.person.rcity - VARCHAR2(10 BYTE)
+     &lt;Br&gt;
+     &lt;Br&gt;
+     La tabla de referencia al dato es appgral.city                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            todo
+                        </th>
+                        <td>
+                                                            <p>Este campo es obligatorio a la hora de crear personas.</p>
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property_direCalle" name="property_direCalle" class="anchor"></a>
+            <article class="property">
+                <h3 class="public ">$direCalle</h3>
+                <pre class="signature">$direCalle : string</pre>
+                <p><em>Calle de la direccion de la persona</em></p>
+                
+
+                                <h4>Type</h4>
+                string
+                &mdash; &lt;Br&gt;
+     @ubicacionBase appgral.apers.val - VARCHAR2(100 BYTE)
+     &lt;Br&gt;
+     Siempre que: appgral.apers.pattrib = &#039;DOMI&#039; y appgral.apers.shortdes = &#039;CALLE&#039;                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property_direNumero" name="property_direNumero" class="anchor"></a>
+            <article class="property">
+                <h3 class="public ">$direNumero</h3>
+                <pre class="signature">$direNumero : string</pre>
+                <p><em>Numero de la direccion de la persona</em></p>
+                
+
+                                <h4>Type</h4>
+                string
+                &mdash; &lt;Br&gt;
+     @ubicacionBase appgral.apers.val - VARCHAR2(100 BYTE)
+     &lt;Br&gt;
+     Siempre que: appgral.apers.pattrib = &#039;DOMI&#039; y appgral.apers.shortdes = &#039;NRO&#039;                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property_direPiso" name="property_direPiso" class="anchor"></a>
+            <article class="property">
+                <h3 class="public ">$direPiso</h3>
+                <pre class="signature">$direPiso : string</pre>
+                <p><em>Piso de la direccion de la persona</em></p>
+                
+
+                                <h4>Type</h4>
+                string
+                &mdash; &lt;Br&gt;
+     @ubicacionBase appgral.apers.val - VARCHAR2(100 BYTE)
+     &lt;Br&gt;
+     Siempre que: appgral.apers.pattrib = &#039;DOMI&#039; y appgral.apers.shortdes = &#039;PISO&#039;                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property_direDto" name="property_direDto" class="anchor"></a>
+            <article class="property">
+                <h3 class="public ">$direDto</h3>
+                <pre class="signature">$direDto : string</pre>
+                <p><em>Dto de la direccion de la persona</em></p>
+                
+
+                                <h4>Type</h4>
+                string
+                &mdash; &lt;Br&gt;
+     @ubicacionBase appgral.apers.val - VARCHAR2(100 BYTE)
+     &lt;Br&gt;
+     Siempre que: appgral.apers.pattrib = &#039;DOMI&#039; y appgral.apers.shortdes = &#039;DEPTO&#039;                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property_direCodPos" name="property_direCodPos" class="anchor"></a>
+            <article class="property">
+                <h3 class="public ">$direCodPos</h3>
+                <pre class="signature">$direCodPos : string</pre>
+                <p><em>Codigo postal de la direccion de la persona</em></p>
+                
+
+                                <h4>Type</h4>
+                string
+                &mdash; &lt;Br&gt;
+     @ubicacionBase appgral.apers.val - VARCHAR2(100 BYTE)
+     &lt;Br&gt;
+     Siempre que: appgral.apers.pattrib = &#039;DOMI&#039; y appgral.apers.shortdes = &#039;CODPOS&#039;                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property_domicilio" name="property_domicilio" class="anchor"></a>
+            <article class="property">
+                <h3 class="public ">$domicilio</h3>
+                <pre class="signature">$domicilio : string</pre>
+                <p><em>Direccion en string que une calle numero y muchas veces depto en un solo campo.</em></p>
+                
+
+                                <h4>Type</h4>
+                string
+                &mdash; &lt;Br&gt;
+     @ubicacionBase sueldos.personal.domicilio - VARCHAR2(30 BYTE)                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            todo
+                        </th>
+                        <td>
+                                                            <p>lo ideal es tratarlo para que quede separado de la forma que corresponde</p>
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property_legajo" name="property_legajo" class="anchor"></a>
+            <article class="property">
+                <h3 class="public ">$legajo</h3>
+                <pre class="signature">$legajo : integer</pre>
+                <p><em>Numero de legajo del area de personal de la persona</em></p>
+                
+
+                                <h4>Type</h4>
+                integer
+                &mdash; @ubicacionBase appgral.catxperson.legajo - NUMBER(8,0)                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property_fIngreso" name="property_fIngreso" class="anchor"></a>
+            <article class="property">
+                <h3 class="public ">$fIngreso</h3>
+                <pre class="signature">$fIngreso : integer</pre>
+                <p><em>Fecha en la que ingresa la persona</em></p>
+                
+
+                                <h4>Type</h4>
+                integer
+                &mdash; @ubicacionBase appgral.catxperson.finicio - DATE                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property_fbaja" name="property_fbaja" class="anchor"></a>
+            <article class="property">
+                <h3 class="public ">$fbaja</h3>
+                <pre class="signature">$fbaja : integer</pre>
+                <p><em>Fecha de baja de la persona</em></p>
+                
+
+                                <h4>Type</h4>
+                integer
+                &mdash; @ubicacionBase appgral.catxperson.fbaja - DATE                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property_cuit" name="property_cuit" class="anchor"></a>
+            <article class="property">
+                <h3 class="public ">$cuit</h3>
+                <pre class="signature">$cuit : string</pre>
+                <p><em>Numero de cuit de la persona</em></p>
+                
+
+                                <h4>Type</h4>
+                string
+                &mdash; &lt;Br&gt;                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            todo
+                        </th>
+                        <td>
+                                                            <p>@ubicacionBase appgral.perdoc.docno - VARCHAR2(30 BYTE)</p>
+<Br>
+      Hay que tener en cuenta que el campo appgral.perdoc.isKey debe se igual a 0
+      y que el campo appgral.perdoc.typdoc = 'CUIT'
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property_reingreso" name="property_reingreso" class="anchor"></a>
+            <article class="property">
+                <h3 class="public ">$reingreso</h3>
+                <pre class="signature">$reingreso : string</pre>
+                <p><em>Fecha de reingreso</em></p>
+                
+
+                                <h4>Type</h4>
+                string
+                                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property_inicioCargo" name="property_inicioCargo" class="anchor"></a>
+            <article class="property">
+                <h3 class="public ">$inicioCargo</h3>
+                <pre class="signature">$inicioCargo : string</pre>
+                <p><em>Fecha de inicio en el cargo</em></p>
+                
+
+                                <h4>Type</h4>
+                string
+                                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property_actividad" name="property_actividad" class="anchor"></a>
+            <article class="property">
+                <h3 class="public ">$actividad</h3>
+                <pre class="signature">$actividad : string</pre>
+                <p><em>Actividad de la persona</em></p>
+                
+
+                                <h4>Type</h4>
+                string
+                                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property_antiguedad" name="property_antiguedad" class="anchor"></a>
+            <article class="property">
+                <h3 class="public ">$antiguedad</h3>
+                <pre class="signature">$antiguedad : string</pre>
+                <p><em>Antiguedad de la persona.</em></p>
+                
+
+                                <h4>Type</h4>
+                string
+                                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property_cajaDeAhorro" name="property_cajaDeAhorro" class="anchor"></a>
+            <article class="property">
+                <h3 class="public ">$cajaDeAhorro</h3>
+                <pre class="signature">$cajaDeAhorro : string</pre>
+                <p><em>caja de ahorro</em></p>
+                
+
+                                <h4>Type</h4>
+                string
+                                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property_cajaJubilacion" name="property_cajaJubilacion" class="anchor"></a>
+            <article class="property">
+                <h3 class="public ">$cajaJubilacion</h3>
+                <pre class="signature">$cajaJubilacion : string</pre>
+                <p><em>Caja jubilatoria</em></p>
+                
+
+                                <h4>Type</h4>
+                string
+                                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property_cargo" name="property_cargo" class="anchor"></a>
+            <article class="property">
+                <h3 class="public ">$cargo</h3>
+                <pre class="signature">$cargo : string</pre>
+                <p><em>Cargo</em></p>
+                
+
+                                <h4>Type</h4>
+                string
+                                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property_codigoAlta" name="property_codigoAlta" class="anchor"></a>
+            <article class="property">
+                <h3 class="public ">$codigoAlta</h3>
+                <pre class="signature">$codigoAlta : string</pre>
+                <p><em>Codigo de alta</em></p>
+                
+
+                                <h4>Type</h4>
+                string
+                                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property_titulo" name="property_titulo" class="anchor"></a>
+            <article class="property">
+                <h3 class="public ">$titulo</h3>
+                <pre class="signature">$titulo : string</pre>
+                <p><em>titulo</em></p>
+                
+
+                                <h4>Type</h4>
+                string
+                                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property_codigoTitulo" name="property_codigoTitulo" class="anchor"></a>
+            <article class="property">
+                <h3 class="public ">$codigoTitulo</h3>
+                <pre class="signature">$codigoTitulo : string</pre>
+                <p><em>Codigo del titulo</em></p>
+                
+
+                                <h4>Type</h4>
+                string
+                                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property_nroJubilacion" name="property_nroJubilacion" class="anchor"></a>
+            <article class="property">
+                <h3 class="public ">$nroJubilacion</h3>
+                <pre class="signature">$nroJubilacion : string</pre>
+                <p><em>$nroJubilacion.</em></p>
+                
+
+                                <h4>Type</h4>
+                string
+                                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property_nroSindicato" name="property_nroSindicato" class="anchor"></a>
+            <article class="property">
+                <h3 class="public ">$nroSindicato</h3>
+                <pre class="signature">$nroSindicato : string</pre>
+                <p><em>$nroSindicato.</em></p>
+                
+
+                                <h4>Type</h4>
+                string
+                                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property_obraSocial" name="property_obraSocial" class="anchor"></a>
+            <article class="property">
+                <h3 class="public ">$obraSocial</h3>
+                <pre class="signature">$obraSocial : string</pre>
+                <p><em>$obraSocial.</em></p>
+                
+
+                                <h4>Type</h4>
+                string
+                                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property_redito" name="property_redito" class="anchor"></a>
+            <article class="property">
+                <h3 class="public ">$redito</h3>
+                <pre class="signature">$redito : string</pre>
+                <p><em>$redito.</em></p>
+                
+
+                                <h4>Type</h4>
+                string
+                                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property_seguro" name="property_seguro" class="anchor"></a>
+            <article class="property">
+                <h3 class="public ">$seguro</h3>
+                <pre class="signature">$seguro : string</pre>
+                <p><em>$seguro</em></p>
+                
+
+                                <h4>Type</h4>
+                string
+                                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property_sucursalCtaBanco" name="property_sucursalCtaBanco" class="anchor"></a>
+            <article class="property">
+                <h3 class="public ">$sucursalCtaBanco</h3>
+                <pre class="signature">$sucursalCtaBanco : string</pre>
+                <p><em>$sucursalCtaBanco</em></p>
+                
+
+                                <h4>Type</h4>
+                string
+                                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property_tipoCtaBanco" name="property_tipoCtaBanco" class="anchor"></a>
+            <article class="property">
+                <h3 class="public ">$tipoCtaBanco</h3>
+                <pre class="signature">$tipoCtaBanco : string</pre>
+                <p><em>$tipoCtaBanco</em></p>
+                
+
+                                <h4>Type</h4>
+                string
+                                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property_unidadContrato" name="property_unidadContrato" class="anchor"></a>
+            <article class="property">
+                <h3 class="public ">$unidadContrato</h3>
+                <pre class="signature">$unidadContrato : string</pre>
+                <p><em>$unidadContrato</em></p>
+                
+
+                                <h4>Type</h4>
+                string
+                                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property_tipobco" name="property_tipobco" class="anchor"></a>
+            <article class="property">
+                <h3 class="public ">$tipobco</h3>
+                <pre class="signature">$tipobco : string</pre>
+                <p><em>$tipobco</em></p>
+                
+
+                                <h4>Type</h4>
+                string
+                                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property_esposa" name="property_esposa" class="anchor"></a>
+            <article class="property">
+                <h3 class="public ">$esposa</h3>
+                <pre class="signature">$esposa : string</pre>
+                <p><em>$esposa</em></p>
+                
+
+                                <h4>Type</h4>
+                string
+                                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property_familiarACargo" name="property_familiarACargo" class="anchor"></a>
+            <article class="property">
+                <h3 class="public ">$familiarACargo</h3>
+                <pre class="signature">$familiarACargo : string</pre>
+                <p><em>$familiarACargo</em></p>
+                
+
+                                <h4>Type</h4>
+                string
+                                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property_FamiliaNumerosa" name="property_FamiliaNumerosa" class="anchor"></a>
+            <article class="property">
+                <h3 class="public ">$FamiliaNumerosa</h3>
+                <pre class="signature">$FamiliaNumerosa : string</pre>
+                <p><em>$FamiliaNumerosa</em></p>
+                
+
+                                <h4>Type</h4>
+                string
+                                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property_hijos" name="property_hijos" class="anchor"></a>
+            <article class="property">
+                <h3 class="public ">$hijos</h3>
+                <pre class="signature">$hijos : string</pre>
+                <p><em>$hijos</em></p>
+                
+
+                                <h4>Type</h4>
+                string
+                                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property_guarderia" name="property_guarderia" class="anchor"></a>
+            <article class="property">
+                <h3 class="public ">$guarderia</h3>
+                <pre class="signature">$guarderia : string</pre>
+                <p><em>$guarderia</em></p>
+                
+
+                                <h4>Type</h4>
+                string
+                                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property_hijoIncapasitado" name="property_hijoIncapasitado" class="anchor"></a>
+            <article class="property">
+                <h3 class="public ">$hijoIncapasitado</h3>
+                <pre class="signature">$hijoIncapasitado : string</pre>
+                <p><em>$hijoIncapasitado</em></p>
+                
+
+                                <h4>Type</h4>
+                string
+                                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property_prenatal" name="property_prenatal" class="anchor"></a>
+            <article class="property">
+                <h3 class="public ">$prenatal</h3>
+                <pre class="signature">$prenatal : string</pre>
+                <p><em>$prenatal</em></p>
+                
+
+                                <h4>Type</h4>
+                string
+                                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property_preescolar" name="property_preescolar" class="anchor"></a>
+            <article class="property">
+                <h3 class="public ">$preescolar</h3>
+                <pre class="signature">$preescolar : string</pre>
+                <p><em>$preescolar</em></p>
+                
+
+                                <h4>Type</h4>
+                string
+                                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property_escuelaMedia" name="property_escuelaMedia" class="anchor"></a>
+            <article class="property">
+                <h3 class="public ">$escuelaMedia</h3>
+                <pre class="signature">$escuelaMedia : string</pre>
+                <p><em>$escuelaMedia</em></p>
+                
+
+                                <h4>Type</h4>
+                string
+                                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property_escuelaPrimaria" name="property_escuelaPrimaria" class="anchor"></a>
+            <article class="property">
+                <h3 class="public ">$escuelaPrimaria</h3>
+                <pre class="signature">$escuelaPrimaria : string</pre>
+                <p><em>$escuelaPrimaria</em></p>
+                
+
+                                <h4>Type</h4>
+                string
+                                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                                            
+                                    <a id="methods" name="methods"></a>
+            <div class="row-fluid">
+                <div class="span8 content class"><h2>Methods</h2></div>
+                <aside class="span4 detailsbar"></aside>
+            </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_listarPerson" name="method_listarPerson" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">listarPerson()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">listarPerson(object  <span class="argument">$db</span>, array&lt;mixed,mixed&gt;  <span class="argument">$datos = &quot;&quot;</span>) : array&lt;mixed,integer&gt;</pre>
+                <p><em>Realiza un listado con todos los persons que cumplan una determinada condicion.</em></p>
+                
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>object</td>
+                                <td>$db </td>
+                                <td><ul>
+<li>Objeto encargado de la interaccion con la base de datos.</li>
+</ul></td>
+                            </tr>
+                                                    <tr>
+                                <td>array&lt;mixed,mixed&gt;</td>
+                                <td>$datos </td>
+                                <td><ul>
+<li>Datos extra con los que realizar la busqueda, puede ser cualquier dato de la tabla, con el indice igual al nombre del campo en minuscula.</li>
+</ul></td>
+                            </tr>
+                                            </table>
+                
+                
+                                    <h4>Returns</h4>
+                    array&lt;mixed,integer&gt;
+                                            &mdash; <ul>
+<li>array con todos los persons resultantes</li>
+</ul>
+                                    				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            name
+                        </th>
+                        <td>
+                                                                                            <p>listarPerson</p>
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_listarPersonFacu" name="method_listarPersonFacu" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">listarPersonFacu()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">listarPersonFacu(object  <span class="argument">$db</span>, array&lt;mixed,mixed&gt;  <span class="argument">$datos = &quot;&quot;</span>) : array&lt;mixed,integer&gt;</pre>
+                <p><em>Realiza un listado con todos los persons que cumplan una determinada condicion de carrera o facultad.</em></p>
+                
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>object</td>
+                                <td>$db </td>
+                                <td><ul>
+<li>Objeto encargado de la interaccion con la base de datos.</li>
+</ul></td>
+                            </tr>
+                                                    <tr>
+                                <td>array&lt;mixed,mixed&gt;</td>
+                                <td>$datos </td>
+                                <td><ul>
+<li>Datos extra con los que realizar la busqueda, puede ser cualquier dato de la tabla, con el indice igual al nombre del campo en minuscula.</li>
+</ul></td>
+                            </tr>
+                                            </table>
+                
+                
+                                    <h4>Returns</h4>
+                    array&lt;mixed,integer&gt;
+                                            &mdash; <ul>
+<li>array con todos los persons resultantes</li>
+</ul>
+                                    				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            name
+                        </th>
+                        <td>
+                                                                                            <p>listarPersonFacu</p>
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_buscarAppers" name="method_buscarAppers" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">buscarAppers()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">buscarAppers(array&lt;mixed,mixed&gt;  <span class="argument">$datosAUsar</span>) : Array</pre>
+                <p><em>Devuelve un array con los valores de apers usando los SHORTDES como claves.</em></p>
+                
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>array&lt;mixed,mixed&gt;</td>
+                                <td>$datosAUsar </td>
+                                <td><ul>
+<li>Requiere que dentro de los datos enviados este si o si el person de la persona</li>
+</ul></td>
+                            </tr>
+                                            </table>
+                
+                
+                                    <h4>Returns</h4>
+                    Array
+                                    				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            name
+                        </th>
+                        <td>
+                                                                                            <p>buscarAppers</p>
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_buscarPerson" name="method_buscarPerson" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">buscarPerson()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">buscarPerson(array&lt;mixed,string&gt;  <span class="argument">$datosAUsar</span>) : array</pre>
+                <p><em>Devuelve los datos de la tabla person, la busqueda puede realizarse por nro de person, por nombre, apellido o nombre y apellido
+En caso de que no recupere ningun dato devuelve 0</em></p>
+                
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>array&lt;mixed,string&gt;</td>
+                                <td>$datosAUsar </td>
+                                <td><ul>
+<li>'person' o 'realname'</li>
+</ul></td>
+                            </tr>
+                                            </table>
+                
+                
+                                    <h4>Returns</h4>
+                    array
+                                            &mdash; <ul>
+<li>'person' 'lname' 'fname' 'country' 'poldiv' 'city' 'birdate' 'nation' 'sex' 'marstat' 'address' 'rcountry' 'rpoldiv' 'rcity' 'telep' 'active' 'tnation' 'incountrysince' 'religion' 'qbrother' 'qson'</li>
+</ul>
+                                    				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            name
+                        </th>
+                        <td>
+                                                                                            <p>buscarPerson</p>
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_buscarPerdoc" name="method_buscarPerdoc" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">buscarPerdoc()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">buscarPerdoc(array&lt;mixed,mixed&gt;  <span class="argument">$datosAUsar</span>) : array&lt;mixed,mixed&gt;</pre>
+                <p><em>Recibe un array con el person o el numero de documento y devuelve otro con los datos de la tabla perdoc</em></p>
+                
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>array&lt;mixed,mixed&gt;</td>
+                                <td>$datosAUsar </td>
+                                <td><ul>
+<li>'person' o 'docno' o 'cuil'</li>
+</ul></td>
+                            </tr>
+                                            </table>
+                
+                
+                                    <h4>Returns</h4>
+                    array&lt;mixed,mixed&gt;
+                                            &mdash; <ul>
+<li>con los siguientes parametros: person, typdoc, docNumero</li>
+</ul>
+                                    				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            name
+                        </th>
+                        <td>
+                                                                                            <p>buscarPerdoc</p>
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_buscarTargeta" name="method_buscarTargeta" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">buscarTargeta()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">buscarTargeta(array&lt;mixed,mixed&gt;  <span class="argument">$datosAUsar</span>) : array&lt;mixed,mixed&gt;</pre>
+                <p><em>Devuelve todos los datos relacionados a la tarjeta de la persona.</em></p>
+                
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>array&lt;mixed,mixed&gt;</td>
+                                <td>$datosAUsar </td>
+                                <td><ul>
+<li>'person' o 'num_tarj'</li>
+</ul></td>
+                            </tr>
+                                            </table>
+                
+                
+                                    <h4>Returns</h4>
+                    array&lt;mixed,mixed&gt;
+                                            &mdash; <ul>
+<li>'person' 'estadocredencialca' 'email' 'codigoisic' 'nrodechip' 'sca_fecha' 'sca_categoria' 'sca_lote' 'tipo_formulario' 'nrodechip_dec' 'fecha_chip' 'motivo' 'tipo_credencial'</li>
+</ul>
+                                    				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            name
+                        </th>
+                        <td>
+                                                                                            <p>buscarTargeta</p>
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_buscarUsuarioWeb" name="method_buscarUsuarioWeb" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">buscarUsuarioWeb()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">buscarUsuarioWeb(array&lt;mixed,mixed&gt;  <span class="argument">$datosAUsar</span>) : array</pre>
+                <p><em>Busca los datos de la tabla usuario_web para una persona X.</em></p>
+                
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>array&lt;mixed,mixed&gt;</td>
+                                <td>$datosAUsar </td>
+                                <td><ul>
+<li>'person' o 'docno' o 'altaDeLaCuenta' o 'vtoDeLaCuenta' o 'cuenta' o 'idCuenta'</li>
+</ul></td>
+                            </tr>
+                                            </table>
+                
+                
+                                    <h4>Returns</h4>
+                    array
+                                            &mdash; <ul>
+<li>'docno' 'docnoCuenta' 'tipoDocCuenta' 'cuenta' 'nombreCompleto' 'fecha_altaCuenta' 'fecha_vencCuenta' 'fecha_bajaCuenta' 'frase' 'email' 'uid_cCuenta' 'uid_mCuenta' 'fecha_mCuenta' 'academicoCuenta' 'administrativoCuenta' 'alumnoCuenta' 'docenteCuenta' 'genericoCuenta' 'operadorCuenta' 'externoCuenta' 'ultimocambioclaveCuenta' 'ultimoacceso' 'ultimaaplicacion' 'ultimoip' 'person'</li>
+</ul>
+                                    				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            name
+                        </th>
+                        <td>
+                                                                                            <p>buscarUsuarioWeb -</p>
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_datosPersona" name="method_datosPersona" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">datosPersona()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">datosPersona(array&lt;mixed,mixed&gt;  <span class="argument">$datosAUsar</span>) : array&lt;mixed,mixed&gt;</pre>
+                <p><em>Recibe algun parametro de busqueda y en base a eso recupera los datos de esa persona en las diferentes tablas</em></p>
+                
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>array&lt;mixed,mixed&gt;</td>
+                                <td>$datosAUsar </td>
+                                <td><ul>
+<li>'person' o 'docno' o 'realname' o 'apellido' o 'nombreCompleto' o 'num_tarj'</li>
+</ul></td>
+                            </tr>
+                                            </table>
+                
+                
+                                    <h4>Returns</h4>
+                    array&lt;mixed,mixed&gt;
+                                            &mdash; <p>-</p>
+                                    				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            name
+                        </th>
+                        <td>
+                                                                                            <p>datosPersona</p>
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_setPersonaExistente" name="method_setPersonaExistente" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">setPersonaExistente()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">setPersonaExistente(array&lt;mixed,mixed&gt;  <span class="argument">$datosAUsar</span>) </pre>
+                <p><em>Inicializa las variables con los datos a usar.</em></p>
+                
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>array&lt;mixed,mixed&gt;</td>
+                                <td>$datosAUsar </td>
+                                <td></td>
+                            </tr>
+                                            </table>
+                
+                
+                				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_modApers" name="method_modApers" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">modApers()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">modApers(string  <span class="argument">$accion</span>, mixed  <span class="argument">$pattrib</span>, mixed  <span class="argument">$shortdes</span>, mixed  <span class="argument">$valor</span>, integer  <span class="argument">$person</span>) : boolean</pre>
+                <p><em>Se encargara de las acciones a realizar sobre los campos de la tabla apers</em></p>
+                
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>string</td>
+                                <td>$accion </td>
+                                <td><ul>
+<li>Puede ser UPDATE o INSERT dependiendo de esto es la accion que realizara la funcion</li>
+</ul></td>
+                            </tr>
+                                                    <tr>
+                                <td>mixed</td>
+                                <td>$pattrib </td>
+                                <td></td>
+                            </tr>
+                                                    <tr>
+                                <td>mixed</td>
+                                <td>$shortdes </td>
+                                <td></td>
+                            </tr>
+                                                    <tr>
+                                <td>mixed</td>
+                                <td>$valor </td>
+                                <td></td>
+                            </tr>
+                                                    <tr>
+                                <td>integer</td>
+                                <td>$person </td>
+                                <td><ul>
+<li>person sobre el cual trabajara</li>
+</ul></td>
+                            </tr>
+                                            </table>
+                
+                
+                                    <h4>Returns</h4>
+                    boolean
+                                    				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_validarCuit" name="method_validarCuit" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">validarCuit()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">validarCuit(integer  <span class="argument">$cuit</span>) </pre>
+                <p><em>Revisarlo e implementarlo en class persona</em></p>
+                <p>Valida el CUIT pasado por parametro.
+<a href="https://es.wikipedia.org/wiki/Clave_%C3%9Anica_de_Identificaci%C3%B3n_Tributaria">https://es.wikipedia.org/wiki/Clave_%C3%9Anica_de_Identificaci%C3%B3n_Tributaria</a></p>
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>integer</td>
+                                <td>$cuit </td>
+                                <td></td>
+                            </tr>
+                                            </table>
+                
+                
+                				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_buscarCatXPerson" name="method_buscarCatXPerson" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">buscarCatXPerson()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">buscarCatXPerson(array  <span class="argument">$datosAUsar</span>) : boolean|array</pre>
+                <p><em>Busca el legajo de la persona o el person asociado a un legajo</em></p>
+                
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>array</td>
+                                <td>$datosAUsar </td>
+                                <td><p>Tiene como indices obligatorios legajo o person.</p></td>
+                            </tr>
+                                            </table>
+                
+                
+                                    <h4>Returns</h4>
+                    boolean|array
+                                            &mdash; <ul>
+<li>En caso de no encontrar nada devolvera false. Si recupera datos devuelve un array con el person, el legajo, la categoria, la fecha de ingreso y la de baja.</li>
+</ul>
+                                    				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_getNombreYApellido" name="method_getNombreYApellido" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">getNombreYApellido()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">getNombreYApellido(object  <span class="argument">$db</span>, array&lt;mixed,mixed&gt;  <span class="argument">$datosAUsar</span>) : array&lt;mixed,string&gt;</pre>
+                <p><em>Devuelve el nombre y el apellido para un person dado.</em></p>
+                
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>object</td>
+                                <td>$db </td>
+                                <td><ul>
+<li>Objeto encargado de la interaccion con la base de datos.</li>
+</ul></td>
+                            </tr>
+                                                    <tr>
+                                <td>array&lt;mixed,mixed&gt;</td>
+                                <td>$datosAUsar </td>
+                                <td><ul>
+<li>Es impresindible que contenga el inice &quot;person&quot; de lo contrario devolvera error.</li>
+</ul></td>
+                            </tr>
+                                            </table>
+                
+                                    <h4>Throws</h4>
+                    <dl>
+                                                    <dt>\Exception</dt>
+                            <dd><ul>
+<li>Tanto si no se pasa el person como si no se puede recuperar valor.</li>
+</ul></dd>
+                                                                    </dl>
+                
+                                    <h4>Returns</h4>
+                    array&lt;mixed,string&gt;
+                                            &mdash; <ul>
+<li>Con los campos LNAME y FNAME.</li>
+</ul>
+                                    				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_nuevoPerdoc" name="method_nuevoPerdoc" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">nuevoPerdoc()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">nuevoPerdoc(array  <span class="argument">$arrayDatosPersona</span>) : integer|boolean</pre>
+                <p><em>Inserta el numero y tipo de documento en la tabla appgral.perdoc</em></p>
+                
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>array</td>
+                                <td>$arrayDatosPersona </td>
+                                <td><p>Tiene como indices obligatorios docNumero y docTipo.</p></td>
+                            </tr>
+                                            </table>
+                
+                                    <h4>Throws</h4>
+                    <dl>
+                                                    <dt>\Exception</dt>
+                            <dd></dd>
+                                                                    </dl>
+                
+                                    <h4>Returns</h4>
+                    integer|boolean
+                                            &mdash; <ul>
+<li>
+<p>el person en caso de realizarce todo sin problema y false si no.array</p>
+<pre><code>En caso de que el parametro docTipo sea numerico realiza la siguiente convecion ( 1=LE, 2=LC, 7=DNI )</code></pre>
+</li>
+</ul>
+                                    				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            todo
+                        </th>
+                        <td>
+                                                                                            <p>adicionalmente updatea el registro en appgral.lnumber para generarle el nuevo person.</p>
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_nuevoCatXPerson" name="method_nuevoCatXPerson" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">nuevoCatXPerson()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">nuevoCatXPerson(array&lt;mixed,mixed&gt;  <span class="argument">$arrayDatosPersona</span>) : boolean</pre>
+                <p><em>Realiza la insecion en la tabla appgral.catXPerson previamente comprueba que los datos no existan en esa tabla devolviendo un error en caso contrario.</em></p>
+                
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>array&lt;mixed,mixed&gt;</td>
+                                <td>$arrayDatosPersona </td>
+                                <td><ul>
+<li>Debe contener los siguientes indices de forma obligatoria
+person, categoria, fIngreso, fbaja, legajo</li>
+</ul></td>
+                            </tr>
+                                            </table>
+                
+                                    <h4>Throws</h4>
+                    <dl>
+                                                    <dt>\Exception</dt>
+                            <dd></dd>
+                                                                    </dl>
+                
+                                    <h4>Returns</h4>
+                    boolean
+                                    				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            global
+                        </th>
+                        <td>
+                                                                                            <p>$db - coneccion a la base de datos.</p>
+                                                                                            <p>$_SESSION - Requiere acceder a las siguirenres variables de session 'person' y 'app'.</p>
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_updateCatXPerson" name="method_updateCatXPerson" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">updateCatXPerson()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">updateCatXPerson(array  <span class="argument">$arrayDatosPersona</span>) : boolean</pre>
+                <p><em>Realiza el update en la tabla appgral.catXPerson previamente comprueba que los datos no existan en esa tabla devolviendo un error en caso contrario.</em></p>
+                
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>array</td>
+                                <td>$arrayDatosPersona </td>
+                                <td><ul>
+<li>Debe contener los siguientes indices de forma obligatoria
+person, legajo</li>
+</ul></td>
+                            </tr>
+                                            </table>
+                
+                                    <h4>Throws</h4>
+                    <dl>
+                                                    <dt>\Exception</dt>
+                            <dd></dd>
+                                                                    </dl>
+                
+                                    <h4>Returns</h4>
+                    boolean
+                                    				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            global
+                        </th>
+                        <td>
+                                                                                            <p>$db - coneccion a la base de datos.</p>
+                                                                                            <p>$_SESSION - Requiere acceder a las siguirenres variables de session 'person' y 'app'.</p>
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_inserPerson" name="method_inserPerson" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">inserPerson()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">inserPerson(array&lt;mixed,mixed&gt;  <span class="argument">$arrayDatosPersona</span>) : boolean</pre>
+                <p><em>Realiza el insert en la tabla appgral.person</em></p>
+                
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>array&lt;mixed,mixed&gt;</td>
+                                <td>$arrayDatosPersona </td>
+                                <td><ul>
+<li>Debe contener los siguientes indices de forma obligatoria
+person, apellido, realname, country, poldiv, city, birdate, nation, sexo, marstat, rcountry, rpoldiv, rcity, tnation</li>
+</ul></td>
+                            </tr>
+                                            </table>
+                
+                                    <h4>Throws</h4>
+                    <dl>
+                                                    <dt>\Exception</dt>
+                            <dd></dd>
+                                                                    </dl>
+                
+                                    <h4>Returns</h4>
+                    boolean
+                                    				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            global
+                        </th>
+                        <td>
+                                                                                            <p>$db - coneccion a la base de datos.</p>
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_nuevaPersona" name="method_nuevaPersona" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">nuevaPersona()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">nuevaPersona(array&lt;mixed,mixed&gt;  <span class="argument">$arrayDatosPersona</span>) : \number</pre>
+                <p><em>Realiza el insert de todos los campos requeridos para la creacion de personas</em></p>
+                
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>array&lt;mixed,mixed&gt;</td>
+                                <td>$arrayDatosPersona </td>
+                                <td><ul>
+<li>Debe contener los siguientes indices de forma obligatoria
+person, apellido, realname, country, poldiv, city, birdate, nation, sexo, marstat, rcountry, rpoldiv, rcity, tnation</li>
+</ul></td>
+                            </tr>
+                                            </table>
+                
+                                    <h4>Throws</h4>
+                    <dl>
+                                                    <dt>\Exception</dt>
+                            <dd></dd>
+                                                                    </dl>
+                
+                                    <h4>Returns</h4>
+                    \number
+                                    				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            global
+                        </th>
+                        <td>
+                                                                                            <p>$db - coneccion a la base de datos.</p>
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_comprobarExisteDato" name="method_comprobarExisteDato" class="anchor"></a>
+            <article class="method">
+                <h3 class="private ">comprobarExisteDato()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">comprobarExisteDato(mixed  <span class="argument">$variable</span>) : boolean</pre>
+                <p><em>Comprueva la existencia de un dato distinto de cero.</em></p>
+                
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>mixed</td>
+                                <td>$variable </td>
+                                <td></td>
+                            </tr>
+                                            </table>
+                
+                
+                                    <h4>Returns</h4>
+                    boolean
+                                    				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_recuNacion" name="method_recuNacion" class="anchor"></a>
+            <article class="method">
+                <h3 class="private ">recuNacion()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">recuNacion(string  <span class="argument">$nacion</span>, object  <span class="argument">$db = &quot;&quot;</span>) : string</pre>
+                <p><em>Recupera los datos de appgral.country,</em></p>
+                
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>string</td>
+                                <td>$nacion </td>
+                                <td><ul>
+<li>dato a buscar en la tabla appgral.country</li>
+</ul></td>
+                            </tr>
+                                                    <tr>
+                                <td>object</td>
+                                <td>$db </td>
+                                <td><ul>
+<li>Objeto encargado de la interaccion con la base de datos.</li>
+</ul></td>
+                            </tr>
+                                            </table>
+                
+                
+                                    <h4>Returns</h4>
+                    string
+                                            &mdash; <ul>
+<li>codigo de la nacion</li>
+</ul>
+                                    				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_errores" name="method_errores" class="anchor"></a>
+            <article class="method">
+                <h3 class="private ">errores()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">errores(mixed  <span class="argument">$e</span>) </pre>
+                <p><em>Funcion encargada de la imprecion de errores.</em></p>
+                
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>mixed</td>
+                                <td>$e </td>
+                                <td></td>
+                            </tr>
+                                            </table>
+                
+                
+                				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    </div>
+    </section>
+
+    <div id="source-view" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="source-view-label" aria-hidden="true">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            <h3 id="source-view-label">class_persona.php</h3>
+        </div>
+        <div class="modal-body">
+            <pre data-src="../files/class_persona.php.txt" class="language-php line-numbers"></pre>
+        </div>
+    </div>
+
+    <footer class="row-fluid">
+        <section class="span10 offset2">
+            <section class="row-fluid">
+                <section class="span10 offset1">
+                    <section class="row-fluid footer-sections">
+                        <section class="span4">
+                                                        <h1><i class="icon-code"></i></h1>
+                            <div>
+                                <ul>
+                                                                    </ul>
+                            </div>
+                        </section>
+                        <section class="span4">
+                                                        <h1><i class="icon-bar-chart"></i></h1>
+                            <div>
+                                <ul>
+                                    <li><a href="../graphs/class.html">Class Hierarchy Diagram</a></li>
+                                </ul>
+                            </div>
+                        </section>
+                        <section class="span4">
+                                                        <h1><i class="icon-pushpin"></i></h1>
+                            <div>
+                                <ul>
+                                    <li><a href="../reports/errors.html">Errors</a></li>
+                                    <li><a href="../reports/markers.html">Markers</a></li>
+                                </ul>
+                            </div>
+                        </section>
+                    </section>
+                </section>
+            </section>
+            <section class="row-fluid">
+                <section class="span10 offset1">
+                    <hr />
+                    Documentation is powered by <a href="http://www.phpdoc.org/">phpDocumentor </a> and authored
+                    on September 24th, 2018 at 11:10.
+                </section>
+            </section>
+        </section>
+    </footer>
+</div>
+
+</body>
+</html>

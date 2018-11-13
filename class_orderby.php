@@ -1,13 +1,15 @@
 <?php
 
 /**
- * Clase para manejar el ordenado por columnas de manera segura y facil
- * 
+ * Archivo de la clase
+ *
+ * Archivo con la clase order_by
+ *
  * @author Andres Carizza www.andrescarizza.com.ar
  * @author iberlot <@> ivanberlot@gmail.com
- * 
- * @version 2.0
- * Se actualizaron las funciones obsoletas y corrigieron algunos errores.
+ *
+ * @name class_orderby.php
+ *
  */
 
 /*
@@ -23,39 +25,74 @@
  * totalHorasPerdidasAqui = 108
  *
  */
-
-
+/**
+ * Clase para manejar el ordenado por columnas de manera segura y facil
+ *
+ * @author Andres Carizza www.andrescarizza.com.ar
+ * @author iberlot <@> ivanberlot@gmail.com
+ *
+ * @version 2.0
+ *          Se actualizaron las funciones obsoletas y corrigieron algunos errores.
+ * @version 2.1 - Se modificaron lo iconos para que usara las fuentes de awesome
+ */
 class class_orderby
 {
 	/**
 	 * Texto para el attr title de los links
+	 *
+	 * @var string
 	 */
 	public $txtOrdenar = "";
-	
+
 	/**
 	 * Flecha desendente al lado del link
+	 *
+	 * @var string
 	 */
-	public $flechaDes = " <img src='/img/sort_des.png' border='0' />";
-	
+	public $flechaDes = "<i class='fa fa-sort-desc' aria-hidden='true'></i>";
+	// public $flechaDes = " <img src='/img/sort_des.png' border='0' />";
+
 	/**
 	 * Flecha ascendente al lado del link
+	 *
+	 * @var string
 	 */
-	public $flechaAsc = " <img src='/img/sort_asc.png' border='0' />";
-	
+	public $flechaAsc = "<i class='fa fa-sort-asc' aria-hidden='true'></i>";
+	// public $flechaAsc = " <img src='/img/sort_asc.png' border='0' />";
+
 	/**
 	 * Para el attr class de los links
+	 *
+	 * @var string
 	 */
 	public $classLink = "";
-	
+
 	/**
 	 * Nombre de la variable que pasa por GET para ordenar que se define en el constructor de la clase
+	 *
+	 * @var string
 	 */
 	public $variableOrderBy;
-	
+
+	/**
+	 * Listado de los campos por los cauales se puede ordenar
+	 *
+	 * @var array
+	 */
 	private $arrayCamposOrder;
-	
+
+	/**
+	 * Campo order by por defecto para los select
+	 *
+	 * @var string
+	 */
 	private $orderByPorDefecto;
-	
+
+	/**
+	 * Campo por el cual esta ordenada la tabla
+	 *
+	 * @var string
+	 */
 	private $orderBy;
 
 	/**
@@ -76,23 +113,25 @@ class class_orderby
 		$this->orderBy = $this->leerYguardarOrderBy ();
 	}
 
+	/**
+	 * Establece un orderBy para pasar como variable y no perder al momento de abandonar la pagina
+	 *
+	 * @return string - Campo por el cual esta ordenada la tabla
+	 */
 	private function leerYguardarOrderBy()
 	{
-		if (isset ($_GET [$this->variableOrderBy]) and trim ($_GET [$this->variableOrderBy]) != "")
+		if (isset ($_GET[$this->variableOrderBy]) and trim ($_GET[$this->variableOrderBy]) != "")
 		{
-			$i = $_GET [$this->variableOrderBy];
+			$i = $_GET[$this->variableOrderBy];
 
-			
 			if (array_key_exists ($i - 1, $this->arrayCamposOrder))
 			{
-				
-				$orderBy = $this->arrayCamposOrder [$i - 1]; // -1 para no usar el cero en el query string
-				
+				$orderBy = $this->arrayCamposOrder[$i - 1]; // -1 para no usar el cero en el query string
+
 				if (stripos ($i, " desc"))
 				{
 					$orderBy = $orderBy . " DESC";
 					$orderBy = str_replace (",", " DESC, ", $orderBy);
-					
 				}
 			}
 			else
@@ -119,7 +158,8 @@ class class_orderby
 
 	/**
 	 * Retorna el codigo HTML para poner un link para ordenar por columna y la flecha correspondiente.
-	 * Usar: <th><?=linkOrderBy("Usuario","user")?></th>
+	 *
+	 * @example <th><?=linkOrderBy("Usuario","user")?></th>
 	 *
 	 * @param String $txt_campo
 	 *        	Texto del link
@@ -129,41 +169,44 @@ class class_orderby
 	 */
 	public function linkOrderBy($txt_campo, $campo)
 	{
-		
 		$keyCampo = array_search ($campo, $this->arrayCamposOrder);
-				
-		/* Lo comento para que funcione correctamente el join
-		if ($keyCampo === false)
-		{
-			throw new Exception ("El campo $campo no esta definido en el constructor de la clase!   ");
-		}
-		*/
+
+		// print_r ($this->arrayCamposOrder);
+		// print_r ($campo);
+		/*
+		 * Lo comento para que funcione correctamente el join
+		 * if ($keyCampo === false)
+		 * {
+		 * throw new Exception ("El campo $campo no esta definido en el constructor de la clase! ");
+		 * }
+		 */
 		$keyCampo = $keyCampo + 1; // +1 para no usar el cero en el query string
-		                           
+		                           // $keyCampo = $keyCampo;
+
 		// genera el query string de variables previamente existentes
 		$get = $_GET;
-		unset ($get [$this->variableOrderBy]);
+		unset ($get[$this->variableOrderBy]);
 		$qs = http_build_query ($get);
-		
+
 		if ($qs != "")
 		{
 			$qs = "&" . $qs;
 		}
-		
+
 		if (strtolower ($this->orderBy) == strtolower ($campo) or strtolower ($this->orderBy) == strtolower ($campo) . " desc")
 		{
 			if (stripos ($this->orderBy, " desc"))
 			{
-				return "<a href='" . $_SERVER ['PHP_SELF'] . "?$this->variableOrderBy=$keyCampo$qs' class='$this->classLink' title='$this->txtOrdenar'>$txt_campo$this->flechaDes</a>";
+				return "<a href='" . $_SERVER['PHP_SELF'] . "?$this->variableOrderBy=$keyCampo$qs' class='$this->classLink' title='$this->txtOrdenar'>$txt_campo$this->flechaDes</a>";
 			}
 			else
 			{
-				return "<a href='" . $_SERVER ['PHP_SELF'] . "?$this->variableOrderBy=$keyCampo+desc$qs' class='$this->classLink' title='$this->txtOrdenar'>$txt_campo$this->flechaAsc</a>";
+				return "<a href='" . $_SERVER['PHP_SELF'] . "?$this->variableOrderBy=$keyCampo+desc$qs' class='$this->classLink' title='$this->txtOrdenar'>$txt_campo$this->flechaAsc</a>";
 			}
 		}
 		else
 		{
-			return "<a href='" . $_SERVER ['PHP_SELF'] . "?$this->variableOrderBy=$keyCampo$qs' class='$this->classLink' title='$this->txtOrdenar'>$txt_campo</a>";
+			return "<a href='" . $_SERVER['PHP_SELF'] . "?$this->variableOrderBy=$keyCampo$qs' class='$this->classLink' title='$this->txtOrdenar'>$txt_campo</a>";
 		}
 	}
 }

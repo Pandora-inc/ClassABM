@@ -2,9 +2,7 @@
 
 class consulta
 {
-	
-	public $registro = array();
-	
+	public $registro = array ();
 	var $campo;
 	var $tabla;
 	var $valor;
@@ -30,16 +28,15 @@ class consulta
 	{
 		echo $this->contenido;
 	}
-	
+
 	function devolverSQL($registro)
 	{
-		
-		foreach($registro as $campo)
+		foreach ($registro as $campo)
 		{
 			echo "En este equipo juegan: ";
-			foreach($equipo as $jugador)
+			foreach ($equipo as $jugador)
 			{
-				echo $jugador ." ";
+				echo $jugador . " ";
 			}
 			echo "<br>";
 		}

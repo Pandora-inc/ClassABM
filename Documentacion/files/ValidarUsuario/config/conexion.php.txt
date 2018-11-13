@@ -1,0 +1,34 @@
+<?php
+/**
+ * Conexiones a las bases de datos.
+ */
+require ("config/config.php");
+
+// print_r("oci_connect (".$UsuarioOracle.", ".$PasswordOracle.", ".$ServidorOracle.", 'WE8ISO8859P1')");
+
+$linkOracle = oci_connect ($UsuarioOracle, $PasswordOracle, $ServidorOracle, 'WE8ISO8859P1');
+
+/*
+ * Asi mismo le decimos que si no puede conectarse nos comunique el Error
+ */
+
+if (!$linkOracle)
+{
+	$e = oci_error ();
+	trigger_error (htmlentities ($e['message'], ENT_QUOTES), E_USER_ERROR);
+}
+
+$defconexion = true;
+
+$linkOracle2 = oci_connect ($UsuarioOracle, $PasswordOracle, $ServidorOracle2, 'WE8ISO8859P1');
+
+/*
+ * Asi mismo le decimos que si no puede conectarse nos comunique el Error
+ */
+
+if (!$linkOracle2)
+{
+	$e = oci_error ();
+	trigger_error (htmlentities ($e['message'], ENT_QUOTES), E_USER_ERROR);
+}
+?>

@@ -1,13 +1,13 @@
 <?php
 /**
+ * Conexiones a las bases de datos
+ *
  * @author iberlot
  * @version 20151223
  * @package Mytthos
  * @category Config
  *
- * Conexiones a las bases de datos 
  */
-
 if (file_exists ("config.php"))
 {
 	include_once ("config.php");
