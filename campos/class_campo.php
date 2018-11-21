@@ -43,17 +43,18 @@ class class_campo
 	 * @var string
 	 * @link /u00/html/classes/examples/campo.html - Ejemplo de definicion de un campo para la utilizacion de la clase abm.
 	 */
-	private $campo = '';
+	protected $campo = '';
 
 	/**
 	 * Tipo de elemento de formulario.
-	 * Puede tomar uno de los siguientes valores: texto, bit, textarea, combo, dbCombo, password, upload, moneda, numero, rownum
+	 * Puede tomar uno de los siguientes valores: texto, bit, textarea, combo, dbCombo, 
+	 * password, upload, moneda, numero, rownum
 	 * Recordar que tiene que respetar mayusculas y minusculas.
 	 *
 	 * @name tipo
 	 * @var string
 	 */
-	private $tipo = '';
+	protected $tipo = '';
 
 	/**
 	 * Incluye ese campo en la exportacion.
@@ -64,7 +65,7 @@ class class_campo
 	 * @name exportar
 	 * @var boolean
 	 */
-	private $exportar = true;
+	protected $exportar = true;
 
 	/**
 	 * Texto para el campo en los formularios y listado.
@@ -72,7 +73,7 @@ class class_campo
 	 * @name titulo
 	 * @var string
 	 */
-	private $titulo = '';
+	protected $titulo = '';
 
 	/**
 	 * Centrar los datos de la columna en el listado.
@@ -80,7 +81,7 @@ class class_campo
 	 * @name centrarColumna
 	 * @var boolean
 	 */
-	private $centrarColumna = false;
+	protected $centrarColumna = false;
 
 	/**
 	 * Codig PHP para ejecutar en cada celda del listado sin imprimir ni siquiera los tags td.
@@ -90,7 +91,7 @@ class class_campo
 	 * @name customEvalListado
 	 * @var string
 	 */
-	private $customEvalListado = '';
+	protected $customEvalListado = '';
 
 	/**
 	 * A utilizar con los tipos de campo Numero y Moneda.
@@ -101,7 +102,7 @@ class class_campo
 	 * @name cantidadDecimales
 	 * @var integer
 	 */
-	private $cantidadDecimales = 2;
+	protected $cantidadDecimales = 2;
 
 	/**
 	 * Si esta en true permite buscar por ese campo.
@@ -112,7 +113,7 @@ class class_campo
 	 * @name buscar
 	 * @var boolean
 	 */
-	private $buscar = true;
+	protected $buscar = true;
 
 	/**
 	 * No muestra el dato en el listado (lo unico que hace es esconderlo por mecio de css con la propiedad display none.
@@ -120,7 +121,7 @@ class class_campo
 	 * @name noMostrar
 	 * @var boolean
 	 */
-	private $noMostrar = true;
+	protected $noMostrar = true;
 
 	/**
 	 * No permite editar el campo en el formulario de edicion.
@@ -128,7 +129,7 @@ class class_campo
 	 * @name noEditar
 	 * @var boolean
 	 */
-	private $noEditar = false;
+	protected $noEditar = false;
 
 	/**
 	 * no mostrar el campo en el listado.
@@ -136,7 +137,7 @@ class class_campo
 	 * @name noListar
 	 * @var boolean
 	 */
-	private $noListar = false;
+	protected $noListar = false;
 
 	/**
 	 * No incuye ni muestra ese campo en el formulario de alta.
@@ -144,7 +145,7 @@ class class_campo
 	 * @name noNuevo
 	 * @var boolean
 	 */
-	private $noNuevo = false;
+	protected $noNuevo = false;
 
 	/**
 	 * Si esta seteado usa este titulo en el listado.
@@ -152,7 +153,7 @@ class class_campo
 	 * @name tituloListado
 	 * @var string
 	 */
-	private $tituloListado = '';
+	protected $tituloListado = '';
 
 	/**
 	 * Datos para el tipo de campo "combo".
@@ -162,7 +163,7 @@ class class_campo
 	 * @name datos
 	 * @var array
 	 */
-	private $datos = array ();
+	protected $datos = array ();
 
 	/**
 	 * Colorea el texto de esta columna en el listado segun el valor.
@@ -172,7 +173,7 @@ class class_campo
 	 * @name colorearValores
 	 * @var array
 	 */
-	private $colorearValores = array ();
+	protected $colorearValores = array ();
 
 	/**
 	 * String con el texto para mostrar en el separador.
@@ -181,7 +182,7 @@ class class_campo
 	 * @name separador
 	 * @var string
 	 */
-	private $separador = '';
+	protected $separador = '';
 
 	/**
 	 * Maximo de caracteres que permite ingresar el input del formulario.
@@ -189,7 +190,7 @@ class class_campo
 	 * @name maxLen
 	 * @var integer
 	 */
-	private $maxLen = 00;
+	protected $maxLen = 00;
 
 	/**
 	 * No permite ordenar por ese campo haciendo click en el titulo de la columna.
@@ -197,7 +198,7 @@ class class_campo
 	 * @name noOrdenar
 	 * @var boolean
 	 */
-	private $noOrdenar = false;
+	protected $noOrdenar = false;
 
 	/**
 	 * Quiery opcional para el tipo de campo dbCombo.
@@ -205,7 +206,7 @@ class class_campo
 	 * @name sqlQuery
 	 * @var string
 	 */
-	private $sqlQuery = '';
+	protected $sqlQuery = '';
 
 	/**
 	 * Campo de la tabla izquierda.
@@ -216,7 +217,7 @@ class class_campo
 	 * @name campoValor
 	 * @var string
 	 */
-	private $campoValor = '';
+	protected $campoValor = '';
 
 	/**
 	 * Campo de la tabla izquierda que tiene el texto que se muestra en el listado y que va en <option value=''>{ac&aacute;}</option>
@@ -226,7 +227,7 @@ class class_campo
 	 * @name campoTexto
 	 * @var string
 	 */
-	private $campoTexto = '';
+	protected $campoTexto = '';
 
 	/**
 	 * Tabla para hacer join en el listado (es la misma tabla de sqlQuery).
@@ -236,7 +237,7 @@ class class_campo
 	 * @name joinTable
 	 * @var string
 	 */
-	private $joinTable = '';
+	protected $joinTable = '';
 
 	/**
 	 * Para hacer join en el listado.
@@ -251,7 +252,7 @@ class class_campo
 	 * @name joinCondition
 	 * @var string
 	 */
-	private $joinCondition = 'INNER';
+	protected $joinCondition = 'INNER';
 
 	/**
 	 * Para los tipo "combo" o "dbCombo", si esta en True incluye <option value=''></option>
@@ -259,7 +260,7 @@ class class_campo
 	 * @name incluirOpcionVacia =
 	 * @var boolean
 	 */
-	private $incluirOpcionVacia = true;
+	protected $incluirOpcionVacia = true;
 
 	/**
 	 * Muestra el valor del campo en el combo.
@@ -267,7 +268,7 @@ class class_campo
 	 * @name mostrarValor
 	 * @var boolean
 	 */
-	private $mostrarValor = true;
+	protected $mostrarValor = true;
 
 	/**
 	 * Pone el texto del combo en mayusculas.
@@ -275,7 +276,7 @@ class class_campo
 	 * @name textoMayuscula
 	 * @var boolean
 	 */
-	private $textoMayuscula = true;
+	protected $textoMayuscula = true;
 
 	/**
 	 * Valor predefinido para un campo en el formulario de alta.
@@ -283,7 +284,7 @@ class class_campo
 	 * @name valorPredefinido
 	 * @var string
 	 */
-	private $valorPredefinido = '';
+	protected $valorPredefinido = '';
 
 	/**
 	 * Campo a remplazar en la formula de customPrintListado.
@@ -292,7 +293,7 @@ class class_campo
 	 * @name incluirCampo
 	 * @var string
 	 */
-	private $incluirCampo = '';
+	protected $incluirCampo = '';
 
 	/**
 	 * sprintf para imprimir en el listado.
@@ -303,7 +304,7 @@ class class_campo
 	 * @name customPrintListado
 	 * @var string
 	 */
-	private $customPrintListado = '';
+	protected $customPrintListado = '';
 
 	/**
 	 * Campo que usa para hacer el order by al cliquear el titulo de la columna, esto es ideal para cuando se usa un query en la funcion generarAbm()
@@ -311,7 +312,7 @@ class class_campo
 	 * @name campoOrder
 	 * @var string
 	 */
-	private $campoOrder = '';
+	protected $campoOrder = '';
 
 	/**
 	 * si esta seteado usa este titulo en el formulario de busqueda
@@ -319,7 +320,7 @@ class class_campo
 	 * @name tituloBuscar
 	 * @var string
 	 */
-	private $tituloBuscar = '';
+	protected $tituloBuscar = '';
 
 	/**
 	 * el campo es requerido
@@ -327,7 +328,7 @@ class class_campo
 	 * @name requerido
 	 * @var boolean
 	 */
-	private $requerido = '';
+	protected $requerido = '';
 
 	/**
 	 * una funcion de usuario que reciba el parametro $fila.
@@ -336,7 +337,7 @@ class class_campo
 	 * @name formItem
 	 * @var string
 	 */
-	private $formItem = '';
+	protected $formItem = '';
 
 	/**
 	 * Agrega el class "label" cuando colorea un valor.
@@ -345,7 +346,7 @@ class class_campo
 	 * @name colorearConEtiqueta
 	 * @var boolean
 	 */
-	private $colorearConEtiqueta = '';
+	protected $colorearConEtiqueta = '';
 
 	/**
 	 * JOIN a agregar a la consulta
@@ -353,7 +354,7 @@ class class_campo
 	 * @name customJoin
 	 * @var string
 	 */
-	private $customJoin = '';
+	protected $customJoin = '';
 
 	/**
 	 * Texto que pone cuando el tipo de campo es "bit" y este es true o =1.
@@ -362,7 +363,7 @@ class class_campo
 	 * @name textoBitTrue
 	 * @var string
 	 */
-	private $textoBitTrue = 'SI';
+	protected $textoBitTrue = 'SI';
 
 	/**
 	 * Texto que pone cuando el tipo de campo es "bit" y este es false o =0.
@@ -371,7 +372,7 @@ class class_campo
 	 * @name textoBitFalse
 	 * @var string
 	 */
-	private $textoBitFalse = 'NO';
+	protected $textoBitFalse = 'NO';
 
 	/**
 	 * Si esta en true muestra primero el false en los <select>.
@@ -380,7 +381,7 @@ class class_campo
 	 * @name ordenInversoBit
 	 * @var Boolean
 	 */
-	private $ordenInversoBit = '';
+	protected $ordenInversoBit = '';
 
 	/**
 	 * Funcion de usuario que se encarga del archivo subido.
@@ -389,7 +390,7 @@ class class_campo
 	 * @name uploadFunction
 	 * @var string
 	 */
-	private $uploadFunction = '';
+	protected $uploadFunction = '';
 
 	/**
 	 * Para el tipo de campo upload.
@@ -398,7 +399,7 @@ class class_campo
 	 * @name borrarSiUploadFalla
 	 * @var Boolean
 	 */
-	private $borrarSiUploadFalla = '';
+	protected $borrarSiUploadFalla = '';
 
 	/**
 	 * Operador que usa en el where.
@@ -407,7 +408,7 @@ class class_campo
 	 * @name buscarOperador
 	 * @var string
 	 */
-	private $buscarOperador = '';
+	protected $buscarOperador = '';
 
 	/**
 	 * Si esta seteado usa ese campo en el where para buscar
@@ -415,7 +416,7 @@ class class_campo
 	 * @name buscarUsarCampo
 	 * @var string
 	 */
-	private $buscarUsarCampo = '';
+	protected $buscarUsarCampo = '';
 
 	/**
 	 * Funcion del usuario para poner un HTML especial en el lugar donde iria el form item del formulario de busqueda.
@@ -424,7 +425,7 @@ class class_campo
 	 * @name customFuncionBuscar
 	 * @var string
 	 */
-	private $customFuncionBuscar = '';
+	protected $customFuncionBuscar = '';
 
 	/**
 	 * para agregar html dentro de los tags del input.
@@ -433,7 +434,7 @@ class class_campo
 	 * @name adicionalInput
 	 * @var string
 	 */
-	private $adicionalInput = '';
+	protected $adicionalInput = '';
 
 	/**
 	 * permite especificar un ancho a esa columna en el listado (ej: 80px)
@@ -441,7 +442,7 @@ class class_campo
 	 * @name anchoColumna
 	 * @var string
 	 */
-	private $anchoColumna = '';
+	protected $anchoColumna = '';
 
 	/**
 	 * no muestra el campo en el formulario de edicion
@@ -449,7 +450,7 @@ class class_campo
 	 * @name noMostrarEditar
 	 * @var string
 	 */
-	private $noMostrarEditar = '';
+	protected $noMostrarEditar = '';
 
 	/**
 	 * para ejecutar una funcion del usuario en cada celda del listado sin imprimir ni siquiera los tags < td >< / td>.
@@ -458,7 +459,7 @@ class class_campo
 	 * @name customFuncionListado
 	 * @var string
 	 */
-	private $customFuncionListado = '';
+	protected $customFuncionListado = '';
 
 	/**
 	 * para ejecutar una funcion del usuario en el valor antes de usarlo para el query sql en las funciones de INSERT Y UPDATE.
@@ -467,7 +468,7 @@ class class_campo
 	 * @name customFuncionValor
 	 * @var string
 	 */
-	private $customFuncionValor = '';
+	protected $customFuncionValor = '';
 
 	/**
 	 * lo mismo que tipo pero solo para el formulario de busqueda
@@ -475,7 +476,7 @@ class class_campo
 	 * @name tipoBuscar
 	 * @var string
 	 */
-	private $tipoBuscar = '';
+	protected $tipoBuscar = '';
 
 	/**
 	 * Listado de tipos admitidos como tipo de campo.
@@ -483,7 +484,7 @@ class class_campo
 	 *
 	 * @var string[]
 	 */
-	private $tiposAdmitidos = array (
+	protected $tiposAdmitidos = array (
 			'texto',
 			'bit',
 			'textarea',
@@ -502,7 +503,7 @@ class class_campo
 	 *
 	 * @var object
 	 */
-	private $sitio;
+	protected $sitio;
 
 	/**
 	 * devuelve un objeto campo basado en el array pasado.
