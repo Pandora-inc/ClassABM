@@ -1119,7 +1119,7 @@ class class_sitio
 		if (strlen ($str) > $len)
 		{
 			// Cortamos la cadena por los espacios
-			$arrayTexto = split (' ', $str);
+			$arrayTexto = explode (' ', $str);
 
 			$texto = '';
 			$contador = 0;
