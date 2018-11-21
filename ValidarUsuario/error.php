@@ -1,22 +1,22 @@
 <?php
-	session_start();
-	
-	/* 
-	 * Error log
-	 * mixed by Marcexl
-	 * version 24112015
-	 *
-	 */
+/**
+ * Error log
+ *
+ * @author mixed by Marcexl
+ * @version 24112015
+ *
+ */
+session_start ();
 
-	$Titulo = "Error";
-	include ("variables.php");
-	include ("/web/html/inc/header.php");
-	include ("menu.php");
+$Titulo = "Error";
+include ("variables.php");
+include ("/web/html/inc/header.php");
+include ("menu.php");
 
-	echo '<div id="content">
+echo '<div id="content">
 			<div id="separadorh"></div>
 			<h3><?php echo $Titulo;?></h3>
-			<div id="separadorh"></div>	
+			<div id="separadorh"></div>
 				<div id="cuerpo" align="center">
 					<div id="alert">
 					<div class="alertHeader">Ha ocurrido un error</div>
@@ -26,5 +26,5 @@
 			</div>
 		</div>';
 
-	include("/web/html/inc/footer.php");#incluimos el footer
+include ("/web/html/inc/footer.php"); // incluimos el footer
 ?>

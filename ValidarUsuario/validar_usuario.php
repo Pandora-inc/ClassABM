@@ -1,67 +1,81 @@
 <?php
-
 /**
+ * Realiza la comprovacion de permisos en la base para el usuario y la aplicacion.
  *
- * @author iberlot
- *         Validar usuario
- *         mixed by Marcexl
- * @version 23112015
- *          Consulta a la BD si tiene persmisos
- *         
+ * Consulta a la BD si tiene persmisos
+ *
+ * @author iberlot <@> iberlot@usal.edu.ar
+ *         @date 23 nov. 2015
+ *         @lenguage PHP
+ * @name validar_usuario.php
+ *
+ * @version 0.1 - Version inicial del archivo.
+ * @version 1.0 - Mixed by Marcexl
+ * @version 1.2 - Parametrizacion total de las consultas. Utilizacion de la clase db para los accesos a la base.
+ *
+ * @package ValidacionDeUsuarios
+ *
+ * @link configs/includes.php - Archivo con todos los includes del sistema
  */
+ob_start ();
 
-/* FILTRO1 averiguamos si la cuenta esta en la tabla */
-$sqlUsrs = "SELECT login, person FROM appadmusu.usuario WHERE UPPER(login) = :cuenta";
-$stmt = oci_parse ($linkOracle2, $sqlUsrs);
+include_once ("includes.php");
 
-oci_bind_by_name ($stmt, ":cuenta", strtoupper ($cuenta));
-
-oci_execute ($stmt) or die (' Error en sqlUsrs ' . var_dump ($sqlUsrs) . ' en linea ' . __LINE__);
+if (!isset ($db))
+{
+	$db = new class_db ($dbSever, $dbUser, $dbPass, $dbBase, $dbCharset, $dbTipo);
+	$db->connect ();
+}
 
 $filtro1 = false;
+$parametros = array ();
 
-while ($row = oci_fetch_array ($stmt))
+$sqlUsrs = "SELECT login, person FROM appadmusu.usuario WHERE UPPER(login) = UPPER(:cuenta)";
+
+$parametros[] = $cuenta;
+
+$result = $db->query ($sql);
+
+while ($row = $db->fetch_array ($result))
 {
-	if ($cuenta == $row ["LOGIN"])
+	if ($cuenta == $row["LOGIN"])
 	{
-		$person = $row ["PERSON"];
+		$person = $row["PERSON"];
 		$filtro1 = true;
 	}
 }
 
 if ($filtro1 == true)
 {
-	
+
 	$filtro2 = false;
-	
+
 	/* FILTRO 2 si esta en la tabla ahora verificamos si tiene permisos en dicha aplicacion */
-	
-	$sqlRoles = "SELECT idrol FROM appadmusu.moduloxrol WHERE idaplicacion = :IDAPLICACION AND IDMODULO = :modulo";
-	$stmt = oci_parse ($linkOracle2, $sqlRoles);
-	
-	oci_bind_by_name ($stmt, ":modulo", $IDMODULO);
-	oci_bind_by_name ($stmt, ":IDAPLICACION", $IDAPLICACION);
-	
-	oci_execute ($stmt) or die (' Error en sqlRoles ' . var_dump ($sqlRoles) . ' en linea ' . __LINE__);
-	
-	while ($rowRoles = oci_fetch_array ($stmt))
+
+	$sqlRoles = "SELECT idrol FROM appadmusu.moduloxrol WHERE idaplicacion = :idaplicacion AND idmodulo = :modulo";
+
+	$parametros = array ();
+
+	$parametros[] = $IDAPLICACION;
+	$parametros[] = $IDMODULO;
+
+	$result = $db->query ($sqlRoles);
+
+	while ($rowRoles = $db->fetch_array ($result))
 	{
-		$IDROL = $rowRoles ['IDROL'];
-		
-		$sqlUsrs2 = "SELECT DISTINCT person FROM appadmusu.rolxusuario ru, appadmusu.moduloxrol mr WHERE ru.idrol = :IDROL AND ru.person = :person AND mr.idrol = ru.idrol AND mr.idaplicacion = :IDAPLICACION";
-		// $sqlUsrs2 = "SELECT PERSON FROM appadmusu.RolxUsuario where IDROL = ".$IDROL." and PERSON = ".$person;
-		$stmt2 = oci_parse ($linkOracle2, $sqlUsrs2);
-		oci_bind_by_name ($stmt2, ":IDROL", $IDROL);
-		oci_bind_by_name ($stmt2, ":person", $person);
-		oci_bind_by_name ($stmt2, ":IDAPLICACION", $IDAPLICACION);
-		
-		// $IDROL .=$sqlUsrs2;
-		exit($sqlUsrs2);
-		oci_execute ($stmt2) or die (' Error en sqlUsrs ' . var_dump ($sqlUsrs2) . ' en linea ' . __LINE__);
-		
-		while ($row2 = oci_fetch_array ($stmt2))
+		$sqlUsrs2 = "SELECT DISTINCT person FROM appadmusu.rolxusuario ru, appadmusu.moduloxrol mr WHERE ru.idrol = :idrol AND ru.person = :person AND mr.idrol = ru.idrol AND mr.idaplicacion = :idaplicacion";
+
+		$parametros = array ();
+
+		$parametros[] = $rowRoles['IDROL'];
+		$parametros[] = $person;
+		$parametros[] = $IDAPLICACION;
+
+		$result = $db->query ($sqlUsrs2);
+
+		while ($row2 = $db->fetch_array ($result))
 		{
-			if ($person == $row2 ["PERSON"])
+			if ($person == $row2["PERSON"])
 			{
 				$filtro2 = true;
 			}
@@ -71,12 +85,12 @@ if ($filtro1 == true)
 else
 {
 	/* si es invalido alguno de los filtros */
-	header ("Location:error.php?msg=SINAPPICACION");
+	header ("location:" . $raiz . "/error.php?msg=SINAPPICACION");
 }
 
 if ($filtro2 == true)
 {
-	
+
 	/*
 	 * Si pasa los dos filtros creamos las variables de sesion de:
 	 * - usuario
@@ -84,19 +98,38 @@ if ($filtro2 == true)
 	 * - app (aplicacion a la que estamos logeados)
 	 * - y el array de roles que en este caso queda grabado en $personApss
 	 */
-	
-	$_SESSION ['usuario'] = $cuenta;
-	$_SESSION ['person'] = $person;
-	$_SESSION ['foto'] = $foto;
-	$_SESSION ['app'] = $app;
-	
+
+	/* generamos el array con las aplicaciones que tiene permisos */
+	$sql = "SELECT idrol FROM appadmusu.RolxUsuario WHERE person = :person";
+
+	$parametros = array ();
+
+	$parametros[] = $person;
+
+	$result = $db->query ($sql);
+
+	while ($fila = $db->fetch_array ($result))
+	{
+		foreach ($fila as $elemento)
+		{
+			$personApps[] = $elemento;
+		}
+	}
+
+	$_SESSION['personApps'] = $personApps;
+
+	$_SESSION['usuario'] = $cuenta;
+	$_SESSION['person'] = $person;
+	$_SESSION['foto'] = $foto;
+	$_SESSION['estado'] = 'Iniciada';
+
 	header ("Location:index.php");
 }
 else
 {
 	/* si es invalido alguno de los filtros */
-	
+
 	header ("Location:error.php?msg=SINPERMISOS&IDROL=$IDROL&person=$person&IDAPLICACION=$IDAPLICACION");
 }
-
+ob_end_flush ();
 ?>

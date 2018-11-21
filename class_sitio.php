@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Archivo principal de la clase validar.
+ * Archivo principal de la clase Generica.
  *
  * @name class_sitio.php
  * @author iberlot <@> iberlot@usal.edu.ar
@@ -734,74 +734,53 @@ class class_sitio
 	 */
 	public function generarInputSelect($db, $tabla, $campoSelec, $campoTexto = NULL, $seleccionado = NULL, $textoMayuscula = true, $mostrarValor = false)
 	{
-		try
+		if ($campoTexto == NULL)
 		{
-			if ($campoTexto == NULL)
-			{
-				$campoTexto = $campoSelec;
-			}
-
-			$campos = "DISTINCT(" . $campoSelec . ")";
-
-			if (isset ($campoTexto) and $campoTexto != "")
-			{
-				$campos = $campos . ", " . $campoTexto;
-			}
-
-			$sql = "SELECT " . $campos . " FROM " . $tabla;
-
-			$result = $db->query ($sql);
-
-			while ($row = $db->fetch_array ($result))
-			{
-				if (!isset ($combobit))
-				{
-					$combobit = "";
-				}
-
-				$combobit .= ' <option value=' . $row[$campoSelec];
-
-				if (isset ($seleccionado) and ($seleccionado == $row[$campoSelec]))
-				{
-					$combobit .= ' selected="selected"';
-				}
-
-				$combobit .= '>';
-
-				if (isset ($mostrarValor) and ($mostrarValor == true))
-				{
-					$combobit .= ' (' . $row[$campoSelec] . ') ';
-				}
-
-				if ($textoMayuscula == true)
-				{
-					$combobit .= substr ($row[$campoTexto], 0, 50) . ' </option>';
-				}
-				else
-				{
-					$combobit .= ucwords (strtolower (substr ($row[$campoTexto], 0, 50))) . ' </option>';
-				}
-			}
-			return $combobit;
+			$campoTexto = $campoSelec;
 		}
-		catch (Exception $e)
+
+		$campos = "DISTINCT(" . $campoSelec . ")";
+
+		if (isset ($campoTexto) and $campoTexto != "")
 		{
-			if ($this->debug == true)
+			$campos = $campos . ", " . $campoTexto;
+		}
+
+		$sql = "SELECT " . $campos . " FROM " . $tabla;
+
+		$result = $db->query ($sql);
+
+		while ($row = $db->fetch_array ($result))
+		{
+			if (!isset ($combobit))
 			{
-				return __LINE__ . " - " . __FILE__ . " - " . $e->getMessage ();
-				// echo __LINE__ . " - " . __FILE__ . " - " . $e->getMessage ();
+				$combobit = "";
+			}
+
+			$combobit .= ' <option value=' . $row[$campoSelec];
+
+			if (isset ($seleccionado) and ($seleccionado == $row[$campoSelec]))
+			{
+				$combobit .= ' selected="selected"';
+			}
+
+			$combobit .= '>';
+
+			if (isset ($mostrarValor) and ($mostrarValor == true))
+			{
+				$combobit .= ' (' . $row[$campoSelec] . ') ';
+			}
+
+			if ($textoMayuscula == true)
+			{
+				$combobit .= substr ($row[$campoTexto], 0, 50) . ' </option>';
 			}
 			else
 			{
-				return $e->getMessage ();
-				// echo $e->getMessage ();
-			}
-
-			if ($this->dieOnError == true)
-			{
-				exit ();
+				$combobit .= ucwords (strtolower (substr ($row[$campoTexto], 0, 50))) . ' </option>';
 			}
 		}
+		return $combobit;
 	}
 
 	/*
@@ -845,42 +824,24 @@ class class_sitio
 	 */
 	public function formatear_fecha_Oracle($fecha_inicio, $separador = "/")
 	{
-		try
+
+		// $fecha_inicio = str_replace ('-', '', $fecha_inicio);
+		// $fecha_inicio = str_replace ('/', '', $fecha_inicio);
+		$fecha_inicio = preg_replace ('([^0-9])', '', $fecha_inicio);
+
+		if (strlen ($fecha_inicio) == 8)
 		{
-			// $fecha_inicio = str_replace ('-', '', $fecha_inicio);
-			// $fecha_inicio = str_replace ('/', '', $fecha_inicio);
-			$fecha_inicio = preg_replace ('([^0-9])', '', $fecha_inicio);
+			$dd = substr ($fecha_inicio, -2);
+			$mm = substr ($fecha_inicio, 4, 2);
+			$yyyy = substr ($fecha_inicio, 0, 4);
 
-			if (strlen ($fecha_inicio) == 8)
-			{
-				$dd = substr ($fecha_inicio, -2);
-				$mm = substr ($fecha_inicio, 4, 2);
-				$yyyy = substr ($fecha_inicio, 0, 4);
+			$fecha_inicio = $dd . $separador . $mm . $separador . $yyyy;
 
-				$fecha_inicio = $dd . $separador . $mm . $separador . $yyyy;
-
-				return $fecha_inicio;
-			}
-			else
-			{
-				throw new Exception ('ERROR: El formato de fecha es incorrecto.');
-			}
+			return $fecha_inicio;
 		}
-		catch (Exception $e)
+		else
 		{
-			if ($this->debug == true)
-			{
-				return __LINE__ . " - " . __FILE__ . " - " . $e->getMessage ();
-			}
-			else
-			{
-				return $e->getMessage ();
-			}
-
-			if ($this->dieOnError == true)
-			{
-				exit ();
-			}
+			throw new Exception ('ERROR: El formato de fecha es incorrecto.');
 		}
 	}
 
@@ -1255,38 +1216,19 @@ class class_sitio
 	 */
 	public function save_image($inPath, $outPath)
 	{
-		try
-		{
-			// Download images from remote server
-			$in = fopen ($inPath, "rb");
-			$out = fopen ($outPath, "wb");
+		// Download images from remote server
+		$in = fopen ($inPath, "rb");
+		$out = fopen ($outPath, "wb");
 
-			while ($chunk = fread ($in, 8192))
-			{
-				if (!fwrite ($out, $chunk, 8192))
-				{
-					throw new Exception ('ERROR: No se pudo grabar el archivo.');
-				}
-			}
-			fclose ($in);
-			fclose ($out);
-		}
-		catch (Exception $e)
+		while ($chunk = fread ($in, 8192))
 		{
-			if ($this->debug == true)
+			if (!fwrite ($out, $chunk, 8192))
 			{
-				return __LINE__ . " - " . __FILE__ . " - " . $e->getMessage ();
-			}
-			else
-			{
-				return $e->getMessage ();
-			}
-
-			if ($this->dieOnError == true)
-			{
-				exit ();
+				throw new Exception ('ERROR: No se pudo grabar el archivo.');
 			}
 		}
+		fclose ($in);
+		fclose ($out);
 	}
 
 	/**
@@ -1812,8 +1754,9 @@ class class_sitio
 	public function date2mysql($date)
 	{
 		if (!ereg ('^[0-9]{1,2}/[0-9]{1,2}/[0-9]{4}$', $date))
+		{
 			return false;
-
+		}
 		$datearray = explode ("/", $date);
 
 		$dd = $datearray[0];
@@ -1864,37 +1807,52 @@ class class_sitio
 	public function mysql2preety($ts, $formatoFecha = "d/m/Y")
 	{
 		if (!ctype_digit ($ts))
+		{
 			$ts = strtotime ($ts);
-
+		}
 		$diff = time () - $ts;
 		$day_diff = floor ($diff / 86400);
 
 		if ($day_diff < 0)
+		{
 			return date ($formatoFecha, $ts); // fecha futura! no deberia pasar..
-
+		}
 		if ($day_diff == 0)
 		{
 			if ($diff < 60)
-				return "Reci�n";
+			{
+				return "Recien";
+			}
 			if ($diff < 120)
+			{
 				return "Hace un minuto";
+			}
 			if ($diff < 3600)
+			{
 				return "Hace " . floor ($diff / 60) . " minutos";
+			}
 			if ($diff < 7200)
+			{
 				return "Hace una hora";
+			}
 			if ($diff < 86400)
+			{
 				return "Hace " . floor ($diff / 3600) . " horas";
+			}
 		}
 
 		if ($day_diff == 1)
+		{
 			return "Ayer";
-
+		}
 		if ($day_diff < 7)
-			return "Hace " . $day_diff . " d�as";
-
+		{
+			return "Hace " . $day_diff . " dias";
+		}
 		if ($day_diff < 31)
+		{
 			return "Hace " . ceil ($day_diff / 7) . " semanas";
-
+		}
 		return date ($formatoFecha, $ts);
 	}
 
@@ -2232,99 +2190,79 @@ class class_sitio
 	{
 
 		// FIXME Hay que probar la funcion para verificar su correcto funcionamiento
-		try
+		// Recuperamos todas las tablas
+		if ($tables == '*')
 		{
-			// Recuperamos todas las tablas
-			if ($tables == '*')
-			{
-				$tables = array ();
-				$result = $db->query ('SHOW TABLES');
+			$tables = array ();
+			$result = $db->query ('SHOW TABLES');
 
+			while ($row = $db->fetch_row ($result))
+			{
+				$tables[] = $row[0];
+			}
+		}
+		else
+		{
+			$tables = is_array ($tables) ? $tables : explode (',', $tables);
+		}
+
+		foreach ($tables as $table)
+		{
+			$result = $db->query ('SELECT * FROM ' . $table);
+			$num_fields = $db->num_fields ($result);
+
+			$return .= 'DROP TABLE IF EXISTS ' . $table . ';';
+			$row2 = $db->fetch_row ($db->query ('SHOW CREATE TABLE ' . $table));
+			$return .= "\n\n" . $row2[1] . ";\n\n";
+
+			for($i = 0; $i < $num_fields; $i++)
+			{
 				while ($row = $db->fetch_row ($result))
 				{
-					$tables[] = $row[0];
-				}
-			}
-			else
-			{
-				$tables = is_array ($tables) ? $tables : explode (',', $tables);
-			}
+					$return .= 'INSERT INTO ' . $table . ' VALUES(';
 
-			foreach ($tables as $table)
-			{
-				$result = $db->query ('SELECT * FROM ' . $table);
-				$num_fields = $db->num_fields ($result);
-
-				$return .= 'DROP TABLE IF EXISTS ' . $table . ';';
-				$row2 = $db->fetch_row ($db->query ('SHOW CREATE TABLE ' . $table));
-				$return .= "\n\n" . $row2[1] . ";\n\n";
-
-				for($i = 0; $i < $num_fields; $i++)
-				{
-					while ($row = $db->fetch_row ($result))
+					for($j = 0; $j < $num_fields; $j++)
 					{
-						$return .= 'INSERT INTO ' . $table . ' VALUES(';
+						$row[$j] = addslashes ($row[$j]);
 
-						for($j = 0; $j < $num_fields; $j++)
+						$row[$j] = preg_replace ("\n", "\\n", $row[$j]);
+
+						if (isset ($row[$j]))
 						{
-							$row[$j] = addslashes ($row[$j]);
-
-							$row[$j] = preg_replace ("\n", "\\n", $row[$j]);
-
-							if (isset ($row[$j]))
-							{
-								$return .= '"' . $row[$j] . '"';
-							}
-							else
-							{
-								$return .= '""';
-							}
-
-							if ($j < ($num_fields - 1))
-							{
-								$return .= ',';
-							}
+							$return .= '"' . $row[$j] . '"';
 						}
-						$return .= ");\n";
+						else
+						{
+							$return .= '""';
+						}
+
+						if ($j < ($num_fields - 1))
+						{
+							$return .= ',';
+						}
 					}
+					$return .= ");\n";
 				}
-				$return .= "\n\n\n";
 			}
-
-			if ($download)
-			{
-				header ("Content-Type: text/plain");
-				header ("Content-Disposition: attachment; filename=" . $fileName);
-				header ("Content-Length: " . strlen ($return)); // it is needed for the progress bar of the browser
-				echo $return;
-			}
-			else
-			{
-
-				$handle = fopen ($fileName, 'w+');
-				fwrite ($handle, $return);
-				fclose ($handle);
-			}
-
-			$return = "";
+			$return .= "\n\n\n";
 		}
-		catch (Exception $e)
+
+		if ($download)
 		{
-			if ($this->debug == true)
-			{
-				return __LINE__ . " - " . __FILE__ . " - " . $e->getMessage ();
-			}
-			else
-
-			{
-				return $e->getMessage ();
-			}
-
-			if ($this->dieOnError == true)
-			{
-				exit ();
-			}
+			header ("Content-Type: text/plain");
+			header ("Content-Disposition: attachment; filename=" . $fileName);
+			header ("Content-Length: " . strlen ($return)); // it is needed for the progress bar of the browser
+			echo $return;
 		}
+		else
+		{
+
+			$handle = fopen ($fileName, 'w+');
+			fwrite ($handle, $return);
+			fclose ($handle);
+		}
+
+		$return = "";
 	}
 
 	/**
@@ -2421,59 +2359,39 @@ class class_sitio
 	 */
 	public function listar_directorios_ruta($ruta, $excepcion = "")
 	{
-		try
+		$lista = "";
+
+		if (is_dir ($ruta))
 		{
-			$lista = "";
-
-			if (is_dir ($ruta))
+			if ($dh = opendir ($ruta))
 			{
-				if ($dh = opendir ($ruta))
+				while (($file = readdir ($dh)) !== false)
 				{
-					while (($file = readdir ($dh)) !== false)
+					// esta l�nea la utilizar�amos si queremos listar todo lo que hay en el directorio
+					// mostrar�a tanto archivos como directorios
+					// echo "<br>Nombre de archivo: $file : Es un: " . filetype($ruta . $file);
+
+					if ((is_dir ($ruta . $file) && $file != "." && $file != "..") and (isset ($excepcion) and $excepcion != $file) or (is_array ($excepcion) and in_array ($file, $excepcion)))
 					{
-						// esta l�nea la utilizar�amos si queremos listar todo lo que hay en el directorio
-						// mostrar�a tanto archivos como directorios
-						// echo "<br>Nombre de archivo: $file : Es un: " . filetype($ruta . $file);
+						// solo si el archivo es un directorio, distinto que "." y ".."
 
-						if ((is_dir ($ruta . $file) && $file != "." && $file != "..") and (isset ($excepcion) and $excepcion != $file) or (is_array ($excepcion) and in_array ($file, $excepcion)))
+						if (is_dir ($ruta . $file))
 						{
-							// solo si el archivo es un directorio, distinto que "." y ".."
-
-							if (is_dir ($ruta . $file))
-							{
-								$this->listar_directorios_ruta ($ruta . "/" . $file . "/");
-							}
-							else
-							{
-								$lista .= "<br>Directorio: " . $ruta . "/" . $file;
-							}
+							$this->listar_directorios_ruta ($ruta . "/" . $file . "/");
+						}
+						else
+						{
+							$lista .= "<br>Directorio: " . $ruta . "/" . $file;
 						}
 					}
-					closedir ($dh);
 				}
-				return $lista;
+				closedir ($dh);
 			}
-			else
-			{
-				throw new Exception ('No es ruta valida');
-			}
+			return $lista;
 		}
-		catch (Exception $e)
+		else
 		{
-			if ($this->debug == true)
-			{
-				return __LINE__ . " - " . __FILE__ . " - " . $e->getMessage ();
-			}
-			else
-
-			{
-				return $e->getMessage ();
-			}
-
-			if ($this->dieOnError == true)
-			{
-				exit ();
-			}
+			throw new Exception ('No es ruta valida');
 		}
 	}
 
@@ -2520,6 +2438,36 @@ class class_sitio
 		}
 	}
 
+	/**
+	 * Retorna un array con todos los archivos de una direccion X.
+	 *
+	 * @param String $path
+	 *        	Direccion del directorio a recorrer
+	 * @param boolean $recusivo
+	 * @return array
+	 */
+	public function filesToArray($path, $recusivo = false)
+	{
+		$dir = opendir ($path);
+		$files = array ();
+		while ($current = readdir ($dir))
+		{
+			if ($current != "." && $current != "..")
+			{
+				if (!is_dir ($path . $current))
+				{
+					$files[] = $current;
+				}
+				elseif ($recusivo == true)
+				{
+					$files = array_merge ($files, filesToArray ($path . $current, $recusivo));
+				}
+			}
+		}
+
+		return $files;
+	}
+
 	public function manejoDeErrores($e)
 	{
 		if ($this->debug == true)
@@ -2536,6 +2484,7 @@ class class_sitio
 			exit ();
 		}
 	}
+
 	// ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 }
 

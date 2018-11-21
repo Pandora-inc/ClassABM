@@ -1,11 +1,12 @@
+
 <?php
 /**
+ *
+ * Este archivo se encargara de contener e inicializar todas las variables que va a utilizar el sistema
+ *
  * @author iberlot
  * @version 2.0
  *
- * Este archivo se encargara de contener e inicializar todas las variables
- * que va a utilizar el sistema
- * 
  */
 $notaPorCambio = "";
 $idModulo = "";
@@ -375,16 +376,16 @@ $bajaDeLaCuenta = "";
  *
  * @var string Direccion deonde se encuentra la foto de la persona dentro de la carpeta de fotos
  *      se arma de la siguiente manera
- *     
+ *
  *      <code>
  *      <?php
  *      substr($docNumero, - 1)."/".substr($docNumero, - 2, 1)."/".substr($docNumero, - 3, 1)."/".substr('00000000000'.$docNumero, - 10).".jpg";
  *      ?>
  *      </code>
- *     
+ *
  * @example para el DNI 31234567 quedaria:
  * @example 7/6/5/0031234567.jpg
- *         
+ *
  */
 $foto_persona = "";
 
@@ -612,17 +613,17 @@ $eliminarPuntoAcceso = "";
  *
  * @var array $sqlWhere array con booleanos para el armado de sql's parametrizados
  */
-$sqlWhere ['detalleReq'] = 0;
-$sqlWhere ['derivadoReq'] = 0;
-$sqlWhere ['usuarioReq'] = 0;
-$sqlWhere ['prioridadReq'] = 0;
-$sqlWhere ['fechaEntregaReq'] = 0;
-$sqlWhere ['categoriaReq'] = 0;
-$sqlWhere ['fechaSolisitudReq'] = 0;
-$sqlWhere ['tipoReq'] = 0;
-$sqlWhere ['estadoReq'] = 0;
-$sqlWhere ['soporteReq'] = 0;
-$sqlWhere ['reqAccion'] = 0;
-$sqlWhere ['nombreReq'] = 0;
-$sqlWhere ['AnoReq'] = 0;
+$sqlWhere['detalleReq'] = 0;
+$sqlWhere['derivadoReq'] = 0;
+$sqlWhere['usuarioReq'] = 0;
+$sqlWhere['prioridadReq'] = 0;
+$sqlWhere['fechaEntregaReq'] = 0;
+$sqlWhere['categoriaReq'] = 0;
+$sqlWhere['fechaSolisitudReq'] = 0;
+$sqlWhere['tipoReq'] = 0;
+$sqlWhere['estadoReq'] = 0;
+$sqlWhere['soporteReq'] = 0;
+$sqlWhere['reqAccion'] = 0;
+$sqlWhere['nombreReq'] = 0;
+$sqlWhere['AnoReq'] = 0;
 ?>

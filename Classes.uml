@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<uml:Model xmi:version="20131001" xmlns:xmi="http://www.omg.org/spec/XMI/20131001" xmlns:uml="http://www.eclipse.org/uml2/5.0.0/UML" xmi:id="_MckTsD8TEeiY-cmyM7N50Q" name="SistemasUno">
+  <packageImport xmi:type="uml:PackageImport" xmi:id="_MzEIID8TEeiY-cmyM7N50Q">
+    <importedPackage xmi:type="uml:Model" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#_0"/>
+  </packageImport>
+  <packagedElement xmi:type="uml:Interaction" xmi:id="_MhvuoD8TEeiY-cmyM7N50Q" name="Interaction1"/>
+  <packagedElement xmi:type="uml:StateMachine" xmi:id="_Mii_4D8TEeiY-cmyM7N50Q" name="StateMachine2">
+    <region xmi:type="uml:Region" xmi:id="_MiumED8TEeiY-cmyM7N50Q" name="Region1"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Activity" xmi:id="_MjMgID8TEeiY-cmyM7N50Q" name="Activity3"/>
+  <packagedElement xmi:type="uml:Activity" xmi:id="_Mjh3UD8TEeiY-cmyM7N50Q" name="Activity4"/>
+  <packagedElement xmi:type="uml:Class" xmi:id="_eS2IAD8vEeiY-cmyM7N50Q" name="class_sitio">
+    <ownedOperation xmi:type="uml:Operation" xmi:id="_qt4FUD8vEeiY-cmyM7N50Q" name="Operation1"/>
+  </packagedElement>
+</uml:Model>

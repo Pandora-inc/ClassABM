@@ -1,9 +1,19 @@
-<!--mgallardo 21102015: no se levantan estas librerias y se mudaron las liberarias CSS a /web/html/css/others/-->
-<!--<link rel='stylesheet' href='/css/jquery-ui.css'  class='ui-theme'>
-<link rel='stylesheet' href='/css/jquery1-1-11.css'>-->
+<?php
+/**
+ * Va a realizar los includes de archivos auxiliares correspondientes.
+ *
+ * En realidad este ni siquiera es un archivo php.
+ *
+ * @version 0.2 - mgallardo 21102015: no se levantan estas librerias y se mudaron las liberarias CSS a /web/html/css/others/
+ *          <!--<link rel='stylesheet' href='/css/jquery-ui.css' class='ui-theme'>
+ *          <link rel='stylesheet' href='/css/jquery1-1-11.css'>-->
+ *
+ */
+?>
 
-<script language='javascript' src='/js/jquery.validate.js'></script>
-<script language='javascript' src='/js/jquery-1-11-4.js'></script>
+
+<script src='/js/jquery.validate.js'></script>
+<script src='/js/jquery-1-11-4.js'></script>
 
 <!-- estas librerias levantan el calendario para ser usado en mozilla ya que el "input=date" no funciona en firefox -->
 <script src="http://cdn.jsdelivr.net/webshim/1.12.4/extras/modernizr-custom.js"></script>
