@@ -214,7 +214,7 @@ class class_abm
 	 * Va a ser la tabla prinsipal con la que se va a armar la cosulta.
 	 *
 	 * @var string
-	 * @example /u00/html/classes/examples/amb_example.html abm->tabla = "Capitulo";
+	 * @example /web/html/classes/examples/amb_example.html abm->tabla = "Capitulo";
 	 */
 	public $tabla;
 

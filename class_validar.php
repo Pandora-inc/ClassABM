@@ -37,10 +37,12 @@
  *       if($_REQUEST[aceptaTerminos]!="1") $validador->agregarError("Debe aceptar los terminos y condiciones");
  *
  */
+use function Frame_Decorator\split;
+
 class validar
 {
 	/**
-	 * Descripcion de los errores de validaci�n para imprimir en pantalla
+	 * Descripcion de los errores de validaciοΏ½n para imprimir en pantalla
 	 */
 	public $errores;
 
@@ -227,6 +229,19 @@ class validar
 				else
 				{
 
+					$this->verificarLargo ($_REQUEST[$campo], $minimoLargo, $maximoLargo, $campo, $textoCampo);
+				}
+				break;
+
+			case "alfanumericoAcentos" :
+
+				if (!$this->esAlfaNumericoAcentos ($_REQUEST[$campo]))
+				{
+
+					$this->agregarError ($msgError == "" ? sprintf ($this->txtElCampoDebeSerAlfanumerico, $this->formatearNombreCampo ($campo, $textoCampo)) : $msgError, $campo, $textoCampo);
+				}
+				else
+				{
 					$this->verificarLargo ($_REQUEST[$campo], $minimoLargo, $maximoLargo, $campo, $textoCampo);
 				}
 				break;
@@ -433,6 +448,25 @@ class validar
 	public static function esAlfaNumerico($value)
 	{
 		if (preg_match ("/^[A-Za-z0-9 ]+$/", $value))
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
+
+	/**
+	 * Determines if a string is alpha-numeric with acentos
+	 *
+	 * @param string $value
+	 *        	The value to check
+	 * @return boolean TRUE if there are letters and numbers, FALSE if other
+	 */
+	public static function esAlfaNumericoAcentos($value)
+	{
+		if (preg_match ("/^[A-Za-z0-9 αινσϊρΑΙΝΣΪΡάό]+$/", $value))
 		{
 			return true;
 		}
