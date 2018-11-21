@@ -178,6 +178,7 @@
  * 'buscar' => false
  * )
  */
+include_once 'campos/class_campo.php';
 
 // FIXME - Cuando se realiza una busqueda hay que recetear el paginado.
 
