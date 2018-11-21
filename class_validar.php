@@ -37,8 +37,6 @@
  *       if($_REQUEST[aceptaTerminos]!="1") $validador->agregarError("Debe aceptar los terminos y condiciones");
  *
  */
-use function Frame_Decorator\split;
-
 class validar
 {
 	/**
@@ -576,7 +574,7 @@ class validar
 		{
 			if ($test_mx)
 			{
-				list (, $domain) = split ("@", $email);
+				list (, $domain) = explode ("@", $email);
 				return getmxrr ($domain, $mxrecords);
 			}
 			else
