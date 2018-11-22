@@ -7,6 +7,7 @@
  * @author iberlot <@> iberlot@usal.edu.ar
  *
  */
+require_once 'class_fechas.php';
 
 /**
  * Clase generica que aglutina las variables basicas de configuracion y un conjunto de funciones utiles para cualquier desarrollo.
@@ -2468,6 +2469,12 @@ class class_sitio
 		return $files;
 	}
 
+	/**
+	 * Retorna un mensaje de error depndiendo de lo capturado.
+	 *
+	 * @param object $e
+	 * @return string
+	 */
 	public function manejoDeErrores($e)
 	{
 		if ($this->debug == true)
