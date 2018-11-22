@@ -7,6 +7,9 @@
  * @author iberlot <@> iberlot@usal.edu.ar
  *
  */
+require_once 'funciones.php';
+require_once 'class_validar.php';
+require_once 'funciones_string.php';
 require_once 'class_fechas.php';
 
 /**
@@ -388,7 +391,7 @@ class class_sitio
 	 */
 	public function limpiarEntidadesHTML($param)
 	{
-		return is_array ($param) ? array_map ('limpiarEntidadesHTML', $param) : htmlentities ($param, ENT_QUOTES, $this->charset);
+		return FuncionesString::limpiarEntidadesHTML ($param, $this->charset);
 	}
 
 	/**
@@ -400,11 +403,7 @@ class class_sitio
 	 */
 	public function validarEmail($str)
 	{
-		if (preg_match ('/^[^0-9][a-zA-Z0-9_]+([.][a-zA-Z0-9_]+)*[@][a-zA-Z0-9_]+([.][a-zA-Z0-9_]+)*[.][a-zA-Z]{2,4}$/', $str))
-		{
-			return true;
-		}
-		return false;
+		return validar::esEmail ($str);
 	}
 
 	/**
@@ -436,164 +435,7 @@ class class_sitio
 	 */
 	public function sanear_string($string)
 	{
-		$string = trim ($string);
-
-		$string = str_replace (array (
-				'�',
-				'�',
-				'�',
-				'�',
-				'�',
-				'�',
-				'�',
-				'�',
-				'�'
-		), array (
-				'a',
-				'a',
-				'a',
-				'a',
-				'a',
-				'A',
-				'A',
-				'A',
-				'A'
-		), $string);
-
-		$string = str_replace (array (
-				'�',
-				'�',
-				'�',
-				'�',
-				'�',
-				'�',
-				'�',
-				'�'
-		), array (
-				'e',
-				'e',
-				'e',
-				'e',
-				'E',
-				'E',
-				'E',
-				'E'
-		), $string);
-
-		$string = str_replace (array (
-				'�',
-				'�',
-				'�',
-				'�',
-				'�',
-				'�',
-				'�',
-				'�'
-		), array (
-				'i',
-				'i',
-				'i',
-				'i',
-				'I',
-				'I',
-				'I',
-				'I'
-		), $string);
-
-		$string = str_replace (array (
-				'�',
-				'�',
-				'�',
-				'�',
-				'�',
-				'�',
-				'�',
-				'�'
-		), array (
-				'o',
-				'o',
-				'o',
-				'o',
-				'O',
-				'O',
-				'O',
-				'O'
-		), $string);
-
-		$string = str_replace (array (
-				'�',
-				'�',
-				'�',
-				'�',
-				'�',
-				'�',
-				'�',
-				'�'
-		), array (
-				'u',
-				'u',
-				'u',
-				'u',
-				'U',
-				'U',
-				'U',
-				'U'
-		), $string);
-
-		$string = str_replace (array (
-				'�',
-				'�',
-				'�',
-				'�'
-		), array (
-				'n',
-				'N',
-				'c',
-				'C'
-		), $string);
-
-		// Esta parte se encarga de eliminar cualquier caracter extra�o
-		$string = str_replace (array (
-				"\\",
-				"�",
-				"�",
-				"-",
-				"~",
-				"#",
-				"@",
-				"|",
-				"!",
-				"\"",
-				"�",
-				"$",
-				"%",
-				"&",
-				"/",
-				"(",
-				")",
-				"?",
-				"'",
-				"�",
-				"�",
-				"[",
-				"^",
-				"<code>",
-				"]",
-				"+",
-				"}",
-				"{",
-				"�",
-				"�",
-				">",
-				"< ",
-				";",
-				",",
-				":",
-				".",
-				"�"
-		), '', $string);
-
-		return $string;
+		return FuncionesString::sanear_string ($string);
 	}
 
 	/**
@@ -612,16 +454,7 @@ class class_sitio
 	 */
 	public function convertir_especiales_html($str)
 	{
-		if (!isset ($this->carateres_latinos) or (count ($this->carateres_latinos) == 0))
-		{
-			$todas = get_html_translation_table (HTML_ENTITIES, ENT_NOQUOTES);
-			$etiquetas = get_html_translation_table (HTML_SPECIALCHARS, ENT_NOQUOTES);
-
-			$this->carateres_latinos = array_diff ($todas, $etiquetas);
-		}
-		$str = strtr ($str, $this->carateres_latinos);
-
-		return $str;
+		return FuncionesString::convertir_especiales_html ($str);
 	}
 
 	/**
@@ -632,8 +465,7 @@ class class_sitio
 	 */
 	public function limpiarString($texto)
 	{
-		$textoLimpio = preg_replace ('([^A-Za-z0-9])', '', $texto);
-		return $textoLimpio;
+		return FuncionesString::impiarString ($texto);
 	}
 
 	/**

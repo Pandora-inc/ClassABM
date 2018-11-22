@@ -8,7 +8,6 @@
  *       @lenguage PHP
  * @name class_campo.php
  * @version 0.1 version inicial del archivo.
- * @package @project
  */
 
 /*
@@ -21,7 +20,7 @@
  * por favor, incremente el siguiente contador como una advertencia para el
  * siguiente colega:
  *
- * totalHorasPerdidasAqui = 0
+ * totalHorasPerdidasAqui = 5
  *
  */
 /**
@@ -34,7 +33,6 @@
  */
 class class_campo
 {
-	// [<línea de inicio> [<número-de-líneas>]] [<descripción>]
 	/**
 	 * El atributo campo hace referencia al nombre del campo de la tabla.
 	 * Es el identificador con el cual se lo va a llamar y con el que se va a armar la consulta.
@@ -47,7 +45,7 @@ class class_campo
 
 	/**
 	 * Tipo de elemento de formulario.
-	 * Puede tomar uno de los siguientes valores: texto, bit, textarea, combo, dbCombo, 
+	 * Puede tomar uno de los siguientes valores: texto, bit, textarea, combo, dbCombo,
 	 * password, upload, moneda, numero, rownum
 	 * Recordar que tiene que respetar mayusculas y minusculas.
 	 *
@@ -94,28 +92,6 @@ class class_campo
 	protected $customEvalListado = '';
 
 	/**
-	 * A utilizar con los tipos de campo Numero y Moneda.
-	 * Derine el numero de valores despues de la coma.
-	 *
-	 * @todo Por defecto su valor es 2.
-	 *
-	 * @name cantidadDecimales
-	 * @var integer
-	 */
-	protected $cantidadDecimales = 2;
-
-	/**
-	 * Si esta en true permite buscar por ese campo.
-	 * No funciona si se usa la funcion generarAbm() con un query.
-	 *
-	 * @todo NOTA: el buscador funciona verificando variables de $_REQUEST con los nombres de los campos con prefijo "c_". Si se quisiera hacer un formulario de busqueda independiente sin usar el de la class se puede hacer usando los mismos nombres de los campos, o sea con el prefijo "c_".)
-	 *
-	 * @name buscar
-	 * @var boolean
-	 */
-	protected $buscar = true;
-
-	/**
 	 * No muestra el dato en el listado (lo unico que hace es esconderlo por mecio de css con la propiedad display none.
 	 *
 	 * @name noMostrar
@@ -154,16 +130,6 @@ class class_campo
 	 * @var string
 	 */
 	protected $tituloListado = '';
-
-	/**
-	 * Datos para el tipo de campo "combo".
-	 *
-	 * @example Array("key" => "value"...)
-	 *
-	 * @name datos
-	 * @var array
-	 */
-	protected $datos = array ();
 
 	/**
 	 * Colorea el texto de esta columna en el listado segun el valor.
@@ -315,14 +281,6 @@ class class_campo
 	protected $campoOrder = '';
 
 	/**
-	 * si esta seteado usa este titulo en el formulario de busqueda
-	 *
-	 * @name tituloBuscar
-	 * @var string
-	 */
-	protected $tituloBuscar = '';
-
-	/**
 	 * el campo es requerido
 	 *
 	 * @name requerido
@@ -357,33 +315,6 @@ class class_campo
 	protected $customJoin = '';
 
 	/**
-	 * Texto que pone cuando el tipo de campo es "bit" y este es true o =1.
-	 * Si se deja vacio usa el por defecto definido en $this->textoBitTrue
-	 *
-	 * @name textoBitTrue
-	 * @var string
-	 */
-	protected $textoBitTrue = 'SI';
-
-	/**
-	 * Texto que pone cuando el tipo de campo es "bit" y este es false o =0.
-	 * Si se deja vacio usa el por defecto definido en $this->textoBitFalse
-	 *
-	 * @name textoBitFalse
-	 * @var string
-	 */
-	protected $textoBitFalse = 'NO';
-
-	/**
-	 * Si esta en true muestra primero el false en los <select>.
-	 * Por defecto es false
-	 *
-	 * @name ordenInversoBit
-	 * @var Boolean
-	 */
-	protected $ordenInversoBit = '';
-
-	/**
 	 * Funcion de usuario que se encarga del archivo subido.
 	 * Recibe los parametros id y tabla. Debe retornar TRUE si la subida se realizo con exito.
 	 *
@@ -400,32 +331,6 @@ class class_campo
 	 * @var Boolean
 	 */
 	protected $borrarSiUploadFalla = '';
-
-	/**
-	 * Operador que usa en el where.
-	 * Ej. = , LIKE
-	 *
-	 * @name buscarOperador
-	 * @var string
-	 */
-	protected $buscarOperador = '';
-
-	/**
-	 * Si esta seteado usa ese campo en el where para buscar
-	 *
-	 * @name buscarUsarCampo
-	 * @var string
-	 */
-	protected $buscarUsarCampo = '';
-
-	/**
-	 * Funcion del usuario para poner un HTML especial en el lugar donde iria el form item del formulario de busqueda.
-	 * La funcion no recibe ningun parametro.
-	 *
-	 * @name customFuncionBuscar
-	 * @var string
-	 */
-	protected $customFuncionBuscar = '';
 
 	/**
 	 * para agregar html dentro de los tags del input.
@@ -471,14 +376,6 @@ class class_campo
 	protected $customFuncionValor = '';
 
 	/**
-	 * lo mismo que tipo pero solo para el formulario de busqueda
-	 *
-	 * @name tipoBuscar
-	 * @var string
-	 */
-	protected $tipoBuscar = '';
-
-	/**
 	 * Listado de tipos admitidos como tipo de campo.
 	 * No hay seter y geter de esta variable, se considera una constante.
 	 *
@@ -504,6 +401,73 @@ class class_campo
 	 * @var object
 	 */
 	protected $sitio;
+
+	/*
+	 * Parametros referidos a la busqueda
+	 */
+
+	/**
+	 * Si esta en true permite buscar por ese campo.
+	 * No funciona si se usa la funcion generarAbm() con un query.
+	 *
+	 * @todo NOTA: el buscador funciona verificando variables de $_REQUEST con los nombres de los campos con prefijo "c_". Si se quisiera hacer un formulario de busqueda independiente sin usar el de la class se puede hacer usando los mismos nombres de los campos, o sea con el prefijo "c_".)
+	 *
+	 * @name buscar
+	 * @var boolean
+	 */
+	protected $buscar = true;
+
+	/**
+	 * lo mismo que tipo pero solo para el formulario de busqueda
+	 *
+	 * @name tipoBuscar
+	 * @var string
+	 */
+	protected $tipoBuscar = '';
+
+	/**
+	 * Operador que usa en el where.
+	 * Ej. = , LIKE
+	 *
+	 * @name buscarOperador
+	 * @var string
+	 */
+	protected $buscarOperador = '';
+
+	/**
+	 * Si esta seteado usa ese campo en el where para buscar
+	 *
+	 * @name buscarUsarCampo
+	 * @var string
+	 */
+	protected $buscarUsarCampo = '';
+
+	/**
+	 * Funcion del usuario para poner un HTML especial en el lugar donde iria el form item del formulario de busqueda.
+	 * La funcion no recibe ningun parametro.
+	 *
+	 * @name customFuncionBuscar
+	 * @var string
+	 */
+	protected $customFuncionBuscar = '';
+
+	/**
+	 * si esta seteado usa este titulo en el formulario de busqueda
+	 *
+	 * @name tituloBuscar
+	 * @var string
+	 */
+	protected $tituloBuscar = '';
+
+	/**
+	 * Va a retornar el valor (la informacion) del campo.
+	 *
+	 * @return String
+	 */
+	public function __toString()
+	{
+		return valorCampo ();
+	}
 
 	/**
 	 * devuelve un objeto campo basado en el array pasado.
@@ -669,18 +633,18 @@ class class_campo
 		{
 			$this->isCustomJoin ($array['customJoin']);
 		}
-		if (array_key_exists ('textoBitTrue', $array))
-		{
-			$this->isTextoBitTrue ($array['textoBitTrue']);
-		}
-		if (array_key_exists ('textoBitFalse', $array))
-		{
-			$this->isTextoBitFalse ($array['textoBitFalse']);
-		}
-		if (array_key_exists ('ordenInversoBit', $array))
-		{
-			$this->isOrdenInversoBit ($array['ordenInversoBit']);
-		}
+		// if (array_key_exists ('textoBitTrue', $array))
+		// {
+		// $this->isTextoBitTrue ($array['textoBitTrue']);
+		// }
+		// if (array_key_exists ('textoBitFalse', $array))
+		// {
+		// $this->isTextoBitFalse ($array['textoBitFalse']);
+		// }
+		// if (array_key_exists ('ordenInversoBit', $array))
+		// {
+		// $this->isOrdenInversoBit ($array['ordenInversoBit']);
+		// }
 		if (array_key_exists ('uploadFunction', $array))
 		{
 			$this->isUploadFunction ($array['uploadFunction']);
@@ -1080,36 +1044,6 @@ class class_campo
 	public function getCustomJoin()
 	{
 		return $this->customJoin;
-	}
-
-	/**
-	 * Retorna el valor de textoBitTrue
-	 *
-	 * @return string
-	 */
-	public function getTextoBitTrue()
-	{
-		return $this->textoBitTrue;
-	}
-
-	/**
-	 * Retorna el valor de textoBitFalse
-	 *
-	 * @return string
-	 */
-	public function getTextoBitFalse()
-	{
-		return $this->textoBitFalse;
-	}
-
-	/**
-	 * Retorna el valor de ordenInversoBit
-	 *
-	 * @return boolean
-	 */
-	public function isOrdenInversoBit()
-	{
-		return $this->ordenInversoBit;
 	}
 
 	/**
@@ -1596,36 +1530,6 @@ class class_campo
 	public function setCustomJoin($customJoin)
 	{
 		$this->customJoin = $customJoin;
-	}
-
-	/**
-	 * Comprueba y setea el valor de textoBitTrue
-	 *
-	 * @param string $textoBitTrue
-	 */
-	public function setTextoBitTrue($textoBitTrue)
-	{
-		$this->textoBitTrue = $textoBitTrue;
-	}
-
-	/**
-	 * Comprueba y setea el valor de textoBitFalse
-	 *
-	 * @param string $textoBitFalse
-	 */
-	public function setTextoBitFalse($textoBitFalse)
-	{
-		$this->textoBitFalse = $textoBitFalse;
-	}
-
-	/**
-	 * Comprueba y setea el valor de ordenInversoBit
-	 *
-	 * @param boolean $ordenInversoBit
-	 */
-	public function setOrdenInversoBit($ordenInversoBit)
-	{
-		$this->ordenInversoBit = $ordenInversoBit;
 	}
 
 	/**

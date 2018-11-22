@@ -22,7 +22,16 @@
 class Campos_numero extends class_campo
 {
 
-	// TODO - Insert your code here
+	/**
+	 * A utilizar con los tipos de campo Numero y Moneda.
+	 * Derine el numero de valores despues de la coma.
+	 *
+	 * @todo Por defecto su valor es 2.
+	 *
+	 * @name cantidadDecimales
+	 * @var integer
+	 */
+	protected $cantidadDecimales = 2;
 
 	/**
 	 *

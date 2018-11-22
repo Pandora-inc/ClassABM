@@ -22,7 +22,15 @@
 class Campos_combo extends class_campo
 {
 
-	// TODO - Insert your code here
+	/**
+	 * Datos para el tipo de campo "combo".
+	 *
+	 * @example Array("key" => "value"...)
+	 *
+	 * @name datos
+	 * @var array
+	 */
+	protected $datos = array ();
 
 	/**
 	 *

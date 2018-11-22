@@ -37,8 +37,6 @@
  *       if($_REQUEST[aceptaTerminos]!="1") $validador->agregarError("Debe aceptar los terminos y condiciones");
  *
  */
-use function Frame_Decorator\split;
-
 class validar
 {
 	/**
@@ -566,13 +564,16 @@ class validar
 	/**
 	 * Verifica si un email tiene formato valido y opcionalmente verifica los registros MX del dominio tambien
 	 *
+	 * @version 0.2 - Se corrigio para que utilizara preg_match en vez de eregi.
+	 *
 	 * @param String $email
 	 * @param Boolean $test_mx
 	 *        	Verificar los registros MX del dominio
 	 */
 	public static function esEmail($email, $test_mx = false)
 	{
-		if (eregi ("^([_a-z0-9+-]+)(\.[_a-z0-9+-]+)*@([a-z0-9-]+)(\.[a-z0-9-]+)*(\.[a-z]{2,4})$", $email))
+		$regex = "/^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,10})$/i";
+		if (preg_match ($regex, $email))
 		{
 			if ($test_mx)
 			{
@@ -580,10 +581,14 @@ class validar
 				return getmxrr ($domain, $mxrecords);
 			}
 			else
+			{
 				return true;
+			}
 		}
 		else
+		{
 			return false;
+		}
 	}
 
 	/**
