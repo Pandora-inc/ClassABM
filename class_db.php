@@ -384,7 +384,10 @@ class class_db
 					$paraY = explode (' ', $para[$e]);
 					$paraY[0] = str_replace (")", "", $paraY[0]);
 					$paraY[0] = str_replace (";", "", $paraY[0]);
+
 					$paraY[0] = trim (str_replace (",", "", $paraY[0]));
+
+					$parametros[$i] = (string) ($parametros[$i]);
 
 					oci_bind_by_name ($result, ":$paraY[0]", $parametros[$i]);
 				}
@@ -1504,8 +1507,15 @@ class class_db
 
 		foreach ($where as $clave => $valor)
 		{
-			$wheres[] = " " . $clave . " = :" . $clave . " ";
-			$parametros[] = $valor;
+			if (strpos ($valor, "TO_DATE") === false)
+			{
+				$wheres[] = " " . $clave . " = :" . $clave . " ";
+				$parametros[] = $valor;
+			}
+			else
+			{
+				$wheres[] = " " . $clave . " = " . $valor;
+			}
 		}
 		$wheres = implode (" AND ", $wheres);
 		if ($wheres != "")
@@ -1543,8 +1553,16 @@ class class_db
 
 		foreach ($where as $clave => $valor)
 		{
-			$wheres[] = " " . $clave . " = :" . $clave . " ";
-			$parametros[] = $valor;
+
+			if (strpos ($valor, "TO_DATE") === false)
+			{
+				$wheres[] = " " . $clave . " = :" . $clave . " ";
+				$parametros[] = $valor;
+			}
+			else
+			{
+				$wheres[] = " " . $clave . " = " . $valor;
+			}
 		}
 
 		if ($where != "1=1")
