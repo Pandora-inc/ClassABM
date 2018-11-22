@@ -924,4 +924,212 @@ abstract class FuncionesString
 		$textoLimpio = preg_replace ('([^A-Za-z0-9])', '', $texto);
 		return $textoLimpio;
 	}
+
+	/**
+	 * Devuelve el tipo de codificacion de los caracteres usados en un string
+	 *
+	 * @param string $texto
+	 * @return string
+	 */
+	public function codificacion($texto)
+	{
+		$c = 0;
+		$ascii = true;
+		for($i = 0; $i < strlen ($texto); $i++)
+		{
+			$byte = ord ($texto[$i]);
+			if ($c > 0)
+			{
+				if (($byte >> 6) != 0x2)
+				{
+					return ISO_8859_1;
+				}
+				else
+				{
+					$c--;
+				}
+			}
+			elseif ($byte & 0x80)
+			{
+				$ascii = false;
+				if (($byte >> 5) == 0x6)
+				{
+					$c = 1;
+				}
+				elseif (($byte >> 4) == 0xE)
+				{
+					$c = 2;
+				}
+				elseif (($byte >> 3) == 0x1E)
+				{
+					$c = 3;
+				}
+				else
+				{
+					return ISO_8859_1;
+				}
+			}
+		}
+		return ($ascii) ? ASCII : UTF_8;
+	}
+
+	/**
+	 * Codifica un strin en UTF8
+	 *
+	 * Primero comprueba que este no este ya en utf8 para no romper los caracteres
+	 *
+	 * @param string $texto
+	 * @return string
+	 */
+	public function utf8_encode_seguro($texto)
+	{
+		return (codificacion ($texto) == ISO_8859_1) ? utf8_encode ($texto) : $texto;
+	}
+
+	/*
+	 * function errores($numero, $texto, $istru, $linea)
+	 * {
+	 * $ddf = fopen ('/web/logs/errorRequerimientos.log', 'a');
+	 * fwrite ($ddf, "[" . date ("r") . "] Error $numero:$texto *** var_export($istru) *** en linea $linea\r\n");
+	 * fclose ($ddf);
+	 * }
+	 * set_error_handler ('error');
+	 */
+
+	/**
+	 * Funcion para sanear los valores recibidos del formulario.
+	 * Evita la inyeccion de SQL. Elimina cualquier caracter no numerico.
+	 *
+	 * @param string $str
+	 */
+	public function clean($str)
+	{
+		$str = trim ($str);
+		if (get_magic_quotes_gpc ())
+		{
+			$str = stripslashes ($str);
+		}
+		// return mysql_real_escape_string($str);
+		return ($str);
+	}
+
+	/**
+	 * Remplaza caracteres latinos.
+	 *
+	 * @param string $str
+	 * @return string
+	 * @author Andres Carizza
+	 * @version 1.2
+	 *
+	 */
+	public function remplazar_caracteres_latinos($str)
+	{
+		// Ej: � -> a, � -> n
+		$find = array (
+				'á',
+				'é',
+				'í',
+				'ó',
+				'ú',
+				'ñ',
+				'ü',
+				'ç',
+				'à',
+				'è',
+				'â',
+				'Á',
+				'É',
+				'Í',
+				'Ó',
+				'Ú',
+				'Ñ',
+				'Ü',
+				'Ç',
+				'À',
+				'È',
+				'Ä'
+		);
+		$repl = array (
+				'a',
+				'e',
+				'i',
+				'o',
+				'u',
+				'n',
+				'u',
+				'c',
+				'a',
+				'e',
+				'a',
+				'A',
+				'E',
+				'I',
+				'O',
+				'U',
+				'N',
+				'U',
+				'C',
+				'A',
+				'E',
+				'A'
+		);
+		return str_replace ($find, $repl, $str);
+	}
+
+	/**
+	 * Remove Invisible Characters
+	 *
+	 * This prevents sandwiching null characters
+	 * between ascii characters, like Java\0script.
+	 *
+	 * @access public
+	 * @param
+	 *        	string
+	 * @return string
+	 */
+	function remove_invisible_characters($str, $url_encoded = TRUE)
+	{
+		$non_displayables = array ();
+
+		// every control character except newline (dec 10)
+		// carriage return (dec 13), and horizontal tab (dec 09)
+
+		if ($url_encoded)
+		{
+			$non_displayables[] = '/%0[0-8bcef]/'; // url encoded 00-08, 11, 12, 14, 15
+			$non_displayables[] = '/%1[0-9a-f]/'; // url encoded 16-31
+		}
+
+		$non_displayables[] = '/[\x00-\x08\x0B\x0C\x0E-\x1F\x7F]+/S'; // 00-08, 11, 12, 14-31, 127
+
+		do
+		{
+			$str = preg_replace ($non_displayables, '', $str, -1, $count);
+		}
+		while ($count);
+
+		return $str;
+	}
+
+	/**
+	 * Lo mismo que utf8_encode() pero aplicado a todo el array
+	 *
+	 * @param array $array
+	 * @return array
+	 */
+	public function utf8_encode_array($array)
+	{
+		return is_array ($array) ? array_map ('utf8_encode_array', $array) : utf8_encode ($array);
+	}
+
+	/**
+	 * Lo mismo que utf8_decode() pero aplicado a todo el array
+	 *
+	 * @param array $array
+	 * @return array
+	 */
+	public function utf8_decode_array($array)
+	{
+		return is_array ($array) ? array_map ('utf8_decode_array', $array) : utf8_decode ($array);
+	}
 }

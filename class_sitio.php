@@ -383,6 +383,8 @@ class class_sitio
 	/**
 	 * Convierte de un array todas las entidades HTML para que sea seguro mostrar en pantalla strings ingresados por los usuarios.
 	 *
+	 * @deprecated Se recomienda utilizar directamente la funcion de la clase FuncionesString
+	 *
 	 * @example $_REQUEST = limpiarEntidadesHTML($_REQUEST, $config);
 	 *
 	 * @param string[] $param
@@ -396,6 +398,8 @@ class class_sitio
 
 	/**
 	 * Comprueba que la direccion de mail no tenga caracteres extranos.
+	 *
+	 * @deprecated Se recomienda utilizar directamente la funcion de la clase validar
 	 *
 	 * @param string $str
 	 *        	- email a verificar
@@ -420,13 +424,14 @@ class class_sitio
 	 */
 	public function limpiarParaSql($param, $db)
 	{
-		// global $db;
 		return is_array ($param) ? array_map ('limpiarParaSql', $param) : mysqli_real_escape_string ($db->con, $param);
 	}
 
 	/**
 	 * Reemplaza todos los acentos por sus equivalentes sin ellos.
 	 * Ademas elimina cualquier caracter extrano en el string.
+	 *
+	 * @deprecated Se recomienda utilizar directamente la funcion de la clase FuncionesString
 	 *
 	 * @param string $string
 	 *        	- la cadena a sanear
@@ -444,6 +449,7 @@ class class_sitio
 	 * @name convertir_especiales_html
 	 *
 	 * @version 1.2 - Se remplazan las variables globales por variables de la clase.
+	 * @deprecated Se recomienda utilizar directamente la funcion de la clase FuncionesString
 	 *
 	 * @todo esta funcion usa la propiedad de la clase 'carateres_latinos' si no llegara a estar definida lo hace.
 	 *
@@ -459,6 +465,8 @@ class class_sitio
 
 	/**
 	 * Alimina cualquier caracter que no sea de la A a la z o numero.
+	 *
+	 * @deprecated Se recomienda utilizar directamente la funcion de la clase FuncionesString
 	 *
 	 * @param string $texto
 	 * @return string
@@ -625,27 +633,20 @@ class class_sitio
 	/**
 	 * Formatea la fecha de la forma dd/mm/yyyy
 	 *
+	 * @deprecated Se recomienda utilizar directamente la funcion de la clase Fechas
+	 *
 	 * @param string $fecha_inicio
 	 * @return string
 	 */
 	public function fecha_DD_MM_YYYY_Oracle($fecha_inicio)
 	{
-		$fecha_inicio = str_replace ('-', '', $fecha_inicio);
-		$fecha_inicio = str_replace ('/', '', $fecha_inicio);
-		// $dato_post_fecha_recibo_usal = preg_replace('([^0-9])', '', $dato_post_valorcuota);
-		$dd = substr ($fecha_inicio, -2);
-		$mm = substr ($fecha_inicio, 4, 2);
-		$yyyy = substr ($fecha_inicio, 0, 4);
-
-		if ($fecha_inicio)
-		{
-			$fecha_inicio = $dd . "/" . $mm . "/" . $yyyy;
-		}
-		return $fecha_inicio;
+		return Fechas::fecha_DD_MM_YYYY_Oracle ($fecha_inicio);
 	}
 
 	/**
 	 * Agarra caulquier fecha con el format inicial YYYY MM DD y la formatea para oracle.
+	 *
+	 * @deprecated Se recomienda utilizar directamente la funcion de la clase Fechas
 	 *
 	 * @param string $fecha_inicio
 	 *        	- Fecha con el formato YYYY-MM-DD o YYYY/MM/DD.
@@ -657,34 +658,12 @@ class class_sitio
 	 */
 	public function formatear_fecha_Oracle($fecha_inicio, $separador = "/")
 	{
-
-		// $fecha_inicio = str_replace ('-', '', $fecha_inicio);
-		// $fecha_inicio = str_replace ('/', '', $fecha_inicio);
-		$fecha_inicio = preg_replace ('([^0-9])', '', $fecha_inicio);
-
-		if (strlen ($fecha_inicio) == 8)
-		{
-			$dd = substr ($fecha_inicio, -2);
-			$mm = substr ($fecha_inicio, 4, 2);
-			$yyyy = substr ($fecha_inicio, 0, 4);
-
-			$fecha_inicio = $dd . $separador . $mm . $separador . $yyyy;
-
-			return $fecha_inicio;
-		}
-		else
-		{
-			throw new Exception ('ERROR: El formato de fecha es incorrecto.');
-		}
+		return Fechas::formatear_fecha_Oracle ($fecha_inicio, $separador);
 	}
 
 	function fecha_oracle($fecha)
 	{
-		$fecha = formatear_fecha_Oracle ($fecha);
-
-		$fecha = "TO_DATE('$fecha', 'DD-MM-YYYY HH24:MI:SS')";
-
-		return $fecha;
+		return Fechas::fecha_oracle ($fecha);
 	}
 
 	/**
@@ -707,81 +686,34 @@ class class_sitio
 	/**
 	 * Devuelve el dia correspondiente de la semana en formato de tres letras.
 	 *
+	 * @deprecated Se recomienda utilizar directamente la funcion de la clase Fechas
+	 *
 	 * @param string $fecha
 	 *        	- fecha con el formato ano-mes-dia
 	 * @return string $dias
 	 */
 	public function nombreDiacorto($fecha)
 	{
-		list ($ano, $mes, $dia) = explode ('-', $fecha);
-		$dias = array (
-				'Dom',
-				'Lun',
-				'Mar',
-				'Mie',
-				'Jue',
-				'Vie',
-				'Sab',
-				'86776'
-		);
-
-		return $dias[date ("w", mktime (0, 0, 0, $mes, $dia, $ano))];
+		return Fechas::nombreDiacorto ($fecha);
 	}
 
 	/**
 	 * Pasandosele un numero devielve el nombre del mes que le corresponde.
+	 *
+	 * @deprecated Se recomienda utilizar directamente la funcion de la clase Fechas
 	 *
 	 * @param int $numMes
 	 * @return string
 	 */
 	public function getNombreMes($numMes)
 	{
-		switch ($numMes)
-		{
-			case 1 :
-				return "Enero";
-				break;
-			case 2 :
-				return "Febrero";
-				break;
-			case 3 :
-				return "Marzo";
-				break;
-			case 4 :
-				return "Abril";
-				break;
-			case 5 :
-				return "Mayo";
-				break;
-			case 6 :
-				return "Junio";
-				break;
-			case 7 :
-				return "Julio";
-				break;
-			case 8 :
-				return "Agosto";
-				break;
-			case 9 :
-				return "Septiembre";
-				break;
-			case 10 :
-				return "Octubre";
-				break;
-			case 11 :
-				return "Noviembre";
-				break;
-			case 12 :
-				return "Diciembre";
-				break;
-
-			default :
-				break;
-		}
+		return Fechas::getNombreMes ($numMes);
 	}
 
 	/**
 	 * Suma una cantidad X de dias a una fecha.
+	 *
+	 * @deprecated Se recomienda utilizar directamente la funcion de la clase Fechas
 	 *
 	 * @param string $fecha
 	 *        	- fecha con el formato ano-mes-dia.
@@ -791,13 +723,13 @@ class class_sitio
 	 */
 	public function sumaDia($fecha, $dia)
 	{
-		list ($year, $mon, $day) = explode ('-', $fecha);
-
-		return date ('Y-m-d', mktime (0, 0, 0, $mon, $day + $dia, $year));
+		return Fechas::sumaDia ($fecha, $dia);
 	}
 
 	/**
 	 * Diferencia de Dias - Fecha mayor, Fecha menor
+	 *
+	 * @deprecated Se recomienda utilizar directamente la funcion de la clase Fechas
 	 *
 	 * @param string $fecha2
 	 *        	- Fecha mayor con el formato ano-mes-dia
@@ -807,20 +739,7 @@ class class_sitio
 	 */
 	public function diferenciaDias($fecha2, $fecha1)
 	{
-		list ($ano2, $mes2, $dia2) = explode ('-', $fecha1);
-		list ($ano1, $mes1, $dia1) = explode ('-', $fecha2);
-
-		// calculo timestam de las dos fechas
-		$timestamp1 = mktime (0, 0, 0, $mes1, $dia1, $ano1);
-		$timestamp2 = mktime (0, 0, 0, $mes2, $dia2, $ano2);
-
-		// resto a una fecha la otra
-		$segundos_diferencia = $timestamp1 - $timestamp2;
-
-		// convierto segundos en D&iacute;as
-		$dias_diferencia = $segundos_diferencia / (60 * 60 * 24);
-
-		return round ($dias_diferencia);
+		return Fechas::diferenciaDias ($fecha2, $fecha1);
 	}
 
 	/**
@@ -876,6 +795,8 @@ class class_sitio
 	/**
 	 * Diferencia de horas - Hora mayor, Hora menor
 	 *
+	 * @deprecated Se recomienda utilizar directamente la funcion de la clase Fechas
+	 *
 	 * @param string $inicio
 	 *        	- Hora mayor con el formato H:i:s
 	 * @param string $fin
@@ -884,16 +805,13 @@ class class_sitio
 	 */
 	public function difHoras($inicio, $fin)
 	{
-		$inicio = strtotime ($inicio);
-		$fin = strtotime ($fin);
-		$dife = $fin - $inicio;
-		$dif = date ("H:i", strtotime ("00:00") + $dife);
-
-		return $dif;
+		return Fechas::difHoras ($inicio, $fin);
 	}
 
 	/**
 	 * Suma de horas
+	 *
+	 * @deprecated Se recomienda utilizar directamente la funcion de la clase Fechas
 	 *
 	 * @param string $hora1
 	 *        	- Primer valor a sumar con el formato H:i:s
@@ -903,16 +821,13 @@ class class_sitio
 	 */
 	public function sumaHoras($hora1, $hora2)
 	{
-		$hora1 = strtotime ($hora1);
-		$hora2 = strtotime ($hora2);
-		$horaSum = $hora2 + $hora1;
-		$sum = date ("H:i", strtotime ("00:00") + $horaSum);
-
-		return $sum;
+		return Fechas::sumaHoras ($hora1, $hora2);
 	}
 
 	/**
 	 * Resibe un int con la cantidad de meses y retorna un string con la cantidad de años y meses.
+	 *
+	 * @deprecated Se recomienda utilizar directamente la funcion de la clase Fechas
 	 *
 	 * @param int $meses
 	 *        	Cantidad de meses
@@ -920,80 +835,20 @@ class class_sitio
 	 */
 	public function mesesAnios($meses)
 	{
-		$restoMeses = $meses % 12;
-		$anios = ($meses - $restoMeses) / 12;
-
-		return $anios . " a&ntilde;os" . (($restoMeses > 0) ? " y " . $restoMeses . " meses." : ".");
+		return Fechas::mesesAnios ($meses);
 	}
-
-	// FIXME estas dos funciones hay que revisarlas porque no paresen correctas.
-	// /**
-	// * Convierte un valor en segundos a horas.
-	// *
-	// * @param string $hora - Valor con el formato H:m:s
-	// * @return string - resultado de la suma de horas
-	// */
-	// function segundos_a_hora($hora)
-	// {
-	// list ($h, $m, $s) = explode (':', $hora);
-	// return ($h * 3600) + ($m * 60) + $s;
-	// }
-
-	// /* De hora a segundos */
-	// function hora_a_segundos($segundos)
-	// {
-	// $h = floor ($segundos / 3600);
-	// $m = floor (($segundos % 3600) / 60);
-	// $s = $segundos - ($h * 3600) - ($m * 60);
-	// return sprintf ('%02d:%02d', $h, $m);
-	// }
 
 	/**
 	 * Devuelve el tipo de codificacion de los caracteres usados en un string
+	 *
+	 * @deprecated Se recomienda utilizar directamente la funcion de la clase Fechas
 	 *
 	 * @param string $texto
 	 * @return string
 	 */
 	public function codificacion($texto)
 	{
-		$c = 0;
-		$ascii = true;
-		for($i = 0; $i < strlen ($texto); $i++)
-		{
-			$byte = ord ($texto[$i]);
-			if ($c > 0)
-			{
-				if (($byte >> 6) != 0x2)
-				{
-					return ISO_8859_1;
-				}
-				else
-				{
-					$c--;
-				}
-			}
-			elseif ($byte & 0x80)
-			{
-				$ascii = false;
-				if (($byte >> 5) == 0x6)
-				{
-					$c = 1;
-				}
-				elseif (($byte >> 4) == 0xE)
-				{
-					$c = 2;
-				}
-				elseif (($byte >> 3) == 0x1E)
-				{
-					$c = 3;
-				}
-				else
-				{
-					return ISO_8859_1;
-				}
-			}
-		}
-		return ($ascii) ? ASCII : UTF_8;
+		return FuncionesString::codificacion ($texto);
 	}
 
 	/**
@@ -1001,39 +856,27 @@ class class_sitio
 	 *
 	 * Primero comprueba que este no este ya en utf8 para no romper los caracteres
 	 *
+	 * @deprecated Se recomienda utilizar directamente la funcion de la clase FuncionesString
+	 *
 	 * @param string $texto
 	 * @return string
 	 */
 	public function utf8_encode_seguro($texto)
 	{
-		return (codificacion ($texto) == ISO_8859_1) ? utf8_encode ($texto) : $texto;
+		return FuncionesString::utf8_encode_seguro ($texto);
 	}
-
-	/*
-	 * function errores($numero, $texto, $istru, $linea)
-	 * {
-	 * $ddf = fopen ('/web/logs/errorRequerimientos.log', 'a');
-	 * fwrite ($ddf, "[" . date ("r") . "] Error $numero:$texto *** var_export($istru) *** en linea $linea\r\n");
-	 * fclose ($ddf);
-	 * }
-	 * set_error_handler ('error');
-	 */
 
 	/**
 	 * Funcion para sanear los valores recibidos del formulario.
 	 * Evita la inyeccion de SQL. Elimina cualquier caracter no numerico.
 	 *
+	 * @deprecated Se recomienda utilizar directamente la funcion de la clase FuncionesString
+	 *
 	 * @param string $str
 	 */
 	public function clean($str)
 	{
-		$str = trim ($str);
-		if (get_magic_quotes_gpc ())
-		{
-			$str = stripslashes ($str);
-		}
-		// return mysql_real_escape_string($str);
-		return ($str);
+		return FuncionesString::clean ($str);
 	}
 
 	/**
@@ -1355,6 +1198,8 @@ class class_sitio
 	/**
 	 * Remplaza caracteres latinos.
 	 *
+	 * @deprecated Se recomienda utilizar directamente la funcion de la clase FuncionesString
+	 *
 	 * @param string $str
 	 * @return string
 	 * @author Andres Carizza
@@ -1363,56 +1208,7 @@ class class_sitio
 	 */
 	public function remplazar_caracteres_latinos($str)
 	{
-		// Ej: � -> a, � -> n
-		$find = array (
-				'�',
-				'�',
-				'�',
-				'�',
-				'�',
-				'�',
-				'�',
-				'�',
-				'�',
-				'�',
-				'�',
-				'�',
-				'�',
-				'�',
-				'�',
-				'�',
-				'�',
-				'�',
-				'�',
-				'�',
-				'�',
-				'�'
-		);
-		$repl = array (
-				'a',
-				'e',
-				'i',
-				'o',
-				'u',
-				'n',
-				'u',
-				'c',
-				'a',
-				'e',
-				'a',
-				'A',
-				'E',
-				'I',
-				'O',
-				'U',
-				'N',
-				'U',
-				'C',
-				'A',
-				'E',
-				'A'
-		);
-		return str_replace ($find, $repl, $str);
+		return FuncionesString::remplazar_caracteres_latinos ($str);
 	}
 
 	/**
@@ -1474,6 +1270,8 @@ class class_sitio
 	 * This prevents sandwiching null characters
 	 * between ascii characters, like Java\0script.
 	 *
+	 * @deprecated Se recomienda utilizar directamente la funcion de la clase FuncionesString
+	 *
 	 * @access public
 	 * @param
 	 *        	string
@@ -1481,48 +1279,33 @@ class class_sitio
 	 */
 	function remove_invisible_characters($str, $url_encoded = TRUE)
 	{
-		$non_displayables = array ();
-
-		// every control character except newline (dec 10)
-		// carriage return (dec 13), and horizontal tab (dec 09)
-
-		if ($url_encoded)
-		{
-			$non_displayables[] = '/%0[0-8bcef]/'; // url encoded 00-08, 11, 12, 14, 15
-			$non_displayables[] = '/%1[0-9a-f]/'; // url encoded 16-31
-		}
-
-		$non_displayables[] = '/[\x00-\x08\x0B\x0C\x0E-\x1F\x7F]+/S'; // 00-08, 11, 12, 14-31, 127
-
-		do
-		{
-			$str = preg_replace ($non_displayables, '', $str, -1, $count);
-		}
-		while ($count);
-
-		return $str;
+		return FuncionesString::remove_invisible_characters ($str, $url_encoded);
 	}
 
 	/**
 	 * Lo mismo que utf8_encode() pero aplicado a todo el array
+	 *
+	 * @deprecated Se recomienda utilizar directamente la funcion de la clase FuncionesString
 	 *
 	 * @param array $array
 	 * @return array
 	 */
 	public function utf8_encode_array($array)
 	{
-		return is_array ($array) ? array_map ('utf8_encode_array', $array) : utf8_encode ($array);
+		return FuncionesString::utf8_encode_array ($array);
 	}
 
 	/**
 	 * Lo mismo que utf8_decode() pero aplicado a todo el array
+	 *
+	 * @deprecated Se recomienda utilizar directamente la funcion de la clase FuncionesString
 	 *
 	 * @param array $array
 	 * @return array
 	 */
 	public function utf8_decode_array($array)
 	{
-		return is_array ($array) ? array_map ('utf8_decode_array', $array) : utf8_decode ($array);
+		return FuncionesString::utf8_decode_array ($array);
 	}
 
 	// *****************************************************************************************************************//
@@ -1532,6 +1315,8 @@ class class_sitio
 	/**
 	 * Formatea la fecha que usa el MySQL (YYYY-MM-DD) o (YYYY-MM-DD HH:MM:SS) a un formato de fecha m�s claro
 	 * En caso de que falle el formateo retorna FALSE
+	 *
+	 * @deprecated Se recomienda utilizar directamente la funcion de la clase Fechas
 	 *
 	 * @param String $mysqldate
 	 *        	La fecha en formato YYYY-MM-DD o YYYY-MM-DD HH:MM:SS
@@ -1543,33 +1328,7 @@ class class_sitio
 	 */
 	public function mysql2date($mysqldate, $conHora = false)
 	{
-		$fecha_orig = $mysqldate;
-
-		if (strlen ($fecha_orig) > 10)
-		{ // si es formato YYYY-MM-DD HH:MM:SS
-			$hora = substr ($mysqldate, 11, strlen ($mysqldate));
-			$mysqldate = substr ($mysqldate, 0, 10);
-		}
-
-		$datearray = explode ("-", $mysqldate);
-
-		if (count ($datearray) != 3)
-			return ""; // en caso de que no sean tres bloques de numeros falla
-
-		$yyyy = $datearray[0];
-
-		$mm = $datearray[1];
-
-		$dd = $datearray[2];
-
-		if (strlen ($fecha_orig) > 10 and $conHora)
-		{ // si es formato YYYY-MM-DD HH:MM:SS
-			return "$dd/$mm/$yyyy $hora";
-		}
-		else
-		{
-			return "$dd/$mm/$yyyy";
-		}
+		return Fechas::mysql2date ($mysqldate, $conHora);
 	}
 
 	/**
@@ -1577,6 +1336,8 @@ class class_sitio
 	 * Se pueden enviar dias y meses con un digito (ej: 3/2/1851) o as� (ej: 03/02/1851)
 	 * La fecha tiene que enviarse en el orden dia/mes/ano
 	 * En caso de que falle el formateo retorna FALSE
+	 *
+	 * @deprecated Se recomienda utilizar directamente la funcion de la clase Fechas
 	 *
 	 * @param String $date
 	 *        	La fecha en formato DD/MM/YYYY o D/M/YYYY
@@ -1586,49 +1347,15 @@ class class_sitio
 	 */
 	public function date2mysql($date)
 	{
-		if (!ereg ('^[0-9]{1,2}/[0-9]{1,2}/[0-9]{4}$', $date))
-		{
-			return false;
-		}
-		$datearray = explode ("/", $date);
-
-		$dd = $datearray[0];
-		if ($dd > 0 and $dd <= 31)
-		{
-			$dd = sprintf ("%02d", $dd);
-		}
-		else
-		{
-			return false;
-		} // un minimo chequeo del dia
-
-		$mm = $datearray[1];
-		if ($mm > 0 and $mm <= 12)
-		{
-			$mm = sprintf ("%02d", $mm);
-		}
-		else
-		{
-			return false;
-		} // un minimo chequeo del mes
-
-		$yyyy = $datearray[2];
-		if ($yyyy > 0 and $yyyy <= 9999)
-		{
-			$yyyy = sprintf ("%04d", $yyyy);
-		}
-		else
-		{
-			return false;
-		} // un minimo chequeo del a�o
-
-		return "$yyyy-$mm-$dd";
+		return Fechas::date2mysql ($date);
 	}
 
 	/**
 	 * Retorna la representacion de una fecha (por ejemplo: Hace 3 dias.
 	 * o Ayer)
 	 * Para usar entre 0 minutos de diferencia hasta semanas
+	 *
+	 * @deprecated Se recomienda utilizar directamente la funcion de la clase Fechas
 	 *
 	 * @param Integer $ts
 	 *        	Timestamp
@@ -1639,54 +1366,7 @@ class class_sitio
 	 */
 	public function mysql2preety($ts, $formatoFecha = "d/m/Y")
 	{
-		if (!ctype_digit ($ts))
-		{
-			$ts = strtotime ($ts);
-		}
-		$diff = time () - $ts;
-		$day_diff = floor ($diff / 86400);
-
-		if ($day_diff < 0)
-		{
-			return date ($formatoFecha, $ts); // fecha futura! no deberia pasar..
-		}
-		if ($day_diff == 0)
-		{
-			if ($diff < 60)
-			{
-				return "Recien";
-			}
-			if ($diff < 120)
-			{
-				return "Hace un minuto";
-			}
-			if ($diff < 3600)
-			{
-				return "Hace " . floor ($diff / 60) . " minutos";
-			}
-			if ($diff < 7200)
-			{
-				return "Hace una hora";
-			}
-			if ($diff < 86400)
-			{
-				return "Hace " . floor ($diff / 3600) . " horas";
-			}
-		}
-
-		if ($day_diff == 1)
-		{
-			return "Ayer";
-		}
-		if ($day_diff < 7)
-		{
-			return "Hace " . $day_diff . " dias";
-		}
-		if ($day_diff < 31)
-		{
-			return "Hace " . ceil ($day_diff / 7) . " semanas";
-		}
-		return date ($formatoFecha, $ts);
+		return Fechas::mysql2preety ($ts, $formatoFecha);
 	}
 
 	// *****************************************************************************************************************//
