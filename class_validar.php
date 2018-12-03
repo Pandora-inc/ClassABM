@@ -578,7 +578,7 @@ class validar
 		{
 			if ($test_mx)
 			{
-				list (, $domain) = split ("@", $email);
+				list (, $domain) = explode ("@", $email);
 				return getmxrr ($domain, $mxrecords);
 			}
 			else

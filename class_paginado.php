@@ -14,7 +14,7 @@
  * @author Andres Carizza www.andrescarizza.com.ar
  * @author iberlot <@> ivanberlot@gmail.com
  *
- * @version 3.6.2 Se corrigen las consultas y las expresiones regulares para mejorar el performance de la recuperacion de registros. Ya no realiza dos veces la consulta si no que hace un count.
+ * @version 3.6.2 Se corrigen las consultas y las expreciones regulares para mejorar el performance de la recuperacion de registros. Ya no realiza dos veces la consulta si no que hace un count.
  * @version 3.6.1 Se modifico para que devolviera 1 en vez de $db->result ($result_paginado, 0, "cantidad"); cuando el conteo de rows fuera igual a uno.
  *          Con esto se corrige el error de que no mostraba datos cuando habia un unico registro.
  * @version 3.6
