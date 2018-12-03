@@ -388,7 +388,6 @@ class class_db
 					$paraY[0] = trim (str_replace (",", "", $paraY[0]));
 
 					$parametros[$i] = (string) ($parametros[$i]);
-
 					oci_bind_by_name ($result, ":$paraY[0]", $parametros[$i]);
 				}
 			}

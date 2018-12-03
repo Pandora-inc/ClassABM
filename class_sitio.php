@@ -24,6 +24,15 @@ require_once 'class_fechas.php';
  * @version 1.0.5 - Correcciones de codigo optimizacion y comnetado.
  *
  */
+use function class_sitio\agregarLinksEmail;
+use function class_sitio\codificacion;
+use function class_sitio\delTree;
+use function class_sitio\filesToArray;
+use function class_sitio\formatearLinks;
+use function class_sitio\getHostNameEmail;
+use function class_sitio\redirect_http;
+use function class_sitio\remplazar_caracteres_latinos;
+
 class class_sitio
 {
 	/**
@@ -664,6 +673,11 @@ class class_sitio
 	function fecha_oracle($fecha)
 	{
 		return Fechas::fecha_oracle ($fecha);
+		$fecha = $this->formatear_fecha_Oracle ($fecha, "-");
+
+		$fecha = "TO_DATE('$fecha', 'DD-MM-YYYY')";
+
+		return $fecha;
 	}
 
 	/**
@@ -1954,12 +1968,14 @@ class class_sitio
 	/**
 	 * Retorna un array con todos los archivos de una direccion X.
 	 *
+	 * @since 20/11/2018 - Se modifica para que se puedan obviar los archivos ocultos
+	 *
 	 * @param String $path
 	 *        	Direccion del directorio a recorrer
 	 * @param boolean $recusivo
 	 * @return array
 	 */
-	public function filesToArray($path, $recusivo = false)
+	public function filesToArray($path, $recusivo = false, $ocultos = false)
 	{
 		$dir = opendir ($path);
 		$files = array ();
@@ -1967,13 +1983,16 @@ class class_sitio
 		{
 			if ($current != "." && $current != "..")
 			{
-				if (!is_dir ($path . $current))
+				if (($ocultos == FALSE and (substr ($current, 0, 1) != ".")) or $ocultos == TRUE)
 				{
-					$files[] = $current;
-				}
-				elseif ($recusivo == true)
-				{
-					$files = array_merge ($files, filesToArray ($path . $current, $recusivo));
+					if (!is_dir ($path . $current))
+					{
+						$files[] = $current;
+					}
+					elseif ($recusivo == true)
+					{
+						$files = array_merge ($files, filesToArray ($path . $current, $recusivo));
+					}
 				}
 			}
 		}

@@ -805,7 +805,8 @@ class class_abm
 	 * Formato de fecha a utilizar en los campos tipo fecha del listado.
 	 * Usa la funcion date() de PHP *
 	 */
-	public $formatoFechaListado = "d/m/Y";
+	// public $formatoFechaListado = "d/m/Y";
+	public $formatoFechaListado = "DD/MM/YYYY";
 
 	/**
 	 * Indica si colorea las filas del listado cuando se pasa por arriba con el puntero *
@@ -950,6 +951,12 @@ class class_abm
 	 */
 	public $busquedaTotal = false;
 
+	/**
+	 * Cantidad maxima de registros sobre los que consultar.
+	 *
+	 * @var integer
+	 */
+	public $limitarCantidad = 2000;
 	/*
 	 * *******************************************************
 	 * VARIABLES RELACIONADAS AL CAMPO *
@@ -3349,8 +3356,8 @@ class class_abm
 					{
 						if ($this->campos[$i]['tipo'] == 'fecha')
 						{
-							$camposWhereBuscar .= $db->toChar ($this->tabla . "." . $this->campos[$i]['campo'], "", "DD/MM/YYYY");
-
+							// $camposWhereBuscar .= $db->toChar ($this->tabla . "." . $this->campos[$i]['campo'], "", "DD/MM/YYYY");
+							$camposWhereBuscar .= $db->toChar ($this->tabla . "." . $this->campos[$i]['campo'], "", $this->formatoFechaListado);
 							// $camposWhereBuscar .= "TO_CHAR(" . $this->tabla . "." . $this->campos[$i]['campo'] . ", 'DD/MM/YYYY')";
 							// $camposWhereBuscar .= "TO_CHAR(" . $this->tabla . "." . $this->campos[$i]['campo'] . ", 'YYYY-MM-DD')"; // @iberlot 2016/10/18 se cambia para que funcionen los nuevos parametros de busqueda
 
@@ -3428,7 +3435,6 @@ class class_abm
 				}
 			}
 		}
-
 		$camposSelect .= $this->adicionalesCamposSelect;
 
 		// class para ordenar por columna
@@ -3460,19 +3466,17 @@ class class_abm
 			if (is_array ($this->campoId))
 			{
 				$this->campoId = $this->convertirIdMultiple ($this->campoId, $this->tabla);
-
-				// print_r($this->campoId);
 			}
 			else
 			{
 				$this->campoId = $this->tabla . "." . $this->campoId . " AS ID ";
 			}
 
-			$sql = "SELECT " . $this->campoId . ", " . $camposSelect . " FROM " . $this->tabla . " " . $this->dbLink . " " . $joinSql . " " . $this->customJoin . " WHERE 1=1 AND (" . $camposWhereBuscar . ") " . $this->adicionalesSelect . " " . $orderBy;
+			$sql = "SELECT " . $this->campoId . ", " . $camposSelect . " FROM " . $this->tabla . " " . $this->dbLink . " " . $joinSql . " " . $this->customJoin . " WHERE 1=1  AND (" . $camposWhereBuscar . ") " . $this->adicionalesSelect . " " . $orderBy;
 		}
 		else if ($this->sqlCamposSelect != "")
 		{
-			$sql = "SELECT " . $this->sqlCamposSelect . " FROM $this->tabla $this->dbLink $joinSql $this->customJoin WHERE 1=1 AND ($camposWhereBuscar) $this->adicionalesSelect $orderBy";
+			$sql = "SELECT " . $this->sqlCamposSelect . " FROM $this->tabla $this->dbLink $joinSql $this->customJoin WHERE 1=1  AND ($camposWhereBuscar) $this->adicionalesSelect $orderBy";
 			// $sql = $this->sqlCamposSelect;
 		}
 		else

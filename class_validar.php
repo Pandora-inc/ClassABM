@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 
 /**
  * Archivo principal de la clase validar.
@@ -40,7 +40,7 @@
 class validar
 {
 	/**
-	 * Descripcion de los errores de validaciοΏ½n para imprimir en pantalla
+	 * Descripcion de los errores de validaciï¿½n para imprimir en pantalla
 	 */
 	public $errores;
 
@@ -230,7 +230,7 @@ class validar
 					$this->verificarLargo ($_REQUEST[$campo], $minimoLargo, $maximoLargo, $campo, $textoCampo);
 				}
 				break;
-
+                                
 			case "alfanumericoAcentos" :
 
 				if (!$this->esAlfaNumericoAcentos ($_REQUEST[$campo]))
@@ -240,6 +240,7 @@ class validar
 				}
 				else
 				{
+
 					$this->verificarLargo ($_REQUEST[$campo], $minimoLargo, $maximoLargo, $campo, $textoCampo);
 				}
 				break;
@@ -464,7 +465,7 @@ class validar
 	 */
 	public static function esAlfaNumericoAcentos($value)
 	{
-		if (preg_match ("/^[A-Za-z0-9 αινσϊρΑΙΝΣΪΡάό]+$/", $value))
+		if (preg_match ("/^[A-Za-z0-9 áéíóúñÁÉÍÓÚÑÜü]+$/", $value))
 		{
 			return true;
 		}
@@ -577,7 +578,7 @@ class validar
 		{
 			if ($test_mx)
 			{
-				list (, $domain) = explode ("@", $email);
+				list (, $domain) = split ("@", $email);
 				return getmxrr ($domain, $mxrecords);
 			}
 			else
