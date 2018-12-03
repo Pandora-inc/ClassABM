@@ -14,6 +14,7 @@
  * @author Andres Carizza www.andrescarizza.com.ar
  * @author iberlot <@> ivanberlot@gmail.com
  *
+ * @version 3.6.2 Se corrigen las consultas y las expreciones regulares para mejorar el performance de la recuperacion de registros. Ya no realiza dos veces la consulta si no que hace un count.
  * @version 3.6.1 Se modifico para que devolviera 1 en vez de $db->result ($result_paginado, 0, "cantidad"); cuando el conteo de rows fuera igual a uno.
  *          Con esto se corrige el error de que no mostraba datos cuando habia un unico registro.
  * @version 3.6
@@ -167,6 +168,7 @@ class class_paginado
 		// print_r($sqlQuery);
 		// global $db;
 		$query = $sqlQuery;
+
 		if (isset ($_GET[$this->nombre_var_registro]))
 		{
 			$regist = $_GET[$this->nombre_var_registro];
@@ -194,8 +196,8 @@ class class_paginado
 		// Si existe un GROUP BY ejecuta el original
 		if (!$this->ejecutarQueryOriginalParaContar and stripos ($query, "GROUP BY") === false)
 		{
-			$queryCount = str_replace ("SELECT(.*)FROM", "SELECT count(*) as cantidad FROM", $query);
-			$queryCount = str_replace ("ORDER BY.*", "", $queryCount);
+			$queryCount = preg_replace ('/(SELECT).*(FROM)/', 'SELECT COUNT(*) AS CANTIDAD FROM', $query);
+			$queryCount = preg_replace ('/ORDER BY.*/', '', $queryCount);
 			$result_paginado = $db->query ($queryCount);
 		}
 		else
@@ -203,18 +205,25 @@ class class_paginado
 			$ejecutarQueryOriginal = true;
 		}
 
-		if (isset ($ejecutarQueryOriginal) or $db->num_rows ($result_paginado) > 1 or $db->num_rows ($result_paginado) == 0)
-		{
-			// ejecuta el count mandando el query original
-			$result_paginado = $db->query ($sqlQuery);
-			$cantidad = $db->num_rows ($result_paginado);
-		}
-		elseif ($db->num_rows ($result_paginado) == 1)
-		{
-			// $cantidad = $db->result ($result_paginado, 0, "cantidad");
-			$cantidad = 1;
-		}
-		$this->total_registros = $cantidad;
+		// XXX este codigo duplica lo anterior se comenta hasta que se elimine en la proxima revicion
+		// if (isset ($ejecutarQueryOriginal) or $db->num_rows ($result_paginado) >= 0)
+		// {
+		// // ejecuta el count mandando el query original
+		// $sql = "SELECT COUNT(*) FROM (" . $sqlQuery . ")";
+
+		// $result_paginado = $db->query ($sql);
+		// $cantidad = $db->num_rows ($result_paginado);
+		// }
+		// elseif ($db->num_rows ($result_paginado) == 1)
+		// {
+		// // $cantidad = $db->result ($result_paginado, 0, "cantidad");
+		// $cantidad = 1;
+		// }
+
+		// Se remplaza por lo siguiente
+		$cantidad = $db->fetch_row ($result_paginado);
+		// print_r ($cantidad);
+		$this->total_registros = $cantidad[0];
 
 		// Ejecutar el query original con el LIMIT
 		if ($db->dbtype == 'mysql')
@@ -228,12 +237,11 @@ class class_paginado
 
 			$RegistroHasta = $registros_por_pagina + $registro;
 
+			$query = preg_replace ('/^(SELECT)/', 'SELECT ROWNUM AS FILA, ', $query);
+
 			$query = "
 			SELECT * FROM (
-			SELECT ROWNUM AS FILA, CONSULTA.* FROM (" . $query . "
-			)
-			CONSULTA
-			)
+			" . $query . ")
 			WHERE FILA > " . $registro . " AND FILA <= " . $RegistroHasta;
 		}
 		$result = $db->query ($query);
