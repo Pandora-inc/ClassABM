@@ -196,7 +196,9 @@ class class_paginado
 		// Si existe un GROUP BY ejecuta el original
 		if (!$this->ejecutarQueryOriginalParaContar and stripos ($query, "GROUP BY") === false)
 		{
-			$queryCount = preg_replace ('/(SELECT).*(FROM)/', 'SELECT COUNT(*) AS CANTIDAD FROM', $query);
+			$porciones = explode ("FROM", $query);
+			$porciones[0] = preg_replace ('/^(SELECT).*(FROM)/', 'SELECT COUNT(*) AS CANTIDAD', $porciones[0] . " FROM ");
+			$queryCount = implode ("FROM", $porciones);
 			$queryCount = preg_replace ('/ORDER BY.*/', '', $queryCount);
 			$result_paginado = $db->query ($queryCount);
 		}
