@@ -26,4 +26,20 @@
  */
 abstract class funciones
 {
+
+	/**
+	 * Retorna el ultimo indice del array
+	 *
+	 * @param array $array
+	 * @return mixed
+	 */
+	public function endKey($array)
+	{
+
+		// Aquí utilizamos end() para poner el puntero
+		// en el último elemento, no para devolver su valor
+		end ($array);
+
+		return key ($array);
+	}
 }
