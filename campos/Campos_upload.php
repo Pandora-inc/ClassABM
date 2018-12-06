@@ -13,6 +13,9 @@
  * totalHorasPerdidasAqui = 0
  *
  */
+require_once 'class_campo.php';
+
+// require_once '../funciones.php';
 
 /**
  *
@@ -28,10 +31,16 @@ class Campos_upload extends class_campo
 	 *
 	 * @param array $array
 	 */
-	public function __construct($array)
+	public function __construct($array = array())
 	{
-		parent::__construct ($array);
-		// TODO - Insert your code here
+		if (isset ($array) and !empty ($array))
+		{
+			parent::__construct ($array);
+		}
+		else
+		{
+			parent::__construct ();
+		}
 	}
 }
 

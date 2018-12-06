@@ -13,6 +13,9 @@
  * totalHorasPerdidasAqui = 0
  *
  */
+require_once 'class_campo.php';
+
+// require_once '../funciones.php';
 
 /**
  *
@@ -37,10 +40,45 @@ class Campos_numero extends class_campo
 	 *
 	 * @param array $array
 	 */
-	public function __construct($array)
+	public function __construct($array = array())
 	{
-		parent::__construct ($array);
-		// TODO - Insert your code here
+		if (isset ($array) and !empty ($array))
+		{
+			parent::__construct ($array);
+		}
+		else
+		{
+			parent::__construct ();
+		}
+	}
+
+	public function campoFormBuscar($db, &$busqueda)
+	{
+		$retorno = "";
+
+		if ($this->requerido == TRUE)
+		{
+			$requerido = " required ";
+		}
+		else
+		{
+			$requerido = " ";
+		}
+
+		if (isset ($_REQUEST['c_' . $this->campo]))
+		{
+			$valor = Funciones::limpiarEntidadesHTML ($_REQUEST['c_' . $this->campo]);
+
+			// FIXME - esto es un parche para poder paginar sin perder la busqueda pero hay que corregirlo para mejorarlo
+			$busqueda .= '&c_' . $this->campo . '=' . Funciones::limpiarEntidadesHTML ($_REQUEST['c_' . $this->campo]);
+		}
+		else
+		{
+			$valor = "";
+		}
+		$retorno .= "<input type='number' class='input-text $requerido currency' step='0.01' min='0.01' max='250000000.00'  name='c_" . $this->campo . "' value='" . $valor . "' /> \n";
+
+		return $retorno;
 	}
 }
 

@@ -13,6 +13,9 @@
  * totalHorasPerdidasAqui = 0
  *
  */
+require_once 'class_campo.php';
+
+// require_once '../funciones.php';
 
 /**
  *
@@ -22,16 +25,96 @@
 class Campos_dbCombo extends class_campo
 {
 
-	// TODO - Insert your code here
+	/**
+	 * Quiery opcional para el tipo de campo dbCombo.
+	 *
+	 * @name sqlQuery
+	 * @var string
+	 */
+	private $sqlQuery = '';
 
 	/**
 	 *
 	 * @param array $array
 	 */
-	public function __construct($array)
+	public function __construct($array = array())
 	{
-		parent::__construct ($array);
-		// TODO - Insert your code here
+		if (isset ($array) and !empty ($array))
+		{
+			parent::__construct ($array);
+		}
+		else
+		{
+			parent::__construct ();
+		}
+	}
+
+	/**
+	 * Retorna el valor de sqlQuery
+	 *
+	 * @return string
+	 */
+	public function getSqlQuery()
+	{
+		return $this->sqlQuery;
+	}
+
+	/**
+	 * Comprueba y setea el valor de sqlQuery
+	 *
+	 * @param string $sqlQuery
+	 */
+	public function setSqlQuery($sqlQuery)
+	{
+		$this->sqlQuery = $sqlQuery;
+	}
+
+	public function campoFormBuscar($db, &$busqueda)
+	{
+		$retorno = "";
+
+		$retorno .= "<select name='c_" . $this->campo . "' id='c_" . $this->campo . "' class='input-select'> \n";
+		$retorno .= "<option value=''></option> \n";
+
+		$resultdbCombo = $db->query ($this->sqlQuery);
+
+		while ($filadbCombo = $db->fetch_array ($resultdbCombo))
+		{
+			if ((isset ($_REQUEST['c_' . $this->campo]) and $_REQUEST['c_' . $this->campo] == $filadbCombo[$this->campoValor]))
+			{
+				$sel = "selected='selected'";
+
+				// FIXME - esto es un parche para poder paginar sin perder la busqueda pero hay que corregirlo para mejorarlo
+				$busqueda .= '&c_' . $this->campo . '=' . Funciones::limpiarEntidadesHTML ($_REQUEST['c_' . $this->campo]);
+			}
+			else
+			{
+				$sel = "";
+			}
+
+			$combobit = "";
+
+			if (isset ($this->mostrarValor) and ($this->mostrarValor == true))
+			{
+				$combobit .= ' (' . $filadbCombo[$this->campoValor] . ') ';
+			}
+
+			if (isset ($this->textoMayuscula) and ($this->textoMayuscula == true))
+			{
+				$combobit .= substr ($filadbCombo[$this->campoTexto], 0, 50);
+			}
+			else
+			{
+				$combobit .= ucwords (strtolower (substr ($filadbCombo[$this->campoTexto], 0, 50)));
+			}
+
+			$retorno .= "<option value='" . $filadbCombo[$this->campoValor] . "' $sel>" . $combobit . "</option> \n";
+		}
+		$retorno .= "</select> \n";
+
+		$imprForm .= str_replace ('%IDCAMPO%', $this->campo, $this->jsSelectConBusqueda);
+
+		return $retorno;
 	}
 }
 

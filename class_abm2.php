@@ -19,19 +19,18 @@
  * siguiente colega:
  * totalHorasPerdidasAqui = 1055
  */
-use abm2\campos\Campos_texto;
-
 require_once 'campos/Campos_bit.php';
-require_once 'Campos_combo.php';
-require_once 'Campos_dbCombo.php';
-require_once 'Campos_moneda.php';
-require_once 'Campos_numero.php';
-require_once 'Campos_password.php';
-require_once 'Campos_rownum.php';
-require_once 'Campos_textarea.php';
-require_once 'Campos_texto.php';
-require_once 'Campos_upload.php';
-require_once 'class_campo.php';
+require_once 'campos/Campos_combo.php';
+require_once 'campos/Campos_dbCombo.php';
+require_once 'campos/Campos_moneda.php';
+require_once 'campos/Campos_numero.php';
+require_once 'campos/Campos_password.php';
+require_once 'campos/Campos_rownum.php';
+require_once 'campos/Campos_textarea.php';
+require_once 'campos/Campos_texto.php';
+require_once 'campos/Campos_upload.php';
+require_once 'campos/class_campo.php';
+require_once 'funciones.php';
 
 /*
  * Clase que genera automaticamente un listado y los formularios que modifican o agregan datos en una tabla de BD.
@@ -191,7 +190,6 @@ require_once 'class_campo.php';
  * 'buscar' => false
  * )
  */
-include_once 'campos/class_campo.php';
 
 // FIXME - Cuando se realiza una busqueda hay que recetear el paginado.
 
@@ -735,28 +733,6 @@ class class_abm
 	public $jslinksCampoFecha = '<link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css"> <script src="//code.jquery.com/jquery-1.10.2.js"></script> <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>';
 
 	/**
-	 * Codigo JS para poner en window.onload para cada uno de los campos de fecha *
-	 */
-	public $jsIniciadorCamposFecha = '
-    <script>
-    $(function(){
-        $("#%IDCAMPO%").datepicker({
-      		changeMonth: true,
-      		changeYear: true,
-            regional: "es",
-            showAnim: "fade",
-            dateFormat: "yy-mm-dd",
-            altField: "#display_%IDCAMPO%",
-            altFormat: "dd/mm/yy",
-			yearRange: "-200:+10"
-        });
-        $("#display_%IDCAMPO%").focus(function(){$("#%IDCAMPO%").datepicker("show")});
-        if("%VALOR%" != "") $("#%IDCAMPO%").datepicker("setDate", "%VALOR%");
-    });
-    </script>
-    ';
-
-	/**
 	 * Coleccion de links necesarios para que el Select Con Busqueda funcione correctamente
 	 */
 	public $jslinksSelectConBusqueda = '
@@ -993,14 +969,6 @@ class class_abm
 	public $textoBitFalse = "NO";
 
 	/**
-	 * Indica si un campo en particular imprime o no su join
-	 * por defecto es true pero se puede usar para imprimir joins personalizados
-	 *
-	 * @var boolean
-	 */
-	public $omitirJoin = false;
-
-	/**
 	 * Nombre del link en caso de que sea requerido para las conecciones
 	 *
 	 * @var string
@@ -1210,7 +1178,7 @@ class class_abm
 
 		// global $db;
 
-		$_POST = $this->limpiarEntidadesHTML ($_POST);
+		$_POST = Funciones::limpiarEntidadesHTML ($_POST);
 
 		// genera el query string de variables previamente existentes
 		$get = $_GET;
@@ -2225,7 +2193,7 @@ class class_abm
 										$resultCombo = $db->query ($sqlQuery);
 										while ($filaCombo = $db->fetch_array ($resultCombo))
 										{
-											// $filaCombo = $this->limpiarEntidadesHTML ($filaCombo);
+											// $filaCombo = Funciones::limpiarEntidadesHTML ($filaCombo);
 											if ($filaCombo[$campo['campoValor']] == $fila[$campo['campo']])
 											{
 												$selected = "selected";
@@ -2268,7 +2236,7 @@ class class_abm
 
 										foreach ($campo['datos'] as $valor => $texto)
 										{
-											if ($fila[$campo['campo']] == $this->limpiarEntidadesHTML ($valor))
+											if ($fila[$campo['campo']] == Funciones::limpiarEntidadesHTML ($valor))
 											{
 												$sel = "selected='selected'";
 											}
@@ -2515,7 +2483,7 @@ class class_abm
 
 								while ($filaCombo = $db->fetch_array ($resultCombo))
 								{
-									// $filaCombo = $this->limpiarEntidadesHTML ($filaCombo);
+									// $filaCombo = Funciones::limpiarEntidadesHTML ($filaCombo);
 
 									if ($filaCombo[$campo['campoValor']] == $fila[$campo['campo']])
 									{
@@ -2580,7 +2548,7 @@ class class_abm
 
 								while ($filaCombo = $db->fetch_array ($resultCombo))
 								{
-									$filaCombo = $this->limpiarEntidadesHTML ($filaCombo);
+									$filaCombo = Funciones::limpiarEntidadesHTML ($filaCombo);
 
 									if ($filaCombo[$campo['campoValor']] == $fila[$campo['campo']])
 									{
@@ -2609,7 +2577,7 @@ class class_abm
 
 								foreach ($campo['datos'] as $valor => $texto)
 								{
-									if ($fila[$campo['campo']] == $this->limpiarEntidadesHTML ($valor))
+									if ($fila[$campo['campo']] == Funciones::limpiarEntidadesHTML ($valor))
 									{
 										$sel = "selected='selected'";
 									}
@@ -3001,7 +2969,7 @@ class class_abm
 		while ($fila = $db->fetch_array ($result))
 		{
 			// print_r("<Br />*******************<Br />");
-			$fila = $this->limpiarEntidadesHTML ($fila);
+			$fila = Funciones::limpiarEntidadesHTML ($fila);
 			$i++;
 
 			if (strtolower ($formato) == 'excel')
@@ -3123,7 +3091,7 @@ class class_abm
 					$str = $this->strip_selected_tags ($str, "br");
 
 					$str = str_ireplace ("\<br", "", $str);
-					// $str= $this->limpiarEntidadesHTML($str);
+					// $str= Funciones::limpiarEntidadesHTML($str);
 					// $str= str_ireplace("Br", "", $str);
 					// $str= str_ireplace("lt", "", $str);
 					// echo str_ireplace("<Br>", "", $str);
@@ -3171,7 +3139,7 @@ class class_abm
 	 *        	Query SQL personalizado para el listado. Usando este query no se usa $adicionalesSelect
 	 *
 	 */
-	public function generarListado($db, $titulo, $sql = "")
+	private function generarListado($db, $titulo, $sql = "")
 	{
 		$noMostrar = "";
 		$estaBuscando = "";
@@ -3183,30 +3151,22 @@ class class_abm
 		$agregarFormBuscar = false;
 
 		// por cada campo...
-		for($i = 0; $i < count ($this->campos); $i++)
+		foreach ($this->campo as $campo)
 		{
-			if ((!isset ($this->campos[$i]['campo'])) or $this->campos[$i]['campo'] == "")
-			{
-				continue;
-			}
-			// if ($this->campos[$i]['tipo'] == "upload")
-			// {
-			// continue;
-			// }
-			if (isset ($this->campos[$i]['noListar']) and $this->campos[$i]['noListar'] == true)
+
+			if (!$campo->existeDato ("campo") or $campo->isNoListar () == true)
 			{
 				continue;
 			}
 
-			if (isset ($this->campos[$i]['exportar']) and $this->campos[$i]['exportar'] == true)
+			if ($campo->isExportar () == true)
 			{
 				$mostrarExportar = true;
 			}
 
 			// para la class de ordenar por columnas
-			if (((!isset ($this->campos[$i]['noListar'])) or $this->campos[$i]['noListar'] == false) and ((!isset ($this->campos[$i]['noOrdenar']) or $this->campos[$i]['noOrdenar'] == false)))
+			if ($campo->isNoOrdenar () == false)
 			{
-
 				if (isset ($camposOrder) and $camposOrder != "")
 				{
 					$camposOrder .= "|";
@@ -3215,128 +3175,103 @@ class class_abm
 				{
 					$camposOrder = "";
 				}
-				if (isset ($this->campos[$i]['campoOrder']) and $this->campos[$i]['campoOrder'] != "")
+
+				if ($campo->existeDato ("campoOrder"))
 				{
-					$camposOrder .= $this->campos[$i]['campoOrder'];
+					$camposOrder .= $campo->getCampoOrder ();
 				}
 				else
 				{
-					if ($this->campos[$i]['tipo'] == 'rownum')
+					if ($campo->getTipo () == 'rownum')
 					{
-						$camposOrder .= $this->campos[$i]['campo'];
+						$camposOrder .= $campo->getCampo ();
 					}
-					elseif (!isset ($this->campos[$i]['joinTable']) or $this->campos[$i]['joinTable'] == '')
+					elseif (!$campo->existeDato ("joinTable") or $campo->existeDato ("selectPersonal"))
 					{
-						$camposOrder .= $this->tabla . "." . $this->campos[$i]['campo'];
+						$camposOrder .= $this->tabla . "." . $campo->getCampo ();
 					}
 					else
 					{
-						if (isset ($this->campos[$i]['selectPersonal']) and $this->campos[$i]['selectPersonal'] != "")
-						{
-							// $camposOrder .= $this->campos[$i]['joinTable'] . "." . $this->campos[$i]['campo'];
-
-							$camposOrder .= $this->tabla . "." . $this->campos[$i]['campo'];
-							// $camposOrder .= $this->campos[$i]['campo'];
-							// $camposOrder .= $this->campos[$i]['selectPersonal'] . " AS " . $this->campos[$i]['campo'];
-						}
-						else
-						{
-							// $camposOrder .= $this->campos[$i]['joinTable'] . "." . $this->campos[$i]['campo'];
-							$camposOrder .= $this->campos[$i]['joinTable'] . "." . $this->campos[$i]['campoTexto'];
-						}
+						$camposOrder .= $campo->getJoinTable () . "." . $campo->getCampoTexto ();
 					}
 				}
 			}
 
+			// XXX creo que lo que sigue deberia ser una funcion es las clases de los campos que retorne el campoSelect.
 			// campos para el select
-			if ((!isset ($this->campos[$i]['noListar']) or ($this->campos[$i]['noListar'] == false)) or (isset ($this->campos[$i]['buscar']) and ($this->campos[$i]['buscar'] == true)))
+			if ($campo->isBuscar () == true)
 			{
-
-				if ((isset ($this->campos[$i]['joinTable']) and $this->campos[$i]['joinTable'] != '') and ((!isset ($this->campos[$i]['omitirJoin'])) or $this->campos[$i]['omitirJoin'] == false))
+				if (isset ($camposSelect) and ($camposSelect != ""))
 				{
-					if (isset ($camposSelect) and $camposSelect != "")
-					{
-						$camposSelect .= ", ";
-					}
-					else
-					{
-						$camposSelect = "";
-					}
-
-					$tablaJoin = $this->campos[$i]['joinTable'];
-
-					$tablaJoin = explode (".", $tablaJoin);
-					$tablaJoin = $tablaJoin[count ($tablaJoin) - 1];
-
-					if (isset ($this->campos[$i]['selectPersonal']) and $this->campos[$i]['selectPersonal'] == true)
-					{
-						$camposSelect .= $this->campos[$i]['selectPersonal'] . " AS " . substr ($tablaJoin . "_" . $this->campos[$i]['campoTexto'], 0, 30);
-					}
-					else
-					{
-						$camposSelect .= $this->campos[$i]['joinTable'] . "." . $this->campos[$i]['campoTexto'] . " AS " . substr ($tablaJoin . "_" . $this->campos[$i]['campoTexto'], 0, 30);
-					}
-
-					$camposOrder .= "|" . $this->campos[$i]['campoTexto'];
+					$camposSelect .= ", ";
 				}
-				elseif ((isset ($this->campos[$i]['joinTable']) and $this->campos[$i]['joinTable'] != '') and ($this->campos[$i]['omitirJoin'] == true))
+				else
 				{
-					if ($camposSelect != "")
-					{
-						$camposSelect .= ", ";
-					}
+					$camposSelect = "";
+				}
 
-					$tablaJoin = $this->campos[$i]['joinTable'];
+				if ($campo->existeDato ("joinTable") and $campo->isOmitirJoin == false)
+				{
+					$tablaJoin = $campo->getJoinTable ();
 
 					$tablaJoin = explode (".", $tablaJoin);
 					$tablaJoin = $tablaJoin[count ($tablaJoin) - 1];
 
-					if (isset ($this->campos[$i]['selectPersonal']) and $this->campos[$i]['selectPersonal'] == true)
+					if ($campo->existeDato ("selectPersonal"))
 					{
-						$camposSelect .= $this->campos[$i]['selectPersonal'] . " AS " . $this->campos[$i]['campoTexto'];
+						$camposSelect .= $campo->getSelectPersonal () . " AS " . substr ($tablaJoin . "_" . $campo->getCampoTexto (), 0, 30);
 					}
 					else
 					{
-						$camposSelect .= $this->campos[$i]['joinTable'] . "." . $this->campos[$i]['campo'];
+						$camposSelect .= $campo->getJoinTable () . "." . $campo->getCampoTexto () . " AS " . substr ($tablaJoin . "_" . $campo->getCampoTexto (), 0, 30);
+					}
+
+					$camposOrder .= "|" . $campo->getCampoTexto ();
+				}
+				elseif ($campo->existeDato ("joinTable") and $campo->isOmitirJoin () == true)
+				{
+					$tablaJoin = $campo->getJoinTable ();
+
+					$tablaJoin = explode (".", $tablaJoin);
+					$tablaJoin = $tablaJoin[count ($tablaJoin) - 1];
+
+					if ($campo->getSelectPersonal () and $campo->getSelectPersonal () == true)
+					{
+						$camposSelect .= $campo->getSelectPersonal () . " AS " . $campo->getCampoTexto ();
+					}
+					else
+					{
+						$camposSelect .= $campo->getJoinTable () . "." . $campo->getCampo ();
 					}
 				}
 				else
 				{
-					if (isset ($camposSelect) and ($camposSelect != ""))
+					if ($campo->getTipo () == 'rownum')
 					{
-						$camposSelect .= ", ";
+						$camposSelect .= $campo->getCampo ();
+					}
+					elseif ($campo->getTipo () == 'fecha')
+					{
+						$camposSelect .= $db->toChar ($this->tabla . "." . $campo->getCampo (), $campo->getCampo (), "dd/mm/YYYY");
 					}
 					else
 					{
-						$camposSelect = "";
-					}
-
-					if ($this->campos[$i]['tipo'] == 'rownum')
-					{
-						$camposSelect .= $this->campos[$i]['campo'];
-					}
-					elseif ($this->campos[$i]['tipo'] == 'fecha')
-					{
-						$camposSelect .= $db->toChar ($this->tabla . "." . $this->campos[$i]['campo'], $this->campos[$i]['campo'], "dd/mm/YYYY");
-					}
-					else
-					{
-						$camposSelect .= $this->tabla . "." . $this->campos[$i]['campo'];
+						$camposSelect .= $this->tabla . "." . $campo->getCampo ();
 					}
 				}
 			}
 
 			// para el where de buscar
-			if ((isset ($this->campos[$i]['buscar'])) and ($this->campos[$i]['buscar'] == true))
+			if ($campo->existeDato ("buscar"))
 			{
 				$agregarFormBuscar = true;
 				// }
 
-				if ((isset ($_REQUEST['c_' . $this->campos[$i]['campo']]) and (trim ($_REQUEST['c_' . $this->campos[$i]['campo']]) != '')) or (isset ($_REQUEST['c_busquedaTotal']) and (trim ($_REQUEST['c_busquedaTotal']) != '')))
+				if ((isset ($_REQUEST['c_' . $campo->getCampo ()]) and (trim ($_REQUEST['c_' . $campo->getCampo ()]) != '')) or (isset ($_REQUEST['c_busquedaTotal']) and (trim ($_REQUEST['c_busquedaTotal']) != '')))
 				{
-					if (isset ($_REQUEST['c_' . $this->campos[$i]['campo']]))
+					if (isset ($_REQUEST['c_' . $campo->getCampo ()]))
 					{
-						$valorABuscar = $this->limpiarParaSql ($_REQUEST['c_' . $this->campos[$i]['campo']], $db);
+						$valorABuscar = $this->limpiarParaSql ($_REQUEST['c_' . $campo->getCampo ()], $db);
 
 						if (isset ($camposWhereBuscar))
 						{
@@ -3363,23 +3298,15 @@ class class_abm
 
 					$estaBuscando = true;
 
-					// quita la variable de paginado, ya que estoy buscando y no se aplica
-					// unset($_REQUEST['r']);
-					// unset($_POST['r']);
-					// unset($_GET['r']);
-
-					if (isset ($this->campos[$i]['buscarUsarCampo']) and ($this->campos[$i]['buscarUsarCampo'] != ""))
+					if ($campo->existeDato ("buscarUsarCampo"))
 					{
-						$camposWhereBuscar .= "UPPER(" . $this->campos[$i]['buscarUsarCampo'] . ")";
+						$camposWhereBuscar .= "UPPER(" . $campo->getBuscarUsarCampo () . ")";
 					}
 					else
 					{
-						if ($this->campos[$i]['tipo'] == 'fecha')
+						if ($campo->getTipo () == 'fecha')
 						{
-							// $camposWhereBuscar .= $db->toChar ($this->tabla . "." . $this->campos[$i]['campo'], "", "DD/MM/YYYY");
-							$camposWhereBuscar .= $db->toChar ($this->tabla . "." . $this->campos[$i]['campo'], "", $this->formatoFechaListado);
-							// $camposWhereBuscar .= "TO_CHAR(" . $this->tabla . "." . $this->campos[$i]['campo'] . ", 'DD/MM/YYYY')";
-							// $camposWhereBuscar .= "TO_CHAR(" . $this->tabla . "." . $this->campos[$i]['campo'] . ", 'YYYY-MM-DD')"; // @iberlot 2016/10/18 se cambia para que funcionen los nuevos parametros de busqueda
+							$camposWhereBuscar .= $db->toChar ($this->tabla . "." . $campo->getCampo (), "", $this->formatoFechaListado);
 
 							$valorABuscar = str_replace ("/", "%", $valorABuscar);
 							$valorABuscar = str_replace ("-", "%", $valorABuscar);
@@ -3387,15 +3314,15 @@ class class_abm
 						}
 						else
 						{
-							$camposWhereBuscar .= "UPPER(" . $this->tabla . "." . $this->campos[$i]['campo'] . ")";
+							$camposWhereBuscar .= "UPPER(" . $this->tabla . "." . $campo->getCampo () . ")";
 						}
 					}
 
 					$camposWhereBuscar .= " ";
 
-					if (isset ($this->campos[$i]['buscarOperador']) and (($this->campos[$i]['buscarOperador'] != '')) and strtolower ($this->campos[$i]['buscarOperador']) != 'like')
+					if ($campo->existeDato ("buscarOperador") and strtolower ($campo->getBuscarOperador ()) != 'like')
 					{
-						$camposWhereBuscar .= $this->campos[$i]['buscarOperador'] . " UPPER('" . $valorABuscar . "')";
+						$camposWhereBuscar .= $campo->buscarOperador . " UPPER('" . $valorABuscar . "')";
 					}
 					else
 					{
@@ -3404,12 +3331,13 @@ class class_abm
 					}
 				}
 			}
+
 			// tablas para sql join
-			if ((isset ($this->campos[$i]['joinTable']) and $this->campos[$i]['joinTable'] != '') and ((!isset ($this->campos[$i]['omitirJoin'])) or $this->campos[$i]['omitirJoin'] == false))
+			if ($campo->existeDato ("joinTable") and $campo->existeDato ("omitirJoin") == false)
 			{
-				if (isset ($this->campos[$i]['joinCondition']) and $this->campos[$i]['joinCondition'] != '')
+				if ($campo->existeDato ("joinCondition"))
 				{
-					$joinCondition = $this->campos[$i]['joinCondition'];
+					$joinCondition = $campo->getJoinCondition ();
 				}
 				else
 				{
@@ -3421,27 +3349,17 @@ class class_abm
 					$joinSql = "";
 				}
 
-				// $joinSql .= " $joinCondition JOIN " . $this->campos[$i]['joinTable'] . " ON " . $this->tabla . '.' . $this->campos[$i]['campo'] . '=' . $this->campos[$i]['joinTable'] . '.' . $this->campos[$i]['campoValor'];
+				$joinSql_aux = " $joinCondition JOIN " . $campo->getJoinTable () . " ON " . $this->tabla . '.' . $campo->getCampo () . '=' . $campo->getJoinTable () . '.' . $campo->getCampoValor ();
 
-				// if (isset($this->campos[$i]['customCompare']) and $this->campos[$i]['customCompare'] != "")
-				// {
-				// // $joinSql .= " ".$this->campos [$i] ['customCompare'];
-				// $joinSql .= " AND " . $this->campos[$i]['customCompareCampo'] . " = " . $this->tabla . '.' . $this->campos[$i]['customCompareValor'];
-				// }
-
-				$joinSql_aux = " $joinCondition JOIN " . $this->campos[$i]['joinTable'] . " ON " . $this->tabla . '.' . $this->campos[$i]['campo'] . '=' . $this->campos[$i]['joinTable'] . '.' . $this->campos[$i]['campoValor'];
-
-				if (isset ($this->campos[$i]['customCompare']) and $this->campos[$i]['customCompare'] != "")
+				if ($campo->existeDato ("customCompare"))
 				{
-					// $joinSql .= " ".$this->campos [$i] ['customCompare'];
-					$joinSql_aux .= " AND " . $this->campos[$i]['customCompareCampo'] . " = " . $this->tabla . '.' . $this->campos[$i]['customCompareValor'];
+					$joinSql_aux .= " AND " . $campo->getCustomCompareCampo () . " = " . $this->tabla . '.' . $campo->customCompareValor;
 				}
 
 				// FIXME Esto es un parche temporal y requiere que se arragle con urgencia
-				if (isset ($this->campos[$i]['compareMasJoin']) and $this->campos[$i]['compareMasJoin'] != "")
+				if ($campo->existeDato ("compareMasJoin"))
 				{
-					// $joinSql .= " ".$this->campos [$i] ['customCompare'];
-					$joinSql_aux .= " AND " . $this->campos[$i]['compareMasJoin'];
+					$joinSql_aux .= " AND " . $campo->compareMasJoin;
 				}
 
 				$pos = strpos ($joinSql, $joinSql_aux);
@@ -3455,6 +3373,9 @@ class class_abm
 				}
 			}
 		}
+
+		// hasta aca uso la clase
+
 		$camposSelect .= $this->adicionalesCamposSelect;
 
 		// class para ordenar por columna
@@ -3497,13 +3418,11 @@ class class_abm
 		else if ($this->sqlCamposSelect != "")
 		{
 			$sql = "SELECT " . $this->sqlCamposSelect . " FROM $this->tabla $this->dbLink $joinSql $this->customJoin WHERE 1=1  AND ($camposWhereBuscar) $this->adicionalesSelect $orderBy";
-			// $sql = $this->sqlCamposSelect;
 		}
 		else
 		{
 			$sql = $sql . " " . $orderBy;
 		}
-		// print_r($sql);
 
 		// class paginado
 		$paginado = new class_paginado ();
@@ -3627,19 +3546,16 @@ class class_abm
 			$iColumna = 0;
 			$maxColumnas = $this->columnasFormBuscar;
 
-			foreach ($this->campos as $campo)
+			foreach ($this->campo as $campo)
 			{
-				if (!isset ($campo['buscar']))
+				if ($campo->isBuscar () == false)
 				{
 					continue;
 				}
 
-				if (!isset ($campo['tmostrar']))
-				{
-					$campo['tmostrar'] = 0;
-				}
+				$campo['maxMostrar'] = $campo->getMaxMostrar ();
 
-				if (isset ($campo['requerido']))
+				if ($campo->isRequerido ())
 				{
 					$requerido = $this->chequeoInputRequerido;
 				}
@@ -3648,7 +3564,7 @@ class class_abm
 					$requerido = "";
 				}
 
-				if ((isset ($campo['noEditar'])) and $campo['noEditar'] == true)
+				if ($campo->isNoEditar ())
 				{
 					$disabled = "disabled='disabled'";
 				}
@@ -3657,232 +3573,22 @@ class class_abm
 					$disabled = "";
 				}
 
-				if (!isset ($campo['adicionalInput']))
-				{
-					$campo['adicionalInput'] = "";
-				}
-
 				$iColumna++;
 				echo "<div>\n";
-				// echo "<label>" . ($campo ['tituloBuscar'] != "" ? $campo ['tituloBuscar'] : ($campo ['tituloListado'] != "" ? $campo ['tituloListado'] : ($campo ['titulo'] != '' ? $campo ['titulo'] : $campo ['campo']))) . "</label>";
-				echo "<label>" . (((isset ($campo['tituloBuscar']) and ($campo['tituloBuscar'] != "")) ? $campo['tituloBuscar'] : (isset ($campo['tituloListado']) and ($campo['tituloListado'] != "")) ? $campo['tituloListado'] : ($campo['titulo'] != '' ? $campo['titulo'] : $campo['campo']))) . "</label>";
+				echo "<label>" . $campo->obtenerTitulo (true) . "</label>";
 
-				if ((isset ($campo['tipoBuscar'])) and ($campo['tipoBuscar'] != ""))
-				{
-					$campo['tipo'] = $campo['tipoBuscar'];
-				}
+				// if ($campo->existeDato ("tipoBuscar"))
+				// {
+				// $campo['tipo'] = $campo['tipoBuscar'];
+				// }
 
-				if ((isset ($campo['customFuncionBuscar'])) and ($campo['customFuncionBuscar'] != ""))
+				if ($campo->existeDato ("customFuncionBuscar"))
 				{
-					call_user_func_array ($campo['customFuncionBuscar'], array ());
+					call_user_func_array ($campo->getCustomFuncionBuscar (), array ());
 				}
 				else
 				{
-					switch ($campo['tipo'])
-					{
-						case "dbCombo" :
-							echo "<select name='c_" . $campo['campo'] . "' id='c_" . $campo['campo'] . "' class='input-select'> \n";
-							echo "<option value=''></option> \n";
-
-							$resultdbCombo = $db->query ($campo['sqlQuery']);
-							while ($filadbCombo = $db->fetch_array ($resultdbCombo))
-							{
-								if ((isset ($_REQUEST['c_' . $campo['campo']]) and $_REQUEST['c_' . $campo['campo']] == $filadbCombo[$campo[campoValor]]))
-								{
-									$sel = "selected='selected'";
-
-									// FIXME - esto es un parche para poder paginar sin perder la busqueda pero hay que corregirlo para mejorarlo
-									$busqueda .= '&c_' . $campo['campo'] . '=' . $this->limpiarEntidadesHTML ($_REQUEST['c_' . $campo['campo']]);
-								}
-								else
-								{
-									$sel = "";
-								}
-
-								$combobit = "";
-
-								if (isset ($campo['mostrarValor']) and ($campo['mostrarValor'] == true))
-								{
-									$combobit .= ' (' . $filadbCombo[$campo['campoValor']] . ') ';
-								}
-
-								if (isset ($campo['textoMayuscula']) and ($campo['textoMayuscula'] == true))
-								{
-									$combobit .= substr ($filadbCombo[$campo['campoTexto']], 0, 50);
-								}
-								else
-								{
-									$combobit .= ucwords (strtolower (substr ($filadbCombo[$campo['campoTexto']], 0, 50)));
-								}
-
-								echo "<option value='" . $filadbCombo[$campo['campoValor']] . "' $sel>" . $combobit . "</option> \n";
-
-								// echo "<option value='" . $filadbCombo[$campo['campoValor']] . "' $sel>" . $filadbCombo[$campo['campoTexto']] . "</option> \n";
-							}
-							echo "</select> \n";
-
-							$imprForm .= str_replace ('%IDCAMPO%', $campo['campo'], $this->jsSelectConBusqueda);
-							break;
-
-						case "combo" :
-							echo "<select name='c_" . $campo['campo'] . "' id='c_" . $campo['campo'] . "' class='input-select'> \n";
-							echo "<option value=''></option> \n";
-
-							foreach ($campo['datos'] as $valor => $texto)
-							{
-								if ((isset ($_REQUEST['c_' . $campo['campo']]) and $_REQUEST['c_' . $campo['campo']] == $valor))
-								{
-									$sel = "selected='selected'";
-									// FIXME - esto es un parche para poder paginar sin perder la busqueda pero hay que corregirlo para mejorarlo
-									$busqueda .= '&c_' . $campo['campo'] . '=' . $this->limpiarEntidadesHTML ($_REQUEST['c_' . $campo['campo']]);
-								}
-								else
-								{
-									$sel = "";
-								}
-								echo "<option value='$valor' $sel>$texto</option> \n";
-							}
-							echo "</select> \n";
-							break;
-
-						case "bit" :
-							echo "<select name='c_" . $campo['campo'] . "' id='c_" . $campo['campo'] . "' class='input-select'> \n";
-							echo "<option value=''></option> \n";
-
-							if ($campo['ordenInversoBit'])
-							{
-								// TODO - esto no es un error pero es poco performante y genera codigo duplicado hay que corregirlo.
-
-								if ((isset ($_REQUEST['c_' . $campo['campo']]) and $_REQUEST['c_' . $campo['campo']] == "0"))
-								{
-									$sel = "selected='selected'";
-									// FIXME - esto es un parche para poder paginar sin perder la busqueda pero hay que corregirlo para mejorarlo
-									$busqueda .= '&c_' . $campo['campo'] . '=' . $this->limpiarEntidadesHTML ($_REQUEST['c_' . $campo['campo']]);
-								}
-								else
-								{
-									$sel = "";
-								}
-								echo "<option value='0' $sel>" . ($campo['textoBitFalse'] != "" ? $campo['textoBitFalse'] : $this->textoBitFalse) . "</option> \n";
-
-								if ((isset ($_REQUEST['c_' . $campo['campo']]) and $_REQUEST['c_' . $campo['campo']] == true))
-								{
-									$sel = "selected='selected'";
-
-									// FIXME - esto es un parche para poder paginar sin perder la busqueda pero hay que corregirlo para mejorarlo
-									$busqueda .= '&c_' . $campo['campo'] . '=' . $this->limpiarEntidadesHTML ($_REQUEST['c_' . $campo['campo']]);
-								}
-								else
-								{
-									$sel = "";
-								}
-								echo "<option value='1' $sel>" . ($campo['textoBitTrue'] != "" ? $campo['textoBitTrue'] : $this->textoBitTrue) . "</option> \n";
-							}
-							else
-							{
-
-								if ((isset ($_REQUEST['c_' . $campo['campo']]) and $_REQUEST['c_' . $campo['campo']] == true))
-								{
-									$sel = "selected='selected'";
-
-									// FIXME - esto es un parche para poder paginar sin perder la busqueda pero hay que corregirlo para mejorarlo
-									$busqueda .= '&c_' . $campo['campo'] . '=' . $this->limpiarEntidadesHTML ($_REQUEST['c_' . $campo['campo']]);
-								}
-								else
-								{
-									$sel = "";
-								}
-								echo "<option value='1' $sel>" . ($campo['textoBitTrue'] != "" ? $campo['textoBitTrue'] : $this->textoBitTrue) . "</option> \n";
-
-								if ((isset ($_REQUEST['c_' . $campo['campo']]) and $_REQUEST['c_' . $campo['campo']] == "0"))
-								{
-									$sel = "selected='selected'";
-
-									// FIXME - esto es un parche para poder paginar sin perder la busqueda pero hay que corregirlo para mejorarlo
-									$busqueda .= '&c_' . $campo['campo'] . '=' . $this->limpiarEntidadesHTML ($_REQUEST['c_' . $campo['campo']]);
-								}
-								else
-								{
-									$sel = "";
-								}
-								echo "<option value='0' $sel>" . ($campo['textoBitFalse'] != "" ? $campo['textoBitFalse'] : $this->textoBitFalse) . "</option> \n";
-							}
-
-							echo "</select> \n";
-							break;
-
-						case "fecha" :
-							if (isset ($_REQUEST['c_' . $campo['campo']]))
-							{
-								$valor = $this->limpiarEntidadesHTML ($_REQUEST['c_' . $campo['campo']]);
-
-								// FIXME - esto es un parche para poder paginar sin perder la busqueda pero hay que corregirlo para mejorarlo
-								$busqueda .= '&c_' . $campo['campo'] . '=' . $this->limpiarEntidadesHTML ($_REQUEST['c_' . $campo['campo']]);
-							}
-
-							if (strlen ($valor) > 10)
-							{
-								$valor = substr ($valor, 0, 10); // sacar hora:min:seg
-							}
-							if ($valor == '0000-00-00')
-							{
-								$valor = "";
-							}
-							$jsTmp = str_replace ('%IDCAMPO%', 'c_' . $campo['campo'], $this->jsIniciadorCamposFecha);
-							$jsTmp = str_replace ('%VALOR%', $valor, $jsTmp);
-
-							echo $jsTmp;
-							echo "<input type='text' style='position:absolute' class='input-fecha' name='c_" . $campo['campo'] . "' id='c_" . $campo['campo'] . "' value='" . ($valor) . "'/> \n";
-							echo "<input type='text' style='position:relative;top:0px;left;0px'  name='display_c_" . $campo['campo'] . "' id='display_c_" . $campo['campo'] . "' class='input-fecha " . $requerido . "' " . $disabled . " " . (isset ($campo['adicionalInput']) ? $campo['adicionalInput'] : "") . " readonly='readonly'/> \n";
-							break;
-
-						case "moneda" :
-							if (isset ($_REQUEST['c_' . $campo['campo']]))
-							{
-								$valor = $this->limpiarEntidadesHTML ($_REQUEST['c_' . $campo['campo']]);
-
-								// FIXME - esto es un parche para poder paginar sin perder la busqueda pero hay que corregirlo para mejorarlo
-								$busqueda .= '&c_' . $campo['campo'] . '=' . $this->limpiarEntidadesHTML ($_REQUEST['c_' . $campo['campo']]);
-							}
-							else
-							{
-								$valor = "";
-							}
-
-							echo "<input type='number' class='input-text $requerido currency' step='0.01' min='0.01' max='250000000.00'  name='c_" . $campo['campo'] . "' value='" . $valor . "' /> \n";
-							break;
-
-						case "numero" :
-							if (isset ($_REQUEST['c_' . $campo['campo']]))
-							{
-								$valor = $this->limpiarEntidadesHTML ($_REQUEST['c_' . $campo['campo']]);
-
-								// FIXME - esto es un parche para poder paginar sin perder la busqueda pero hay que corregirlo para mejorarlo
-								$busqueda .= '&c_' . $campo['campo'] . '=' . $this->limpiarEntidadesHTML ($_REQUEST['c_' . $campo['campo']]);
-							}
-							else
-							{
-								$valor = "";
-							}
-							echo "<input type='number' class='input-text $requerido currency' step='0.01' min='0.01' max='250000000.00'  name='c_" . $campo['campo'] . "' value='" . $valor . "' /> \n";
-							break;
-
-						default :
-							if (isset ($_REQUEST['c_' . $campo['campo']]))
-							{
-								$valor = $this->limpiarEntidadesHTML ($_REQUEST['c_' . $campo['campo']]);
-
-								// FIXME - esto es un parche para poder paginar sin perder la busqueda pero hay que corregirlo para mejorarlo
-								$busqueda .= '&c_' . $campo['campo'] . '=' . $this->limpiarEntidadesHTML ($_REQUEST['c_' . $campo['campo']]);
-							}
-							else
-							{
-								$valor = "";
-							}
-
-							echo "<input type='text' class='input-text' name='c_" . $campo['campo'] . "' value='" . $valor . "' /> \n";
-							break;
-					}
+					echo $campo->campoFormBuscar ($db, $busqueda);
 				}
 
 				echo "</div>";
@@ -3911,9 +3617,9 @@ class class_abm
 			if (isset ($_REQUEST['c_busquedaTotal']))
 			{
 				// FIXME - esto es un parche para poder paginar sin perder la busqueda pero hay que corregirlo para mejorarlo
-				$busqueda = '&c_busquedaTotal=' . $this->limpiarEntidadesHTML ($_REQUEST['c_busquedaTotal']);
+				$busqueda = '&c_busquedaTotal=' . Funciones::limpiarEntidadesHTML ($_REQUEST['c_busquedaTotal']);
 
-				$formBuscar .= "<input type='text' class='input-text' name='c_busquedaTotal' value='" . $this->limpiarEntidadesHTML ($_REQUEST['c_busquedaTotal']) . "' /> \n";
+				$formBuscar .= "<input type='text' class='input-text' name='c_busquedaTotal' value='" . Funciones::limpiarEntidadesHTML ($_REQUEST['c_busquedaTotal']) . "' /> \n";
 			}
 			else
 			{
@@ -4050,7 +3756,7 @@ class class_abm
 				{
 					$rallado = "";
 				}
-				$fila = $this->limpiarEntidadesHTML ($fila);
+				$fila = Funciones::limpiarEntidadesHTML ($fila);
 
 				$i++;
 				$rallado = !$rallado;
@@ -4240,17 +3946,17 @@ class class_abm
 						{
 							if (isset ($campo['noLimpiar']) and $campo['noLimpiar'] == true)
 							{
-								echo "<td $centradoCol " . $noMostrar . ">" . substr (($spanColorear . html_entity_decode ($fila[$campo['campo']]) . $spanColorearFin), 0, $campo['tmostrar']) . "</td> \n";
+								echo "<td $centradoCol " . $noMostrar . ">" . substr (($spanColorear . html_entity_decode ($fila[$campo['campo']]) . $spanColorearFin), 0, $campo['maxMostrar']) . "</td> \n";
 							}
 							else
 							{
 								if (isset ($fila[$campo['campo']]))
 								{
-									echo "<td $centradoCol " . $noMostrar . ">" . substr (($spanColorear . $fila[$campo['campo']] . $spanColorearFin), 0, $campo['tmostrar']) . "</td> \n";
+									echo "<td $centradoCol " . $noMostrar . ">" . substr (($spanColorear . $fila[$campo['campo']] . $spanColorearFin), 0, $campo['maxMostrar']) . "</td> \n";
 								}
 								else
 								{
-									echo "<td $centradoCol " . $noMostrar . ">" . substr (($spanColorear . $fila[$campo['campoTexto']] . $spanColorearFin), 0, $campo['tmostrar']) . "</td> \n";
+									echo "<td $centradoCol " . $noMostrar . ">" . substr (($spanColorear . $fila[$campo['campoTexto']] . $spanColorearFin), 0, $campo['maxMostrar']) . "</td> \n";
 								}
 							}
 						}
@@ -4376,9 +4082,13 @@ class class_abm
 	 * @param string $titulo
 	 *        	Un titulo para mostrar en el encabezado del listado
 	 */
-	public function generarAbm($sql = "", $titulo)
+	public function generarAbm($sql = "", $titulo, $db = "")
 	{
-		global $db;
+		// en caso de que no se pase el parametro de conexion a la base
+		if (!isset ($db) or empty ($db))
+		{
+			global $db;
+		}
 
 		$this->cargar_campos ($this->campos);
 
@@ -5352,46 +5062,6 @@ class class_abm
 	}
 
 	/**
-	 * Convierte de un array todas las entidades HTML para que sea seguro mostrar en pantalla strings ingresados por los usuarios
-	 *
-	 * @example $_REQUEST = limpiarEntidadesHTML($_REQUEST);
-	 *
-	 * @param String[] $param
-	 * @return String[] - Depende del parametro recibido, un array con los datos remplazados o un String
-	 */
-	private function limpiarEntidadesHTML($param)
-	{
-		global $sitio;
-
-		if (is_array ($param))
-		{
-			// print_r(array_map (array ($this, __FUNCTION__ ), $param));
-			// print_r("<Br/>");
-			// Hay veces que devuelve error aca =(
-			return array_map (array (
-					$this,
-					__FUNCTION__
-			), $param);
-		}
-		else
-		{
-			// print_r(htmlentities ($param, ENT_QUOTES, $sitio->charset));
-			// print_r("<Br/>");
-
-			if (isset ($sitio->charset))
-			{
-				return htmlentities ($param, ENT_QUOTES, $sitio->charset);
-			}
-			else
-			{
-				$param = htmlentities ($param);
-
-				return $param;
-			}
-		}
-	}
-
-	/**
 	 * Escapa de un array todos los caracteres especiales de una cadena para su uso en una sentencia SQL
 	 *
 	 * @example $_REQUEST = limpiarParaSql($_REQUEST, $db);
@@ -5467,6 +5137,11 @@ class class_abm
 		}
 	}
 
+	/**
+	 * Carga los datos pasados por medio de un array a un array de la clase con un listado de objetos campo
+	 *
+	 * @param String[] $campos
+	 */
 	private function cargar_campos($campos)
 	{
 		foreach ($campos as $camp)
@@ -5474,46 +5149,52 @@ class class_abm
 			switch (strtolower ($camp['tipo']))
 			{
 				case "texto" :
-					$this->campo[] = new Campos_texto ();
+					$this->campo[] = new Campos_texto ($camp);
+					$i = Funciones::endKey ($this->campo);
 					break;
 
 				case "bit" :
-					$this->campo[] = new Campos_bit ();
+					$this->campo[] = new Campos_bit ($camp);
+					$i = Funciones::endKey ($this->campo);
 					break;
 
 				case "combo" :
-					$this->campo[] = new Campos_combo ();
-					break;
-
-				case "texto" :
-					$this->campo[] = new Campos_texto ();
+					$this->campo[] = new Campos_combo ($camp);
+					$i = Funciones::endKey ($this->campo);
 					break;
 
 				case "dbcombo" :
-					$this->campo[] = new Campos_dbCombo ();
+					$this->campo[] = new Campos_dbCombo ($camp);
+					$i = Funciones::endKey ($this->campo);
 					break;
 
 				case "password" :
-					$this->campo[] = new Campos_password ();
+					$this->campo[] = new Campos_password ($camp);
+					$i = Funciones::endKey ($this->campo);
 					break;
 
 				case "upload" :
-					$this->campo[] = new Campos_upload ();
+					$this->campo[] = new Campos_upload ($camp);
+					$i = Funciones::endKey ($this->campo);
 					break;
 
 				case "moneda" :
-					$this->campo[] = new Campos_moneda ();
+					$this->campo[] = new Campos_moneda ($camp);
+					$i = Funciones::endKey ($this->campo);
 					break;
 
 				case "numero" :
-					$this->campo[] = new Campos_numero ();
+					$this->campo[] = new Campos_numero ($camp);
+					$i = Funciones::endKey ($this->campo);
 					break;
 
 				case "rownum" :
-					$this->campo[] = new Campos_rownum ();
+					$this->campo[] = new Campos_rownum ($camp);
+					$i = Funciones::endKey ($this->campo);
 					break;
 			}
 		}
+		// print_r ($this->campo);
 	}
 }
 ?>
