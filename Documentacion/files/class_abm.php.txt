@@ -178,6 +178,7 @@
  * 'buscar' => false
  * )
  */
+include_once 'campos/class_campo.php';
 
 // FIXME - Cuando se realiza una busqueda hay que recetear el paginado.
 
@@ -192,13 +193,14 @@
  * @author Andres Carizza www.andrescarizza.com.ar
  * @author iberlot <@> ivanberlot@gmail.com
  *
- * @version 3.95
+ * @version 3.96
  * @since 3.0 cambia la forma de aplicar los estilos css.
  * @since 3.4 cambia de usar MooTools a usar JQuery.
  * @since 3.5.8 cambia a UTF-8.
  * @since 3.9 Se actualizaron las funciones obsoletas.
  * @since 3.9.4 Se modifico el datepicker para que sea mas facil elegir el mes y el ano.
  * @since 3.9.5 Se corrigio la implementacion de joins para que en caso de haber mas de uno de la misma tabla solo la incluyera una vez.
+ * @since 3.9.6 Se corrigio el armado de la consulta del listado para que en el caso de ser del tipo fecha use la funcion to_char de la clase db para armar la consulta.
  */
 class class_abm
 {
@@ -213,7 +215,7 @@ class class_abm
 	 * Va a ser la tabla prinsipal con la que se va a armar la cosulta.
 	 *
 	 * @var string
-	 * @example /u00/html/classes/examples/amb_example.html abm->tabla = "Capitulo";
+	 * @example /web/html/classes/examples/amb_example.html abm->tabla = "Capitulo";
 	 */
 	public $tabla;
 
@@ -803,7 +805,8 @@ class class_abm
 	 * Formato de fecha a utilizar en los campos tipo fecha del listado.
 	 * Usa la funcion date() de PHP *
 	 */
-	public $formatoFechaListado = "d/m/Y";
+	// public $formatoFechaListado = "d/m/Y";
+	public $formatoFechaListado = "DD/MM/YYYY";
 
 	/**
 	 * Indica si colorea las filas del listado cuando se pasa por arriba con el puntero *
@@ -948,6 +951,12 @@ class class_abm
 	 */
 	public $busquedaTotal = false;
 
+	/**
+	 * Cantidad maxima de registros sobre los que consultar.
+	 *
+	 * @var integer
+	 */
+	public $limitarCantidad = 2000;
 	/*
 	 * *******************************************************
 	 * VARIABLES RELACIONADAS AL CAMPO *
@@ -1966,7 +1975,7 @@ class class_abm
 				// porque la posici�n de 'a' est� en el 1� (primer) caracter.
 				if ($pos === false)
 				{
-					// FIXME
+					// FIXME Revisar exactamente.
 					$joinSql .= $joinSql_aux;
 				}
 			}
@@ -2860,7 +2869,7 @@ class class_abm
 						// porque la posici�n de 'a' est� en el 1� (primer) caracter.
 						if ($pos === false)
 						{
-							// FIXME
+							// FIXME Revisar exactamente.
 							$joinSql .= $joinSql_aux;
 						}
 					}
@@ -3286,6 +3295,10 @@ class class_abm
 					{
 						$camposSelect .= $this->campos[$i]['campo'];
 					}
+					elseif ($this->campos[$i]['tipo'] == 'fecha')
+					{
+						$camposSelect .= $db->toChar ($this->tabla . "." . $this->campos[$i]['campo'], $this->campos[$i]['campo'], "dd/mm/YYYY");
+					}
 					else
 					{
 						$camposSelect .= $this->tabla . "." . $this->campos[$i]['campo'];
@@ -3343,8 +3356,8 @@ class class_abm
 					{
 						if ($this->campos[$i]['tipo'] == 'fecha')
 						{
-							$camposWhereBuscar .= $db->toChar ($this->tabla . "." . $this->campos[$i]['campo'], "", "DD/MM/YYYY");
-
+							// $camposWhereBuscar .= $db->toChar ($this->tabla . "." . $this->campos[$i]['campo'], "", "DD/MM/YYYY");
+							$camposWhereBuscar .= $db->toChar ($this->tabla . "." . $this->campos[$i]['campo'], "", $this->formatoFechaListado);
 							// $camposWhereBuscar .= "TO_CHAR(" . $this->tabla . "." . $this->campos[$i]['campo'] . ", 'DD/MM/YYYY')";
 							// $camposWhereBuscar .= "TO_CHAR(" . $this->tabla . "." . $this->campos[$i]['campo'] . ", 'YYYY-MM-DD')"; // @iberlot 2016/10/18 se cambia para que funcionen los nuevos parametros de busqueda
 
@@ -3417,12 +3430,11 @@ class class_abm
 				// porque la posici�n de 'a' est� en el 1� (primer) caracter.
 				if ($pos === false)
 				{
-					// FIXME
+					// FIXME Revisar exactamente.
 					$joinSql .= $joinSql_aux;
 				}
 			}
 		}
-
 		$camposSelect .= $this->adicionalesCamposSelect;
 
 		// class para ordenar por columna
@@ -3454,19 +3466,17 @@ class class_abm
 			if (is_array ($this->campoId))
 			{
 				$this->campoId = $this->convertirIdMultiple ($this->campoId, $this->tabla);
-
-				// print_r($this->campoId);
 			}
 			else
 			{
 				$this->campoId = $this->tabla . "." . $this->campoId . " AS ID ";
 			}
 
-			$sql = "SELECT " . $this->campoId . ", " . $camposSelect . " FROM " . $this->tabla . " " . $this->dbLink . " " . $joinSql . " " . $this->customJoin . " WHERE 1=1 AND (" . $camposWhereBuscar . ") " . $this->adicionalesSelect . " " . $orderBy;
+			$sql = "SELECT " . $this->campoId . ", " . $camposSelect . " FROM " . $this->tabla . " " . $this->dbLink . " " . $joinSql . " " . $this->customJoin . " WHERE 1=1  AND (" . $camposWhereBuscar . ") " . $this->adicionalesSelect . " " . $orderBy;
 		}
 		else if ($this->sqlCamposSelect != "")
 		{
-			$sql = "SELECT " . $this->sqlCamposSelect . " FROM $this->tabla $this->dbLink $joinSql $this->customJoin WHERE 1=1 AND ($camposWhereBuscar) $this->adicionalesSelect $orderBy";
+			$sql = "SELECT " . $this->sqlCamposSelect . " FROM $this->tabla $this->dbLink $joinSql $this->customJoin WHERE 1=1  AND ($camposWhereBuscar) $this->adicionalesSelect $orderBy";
 			// $sql = $this->sqlCamposSelect;
 		}
 		else
@@ -4155,7 +4165,7 @@ class class_abm
 							}
 						}
 
-						echo "<td $centradoCol " . $noMostrar . ">$spanColorear";
+						echo "<td ??? $centradoCol " . $noMostrar . ">$spanColorear";
 
 						$campo['customPrintListado'] = str_ireplace ('{id}', $fila['ID'], $campo['customPrintListado']);
 
@@ -4254,7 +4264,11 @@ class class_abm
 								{
 									if (strtotime ($fila[$campo['campo']]) !== -1)
 									{
-										$fila[$campo['campo']] = date ($this->formatoFechaListado, strtotime ($fila[$campo['campo']]));
+										// FIXME Urgente arreglar
+
+										// $fila[$campo['campo']] = date ($this->formatoFechaListado, strtotime ($fila[$campo['campo']]));
+										// $fila[$campo['campo']] = date ($this->formatoFechaListado, $fila[$campo['campo']]);
+										$fila[$campo['campo']] = $fila[$campo['campo']];
 									}
 								}
 							}
@@ -5432,3 +5446,4 @@ class class_abm
 	}
 }
 ?>
+

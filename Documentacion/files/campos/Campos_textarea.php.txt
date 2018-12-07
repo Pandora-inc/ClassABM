@@ -1,4 +1,5 @@
 <?php
+<<<<<<< develop
 /**
  *
  * @author iberlot
@@ -7,6 +8,9 @@
 require_once 'class_campo.php';
 
 // require_once '../funciones.php';
+=======
+
+>>>>>>> F_C-002
 /*
  * Querido programador:
  *
@@ -20,12 +24,22 @@ require_once 'class_campo.php';
  * totalHorasPerdidasAqui = 0
  *
  */
+<<<<<<< develop
 
 /**
  * Clase encargada de manejar todo lo referente a los campos de texto.
  *
  * @author iberlot <@> ivanberlot@gmail.com
  * @since 16 Nov. 2018
+=======
+require_once 'class_campo.php';
+
+// require_once '../funciones.php';
+
+/**
+ *
+ * @author iberlot
+>>>>>>> F_C-002
  *
  */
 class Campos_textarea extends class_campo
