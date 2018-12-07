@@ -3141,12 +3141,13 @@ class class_abm
 	 */
 	private function generarListado($db, $titulo, $sql = "")
 	{
+		$html = "";
 		$noMostrar = "";
 		$estaBuscando = "";
 
 		$this->estilosBasicos = str_ireplace ('%dirname%', dirname (__FILE__), $this->estilosBasicos);
 		$this->estilosBasicos = str_ireplace ($_SERVER['DOCUMENT_ROOT'], "", $this->estilosBasicos);
-		echo "<HEAD>" . $this->estilosBasicos . "</HEAD>";
+		$html .= "<HEAD>" . $this->estilosBasicos . "</HEAD>";
 
 		$agregarFormBuscar = false;
 
@@ -3448,14 +3449,14 @@ class class_abm
 			$qsamb = "&" . $qsamb;
 		}
 
-		echo "<div class='mabm'>";
+		$html .= "<div class='mabm'>";
 
-		echo "\n<script>
+		$html .= "\n<script>
 		        function abmBorrar(id, obj){
 		            var colorAnt = obj.parentNode.parentNode.style.border;
 		            obj.parentNode.parentNode.style.border = '3px solid red';";
 
-		echo 'if (confirm("' . $this->textoPreguntarBorrar . '")){
+		$html .= 'if (confirm("' . $this->textoPreguntarBorrar . '")){
 		                window.location = "' . $_SERVER['PHP_SELF'] . "?" . $qsamb . "&abm_borrar=" . '" + id;
 		            }
 		            obj.parentNode.parentNode.style.border = colorAnt;
@@ -3464,7 +3465,7 @@ class class_abm
 
 		if ($this->colorearFilas)
 		{
-			echo "\n\n
+			$html .= "\n\n
 					var colorAntTR;
 					\n\n
 
@@ -3474,16 +3475,16 @@ class class_abm
 
 			if ($this->colorearFilasDegrade == true)
 			{
-				echo "obj.style.background='-webkit-linear-gradient(top, $this->colorearFilasColor,$this->colorearFilasColorSecundario )';"; /* For Safari 5.1 to 6.0 */
-				echo "obj.style.background='-o-linear-gradient(top, $this->colorearFilasColor,$this->colorearFilasColorSecundario )';"; /* For Opera 11.1 to 12.0 */
-				echo "obj.style.background='-moz-linear-gradient(top, $this->colorearFilasColor,$this->colorearFilasColorSecundario )';"; /* For Firefox 3.6 to 15 */
-				echo "obj.style.background='linear-gradient(top, $this->colorearFilasColor,$this->colorearFilasColorSecundario )';"; /* Standard syntax */
+				$html .= "obj.style.background='-webkit-linear-gradient(top, $this->colorearFilasColor,$this->colorearFilasColorSecundario )';"; /* For Safari 5.1 to 6.0 */
+				$html .= "obj.style.background='-o-linear-gradient(top, $this->colorearFilasColor,$this->colorearFilasColorSecundario )';"; /* For Opera 11.1 to 12.0 */
+				$html .= "obj.style.background='-moz-linear-gradient(top, $this->colorearFilasColor,$this->colorearFilasColorSecundario )';"; /* For Firefox 3.6 to 15 */
+				$html .= "obj.style.background='linear-gradient(top, $this->colorearFilasColor,$this->colorearFilasColorSecundario )';"; /* Standard syntax */
 			}
 			else
 			{
-				echo "obj.style.background='$this->colorearFilasColor';";
+				$html .= "obj.style.background='$this->colorearFilasColor';";
 			}
-			echo "
+			$html .= "
 		                }else{
 		                    obj.style.background=colorAntTR;
 		                }
@@ -3491,21 +3492,21 @@ class class_abm
 		            ";
 		}
 
-		echo "</script>";
+		$html .= "</script>";
 
 		if (isset ($_GET['abmsg']))
 		{
-			echo "<div class='merror'>" . urldecode ($_GET['abmsg']) . "</div> \n";
+			$html .= "<div class='merror'>" . urldecode ($_GET['abmsg']) . "</div> \n";
 		}
 
-		echo "<table class='mlistado' $this->adicionalesTableListado> \n";
+		$html .= "<table class='mlistado' $this->adicionalesTableListado> \n";
 
 		// titulo, botones, form buscar
-		echo "<thead> \n";
-		echo "<tr><th colspan='" . (count ($this->campos) + 2) . "'> \n";
-		echo "<div class='mtitulo'>$titulo</div>";
-		echo "<div class='mbotonera'> \n";
-		echo $this->agregarABotoneraListado;
+		$html .= "<thead> \n";
+		$html .= "<tr><th colspan='" . (count ($this->campos) + 2) . "'> \n";
+		$html .= "<div class='mtitulo'>$titulo</div>";
+		$html .= "<div class='mbotonera'> \n";
+		$html .= $this->agregarABotoneraListado;
 
 		if ($mostrarExportar and $this->mostrarListado)
 		{
@@ -3514,34 +3515,34 @@ class class_abm
 			$WBuscar = htmlspecialchars ($WBuscar, ENT_QUOTES);
 			if (in_array ('excel', $this->exportar_formatosPermitidos))
 			{
-				echo sprintf ($this->iconoExportarExcel, "$_SERVER[PHP_SELF]?abm_exportar=excel&buscar=$WBuscar");
+				$html .= sprintf ($this->iconoExportarExcel, "$_SERVER[PHP_SELF]?abm_exportar=excel&buscar=$WBuscar");
 			}
 			if (in_array ('csv', $this->exportar_formatosPermitidos))
 			{
-				echo sprintf ($this->iconoExportarCsv, "$_SERVER[PHP_SELF]?abm_exportar=csv");
+				$html .= sprintf ($this->iconoExportarCsv, "$_SERVER[PHP_SELF]?abm_exportar=csv");
 			}
 		}
 		if ($this->mostrarNuevo)
 		{
 			if ($this->direNuevo)
 			{
-				echo sprintf ($this->iconoAgregar, $this->direNuevo);
+				$html .= sprintf ($this->iconoAgregar, $this->direNuevo);
 			}
 			else
 			{
-				echo sprintf ($this->iconoAgregar, "$_SERVER[PHP_SELF]?abm_nuevo=1$qsamb");
+				$html .= sprintf ($this->iconoAgregar, "$_SERVER[PHP_SELF]?abm_nuevo=1$qsamb");
 			}
 		}
-		echo "</div> \n";
+		$html .= "</div> \n";
 
-		echo "</th></tr> \n";
+		$html .= "</th></tr> \n";
 
 		// formulario de busqueda
 		if ((isset ($agregarFormBuscar) and $this->mostrarListado) and $this->busquedaTotal == false)
 		{
-			echo "<tr class='mbuscar'><th colspan='" . (count ($this->campos) + 2) . "'> \n";
-			echo "<fieldset><legend>$this->textoTituloFormularioBuscar</legend> \n";
-			echo "<form method='POST' action='$this->formAction?$qsamb' id='formularioBusquedaAbm'> \n";
+			$html .= "<tr class='mbuscar'><th colspan='" . (count ($this->campos) + 2) . "'> \n";
+			$html .= "<fieldset><legend>$this->textoTituloFormularioBuscar</legend> \n";
+			$html .= "<form method='POST' action='$this->formAction?$qsamb' id='formularioBusquedaAbm'> \n";
 
 			$iColumna = 0;
 			$maxColumnas = $this->columnasFormBuscar;
@@ -3574,8 +3575,8 @@ class class_abm
 				}
 
 				$iColumna++;
-				echo "<div>\n";
-				echo "<label>" . $campo->obtenerTitulo (true) . "</label>";
+				$html .= "<div>\n";
+				$html .= "<label>" . $campo->obtenerTitulo (true) . "</label>";
 
 				// if ($campo->existeDato ("tipoBuscar"))
 				// {
@@ -3588,24 +3589,24 @@ class class_abm
 				}
 				else
 				{
-					echo $campo->campoFormBuscar ($db, $busqueda);
+					$html .= $campo->campoFormBuscar ($db, $busqueda);
 				}
 
 				echo "</div>";
 				if ($iColumna == $maxColumnas)
 				{
 					$iColumna = 0;
-					echo "<div class='mNuevaLinea'></div>\n";
+					$html .= "<div class='mNuevaLinea'></div>\n";
 				}
 			}
 
-			echo "<div class='mBotonesB'> \n";
-			echo "<input type='submit' class='mBotonBuscar' value='$this->textoBuscar'/> \n";
-			echo "<input type='button' class='mBotonLimpiar' value='$this->textoLimpiar' onclick='window.location=\"$this->formAction?$qsamb\"'/> \n";
-			echo "</div> \n";
-			echo "</form> \n";
-			echo "</fieldset> \n";
-			echo "</th></tr> \n";
+			$html .= "<div class='mBotonesB'> \n";
+			$html .= "<input type='submit' class='mBotonBuscar' value='$this->textoBuscar'/> \n";
+			$html .= "<input type='button' class='mBotonLimpiar' value='$this->textoLimpiar' onclick='window.location=\"$this->formAction?$qsamb\"'/> \n";
+			$html .= "</div> \n";
+			$html .= "</form> \n";
+			$html .= "</fieldset> \n";
+			$html .= "</th></tr> \n";
 		}
 		elseif ($this->busquedaTotal == true)
 		{
@@ -3635,7 +3636,7 @@ class class_abm
 			$formBuscar .= "</fieldset> \n";
 			$formBuscar .= "</th></tr> \n";
 
-			echo $formBuscar;
+			$html .= $formBuscar;
 		}
 
 		if (isset ($busqueda))
@@ -3650,7 +3651,7 @@ class class_abm
 			// columnas del encabezado
 			if ($this->mostrarEncabezadosListado)
 			{
-				echo '<tr class="tablesorter-headerRow"> ';
+				$html .= '<tr class="tablesorter-headerRow"> ';
 				foreach ($this->campos as $campo)
 				{
 
@@ -3689,7 +3690,7 @@ class class_abm
 
 					if ($campo['campo'] == "" or isset ($campo['noOrdenar']))
 					{
-						echo "<th " . ($styleTh != "" ? "style='$styleTh'" : "") . $noMostrar . ">" . ((isset ($campo['tituloListado']) and $campo['tituloListado'] != "") ? $campo['tituloListado'] : ($campo['titulo'] != '' ? $campo['titulo'] : $campo['campo'])) . "</th> \n";
+						$html .= "<th " . ($styleTh != "" ? "style='$styleTh'" : "") . $noMostrar . ">" . ((isset ($campo['tituloListado']) and $campo['tituloListado'] != "") ? $campo['tituloListado'] : ($campo['titulo'] != '' ? $campo['titulo'] : $campo['campo'])) . "</th> \n";
 					}
 					else
 					{
@@ -3734,20 +3735,20 @@ class class_abm
 						}
 						// echo "<th " . ($styleTh != "" ? "style='$styleTh'" : "") . " $noMostrar >" . $o->linkOrderBy(((isset($campo['tituloListado']) and $campo['tituloListado'] != "") ? $campo['tituloListado'] : ($campo['titulo'] != '' ? $campo['titulo'] : $campo['campo'])), $campoOrder) . "</th> \n";
 
-						echo "<th " . ($styleTh != "" ? "style='$styleTh'" : "") . " $noMostrar >" . $linkas . "</th> \n";
+						$html .= "<th " . ($styleTh != "" ? "style='$styleTh'" : "") . " $noMostrar >" . $linkas . "</th> \n";
 					}
 				}
 				if ($this->mostrarEditar)
 				{
-					echo "<th class='mtituloColEditar' " . $noMostrar . ">" . $this->textoEditarListado . "</th> \n";
+					$html .= "<th class='mtituloColEditar' " . $noMostrar . ">" . $this->textoEditarListado . "</th> \n";
 				}
 				if ($this->mostrarBorrar)
 				{
-					echo "<th class='mtituloColBorrar' " . $noMostrar . ">" . $this->textoBorrarListado . "</th> \n";
+					$html .= "<th class='mtituloColBorrar' " . $noMostrar . ">" . $this->textoBorrarListado . "</th> \n";
 				}
-				echo "</tr> \n";
+				$html .= "</tr> \n";
 			} // fin columnas del encabezado
-			echo "</thead> \n";
+			$html .= "</thead> \n";
 			// filas de datos
 			$i = 0;
 			while ($fila = $db->fetch_array ($result))
@@ -3761,16 +3762,16 @@ class class_abm
 				$i++;
 				$rallado = !$rallado;
 
-				echo "<tr class='rallado$rallado' ";
+				$html .= "<tr class='rallado$rallado' ";
 				if ($this->colorearFilas)
 				{
-					echo " onmouseover=\"cambColTR(this,1)\" onmouseout=\"cambColTR(this,0)\" ";
+					$html .= " onmouseover=\"cambColTR(this,1)\" onmouseout=\"cambColTR(this,0)\" ";
 				}
 				if (isset ($this->evalEnTagTR))
 				{
 					eval ($this->evalEnTagTR);
 				}
-				echo "> \n";
+				$html .= "> \n";
 
 				foreach ($this->campos as $campo)
 				{
@@ -3891,19 +3892,19 @@ class class_abm
 							}
 						}
 
-						echo "<td ??? $centradoCol " . $noMostrar . ">$spanColorear";
+						$html .= "<td ??? $centradoCol " . $noMostrar . ">$spanColorear";
 
 						$campo['customPrintListado'] = str_ireplace ('{id}', $fila['ID'], $campo['customPrintListado']);
 
 						if (isset ($fila[$campo['campo']]))
 						{
-							echo sprintf ($campo['customPrintListado'], $fila[$campo['campo']]);
+							$html .= sprintf ($campo['customPrintListado'], $fila[$campo['campo']]);
 						}
 						else
 						{
-							echo sprintf ($campo['customPrintListado']);
+							$html .= sprintf ($campo['customPrintListado']);
 						}
-						echo $spanColorearFin . "</td> \n";
+						$html .= $spanColorearFin . "</td> \n";
 					}
 					else
 					{
@@ -3911,11 +3912,11 @@ class class_abm
 						{
 							if ($fila[$campo['campo']])
 							{
-								echo "<td $centradoCol " . $noMostrar . ">$spanColorear" . ((isset ($campo['textoBitTrue']) and $campo['textoBitTrue'] != '') ? $campo['textoBitTrue'] : $this->textoBitTrue) . "$spanColorearFin</td> \n";
+								$html .= "<td $centradoCol " . $noMostrar . ">$spanColorear" . ((isset ($campo['textoBitTrue']) and $campo['textoBitTrue'] != '') ? $campo['textoBitTrue'] : $this->textoBitTrue) . "$spanColorearFin</td> \n";
 							}
 							else
 							{
-								echo "<td $centradoCol " . $noMostrar . ">$spanColorear" . ((isset ($campo['textoBitFalse']) and $campo['textoBitFalse'] != '') ? $campo['textoBitFalse'] : $this->textoBitFalse) . "$spanColorearFin</td> \n";
+								$html .= "<td $centradoCol " . $noMostrar . ">$spanColorear" . ((isset ($campo['textoBitFalse']) and $campo['textoBitFalse'] != '') ? $campo['textoBitFalse'] : $this->textoBitFalse) . "$spanColorearFin</td> \n";
 							}
 						}
 						// si es tipo combo le decimos que muestre el texto en vez del valor
@@ -3923,40 +3924,40 @@ class class_abm
 						{
 							if ($fila[$campo['campo']])
 							{
-								echo "<td $centradoCol " . $noMostrar . ">$spanColorear" . $campo['datos'][$fila[$campo['campo']]] . "$spanColorearFin</td> \n";
+								$html .= "<td $centradoCol " . $noMostrar . ">$spanColorear" . $campo['datos'][$fila[$campo['campo']]] . "$spanColorearFin</td> \n";
 							}
 						}
 						elseif ($campo['tipo'] == "moneda")
 						{
 							setlocale (LC_MONETARY, 'es_AR');
-							echo "<td style='text-align: right;' " . $noMostrar . ">$spanColorear" . money_format ('%.2n', $fila[$campo['campo']]) . "$spanColorearFin</td> \n";
+							$html .= "<td style='text-align: right;' " . $noMostrar . ">$spanColorear" . money_format ('%.2n', $fila[$campo['campo']]) . "$spanColorearFin</td> \n";
 						}
 						elseif ($campo['tipo'] == "numero")
 						{
 							if ($fila[$campo['campo']] != "" and $fila[$campo['campo']] > 0)
 							{
-								echo "<td style='text-align: right;' " . $noMostrar . ">$spanColorear" . number_format ($fila[$campo['campo']], $campo['cantidadDecimales'], ',', '.') . "$spanColorearFin</td> \n";
+								$html .= "<td style='text-align: right;' " . $noMostrar . ">$spanColorear" . number_format ($fila[$campo['campo']], $campo['cantidadDecimales'], ',', '.') . "$spanColorearFin</td> \n";
 							}
 							else
 							{
-								echo "<td style='text-align: right;' $noMostrar>$spanColorear" . number_format (0, $campo['cantidadDecimales'], ',', '.') . "$spanColorearFin</td> \n";
+								$html .= "<td style='text-align: right;' $noMostrar>$spanColorear" . number_format (0, $campo['cantidadDecimales'], ',', '.') . "$spanColorearFin</td> \n";
 							}
 						}
 						elseif ($campo['tipo'] == "textarea")
 						{
 							if (isset ($campo['noLimpiar']) and $campo['noLimpiar'] == true)
 							{
-								echo "<td $centradoCol " . $noMostrar . ">" . substr (($spanColorear . html_entity_decode ($fila[$campo['campo']]) . $spanColorearFin), 0, $campo['maxMostrar']) . "</td> \n";
+								$html .= "<td $centradoCol " . $noMostrar . ">" . substr (($spanColorear . html_entity_decode ($fila[$campo['campo']]) . $spanColorearFin), 0, $campo['maxMostrar']) . "</td> \n";
 							}
 							else
 							{
 								if (isset ($fila[$campo['campo']]))
 								{
-									echo "<td $centradoCol " . $noMostrar . ">" . substr (($spanColorear . $fila[$campo['campo']] . $spanColorearFin), 0, $campo['maxMostrar']) . "</td> \n";
+									$html .= "<td $centradoCol " . $noMostrar . ">" . substr (($spanColorear . $fila[$campo['campo']] . $spanColorearFin), 0, $campo['maxMostrar']) . "</td> \n";
 								}
 								else
 								{
-									echo "<td $centradoCol " . $noMostrar . ">" . substr (($spanColorear . $fila[$campo['campoTexto']] . $spanColorearFin), 0, $campo['maxMostrar']) . "</td> \n";
+									$html .= "<td $centradoCol " . $noMostrar . ">" . substr (($spanColorear . $fila[$campo['campoTexto']] . $spanColorearFin), 0, $campo['maxMostrar']) . "</td> \n";
 								}
 							}
 						}
@@ -3974,11 +3975,11 @@ class class_abm
 								$otrosImagen .= " height='" . $campo['alto'] . "' ";
 								$otrosImagen .= " width='" . $campo['ancho'] . "' ";
 
-								echo "<td $centradoCol " . $noMostrar . "><img " . $otrosImagen . " src='" . $campo['directorio'] . "/" . $fila[$campo['campo']] . "'></td> \n";
+								$html .= "<td $centradoCol " . $noMostrar . "><img " . $otrosImagen . " src='" . $campo['directorio'] . "/" . $fila[$campo['campo']] . "'></td> \n";
 							}
 							elseif ($campo['mostrar'] == true)
 							{
-								echo "<td $centradoCol " . $noMostrar . ">" . $fila[$campo['campo']] . "</td> \n";
+								$html .= "<td $centradoCol " . $noMostrar . ">" . $fila[$campo['campo']] . "</td> \n";
 							}
 						}
 						else
@@ -4001,17 +4002,17 @@ class class_abm
 
 							if (isset ($campo['noLimpiar']) and $campo['noLimpiar'] == true)
 							{
-								echo "<td $centradoCol " . $noMostrar . ">$spanColorear" . html_entity_decode ($fila[$campo['campo']]) . "$spanColorearFin</td> \n";
+								$html .= "<td $centradoCol " . $noMostrar . ">$spanColorear" . html_entity_decode ($fila[$campo['campo']]) . "$spanColorearFin</td> \n";
 							}
 							else
 							{
 								if (isset ($fila[$campo['campo']]))
 								{
-									echo "<td $centradoCol " . $noMostrar . ">$spanColorear" . $fila[$campo['campo']] . "$spanColorearFin</td> \n";
+									$html .= "<td $centradoCol " . $noMostrar . ">$spanColorear" . $fila[$campo['campo']] . "$spanColorearFin</td> \n";
 								}
 								else
 								{
-									echo "<td $centradoCol " . $noMostrar . ">$spanColorear" . $fila[$campo['campoTexto']] . "$spanColorearFin</td> \n";
+									$html .= "<td $centradoCol " . $noMostrar . ">$spanColorear" . $fila[$campo['campoTexto']] . "$spanColorearFin</td> \n";
 								}
 							}
 						}
@@ -4026,21 +4027,21 @@ class class_abm
 
 					// echo "<td class='celdaEditar'>" . $this->iconoEditar . $fila['ID'] . "</td> \n";
 
-					echo "<td class='celdaEditar' " . $noMostrar . ">" . sprintf ($this->iconoEditar, $_SERVER['PHP_SELF'] . "?abm_editar=" . $fila['ID'] . $qsamb) . "</td> \n";
+					$html .= "<td class='celdaEditar' " . $noMostrar . ">" . sprintf ($this->iconoEditar, $_SERVER['PHP_SELF'] . "?abm_editar=" . $fila['ID'] . $qsamb) . "</td> \n";
 				}
 				if ($this->mostrarBorrar)
 				{
 					$this->iconoBorrar = str_ireplace ('{id}', $fila['ID'], $this->iconoBorrar);
 					$this->iconoBorrar = str_ireplace ('/img/', $this->directorioImagenes, $this->iconoBorrar);
 
-					echo "<td class='celdaBorrar' " . $noMostrar . ">" . sprintf ($this->iconoBorrar, "abmBorrar('" . $fila['ID'] . "', this)") . "</td> \n";
+					$html .= "<td class='celdaBorrar' " . $noMostrar . ">" . sprintf ($this->iconoBorrar, "abmBorrar('" . $fila['ID'] . "', this)") . "</td> \n";
 				}
-				echo "</tr> \n";
+				$html .= "</tr> \n";
 			}
 
-			echo "<tfoot> \n";
-			echo "<tr> \n";
-			echo "<th colspan='" . (count ($this->campos) + 2) . "'>";
+			$html .= "<tfoot> \n";
+			$html .= "<tr> \n";
+			$html .= "<th colspan='" . (count ($this->campos) + 2) . "'>";
 
 			if (!$this->mostrarTotalRegistros)
 			{
@@ -4048,17 +4049,17 @@ class class_abm
 			}
 
 			$paginado->mostrar_paginado ();
-			echo "</th> \n";
-			echo "</tr> \n";
-			echo "</tfoot> \n";
+			$html .= "</th> \n";
+			$html .= "</tr> \n";
+			$html .= "</tfoot> \n";
 		}
 		else
 		{
-			echo "<td colspan='" . (count ($this->campos) + 2) . "' " . $noMostrar . "><div class='noHayRegistros'>" . ($estaBuscando ? $this->textoNoHayRegistrosBuscando : $this->textoNoHayRegistros) . "</div></td>";
+			$html .= "<td colspan='" . (count ($this->campos) + 2) . "' " . $noMostrar . "><div class='noHayRegistros'>" . ($estaBuscando ? $this->textoNoHayRegistrosBuscando : $this->textoNoHayRegistros) . "</div></td>";
 		}
 
-		echo "</table> \n";
-		echo "</div>";
+		$html .= "</table> \n";
+		$html .= "</div>";
 
 		if ($this->mostrarNuevo)
 		{
@@ -4072,6 +4073,9 @@ class class_abm
 				$qsamb = "&" . $qsamb;
 			}
 		}
+
+		// FIXME esto debe retornarse y no mostrarse por pantalla
+		echo $html;
 	}
 
 	/**

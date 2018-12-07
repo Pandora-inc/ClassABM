@@ -59,17 +59,17 @@
                         <ul class="dropdown-menu">
                             <li>
                                 <a href="../reports/errors.html">
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    <i class="icon-list-alt"></i>&#160;Errors <span class="label label-info pull-right">98</span>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        <i class="icon-list-alt"></i>&#160;Errors <span class="label label-info pull-right">140</span>
                                 </a>
                             </li>
                             <li>
                                 <a href="../reports/markers.html">
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    <i class="icon-list-alt"></i>&#160;Markers <span class="label label-info pull-right">100</span>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        <i class="icon-list-alt"></i>&#160;Markers <span class="label label-info pull-right">91</span>
                                 </a>
                             </li>
                             <li>
                                 <a href="../reports/deprecated.html">
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            <i class="icon-list-alt"></i>&#160;Deprecated <span class="label label-info pull-right">8</span>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                <i class="icon-list-alt"></i>&#160;Deprecated <span class="label label-info pull-right">35</span>
                                 </a>
                             </li>
                         </ul>
@@ -90,8 +90,9 @@
             <ul class="side-nav nav nav-list">
                 <li class="nav-header">Navigation</li>
                                                             <li><a href="#class_sitio.php"><i class="icon-file"></i> class_sitio.php</a></li>
-                                                                                                                                                                                                                                                                            <li><a href="#comun.php"><i class="icon-file"></i> comun.php</a></li>
-                                                                                                                                                                                                                                            </ul>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            <li><a href="#comun.php"><i class="icon-file"></i> comun.php</a></li>
+                                                                                                                                                                                                                                                                            <li><a href="#class_fechas.php"><i class="icon-file"></i> class_fechas.php</a></li>
+                                                                                                                                                                                    </ul>
         </div>
 
         <div class="span10 offset2">
@@ -115,24 +116,144 @@
                                 <th>Description</th>
                             </tr>
                                                                                 <tr>
+                                    <td>\class_sitio::limpiarEntidadesHTML()</td>
+                                    <td>403</td>
+                                    <td>Se recomienda utilizar directamente la funcion de la clase FuncionesString</td>
+                                </tr>
+                                                                                                                                                <tr>
+                                    <td>\class_sitio::validarEmail()</td>
+                                    <td>417</td>
+                                    <td>Se recomienda utilizar directamente la funcion de la clase validar</td>
+                                </tr>
+                                                                                                                                                <tr>
                                     <td>\class_sitio::limpiarParaSql()</td>
-                                    <td>421</td>
+                                    <td>434</td>
                                     <td>- Esta funcion es remplazada por real_escape_string de la clase db.</td>
                                 </tr>
                                                                                                                                                 <tr>
+                                    <td>\class_sitio::sanear_string()</td>
+                                    <td>450</td>
+                                    <td>Se recomienda utilizar directamente la funcion de la clase FuncionesString</td>
+                                </tr>
+                                                                                                                                                <tr>
+                                    <td>\class_sitio::convertir_especiales_html()</td>
+                                    <td>470</td>
+                                    <td>Se recomienda utilizar directamente la funcion de la clase FuncionesString</td>
+                                </tr>
+                                                                                                                                                <tr>
+                                    <td>\class_sitio::limpiarString()</td>
+                                    <td>483</td>
+                                    <td>Se recomienda utilizar directamente la funcion de la clase FuncionesString</td>
+                                </tr>
+                                                                                                                                                <tr>
+                                    <td>\class_sitio::fecha_DD_MM_YYYY_Oracle()</td>
+                                    <td>650</td>
+                                    <td>Se recomienda utilizar directamente la funcion de la clase Fechas</td>
+                                </tr>
+                                                                                                                                                <tr>
+                                    <td>\class_sitio::formatear_fecha_Oracle()</td>
+                                    <td>668</td>
+                                    <td>Se recomienda utilizar directamente la funcion de la clase Fechas</td>
+                                </tr>
+                                                                                                                                                <tr>
                                     <td>\class_sitio::invertirFecha()</td>
-                                    <td>874</td>
+                                    <td>692</td>
                                     <td>- Conviene utilizar formatear_fecha_Oracle.</td>
                                 </tr>
                                                                                                                                                 <tr>
+                                    <td>\class_sitio::nombreDiacorto()</td>
+                                    <td>709</td>
+                                    <td>Se recomienda utilizar directamente la funcion de la clase Fechas</td>
+                                </tr>
+                                                                                                                                                <tr>
+                                    <td>\class_sitio::getNombreMes()</td>
+                                    <td>722</td>
+                                    <td>Se recomienda utilizar directamente la funcion de la clase Fechas</td>
+                                </tr>
+                                                                                                                                                <tr>
+                                    <td>\class_sitio::sumaDia()</td>
+                                    <td>738</td>
+                                    <td>Se recomienda utilizar directamente la funcion de la clase Fechas</td>
+                                </tr>
+                                                                                                                                                <tr>
+                                    <td>\class_sitio::diferenciaDias()</td>
+                                    <td>754</td>
+                                    <td>Se recomienda utilizar directamente la funcion de la clase Fechas</td>
+                                </tr>
+                                                                                                                                                <tr>
                                     <td>\class_sitio::fechaCorrecta()</td>
-                                    <td>1015</td>
+                                    <td>773</td>
                                     <td>conviene usar checkdate directamente.</td>
                                 </tr>
                                                                                                                                                 <tr>
                                     <td>\class_sitio::calcularMminutosExcedentes()</td>
-                                    <td>1039</td>
+                                    <td>797</td>
                                     <td>Por su mayor presicion se recomienda la utilizacion de difHoras.</td>
+                                </tr>
+                                                                                                                                                <tr>
+                                    <td>\class_sitio::difHoras()</td>
+                                    <td>820</td>
+                                    <td>Se recomienda utilizar directamente la funcion de la clase Fechas</td>
+                                </tr>
+                                                                                                                                                <tr>
+                                    <td>\class_sitio::sumaHoras()</td>
+                                    <td>836</td>
+                                    <td>Se recomienda utilizar directamente la funcion de la clase Fechas</td>
+                                </tr>
+                                                                                                                                                <tr>
+                                    <td>\class_sitio::mesesAnios()</td>
+                                    <td>850</td>
+                                    <td>Se recomienda utilizar directamente la funcion de la clase Fechas</td>
+                                </tr>
+                                                                                                                                                <tr>
+                                    <td>\class_sitio::codificacion()</td>
+                                    <td>863</td>
+                                    <td>Se recomienda utilizar directamente la funcion de la clase Fechas</td>
+                                </tr>
+                                                                                                                                                <tr>
+                                    <td>\class_sitio::utf8_encode_seguro()</td>
+                                    <td>878</td>
+                                    <td>Se recomienda utilizar directamente la funcion de la clase FuncionesString</td>
+                                </tr>
+                                                                                                                                                <tr>
+                                    <td>\class_sitio::clean()</td>
+                                    <td>891</td>
+                                    <td>Se recomienda utilizar directamente la funcion de la clase FuncionesString</td>
+                                </tr>
+                                                                                                                                                <tr>
+                                    <td>\class_sitio::remplazar_caracteres_latinos()</td>
+                                    <td>1223</td>
+                                    <td>Se recomienda utilizar directamente la funcion de la clase FuncionesString</td>
+                                </tr>
+                                                                                                                                                <tr>
+                                    <td>\class_sitio::remove_invisible_characters()</td>
+                                    <td>1294</td>
+                                    <td>Se recomienda utilizar directamente la funcion de la clase FuncionesString</td>
+                                </tr>
+                                                                                                                                                <tr>
+                                    <td>\class_sitio::utf8_encode_array()</td>
+                                    <td>1307</td>
+                                    <td>Se recomienda utilizar directamente la funcion de la clase FuncionesString</td>
+                                </tr>
+                                                                                                                                                <tr>
+                                    <td>\class_sitio::utf8_decode_array()</td>
+                                    <td>1320</td>
+                                    <td>Se recomienda utilizar directamente la funcion de la clase FuncionesString</td>
+                                </tr>
+                                                                                                                                                <tr>
+                                    <td>\class_sitio::mysql2date()</td>
+                                    <td>1343</td>
+                                    <td>Se recomienda utilizar directamente la funcion de la clase Fechas</td>
+                                </tr>
+                                                                                                                                                <tr>
+                                    <td>\class_sitio::date2mysql()</td>
+                                    <td>1362</td>
+                                    <td>Se recomienda utilizar directamente la funcion de la clase Fechas</td>
+                                </tr>
+                                                                                                                                                <tr>
+                                    <td>\class_sitio::mysql2preety()</td>
+                                    <td>1381</td>
+                                    <td>Se recomienda utilizar directamente la funcion de la clase Fechas</td>
                                 </tr>
                                                                                                                                 </table>
                     </div>
@@ -168,6 +289,36 @@
                                     <td>\limpiarParaSql()</td>
                                     <td>70</td>
                                     <td>- Esta funcion es remplazada por real_escape_string de la clase db.</td>
+                                </tr>
+                                                                                                                                </table>
+                    </div>
+                                        <a name="class_fechas.php" id="class_fechas.php"></a>
+                    <h3>
+                        <i class="icon-file"></i>
+                        class_fechas.php
+                        <small style="float: right;padding-right: 10px;">1</small>
+                    </h3>
+                    <div>
+                        <table class="table markers table-bordered">
+                            <tr>
+                                <th>Element</th>
+                                <th>Line</th>
+                                <th>Description</th>
+                            </tr>
+                                                                                <tr>
+                                    <td>\Fechas::invertirFecha()</td>
+                                    <td>108</td>
+                                    <td>- Conviene utilizar formatear_fecha_Oracle.</td>
+                                </tr>
+                                                                                                                                                <tr>
+                                    <td>\Fechas::fechaCorrecta()</td>
+                                    <td>250</td>
+                                    <td>conviene usar checkdate directamente.</td>
+                                </tr>
+                                                                                                                                                <tr>
+                                    <td>\Fechas::calcularMminutosExcedentes()</td>
+                                    <td>274</td>
+                                    <td>Por su mayor presicion se recomienda la utilizacion de difHoras.</td>
                                 </tr>
                                                                                     </table>
                 </div>
@@ -211,7 +362,7 @@
                 <section class="span10 offset1">
                     <hr />
                     Documentation is powered by <a href="http://www.phpdoc.org/">phpDocumentor </a> and authored
-                    on September 24th, 2018 at 11:10.
+                    on December 7th, 2018 at 12:38.
                 </section>
             </section>
         </section>

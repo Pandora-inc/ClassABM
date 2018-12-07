@@ -34,7 +34,6 @@ require_once 'class_campo.php';
  */
 class Campos_fecha extends class_campo
 {
-
 	/**
 	 * Codigo JS para poner en window.onload para cada uno de los campos de fecha *
 	 */
@@ -57,6 +56,8 @@ class Campos_fecha extends class_campo
     </script>';
 
 	/**
+	 * Constructor de la clase.
+	 * Puede recibir un array con los datos a inicializar. Utiliza el constructor padre y en caso de corresponder carga los propios.
 	 *
 	 * @param array $array
 	 */
@@ -72,6 +73,15 @@ class Campos_fecha extends class_campo
 		}
 	}
 
+	/**
+	 *
+	 * @param object $db
+	 *        	Objeto de coneccion a la base.
+	 * @param String $busqueda
+	 *        	variable donde se registran los parametros de busqueda. es pasada por referencia con lo que se puede utilizar incluso fuera de la funcion.
+	 *
+	 * @return string
+	 */
 	public function campoFormBuscar($db, &$busqueda)
 	{
 		$retorno = "";

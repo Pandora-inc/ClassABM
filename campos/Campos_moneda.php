@@ -37,6 +37,8 @@ class Campos_moneda extends class_campo
 	protected $cantidadDecimales = 2;
 
 	/**
+	 * Constructor de la clase.
+	 * Puede recibir un array con los datos a inicializar. Utiliza el constructor padre y en caso de corresponder carga los propios.
 	 *
 	 * @param array $array
 	 */
@@ -52,6 +54,18 @@ class Campos_moneda extends class_campo
 		}
 	}
 
+	/**
+	 *
+	 * @param object $db
+	 *        	Objeto de coneccion a la base.
+	 * @param String $busqueda
+	 *        	variable donde se registran los parametros de busqueda. es pasada por referencia con lo que se puede utilizar incluso fuera de la funcion.
+	 *
+	 * @return string
+	 *
+	 * {@inheritdoc}
+	 * @see class_campo::campoFormBuscar()
+	 */
 	public function campoFormBuscar($db, &$busqueda)
 	{
 		$retorno = "";

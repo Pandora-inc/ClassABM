@@ -128,6 +128,16 @@ class Campos_bit extends class_campo
 		$this->ordenInversoBit = $ordenInversoBit;
 	}
 
+	/**
+	 * Sobrecarga del metodo retornand cun campo select
+	 *
+	 * @param object $db
+	 *        	Objeto de coneccion a la base.
+	 * @param String $busqueda
+	 *        	variable donde se registran los parametros de busqueda. es pasada por referencia con lo que se puede utilizar incluso fuera de la funcion.
+	 * {@inheritdoc}
+	 * @see class_campo::campoFormBuscar()
+	 */
 	public function campoFormBuscar($db, &$busqueda)
 	{
 		$retorno = "";

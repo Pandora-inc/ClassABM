@@ -1,5 +1,12 @@
 <?php
+/**
+ *
+ * @author iberlot
+ *
+ */
+require_once 'class_campo.php';
 
+// require_once '../funciones.php';
 /*
  * Querido programador:
  *
@@ -13,21 +20,20 @@
  * totalHorasPerdidasAqui = 0
  *
  */
-require_once 'class_campo.php';
-
-// require_once '../funciones.php';
 
 /**
+ * Clase encargada de manejar todo lo referente a los campos de texto.
  *
- * @author iberlot
+ * @author iberlot <@> ivanberlot@gmail.com
+ * @since 16 Nov. 2018
  *
  */
 class Campos_textarea extends class_campo
 {
 
-	// TODO - Insert your code here
-
 	/**
+	 * Constructor de la clase.
+	 * Puede recibir un array con los datos a inicializar. Utiliza el constructor padre y en caso de corresponder carga los propios.
 	 *
 	 * @param array $array
 	 */

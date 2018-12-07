@@ -28,6 +28,8 @@ class Campos_rownum extends class_campo
 	// TODO - Insert your code here
 
 	/**
+	 * Constructor de la clase.
+	 * Puede recibir un array con los datos a inicializar. Utiliza el constructor padre y en caso de corresponder carga los propios.
 	 *
 	 * @param array $array
 	 */

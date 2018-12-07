@@ -1,4 +1,8 @@
 <?php
+/**
+ * Archivo de la case campo numero .
+ */
+require_once 'class_campo.php';
 
 /*
  * Querido programador:
@@ -13,13 +17,16 @@
  * totalHorasPerdidasAqui = 0
  *
  */
-require_once 'class_campo.php';
-
 // require_once '../funciones.php';
 
 /**
+ * Clase que va a manejar a todos los campos de tipo numero.
  *
- * @author iberlot
+ * @author iberlot <@> iberlot@usal.edu.ar
+ * @since 6 dic. 2018
+ * @name Campos_numero.php
+ *
+ * @version 0.1 version inicial del archivo.
  *
  */
 class Campos_numero extends class_campo
@@ -37,6 +44,8 @@ class Campos_numero extends class_campo
 	protected $cantidadDecimales = 2;
 
 	/**
+	 * Constructor de la clase.
+	 * Puede recibir un array con los datos a inicializar. Utiliza el constructor padre y en caso de corresponder carga los propios.
 	 *
 	 * @param array $array
 	 */
@@ -52,6 +61,18 @@ class Campos_numero extends class_campo
 		}
 	}
 
+	/**
+	 *
+	 * @param object $db
+	 *        	Objeto de coneccion a la base.
+	 * @param String $busqueda
+	 *        	variable donde se registran los parametros de busqueda. es pasada por referencia con lo que se puede utilizar incluso fuera de la funcion.
+	 *
+	 * @return string
+	 *
+	 * {@inheritdoc}
+	 * @see class_campo::campoFormBuscar()
+	 */
 	public function campoFormBuscar($db, &$busqueda)
 	{
 		$retorno = "";

@@ -1,14 +1,16 @@
 <?php
-
 /**
  * Archivo contenedor de la clase campo.
  *
  * @author iberlot <@> iberlot@usal.edu.ar
- * @todo 19 mar. 2018
- *       @lenguage PHP
+ * @since 19 mar. 2018
+ */
+/**
+ *
  * @name class_campo.php
  * @version 0.1 version inicial del archivo.
  */
+require_once '/web/html/classes/funciones.php';
 
 /*
  * Querido programador:
@@ -20,11 +22,10 @@
  * por favor, incremente el siguiente contador como una advertencia para el
  * siguiente colega:
  *
- * totalHorasPerdidasAqui = 5
+ * totalHorasPerdidasAqui = 15
  *
  *
  */
-require_once '/web/html/classes/funciones.php';
 
 /**
  * Clase que agrupa las definiciones atributos y funciones relacionadas con los campos de un abm.
@@ -1261,7 +1262,7 @@ class class_campo
 	}
 
 	/**
-	 * Retorna el valor de tipoBuscar
+	 * Retorna el valor de tipoBuscar.
 	 *
 	 * @return string
 	 */
@@ -1271,6 +1272,7 @@ class class_campo
 	}
 
 	/**
+	 * Retorna el valor de selectPersonal.
 	 *
 	 * @return string
 	 */
@@ -1280,6 +1282,7 @@ class class_campo
 	}
 
 	/**
+	 * Retorna el valor de maxMostrar.
 	 *
 	 * @return number
 	 */
@@ -1767,6 +1770,8 @@ class class_campo
 
 	/**
 	 *
+	 * Comprueba y setea el valor de selectPersonal
+	 *
 	 * @param string $selectPersonal
 	 */
 	public function setSelectPersonal($selectPersonal)
@@ -1775,6 +1780,8 @@ class class_campo
 	}
 
 	/**
+	 *
+	 * Comprueba y setea el valor de maxMostrar
 	 *
 	 * @param number $maxMostrar
 	 */
@@ -1833,6 +1840,15 @@ class class_campo
 		}
 	}
 
+	/**
+	 * Limpia el campo y genera el elemento del formulario de busqueda para incorporar en la pagina.
+	 *
+	 * @param object $db
+	 *        	Objeto de coneccion a la base.
+	 * @param String $busqueda
+	 *        	variable donde se registran los parametros de busqueda. es pasada por referencia con lo que se puede utilizar incluso fuera de la funcion.
+	 * @return string
+	 */
 	public function campoFormBuscar($db, &$busqueda)
 	{
 		$retorno = "";
