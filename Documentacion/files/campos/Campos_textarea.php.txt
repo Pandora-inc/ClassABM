@@ -1,5 +1,8 @@
 <?php
 <<<<<<< develop
+<<<<<<< develop
+=======
+>>>>>>> BS-004
 /**
  *
  * @author iberlot
@@ -8,9 +11,12 @@
 require_once 'class_campo.php';
 
 // require_once '../funciones.php';
+<<<<<<< develop
 =======
 
 >>>>>>> F_C-002
+=======
+>>>>>>> BS-004
 /*
  * Querido programador:
  *
@@ -25,6 +31,7 @@ require_once 'class_campo.php';
  *
  */
 <<<<<<< develop
+<<<<<<< develop
 
 /**
  * Clase encargada de manejar todo lo referente a los campos de texto.
@@ -35,11 +42,19 @@ require_once 'class_campo.php';
 require_once 'class_campo.php';
 
 // require_once '../funciones.php';
+=======
+>>>>>>> BS-004
 
 /**
+ * Clase encargada de manejar todo lo referente a los campos de texto.
  *
+<<<<<<< develop
  * @author iberlot
 >>>>>>> F_C-002
+=======
+ * @author iberlot <@> ivanberlot@gmail.com
+ * @since 16 Nov. 2018
+>>>>>>> BS-004
  *
  */
 class Campos_textarea extends class_campo

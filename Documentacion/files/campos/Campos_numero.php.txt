@@ -70,11 +70,17 @@ class Campos_numero extends class_campo
 	 *
 	 * @return string
 <<<<<<< develop
+<<<<<<< develop
 	 *
 	 * {@inheritdoc}
 	 * @see class_campo::campoFormBuscar()
 =======
 >>>>>>> F_C-002
+=======
+	 *
+	 * {@inheritdoc}
+	 * @see class_campo::campoFormBuscar()
+>>>>>>> BS-004
 	 */
 	public function campoFormBuscar($db, &$busqueda)
 	{
