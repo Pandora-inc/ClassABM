@@ -105,12 +105,12 @@ class class_campo
 	protected $parametroUsr = '';
 
 	/**
-	 * No muestra el dato en el listado (lo unico que hace es esconderlo por mecio de css con la propiedad display none.
+	 * No muestra el dato en el listado (lo unico que hace es esconderlo por mecio de css con la propiedad display none, su valor por defecto es false.
 	 *
 	 * @name noMostrar
 	 * @var boolean
 	 */
-	protected $noMostrar = true;
+	protected $noMostrar = false;
 
 	/**
 	 * No permite editar el campo en el formulario de edicion.
@@ -240,30 +240,6 @@ class class_campo
 	 * @var string
 	 */
 	protected $joinCondition = 'INNER';
-
-	/**
-	 * Para los tipo "combo" o "dbCombo", si esta en True incluye <option value=''></option>
-	 *
-	 * @name incluirOpcionVacia =
-	 * @var boolean
-	 */
-	protected $incluirOpcionVacia = true;
-
-	/**
-	 * Muestra el valor del campo en el combo.
-	 *
-	 * @name mostrarValor
-	 * @var boolean
-	 */
-	protected $mostrarValor = true;
-
-	/**
-	 * Pone el texto del combo en mayusculas.
-	 *
-	 * @name textoMayuscula
-	 * @var boolean
-	 */
-	protected $textoMayuscula = true;
 
 	/**
 	 * Valor predefinido para un campo en el formulario de alta.
@@ -520,6 +496,7 @@ class class_campo
 		// $sitio = new class_sitio ();
 		if (isset ($array) and !empty ($array))
 		{
+
 			if (array_key_exists ('campo', $array))
 			{
 				$this->setCampo ($array['campo']);

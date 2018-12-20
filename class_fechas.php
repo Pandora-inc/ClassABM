@@ -91,7 +91,8 @@ abstract class Fechas
 	{
 		$fecha = Fechas::formatear_fecha_Oracle ($fecha);
 
-		$fecha = "TO_DATE('$fecha', 'DD-MM-YYYY HH24:MI:SS')";
+		$fecha = "TO_DATE('$fecha', 'DD-MM-YYYY')";
+		// $fecha = "TO_DATE('$fecha', 'DD-MM-YYYY HH24:MI:SS')";
 
 		return $fecha;
 	}

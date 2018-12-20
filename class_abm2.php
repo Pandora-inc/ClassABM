@@ -3746,6 +3746,8 @@ class class_abm
 			$html .= "</thead> \n";
 			// filas de datos
 			$i = 0;
+
+			// Realizamos la consulta y recuperamos los datos
 			while ($fila = $db->fetch_array ($result))
 			{
 				if (!isset ($rallado))
@@ -3820,7 +3822,7 @@ class class_abm
 						$centradoCol = '';
 					}
 
-					if ($campo->existeDato ("colorearValores") and (is_array ($campo->getColorearValores ())))
+					if ($campo->existeDato ("colorearValores") and !empty ($campo->getColorearValores ()))
 					{
 						if (array_key_exists ($fila[$campo->getCampo ()], $campo->getColorearValores ()))
 						{
@@ -3835,7 +3837,7 @@ class class_abm
 						$spanColorearFin = "";
 					}
 
-					if ($campo->getCustomEvalListado () != "")
+					if ($campo->existeDato ("customEvalListado"))
 					{
 						$id = $fila['ID'];
 
@@ -3859,8 +3861,7 @@ class class_abm
 						{
 							$parametroUsr = $campo->getParametroUsr ();
 						}
-
-						eval ($campo->getCustomEvalListado ());
+						eval (str_replace ("echo", '$html.=', $campo->getCustomEvalListado ()));
 					}
 					elseif ($campo->existeDato ("customFuncionListado"))
 					{
@@ -3870,6 +3871,7 @@ class class_abm
 					}
 					elseif ($campo->existeDato ("customPrintListado"))
 					{
+
 						if (is_array ($this->campoId))
 						{
 							$this->campoId = $this->convertirIdMultiple ($this->campoId, $this->tabla);
@@ -3889,7 +3891,7 @@ class class_abm
 							}
 						}
 
-						$html .= "<td ??? $centradoCol " . $noMostrar . ">$spanColorear";
+						$html .= "<td $centradoCol " . $noMostrar . ">$spanColorear";
 
 						$campo->setCustomPrintListado (str_ireplace ('{id}', $fila['ID'], $campo->getCustomPrintListado ()));
 
@@ -3920,10 +3922,9 @@ class class_abm
 						// si es tipo combo le decimos que muestre el texto en vez del valor
 						elseif ($campo->getTipo () == "combo")
 						{
-							if ($fila[$campo->getCampo ()])
+							if ($fila[$campo->getCampo ()] != "")
 							{
-								// XXX verificar acomodar y documentar $campo['datos']
-								$html .= "<td $centradoCol " . $noMostrar . ">$spanColorear" . $campo['datos'][$fila[$campo->getCampo ()]] . "$spanColorearFin</td> \n";
+								$html .= "<td " . $centradoCol . " " . $noMostrar . ">" . $spanColorear . " " . $campo->getDatos ()[$fila[$campo->getCampo ()]] . " " . $spanColorearFin . "</td> \n";
 							}
 						}
 						elseif ($campo->getTipo () == "moneda")
