@@ -3,12 +3,10 @@
 /**
  *
  * @author iberlot <@> iberlot@usal.edu.ar
- * @todo 22 nov. 2018
+ * @since 22 nov. 2018
  * @lenguage PHP
  * @name funciones.php
  * @version 0.1 version inicial del archivo.
- * @package
- * @project
  */
 
 /*
@@ -22,6 +20,13 @@
  * siguiente colega:
  *
  * totalHorasPerdidasAqui = 0
+ *
+ */
+
+/**
+ * Clase abstracta con una agrupacion de funciones genericas.
+ *
+ * @author iberlot
  *
  */
 abstract class Funciones
