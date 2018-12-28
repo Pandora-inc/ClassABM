@@ -78,6 +78,14 @@ class class_campo
 	protected $titulo = '';
 
 	/**
+	 * Texto para el campo en los formularios y listado al pasar el mouse por encima.
+	 *
+	 * @name tituloMouseOver
+	 * @var string
+	 */
+	protected $tituloMouseOver = '';
+
+	/**
 	 * Centrar los datos de la columna en el listado.
 	 *
 	 * @name centrarColumna
@@ -1292,6 +1300,15 @@ class class_campo
 		return false;
 	}
 
+	/**
+	 *
+	 * @return string
+	 */
+	public function getTituloMouseOver()
+	{
+		return $this->tituloMouseOver;
+	}
+
 	/*
 	 * *************************************************************
 	 * ARRANCA EL SETEO DE DATOS
@@ -1801,9 +1818,30 @@ class class_campo
 		$this->maxMostrar = $maxMostrar;
 	}
 
+	/**
+	 *
+	 * @param string $tituloMouseOver
+	 */
+	public function setTituloMouseOver($tituloMouseOver)
+	{
+		$this->tituloMouseOver = $tituloMouseOver;
+	}
+
 	/*
 	 * OTRAS FUNCIONES
 	 */
+
+	/**
+	 *
+	 * @param string $tituloOver
+	 */
+	public function getTituloOver()
+	{
+		if ($this->tituloMouseOver = !"")
+		{
+			return ' title="' . $this->tituloMouseOver . '" ';
+		}
+	}
 
 	/**
 	 * Comprueba que esxista cun campo en particular y que sea distinto de nulo

@@ -671,13 +671,14 @@ class class_sitio
 
 	function fecha_oracle($fecha)
 	{
-		return Fechas::fecha_oracle ($fecha);
+		//
+		$retorno = Fechas::fecha_oracle ($fecha);
 
-		$fecha = $this->formatear_fecha_Oracle ($fecha, "-");
+		// $fecha = $this->formatear_fecha_Oracle ($fecha, "-");
 
-		$fecha = "TO_DATE('$fecha', 'DD-MM-YYYY')";
+		// $fecha = "TO_DATE('$fecha', 'DD-MM-YYYY')";
 
-		return $fecha;
+		return $retorno;
 	}
 
 	/**

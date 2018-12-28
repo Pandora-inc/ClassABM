@@ -3690,7 +3690,8 @@ class class_abm
 
 					if ($campo->getCampo () == "" or $campo->isNoOrdenar () == true)
 					{
-						$html .= "<th " . ($styleTh != "" ? "style='$styleTh'" : "") . $noMostrar . ">" . (($campo->existeDato ("tituloListado")) ? $campo->getTituloListado () : (($campo->existeDato ("titulo")) ? $campo->getTitulo () : $campo->getCampo ())) . "</th> \n";
+						// $html .= "<th " . ($styleTh != "" ? "style='$styleTh'" : "") . $noMostrar . ">" . (($campo->existeDato ("tituloListado")) ? $campo->getTituloListado () : (($campo->existeDato ("titulo")) ? $campo->getTitulo () : $campo->getCampo ())) . "</th> \n";
+						$linkas = (($campo->existeDato ("tituloListado")) ? $campo->getTituloListado () : (($campo->existeDato ("titulo")) ? $campo->getTitulo () : $campo->getCampo ()));
 					}
 					else
 					{
@@ -3729,9 +3730,8 @@ class class_abm
 							$linkas = $o->linkOrderBy ($campo->getCampo (), $campoOrder);
 						}
 						// echo "<th " . ($styleTh != "" ? "style='$styleTh'" : "") . " $noMostrar >" . $o->linkOrderBy(((isset($campo->getTituloListado()) and $campo->getTituloListado() != "") ? $campo->getTituloListado() : ($campo->getTitulo() != '' ? $campo->getTitulo() : $campo->getCampo())), $campoOrder) . "</th> \n";
-
-						$html .= "<th " . ($styleTh != "" ? "style='$styleTh'" : "") . " $noMostrar >" . $linkas . "</th> \n";
 					}
+					$html .= "<th " . ($styleTh != "" ? "style='$styleTh'" : "") . " $noMostrar $campo->getTituloOver() >" . $linkas . "</th> \n";
 				}
 				if ($this->mostrarEditar)
 				{

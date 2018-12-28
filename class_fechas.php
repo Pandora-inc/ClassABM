@@ -33,7 +33,7 @@ abstract class Fechas
 	 * @param string $fecha_inicio
 	 * @return string
 	 */
-	public function fecha_DD_MM_YYYY_Oracle($fecha_inicio)
+	public static function fecha_DD_MM_YYYY_Oracle($fecha_inicio)
 	{
 		$fecha_inicio = str_replace ('-', '', $fecha_inicio);
 		$fecha_inicio = str_replace ('/', '', $fecha_inicio);
@@ -60,7 +60,7 @@ abstract class Fechas
 	 *
 	 * @return string - retorna la fecha con el formato DD MM YYYY separado por el caracter separador.
 	 */
-	public function formatear_fecha_Oracle($fecha_inicio, $separador = "/")
+	public static function formatear_fecha_Oracle($fecha_inicio, $separador = "/")
 	{
 		$fecha_inicio = preg_replace ('([^0-9])', '', $fecha_inicio);
 
@@ -87,7 +87,7 @@ abstract class Fechas
 	 *        	fecha con el formato ano-mes-dia
 	 * @return string
 	 */
-	function fecha_oracle($fecha)
+	public static function fecha_oracle($fecha)
 	{
 		$fecha = Fechas::formatear_fecha_Oracle ($fecha);
 
@@ -106,7 +106,7 @@ abstract class Fechas
 	 *        	fecha con el formato ano-mes-dia
 	 * @return string $aux
 	 */
-	public function invertirFecha($fecha)
+	public static function invertirFecha($fecha)
 	{
 		list ($ano, $mes, $dia) = explode ('-', $fecha);
 		$aux = $dia . "-" . $mes . "-" . $ano;
@@ -121,7 +121,7 @@ abstract class Fechas
 	 *        	- fecha con el formato ano-mes-dia
 	 * @return string $dias
 	 */
-	public function nombreDiacorto($fecha)
+	public static function nombreDiacorto($fecha)
 	{
 		list ($ano, $mes, $dia) = explode ('-', $fecha);
 		$dias = array (
@@ -144,7 +144,7 @@ abstract class Fechas
 	 * @param int $numMes
 	 * @return string
 	 */
-	public function getNombreMes($numMes)
+	public static function getNombreMes($numMes)
 	{
 		switch ($numMes)
 		{
@@ -200,7 +200,7 @@ abstract class Fechas
 	 *        	- numero de dias a sumar.
 	 * @return string - fecha con los dias sumados.
 	 */
-	public function sumaDia($fecha, $dia)
+	public static function sumaDia($fecha, $dia)
 	{
 		list ($year, $mon, $day) = explode ('-', $fecha);
 
@@ -216,7 +216,7 @@ abstract class Fechas
 	 *        	- fecha menor con el formato ano-mes-dia
 	 * @return string $dias_diferencia - Cantidad de dias que hay entre las dos fechas
 	 */
-	public function diferenciaDias($fecha2, $fecha1)
+	public static function diferenciaDias($fecha2, $fecha1)
 	{
 		list ($ano2, $mes2, $dia2) = explode ('-', $fecha1);
 		list ($ano1, $mes1, $dia1) = explode ('-', $fecha2);
@@ -248,7 +248,7 @@ abstract class Fechas
 	 *
 	 * @return bool puede ser true o false dependiendo si la fecha es correcta o no
 	 */
-	public function fechaCorrecta($d, $m, $a)
+	public static function fechaCorrecta($d, $m, $a)
 	{
 		if (checkdate ($m, $d, $a))
 		{
@@ -272,7 +272,7 @@ abstract class Fechas
 	 *
 	 * @return number - Cantidad de minutos de diferencia entre horas.
 	 */
-	public function calcularMminutosExcedentes($hora1, $hora2)
+	public static function calcularMminutosExcedentes($hora1, $hora2)
 	{
 		$separar[1] = explode (':', $hora1);
 		$separar[2] = explode (':', $hora2);
@@ -293,7 +293,7 @@ abstract class Fechas
 	 *        	- Hora menor con el formato H:i:s
 	 * @return string - Hora con el valor de la resta
 	 */
-	public function difHoras($inicio, $fin)
+	public static function difHoras($inicio, $fin)
 	{
 		$inicio = strtotime ($inicio);
 		$fin = strtotime ($fin);
@@ -312,7 +312,7 @@ abstract class Fechas
 	 *        	- Segundo valor a sumar con el formato H:i:s
 	 * @return string - resultado de la suma de horas
 	 */
-	public function sumaHoras($hora1, $hora2)
+	public static function sumaHoras($hora1, $hora2)
 	{
 		$hora1 = strtotime ($hora1);
 		$hora2 = strtotime ($hora2);
@@ -329,7 +329,7 @@ abstract class Fechas
 	 *        	Cantidad de meses
 	 * @return string - XxXx años y XxXx meses.
 	 */
-	public function mesesAnios($meses)
+	public static function mesesAnios($meses)
 	{
 		$restoMeses = $meses % 12;
 		$anios = ($meses - $restoMeses) / 12;
@@ -371,7 +371,7 @@ abstract class Fechas
 	 * @version 1.1
 	 *
 	 */
-	public function mysql2date($mysqldate, $conHora = false)
+	public static function mysql2date($mysqldate, $conHora = false)
 	{
 		$fecha_orig = $mysqldate;
 
@@ -414,7 +414,7 @@ abstract class Fechas
 	 * @version 1.3
 	 *
 	 */
-	public function date2mysql($date)
+	public static function date2mysql($date)
 	{
 		if (!ereg ('^[0-9]{1,2}/[0-9]{1,2}/[0-9]{4}$', $date))
 		{
@@ -467,7 +467,7 @@ abstract class Fechas
 	 * @return String
 	 * @version 1.2
 	 */
-	public function mysql2preety($ts, $formatoFecha = "d/m/Y")
+	public static function mysql2preety($ts, $formatoFecha = "d/m/Y")
 	{
 		if (!ctype_digit ($ts))
 		{

@@ -3963,7 +3963,7 @@ class class_abm
 
 					if ($campo['campo'] == "" or isset ($campo['noOrdenar']))
 					{
-						echo "<th " . ($styleTh != "" ? "style='$styleTh'" : "") . $noMostrar . ">" . ((isset ($campo['tituloListado']) and $campo['tituloListado'] != "") ? $campo['tituloListado'] : ($campo['titulo'] != '' ? $campo['titulo'] : $campo['campo'])) . "</th> \n";
+						$linkas = ((isset ($campo['tituloListado']) and $campo['tituloListado'] != "") ? $campo['tituloListado'] : ($campo['titulo'] != '' ? $campo['titulo'] : $campo['campo']));
 					}
 					else
 					{
@@ -4007,9 +4007,8 @@ class class_abm
 							$linkas = $o->linkOrderBy ($campo['campo'], $campoOrder);
 						}
 						// echo "<th " . ($styleTh != "" ? "style='$styleTh'" : "") . " $noMostrar >" . $o->linkOrderBy(((isset($campo['tituloListado']) and $campo['tituloListado'] != "") ? $campo['tituloListado'] : ($campo['titulo'] != '' ? $campo['titulo'] : $campo['campo'])), $campoOrder) . "</th> \n";
-
-						echo "<th " . ($styleTh != "" ? "style='$styleTh'" : "") . " $noMostrar >" . $linkas . "</th> \n";
 					}
+					echo "<th " . ($styleTh != "" ? "style='$styleTh'" : "") . " " . $noMostrar . " title='" . $campo['tituloMouseOver'] . "'>" . $linkas . "</th> \n";
 				}
 				if ($this->mostrarEditar)
 				{
