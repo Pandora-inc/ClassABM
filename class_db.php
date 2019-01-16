@@ -1495,8 +1495,16 @@ class class_db
 		{
 			if (strpos ($valor, "TO_DATE") === false)
 			{
-				$campos[] = " " . $clave . " = :" . $clave . " ";
-				$parametros[] = $valor;
+				if (strpos ($valor, "!=") === false)
+				{
+					$wheres[] = " " . $clave . " = :" . $clave . " ";
+					$parametros[] = $valor;
+				}
+				else
+				{
+					$wheres[] = " " . $clave . " != :" . $clave . " ";
+					$parametros[] = substr ($valor, (stripos ($valor, "!=") + 2), -1);
+				}
 			}
 			else
 			{
@@ -1509,8 +1517,16 @@ class class_db
 		{
 			if (strpos ($valor, "TO_DATE") === false)
 			{
-				$wheres[] = " " . $clave . " = :" . $clave . " ";
-				$parametros[] = $valor;
+				if (strpos ($valor, "!=") === false)
+				{
+					$wheres[] = " " . $clave . " = :" . $clave . " ";
+					$parametros[] = $valor;
+				}
+				else
+				{
+					$wheres[] = " " . $clave . " != :" . $clave . " ";
+					$parametros[] = substr ($valor, (stripos ($valor, "!=") + 2), -1);
+				}
 			}
 			else
 			{
@@ -1555,8 +1571,16 @@ class class_db
 		{
 			if (strpos ($valor, "TO_DATE") === false)
 			{
-				$wheres[] = " " . $clave . " = :" . $clave . " ";
-				$parametros[] = $valor;
+				if (strpos ($valor, "!=") === false)
+				{
+					$wheres[] = " " . $clave . " = :" . $clave . " ";
+					$parametros[] = $valor;
+				}
+				else
+				{
+					$wheres[] = " " . $clave . " != :" . $clave . " ";
+					$parametros[] = substr ($valor, (stripos ($valor, "!=") + 2), -1);
+				}
 			}
 			else
 			{
