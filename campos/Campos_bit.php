@@ -13,6 +13,9 @@
  * totalHorasPerdidasAqui = 0
  *
  */
+require_once 'class_campo.php';
+
+// require_once '../funciones.php';
 
 /**
  *
@@ -53,10 +56,16 @@ class Campos_bit extends class_campo
 	 *
 	 * @param array $array
 	 */
-	public function __construct($array)
+	public function __construct($array = array())
 	{
-		parent::__construct ($array);
-		// TODO - Insert your code here
+		if (isset ($array) and !empty ($array))
+		{
+			parent::__construct ($array);
+		}
+		else
+		{
+			parent::__construct ();
+		}
 	}
 
 	/**
@@ -117,6 +126,86 @@ class Campos_bit extends class_campo
 	public function setOrdenInversoBit($ordenInversoBit)
 	{
 		$this->ordenInversoBit = $ordenInversoBit;
+	}
+
+	/**
+	 * Sobrecarga del metodo retornand cun campo select
+	 *
+	 * @param object $db
+	 *        	Objeto de coneccion a la base.
+	 * @param String $busqueda
+	 *        	variable donde se registran los parametros de busqueda. es pasada por referencia con lo que se puede utilizar incluso fuera de la funcion.
+	 * {@inheritdoc}
+	 * @see class_campo::campoFormBuscar()
+	 */
+	public function campoFormBuscar($db, &$busqueda)
+	{
+		$retorno = "";
+		$retorno .= "<select name='c_" . $this->campo . "' id='c_" . $this->campo . "' class='input-select'> \n";
+		$retorno .= "<option value=''></option> \n";
+
+		if ($campo['ordenInversoBit'])
+		{
+			// TODO - esto no es un error pero es poco performante y genera codigo duplicado hay que corregirlo.
+
+			if ((isset ($_REQUEST['c_' . $this->campo]) and $_REQUEST['c_' . $this->campo] == "0"))
+			{
+				$sel = "selected='selected'";
+				// FIXME - esto es un parche para poder paginar sin perder la busqueda pero hay que corregirlo para mejorarlo
+				$busqueda .= '&c_' . $this->campo . '=' . Funciones::limpiarEntidadesHTML ($_REQUEST['c_' . $this->campo]);
+			}
+			else
+			{
+				$sel = "";
+			}
+			$retorno .= "<option value='0' $sel>" . ($campo['textoBitFalse'] != "" ? $campo['textoBitFalse'] : $this->textoBitFalse) . "</option> \n";
+
+			if ((isset ($_REQUEST['c_' . $this->campo]) and $_REQUEST['c_' . $this->campo] == true))
+			{
+				$sel = "selected='selected'";
+
+				// FIXME - esto es un parche para poder paginar sin perder la busqueda pero hay que corregirlo para mejorarlo
+				$busqueda .= '&c_' . $this->campo . '=' . Funciones::limpiarEntidadesHTML ($_REQUEST['c_' . $this->campo]);
+			}
+			else
+			{
+				$sel = "";
+			}
+			echo "<option value='1' $sel>" . ($this->textoBitTrue != "" ? $this->textoBitTrue : $this->textoBitTrue) . "</option> \n";
+		}
+		else
+		{
+
+			if ((isset ($_REQUEST['c_' . $this->campo]) and $_REQUEST['c_' . $this->campo] == true))
+			{
+				$sel = "selected='selected'";
+
+				// FIXME - esto es un parche para poder paginar sin perder la busqueda pero hay que corregirlo para mejorarlo
+				$busqueda .= '&c_' . $this->campo . '=' . Funciones::limpiarEntidadesHTML ($_REQUEST['c_' . $this->campo]);
+			}
+			else
+			{
+				$sel = "";
+			}
+			$retorno .= "<option value='1' $sel>" . ($this->textoBitTrue != "" ? $this->textoBitTrue : $this->textoBitTrue) . "</option> \n";
+
+			if ((isset ($_REQUEST['c_' . $this->campo]) and $_REQUEST['c_' . $this->campo] == "0"))
+			{
+				$sel = "selected='selected'";
+
+				// FIXME - esto es un parche para poder paginar sin perder la busqueda pero hay que corregirlo para mejorarlo
+				$busqueda .= '&c_' . $this->campo . '=' . Funciones::limpiarEntidadesHTML ($_REQUEST['c_' . $this->campo]);
+			}
+			else
+			{
+				$sel = "";
+			}
+			$retorno .= "<option value='0' $sel>" . ($campo['textoBitFalse'] != "" ? $campo['textoBitFalse'] : $this->textoBitFalse) . "</option> \n";
+		}
+
+		$retorno .= "</select> \n";
+
+		return $retorno;
 	}
 }
 

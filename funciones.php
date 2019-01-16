@@ -3,12 +3,10 @@
 /**
  *
  * @author iberlot <@> iberlot@usal.edu.ar
- * @todo 22 nov. 2018
+ * @since 22 nov. 2018
  * @lenguage PHP
  * @name funciones.php
  * @version 0.1 version inicial del archivo.
- * @package
- * @project
  */
 
 /*
@@ -24,7 +22,14 @@
  * totalHorasPerdidasAqui = 0
  *
  */
-abstract class funciones
+
+/**
+ * Clase abstracta con una agrupacion de funciones genericas.
+ *
+ * @author iberlot
+ *
+ */
+abstract class Funciones
 {
 
 	/**
@@ -41,5 +46,40 @@ abstract class funciones
 		end ($array);
 
 		return key ($array);
+	}
+
+	/**
+	 * Convierte de un array todas las entidades HTML para que sea seguro mostrar en pantalla strings ingresados por los usuarios
+	 *
+	 * @example $_REQUEST = limpiarEntidadesHTML($_REQUEST);
+	 *
+	 * @param String[] $param
+	 * @return String[] - Depende del parametro recibido, un array con los datos remplazados o un String
+	 */
+	public function limpiarEntidadesHTML($param, $sitio = "")
+	{
+		if (!isset ($sitio) and empty ($sitio))
+		{
+			global $sitio;
+		}
+
+		if (is_array ($param))
+		{
+			// Hay veces que devuelve error aca =(
+			return array_map ("Funciones::limpiarEntidadesHTML", $param);
+		}
+		else
+		{
+			if (isset ($sitio->charset))
+			{
+				return htmlentities ($param, ENT_QUOTES, $sitio->charset);
+			}
+			else
+			{
+				$param = htmlentities ($param);
+
+				return $param;
+			}
+		}
 	}
 }

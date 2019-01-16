@@ -1,8 +1,7 @@
 <?php
+require_once 'class_campo.php';
 
-namespace abm2\campos;
-
-use class_campo;
+// require_once '../funciones.php';
 
 /**
  *
@@ -12,16 +11,22 @@ use class_campo;
 class Campos_texto extends class_campo
 {
 
-	// TODO - Insert your code here
-
 	/**
+	 * Constructor de la clase.
+	 * Puede recibir un array con los datos a inicializar. Utiliza el constructor padre y en caso de corresponder carga los propios.
 	 *
 	 * @param array $array
 	 */
-	public function __construct($array)
+	public function __construct($array = array())
 	{
-		parent::__construct ($array);
-		// TODO - Insert your code here
+		if (isset ($array) and !empty ($array))
+		{
+			parent::__construct ($array);
+		}
+		else
+		{
+			parent::__construct ();
+		}
 	}
 }
 

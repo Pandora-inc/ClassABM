@@ -1569,7 +1569,6 @@ class class_db
 
 		foreach ($where as $clave => $valor)
 		{
-
 			if (strpos ($valor, "TO_DATE") === false)
 			{
 				if (strpos ($valor, "!=") === false)
@@ -1585,13 +1584,18 @@ class class_db
 			}
 			else
 			{
+
 				$wheres[] = " " . $clave . " = " . $valor;
 			}
 		}
 
-		if ($where != "1=1")
+		if ($wheres != "1=1" and $wheres != "" and !empty ($wheres))
 		{
 			$wheres = implode (" AND ", $wheres);
+		}
+		else
+		{
+			$wheres = "1=1";
 		}
 
 		return "SELECT " . $array . " FROM " . $tabla . " WHERE " . $wheres;
@@ -1615,11 +1619,43 @@ class class_db
 		$parametros = array ();
 
 		$sql = $this->prepararConsultaSelect ($tabla, $parametros, $where, $campos);
+
 		$result = $this->query ($sql, $esParam = true, $parametros);
 
 		if ($result)
 		{
 			return $this->fetch_array ($result);
+		}
+		else
+		{
+			throw new Exception ('Error al realizar el select en ' . $tabla . '.', -4);
+		}
+	}
+
+	/**
+	 * Prepara y ejecuta la consulta de Select.
+	 *
+	 * @param String $tabla
+	 *        	- Nombre de la tabla donde se va a realizar el Select.
+	 * @param String[] $where
+	 *        	- Los valores del array van a ser el valor a usar en el where y los indices el nombre del campo.
+	 * @param String[] $campos
+	 *        	- Array con los campos que se quieren buscar.
+	 *
+	 * @throws Exception - Retorno de errores.
+	 * @return boolean true en caso de estar todo OK o el error en caso de que no.
+	 */
+	function realizarSelectAll($tabla, $where = "1=1", $campos = "*")
+	{
+		$parametros = array ();
+
+		$sql = $this->prepararConsultaSelect ($tabla, $parametros, $where, $campos);
+
+		$result = $this->query ($sql, $esParam = true, $parametros);
+
+		if ($result)
+		{
+			return $this->fetch_all ($result);
 		}
 		else
 		{

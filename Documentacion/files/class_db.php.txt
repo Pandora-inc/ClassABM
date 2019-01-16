@@ -6,12 +6,13 @@
  *
  * @author iberlot <@> ivanberlot@gmail.com
  *
- * @version 3.1.2
+ * @version 3.1.3
  *          (A partir de la version 3.0 - Se actualizaron las funciones obsoletas y corrigieron algunos errores.)
  *          (A partir de la version 3.1 - Se incluye la opcion de parametrizar las consultas.)
  *          (A partir de la version 3.1.1 - Se Se modifico para que los parametros no contemplaran el parentesis de sierre, ademas de que en el
  *          debug el valor de estos apareciera comentado)
  *          (A partir de la version 3.1.2 - Se corrigio el error que no mostraba los errores generados en oracle.)
+ *          (A partir de la version 3.1.3 - Se agragan las funciones creadoras de consultas por medio de arrays de datos.)
  *
  * @category Edicion
  *
@@ -144,8 +145,8 @@ class class_db
 	}
 
 	/**
-	 * Realiza la coneccion a la base de datos
-	 * cambia la coneccion dependiendo de $dbtype
+	 * Realiza la conexion a la base de datos
+	 * cambia la conexion dependiendo de $dbtype
 	 */
 	public function connect()
 	{
@@ -179,7 +180,7 @@ class class_db
 			 * Creamos la conexion con la base de datos SQLServer
 			 */
 			/*
-			 * Esta coneccion esta obsoleta y hay que modificarla
+			 * Esta conexion esta obsoleta y hay que modificarla
 			 */
 
 			// Connect to MSSQL
@@ -383,7 +384,10 @@ class class_db
 					$paraY = explode (' ', $para[$e]);
 					$paraY[0] = str_replace (")", "", $paraY[0]);
 					$paraY[0] = str_replace (";", "", $paraY[0]);
+
 					$paraY[0] = trim (str_replace (",", "", $paraY[0]));
+
+					$parametros[$i] = (string) ($parametros[$i]);
 
 					oci_bind_by_name ($result, ":$paraY[0]", $parametros[$i]);
 				}
@@ -790,7 +794,7 @@ class class_db
 	}
 
 	/**
-	 * Cierra las conecciones a la base de datos
+	 * Cierra las conexiones a la base de datos
 	 */
 	public function close()
 	{
@@ -1307,50 +1311,43 @@ class class_db
 	 */
 	public function toChar($campo, $nombre = "", $mascara = "")
 	{
-		try
+		if ($nombre != "")
 		{
-			if ($nombre != "")
-			{
-				$nombre = " AS " . $nombre;
-			}
-			else
-			{
-				$nombre = "";
-			}
-
-			if ($this->dbtype == 'mysql')
-			{
-				if ($mascara == "")
-				{
-					$mascara = "%Y-%m-%d";
-				}
-
-				$retorno = "DATE_FORMAT(" . $campo . ",'" . $mascara . "') " . $nombre;
-			}
-			elseif ($this->dbtype == 'oracle')
-			{
-				if ($mascara == "")
-				{
-					$mascara = "RRRR-MM-DD";
-				}
-
-				$retorno = "TO_CHAR(" . $campo . ", '" . $mascara . "') " . $nombre;
-			}
-			elseif ($this->dbtype == 'mssql')
-			{
-				$retorno = "CONVERT(VARCHAR(10), " . $campo . ", 120) " . $nombre;
-			}
-			else
-			{
-				throw new Exception ('ERROR: No hay definido un tipo de base de datos');
-			}
-
-			return $retorno;
+			$nombre = " AS " . $nombre;
 		}
-		catch (Exception $e)
+		else
 		{
-			return $e->getMessage ();
+			$nombre = "";
 		}
+
+		if ($this->dbtype == 'mysql')
+		{
+			if ($mascara == "")
+			{
+				$mascara = "%Y-%m-%d";
+			}
+
+			$retorno = "DATE_FORMAT(" . $campo . ",'" . $mascara . "') " . $nombre;
+		}
+		elseif ($this->dbtype == 'oracle')
+		{
+			if ($mascara == "")
+			{
+				$mascara = "RRRR-MM-DD";
+			}
+
+			$retorno = "TO_CHAR(" . $campo . ", '" . $mascara . "') " . $nombre;
+		}
+		elseif ($this->dbtype == 'mssql')
+		{
+			$retorno = "CONVERT(VARCHAR(10), " . $campo . ", 120) " . $nombre;
+		}
+		else
+		{
+			throw new Exception ('ERROR: No hay definido un tipo de base de datos');
+		}
+
+		return $retorno;
 	}
 
 	/**
@@ -1369,53 +1366,46 @@ class class_db
 	 */
 	public function toDate($valor, $mascara = "")
 	{
-		try
+		if ($this->dbtype == 'mysql')
 		{
-			if ($this->dbtype == 'mysql')
+			if ($mascara == "")
 			{
-				if ($mascara == "")
-				{
-					$mascara = "%Y-%m-%d";
-				}
-				else
-				{
-					$mascara = str_replace ('YYYY', '%Y', $mascara);
-					$mascara = str_replace ('RRRR', '%Y', $mascara);
-					$mascara = str_replace ('yyyy', '%Y', $mascara);
-					$mascara = str_replace ('yy', '%y', $mascara);
-					$mascara = str_replace ('YY', '%y', $mascara);
-					$mascara = str_replace ('mm', '%m', $mascara);
-					$mascara = str_replace ('MM', '%m', $mascara);
-					$mascara = str_replace ('dd', '%d', $mascara);
-					$mascara = str_replace ('DD', '%d', $mascara);
-				}
-
-				$retorno = " STR_TO_DATE('" . $valor . "','" . $mascara . "') ";
-			}
-			elseif ($this->dbtype == 'oracle')
-			{
-				if ($mascara == "")
-				{
-					$mascara = "RRRR-MM-DD";
-				}
-
-				$retorno = "TO_CHAR('" . $valor . "', '" . $mascara . "') ";
-			}
-			elseif ($this->dbtype == 'mssql')
-			{
-				$retorno = " CONVERT(DATETIME, " . $valor . ", 120) ";
+				$mascara = "%Y-%m-%d";
 			}
 			else
 			{
-				throw new Exception ('ERROR: No hay definido un tipo de base de datos');
+				$mascara = str_replace ('YYYY', '%Y', $mascara);
+				$mascara = str_replace ('RRRR', '%Y', $mascara);
+				$mascara = str_replace ('yyyy', '%Y', $mascara);
+				$mascara = str_replace ('yy', '%y', $mascara);
+				$mascara = str_replace ('YY', '%y', $mascara);
+				$mascara = str_replace ('mm', '%m', $mascara);
+				$mascara = str_replace ('MM', '%m', $mascara);
+				$mascara = str_replace ('dd', '%d', $mascara);
+				$mascara = str_replace ('DD', '%d', $mascara);
 			}
 
-			return $retorno;
+			$retorno = " STR_TO_DATE('" . $valor . "','" . $mascara . "') ";
 		}
-		catch (Exception $e)
+		elseif ($this->dbtype == 'oracle')
 		{
-			return $e->getMessage ();
+			if ($mascara == "")
+			{
+				$mascara = "RRRR-MM-DD";
+			}
+
+			$retorno = "TO_CHAR('" . $valor . "', '" . $mascara . "') ";
 		}
+		elseif ($this->dbtype == 'mssql')
+		{
+			$retorno = " CONVERT(DATETIME, " . $valor . ", 120) ";
+		}
+		else
+		{
+			throw new Exception ('ERROR: No hay definido un tipo de base de datos');
+		}
+
+		return $retorno;
 	}
 
 	/**
@@ -1427,7 +1417,7 @@ class class_db
 	 * @param number $col
 	 * @return mixed
 	 */
-	function mysqli_result($res, $row = 0, $col = 0)
+	public function mysqli_result($res, $row = 0, $col = 0)
 	{
 		$numrows = mysqli_num_rows ($res);
 		if ($numrows && $row <= ($numrows - 1) && $row >= 0)
@@ -1440,6 +1430,232 @@ class class_db
 			}
 		}
 		return false;
+	}
+
+	/**
+	 * Recive un array con los campos a insertar en una tabla y el nombre de la tabla y en base a eso arma la consulta de insert y carga el array de parametros.
+	 *
+	 * @param String[] $array
+	 *        	- Los valores del array van a ser el valor a insertar en la tabla y los indices el nombre del campo.
+	 * @param String $tabla
+	 *        	- Nombre de la tabla en la que se va a insertar.
+	 * @param mixed[] $parametros
+	 *        	- Array de parametros, se pasa por parametro y se borra antes de usar.
+	 * @return string - Retorna el string de la consulta de insercion preparada, adicionalmente el array parametros queda cargado con los parametros a utilizar.
+	 */
+	public function prepararConsultaInsert($array, $tabla, &$parametros)
+	{
+		$parametros = array ();
+		$campos = array ();
+		$valores = array ();
+
+		foreach ($array as $clave => $valor)
+		{
+			if (strpos ($valor, "TO_DATE") === false)
+			{
+				$campos[] = " " . $clave . " ";
+				$valores[] = " :" . $clave . " ";
+				$parametros[] = $valor;
+			}
+			else
+			{
+				$campos[] = " " . $clave . " ";
+				$valores[] = $valor;
+				// $parametros[] = $valor;
+			}
+		}
+
+		$campos = implode (", ", $campos);
+		$valores = implode (", ", $valores);
+
+		return "INSERT INTO $tabla (" . $campos . ") VALUES (" . $valores . ")";
+	}
+
+	/**
+	 * Recive un array con los campos a modificar en una tabla y el nombre de la tabla y en base a eso arma la consulta de Update y carga el array de parametros.
+	 *
+	 * @param String[] $array
+	 *        	- Los valores del array van a ser el valor a modificar en la tabla y los indices el nombre del campo.
+	 * @param String $tabla
+	 *        	- Nombre de la tabla en la que se va a modificar.
+	 * @param mixed[] $parametros
+	 *        	- Array de parametros, se pasa por parametro y se borra antes de usar.
+	 * @param String[] $where
+	 *        	- Los valores del array van a ser el valor a usar en el where y los indices el nombre del campo.
+	 *
+	 * @return string - Retorna el string de la consulta de modificacion preparada, adicionalmente el array parametros queda cargado con los parametros a utilizar.
+	 */
+	public function prepararConsultaUpdate($array, $tabla, &$parametros, $where)
+	{
+		$parametros = array ();
+		$campos = array ();
+		$valores = array ();
+
+		foreach ($array as $clave => $valor)
+		{
+			if (strpos ($valor, "TO_DATE") === false)
+			{
+				$campos[] = " " . $clave . " = :" . $clave . " ";
+				$parametros[] = $valor;
+			}
+			else
+			{
+				$campos[] = " " . $clave . " = " . $valor;
+			}
+		}
+		$campos = implode (", ", $campos);
+
+		foreach ($where as $clave => $valor)
+		{
+			if (strpos ($valor, "TO_DATE") === false)
+			{
+				$wheres[] = " " . $clave . " = :" . $clave . " ";
+				$parametros[] = $valor;
+			}
+			else
+			{
+				$wheres[] = " " . $clave . " = " . $valor;
+			}
+		}
+		$wheres = implode (" AND ", $wheres);
+		if ($wheres != "")
+		{
+			$wheres = " AND " . $wheres;
+		}
+
+		return "UPDATE $tabla SET " . $campos . " WHERE 1=1 " . $wheres;
+	}
+
+	/**
+	 * Recive un array con los campos a buscar en una tabla y el nombre de la tabla y en base a eso arma la consulta de Select y carga el array de parametros.
+	 *
+	 * @param String $tabla
+	 *        	- Nombre de la tabla en la que se va a modificar.
+	 * @param mixed[] $parametros
+	 *        	- Array de parametros, se pasa por parametro y se borra antes de usar.
+	 * @param String $where
+	 *        	- Los valores del array van a ser el valor a usar en el where y los indices el nombre del campo.
+	 * @param String[] $array
+	 *        	- Los valores del array van a ser el valor a modificar en la tabla y los indices el nombre del campo.
+	 *
+	 * @return string - Retorna el string de la consulta de Select preparada, adicionalmente el array parametros queda cargado con los parametros a utilizar.
+	 */
+	public function prepararConsultaSelect($tabla, &$parametros, $where = "1=1", $array = "*")
+	{
+		$parametros = array ();
+		$campos = array ();
+		$valores = array ();
+
+		if (is_array ($array))
+		{
+			$campos = implode (", ", $array);
+		}
+
+		foreach ($where as $clave => $valor)
+		{
+
+			if (strpos ($valor, "TO_DATE") === false)
+			{
+				$wheres[] = " " . $clave . " = :" . $clave . " ";
+				$parametros[] = $valor;
+			}
+			else
+			{
+				$wheres[] = " " . $clave . " = " . $valor;
+			}
+		}
+
+		if ($where != "1=1")
+		{
+			$wheres = implode (" AND ", $wheres);
+		}
+
+		return "SELECT " . $array . " FROM " . $tabla . " WHERE " . $wheres;
+	}
+
+	/**
+	 * Prepara y ejecuta la consulta de Select.
+	 *
+	 * @param String $tabla
+	 *        	- Nombre de la tabla donde se va a realizar el Select.
+	 * @param String[] $where
+	 *        	- Los valores del array van a ser el valor a usar en el where y los indices el nombre del campo.
+	 * @param String[] $campos
+	 *        	- Array con los campos que se quieren buscar.
+	 *
+	 * @throws Exception - Retorno de errores.
+	 * @return boolean true en caso de estar todo OK o el error en caso de que no.
+	 */
+	function realizarSelect($tabla, $where = "1=1", $campos = "*")
+	{
+		$parametros = array ();
+
+		$sql = $this->prepararConsultaSelect ($tabla, $parametros, $where, $campos);
+		$result = $this->query ($sql, $esParam = true, $parametros);
+
+		if ($result)
+		{
+			return $this->fetch_array ($result);
+		}
+		else
+		{
+			throw new Exception ('Error al realizar el select en ' . $tabla . '.', -4);
+		}
+	}
+
+	/**
+	 * Prepara y ejecuta la consulta de Update.
+	 *
+	 * @param mixed[] $datos
+	 *        	- Los valores del array van a ser el valor a Update en la tabla y los indices el nombre del campo.
+	 * @param String $tabla
+	 *        	- Nombre de la tabla donde se va a realizar el Update.
+	 * @param String $where
+	 *        	- Los valores del array van a ser el valor a usar en el where y los indices el nombre del campo.
+	 *
+	 * @throws Exception - Retorno de errores.
+	 * @return boolean true en caso de estar todo OK o el error en caso de que no.
+	 */
+	function realizarUpdate($datos, $tabla, $where)
+	{
+		$parametros = array ();
+
+		$sql = $this->prepararConsultaUpdate ($datos, $tabla, $parametros, $where);
+
+		if ($this->query ($sql, $esParam = true, $parametros))
+		{
+			return true;
+		}
+		else
+		{
+			throw new Exception ('Error al realizar el update en ' . $tabla . '. No se puedo hacer el update.', -5);
+		}
+	}
+
+	/**
+	 * Prepara y ejecuta la consulta de Insert.
+	 *
+	 * @param mixed[] $datos
+	 *        	- Los valores del array van a ser el valor a insertar en la tabla y los indices el nombre del campo.
+	 * @param String $tabla
+	 *        	- Nombre de la tabla donde se va a realizar el insert.
+	 * @throws Exception - Retorno de errores.
+	 * @return boolean true en caso de estar todo OK o el error en caso de que no.
+	 */
+	function realizarInsert($datos, $tabla)
+	{
+		$parametros = array ();
+
+		$sql = $this->prepararConsultaInsert ($datos, $tabla, $parametros);
+
+		if ($this->query ($sql, $esParam = true, $parametros))
+		{
+			return true;
+		}
+		else
+		{
+			throw new Exception ('Error al insertar en ' . $tabla . '. No se puedo hacer el insert.', -6);
+		}
 	}
 }
 
