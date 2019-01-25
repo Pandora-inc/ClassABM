@@ -3828,6 +3828,11 @@ class class_abm
 							$spanColorear = "<span class='" . ($campo->isColorearConEtiqueta () ? "label" : "") . "' style='" . ($campo->isColorearConEtiqueta () ? "background-" : "") . "color:" . $campo->getColorearValores ()[$fila[$campo->getCampo ()]] . "'>";
 							$spanColorearFin = "</span>";
 						}
+						else
+						{
+							$spanColorear = "";
+							$spanColorearFin = "";
+						}
 					}
 					else
 					{
@@ -3889,7 +3894,7 @@ class class_abm
 							}
 						}
 
-						$html .= "<td ??? $centradoCol " . $noMostrar . ">$spanColorear";
+						$html .= "<td $centradoCol " . $noMostrar . ">$spanColorear";
 
 						$campo->setCustomPrintListado (str_ireplace ('{id}', $fila['ID'], $campo->getCustomPrintListado ()));
 
@@ -3920,10 +3925,11 @@ class class_abm
 						// si es tipo combo le decimos que muestre el texto en vez del valor
 						elseif ($campo->getTipo () == "combo")
 						{
-							if ($fila[$campo->getCampo ()])
+							if (isset ($fila[$campo->getCampo ()]))
 							{
 								// XXX verificar acomodar y documentar $campo['datos']
-								$html .= "<td $centradoCol " . $noMostrar . ">$spanColorear" . $campo['datos'][$fila[$campo->getCampo ()]] . "$spanColorearFin</td> \n";
+								$datos = $campo->getDatos ();
+								$html .= "<td $centradoCol " . $noMostrar . ">$spanColorear" . $datos[$fila[$campo->getCampo ()]] . "$spanColorearFin</td> \n";
 							}
 						}
 						elseif ($campo->getTipo () == "moneda")

@@ -1497,12 +1497,12 @@ class class_db
 			{
 				if (strpos ($valor, "!=") === false)
 				{
-					$wheres[] = " " . $clave . " = :" . $clave . " ";
+					$campos[] = " " . $clave . " = :" . $clave . " ";
 					$parametros[] = $valor;
 				}
 				else
 				{
-					$wheres[] = " " . $clave . " != :" . $clave . " ";
+					$campos[] = " " . $clave . " != :" . $clave . " ";
 					$parametros[] = substr ($valor, (stripos ($valor, "!=") + 2), -1);
 				}
 			}

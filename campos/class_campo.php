@@ -110,7 +110,7 @@ class class_campo
 	 * @name noMostrar
 	 * @var boolean
 	 */
-	protected $noMostrar = true;
+	protected $noMostrar = false;
 
 	/**
 	 * No permite editar el campo en el formulario de edicion.
