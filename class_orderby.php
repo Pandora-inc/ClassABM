@@ -171,8 +171,6 @@ class class_orderby
 	{
 		$keyCampo = array_search ($campo, $this->arrayCamposOrder);
 
-		// print_r ($this->arrayCamposOrder);
-		// print_r ($campo);
 		/*
 		 * Lo comento para que funcione correctamente el join
 		 * if ($keyCampo === false)

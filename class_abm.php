@@ -3221,8 +3221,14 @@ class class_abm
 						}
 						else
 						{
-							// $camposOrder .= $this->campos[$i]['joinTable'] . "." . $this->campos[$i]['campo'];
-							$camposOrder .= $this->campos[$i]['joinTable'] . "." . $this->campos[$i]['campoTexto'];
+							if (isset ($this->campos[$i]['campoTexto']) and $this->campos[$i]['campoTexto'] != "")
+							{
+								$camposOrder .= $this->campos[$i]['joinTable'] . "." . $this->campos[$i]['campoTexto'];
+							}
+							else
+							{
+								$camposOrder .= $this->campos[$i]['joinTable'] . "." . $this->campos[$i]['joinTable'] . "_" . $this->campos[$i]['campo'];
+							}
 						}
 					}
 				}
@@ -3277,7 +3283,9 @@ class class_abm
 					}
 					else
 					{
-						$camposSelect .= $this->campos[$i]['joinTable'] . "." . $this->campos[$i]['campo'];
+						// FIXME Hay que encontrar un metodo mejor ya que si hay mas de una tabla con el mismo campo y las primeras tres letras del nombre de la tabla iguales tirara que la columna esta definida de forma ambigua.
+
+						$camposSelect .= $this->campos[$i]['joinTable'] . "." . $this->campos[$i]['campo'] . " AS " . substr ($tablaJoin, 0, 3) . "_" . $this->campos[$i]['campo'];
 					}
 				}
 				else
