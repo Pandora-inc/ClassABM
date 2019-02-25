@@ -69,6 +69,7 @@ class Campos_numero extends class_campo
 	 *        	variable donde se registran los parametros de busqueda. es pasada por referencia con lo que se puede utilizar incluso fuera de la funcion.
 	 *
 	 * @return string
+<<<<<<< HEAD
 <<<<<<< develop
 <<<<<<< develop
 	 *
@@ -81,6 +82,11 @@ class Campos_numero extends class_campo
 	 * {@inheritdoc}
 	 * @see class_campo::campoFormBuscar()
 >>>>>>> BS-004
+=======
+	 *
+	 * {@inheritdoc}
+	 * @see class_campo::campoFormBuscar()
+>>>>>>> ABM-006
 	 */
 	public function campoFormBuscar($db, &$busqueda)
 	{

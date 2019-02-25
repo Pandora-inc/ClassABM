@@ -104,8 +104,21 @@ class class_campo
 	protected $customEvalListado = '';
 
 	/**
+<<<<<<<
 	 * Parametro a pasarle de forma manual a customEvalListado.
 	 * Solo se utiliza si customEvalListado tiene datos.
+=======
+	 * Parametro a pasarle de forma manual a customEvalListado.
+	 * Solo se utiliza si customEvalListado tiene datos.
+	 *
+	 * @name parametroUsr
+	 * @var string
+	 */
+	protected $parametroUsr = '';
+
+	/**
+	 * No muestra el dato en el listado (lo unico que hace es esconderlo por mecio de css con la propiedad display none.
+>>>>>>>
 	 *
 	 * @name parametroUsr
 	 * @var string
@@ -501,6 +514,7 @@ class class_campo
 	 */
 	public function __construct($array = array())
 	{
+<<<<<<<
 		// $sitio = new class_sitio ();
 		if (isset ($array) and !empty ($array))
 		{
@@ -702,6 +716,208 @@ class class_campo
 			{
 				$this->setTipoBuscar ($array['tipoBuscar']);
 			}
+=======
+		// $sitio = new class_sitio ();
+		if (isset ($array) and !empty ($array))
+		{
+			if (array_key_exists ('campo', $array))
+			{
+				$this->setCampo ($array['campo']);
+			}
+			if (array_key_exists ('tipo', $array))
+			{
+				$this->setTipo ($array['tipo']);
+			}
+			if (array_key_exists ('exportar', $array))
+			{
+				$this->isExportar ($array['exportar']);
+			}
+			if (array_key_exists ('titulo', $array))
+			{
+				$this->setTitulo ($array['titulo']);
+			}
+			if (array_key_exists ('centrarColumna', $array))
+			{
+				$this->isCentrarColumna ($array['centrarColumna']);
+			}
+			if (array_key_exists ('customEvalListado', $array))
+			{
+				$this->setCustomEvalListado ($array['customEvalListado']);
+			}
+			if (array_key_exists ('cantidadDecimales', $array))
+			{
+				$this->setCantidadDecimales ($array['cantidadDecimales']);
+			}
+			if (array_key_exists ('buscar', $array))
+			{
+				$this->isBuscar ($array['buscar']);
+			}
+			if (array_key_exists ('noMostrar', $array))
+			{
+				$this->isNoMostrar ($array['noMostrar']);
+			}
+			if (array_key_exists ('noEditar', $array))
+			{
+				$this->isNoEditar ($array['noEditar']);
+			}
+			if (array_key_exists ('noListar', $array))
+			{
+				$this->isNoListar ($array['noListar']);
+			}
+			if (array_key_exists ('noNuevo', $array))
+			{
+				$this->isNoNuevo ($array['noNuevo']);
+			}
+			if (array_key_exists ('tituloListado', $array))
+			{
+				$this->setTituloListado ($array['tituloListado']);
+			}
+			if (array_key_exists ('colorearValores', $array))
+			{
+				$this->setColorearValores ($array['colorearValores']);
+			}
+			if (array_key_exists ('separador', $array))
+			{
+				$this->setSeparador ($array['separador']);
+			}
+			if (array_key_exists ('maxLen', $array))
+			{
+				$this->setMaxLen ($array['maxLen']);
+			}
+			if (array_key_exists ('noOrdenar', $array))
+			{
+				$this->isNoOrdenar ($array['noOrdenar']);
+			}
+			if (array_key_exists ('sqlQuery', $array))
+			{
+				$this->setSqlQuery ($array['sqlQuery']);
+			}
+			if (array_key_exists ('campoValor', $array))
+			{
+				$this->setCampoValor ($array['campoValor']);
+			}
+			if (array_key_exists ('campoTexto', $array))
+			{
+				$this->setCampoTexto ($array['campoTexto']);
+			}
+			if (array_key_exists ('joinTable', $array))
+			{
+				$this->setJoinTable ($array['joinTable']);
+			}
+			if (array_key_exists ('joinCondition', $array))
+			{
+				$this->setJoinCondition ($array['joinCondition']);
+			}
+			if (array_key_exists ('omitirJoin', $array))
+			{
+				$this->setOmitirJoin ($array['omitirJoin']);
+			}
+			if (array_key_exists ('incluirOpcionVacia', $array))
+			{
+				$this->isIncluirOpcionVacia ($array['incluirOpcionVacia']);
+			}
+			if (array_key_exists ('mostrarValor', $array))
+			{
+				$this->isMostrarValor ($array['mostrarValor']);
+			}
+			if (array_key_exists ('textoMayuscula', $array))
+			{
+				$this->isTextoMayuscula ($array['textoMayuscula']);
+			}
+			if (array_key_exists ('valorPredefinido', $array))
+			{
+				$this->setValorPredefinido ($array['valorPredefinido']);
+			}
+			if (array_key_exists ('incluirCampo', $array))
+			{
+				$this->setIncluirCampo ($array['incluirCampo']);
+			}
+			if (array_key_exists ('customPrintListado', $array))
+			{
+				$this->setCustomPrintListado ($array['customPrintListado']);
+			}
+			if (array_key_exists ('campoOrder', $array))
+			{
+				$this->setCampoOrder ($array['campoOrder']);
+			}
+			if (array_key_exists ('tituloBuscar', $array))
+			{
+				$this->setTituloBuscar ($array['tituloBuscar']);
+			}
+			if (array_key_exists ('requerido', $array))
+			{
+				$this->isRequerido ($array['requerido']);
+			}
+			if (array_key_exists ('formItem', $array))
+			{
+				$this->setFormItem ($array['formItem']);
+			}
+			if (array_key_exists ('colorearConEtiqueta', $array))
+			{
+				$this->isColorearConEtiqueta ($array['colorearConEtiqueta']);
+			}
+			if (array_key_exists ('customJoin', $array))
+			{
+				$this->setCustomJoin ($array['customJoin']);
+			}
+			if (array_key_exists ('selectPersonal', $array))
+			{
+				$this->setSelectPersonal ($array['selectPersonal']);
+			}
+			if (array_key_exists ('maxMostrar', $array))
+			{
+				$this->setMaxMostrar ($array['maxMostrar']);
+			}
+			// XXX esto existe para ofrecer compatibilidad con verciones anteriores
+			if (array_key_exists ('tmostrar', $array))
+			{
+				$this->setMaxMostrar ($array['tmostrar']);
+			}
+			if (array_key_exists ('uploadFunction', $array))
+			{
+				$this->setUploadFunction ($array['uploadFunction']);
+			}
+			if (array_key_exists ('borrarSiUploadFalla', $array))
+			{
+				$this->isBorrarSiUploadFalla ($array['borrarSiUploadFalla']);
+			}
+			if (array_key_exists ('', $array))
+			{
+				$this->setBuscarOperador ($array['buscarOperador']);
+			}
+			if (array_key_exists ('buscarUsarCampo', $array))
+			{
+				$this->setBuscarUsarCampo ($array['buscarUsarCampo']);
+			}
+			if (array_key_exists ('customFuncionBuscar', $array))
+			{
+				$this->setCustomFuncionBuscar ($array['customFuncionBuscar']);
+			}
+			if (array_key_exists ('adicionalInput', $array))
+			{
+				$this->setAdicionalInput ($array['adicionalInput']);
+			}
+			if (array_key_exists ('anchoColumna', $array))
+			{
+				$this->setAnchoColumna ($array['anchoColumna']);
+			}
+			if (array_key_exists ('noMostrarEditar', $array))
+			{
+				$this->setNoMostrarEditar ($array['noMostrarEditar']);
+			}
+			if (array_key_exists ('customFuncionListado', $array))
+			{
+				$this->setCustomFuncionListado ($array['customFuncionListado']);
+			}
+			if (array_key_exists ('customFuncionValor', $array))
+			{
+				$this->setCustomFuncionValor ($array['customFuncionValor']);
+			}
+			if (array_key_exists ('tipoBuscar', $array))
+			{
+				$this->setTipoBuscar ($array['tipoBuscar']);
+			}
+>>>>>>>
 		}
 	}
 
@@ -1275,6 +1491,7 @@ class class_campo
 		return $this->tipoBuscar;
 	}
 
+<<<<<<<
 	/**
 	 * Retorna el valor de selectPersonal.
 	 *
@@ -1309,6 +1526,33 @@ class class_campo
 		return $this->tituloMouseOver;
 	}
 
+=======
+	/**
+	 * Retorna el valor de selectPersonal.
+	 *
+	 * @return string
+	 */
+	public function getSelectPersonal()
+	{
+		return $this->selectPersonal;
+	}
+
+	/**
+	 * Retorna el valor de maxMostrar.
+	 *
+	 * @return number
+	 */
+	public function getMaxMostrar()
+	{
+		return $this->maxMostrar;
+	}
+
+	public function isNoLimpiar()
+	{
+		return false;
+	}
+
+>>>>>>>
 	/*
 	 * *************************************************************
 	 * ARRANCA EL SETEO DE DATOS
@@ -1795,6 +2039,7 @@ class class_campo
 	{
 		$this->tipoBuscar = $tipoBuscar;
 	}
+<<<<<<<
 
 	/**
 	 *
@@ -1917,5 +2162,108 @@ class class_campo
 
 		return $retorno;
 	}
+=======
+
+	/**
+	 *
+	 * Comprueba y setea el valor de selectPersonal
+	 *
+	 * @param string $selectPersonal
+	 */
+	public function setSelectPersonal($selectPersonal)
+	{
+		$this->selectPersonal = $selectPersonal;
+	}
+
+	/**
+	 *
+	 * Comprueba y setea el valor de maxMostrar
+	 *
+	 * @param number $maxMostrar
+	 */
+	public function setMaxMostrar($maxMostrar)
+	{
+		$this->maxMostrar = $maxMostrar;
+	}
+
+	/*
+	 * OTRAS FUNCIONES
+	 */
+
+	/**
+	 * Comprueba que esxista cun campo en particular y que sea distinto de nulo
+	 *
+	 * @param String $dato
+	 *        	nombre del atributo a comprobar.
+	 * @return boolean
+	 */
+	public function existeDato($dato)
+	{
+		if (isset ($this->$dato) and $this->$dato != "")
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
+
+	/**
+	 * Retorna el titulo que se debe utilizar para un campo.
+	 *
+	 * @param boolean $paraBuscar
+	 *        	especifica si se utilizara en un formulario de busqueda.
+	 * @return string
+	 */
+	public function obtenerTitulo($paraBuscar = false)
+	{
+		if ($this->existeDato ("tituloBuscar") and $paraBuscar == true)
+		{
+			return $this->getTituloBuscar ();
+		}
+		elseif ($this->existeDato ("tituloListado"))
+		{
+			return $this->getTituloListado ();
+		}
+		elseif ($this->existeDato ("titulo"))
+		{
+			return $this->getTitulo ();
+		}
+		else
+		{
+			return $this->getCampo ();
+		}
+	}
+
+	/**
+	 * Limpia el campo y genera el elemento del formulario de busqueda para incorporar en la pagina.
+	 *
+	 * @param object $db
+	 *        	Objeto de coneccion a la base.
+	 * @param String $busqueda
+	 *        	variable donde se registran los parametros de busqueda. es pasada por referencia con lo que se puede utilizar incluso fuera de la funcion.
+	 * @return string
+	 */
+	public function campoFormBuscar($db, &$busqueda)
+	{
+		$retorno = "";
+		if (isset ($_REQUEST['c_' . $this->campo]))
+		{
+			$valor = Funciones::limpiarEntidadesHTML ($_REQUEST['c_' . $this->campo]);
+
+			// FIXME - esto es un parche para poder paginar sin perder la busqueda pero hay que corregirlo para mejorarlo
+			$busqueda .= '&c_' . $this->campo . '=' . Funciones::limpiarEntidadesHTML ($_REQUEST['c_' . $this->campo]);
+		}
+		else
+		{
+			$valor = "";
+		}
+
+		$retorno .= "<input type='text' class='input-text' name='c_" . $this->campo . "' value='" . $valor . "' /> \n";
+
+		return $retorno;
+	}
+>>>>>>>
 }
 ?>

@@ -3242,7 +3242,11 @@ class class_abm
 					}
 					else
 					{
-						$camposSelect .= $campo->getJoinTable () . "." . $campo->getCampo ();
+						// FIXME Hay que encontrar un metodo mejor ya que si hay mas de una tabla con el mismo campo y las primeras tres letras del nombre de la tabla iguales tirara que la columna esta definida de forma ambigua.
+
+						$camposSelect .= $campo->getJoinTable () . "." . $campo->getCampo () . " AS " . substr ($tablaJoin, 0, 3) . "_" . $campo->getCampo ();
+
+						// $camposSelect .= $campo->getJoinTable () . "." . $campo->getCampo ();
 					}
 				}
 				else
@@ -3690,8 +3694,7 @@ class class_abm
 
 					if ($campo->getCampo () == "" or $campo->isNoOrdenar () == true)
 					{
-						// $html .= "<th " . ($styleTh != "" ? "style='$styleTh'" : "") . $noMostrar . ">" . (($campo->existeDato ("tituloListado")) ? $campo->getTituloListado () : (($campo->existeDato ("titulo")) ? $campo->getTitulo () : $campo->getCampo ())) . "</th> \n";
-						$linkas = (($campo->existeDato ("tituloListado")) ? $campo->getTituloListado () : (($campo->existeDato ("titulo")) ? $campo->getTitulo () : $campo->getCampo ()));
+						$html .= "<th " . ($styleTh != "" ? "style='$styleTh'" : "") . $noMostrar . ">" . (($campo->existeDato ("tituloListado")) ? $campo->getTituloListado () : (($campo->existeDato ("titulo")) ? $campo->getTitulo () : $campo->getCampo ())) . "</th> \n";
 					}
 					else
 					{
@@ -3730,8 +3733,9 @@ class class_abm
 							$linkas = $o->linkOrderBy ($campo->getCampo (), $campoOrder);
 						}
 						// echo "<th " . ($styleTh != "" ? "style='$styleTh'" : "") . " $noMostrar >" . $o->linkOrderBy(((isset($campo->getTituloListado()) and $campo->getTituloListado() != "") ? $campo->getTituloListado() : ($campo->getTitulo() != '' ? $campo->getTitulo() : $campo->getCampo())), $campoOrder) . "</th> \n";
+
+						$html .= "<th " . ($styleTh != "" ? "style='$styleTh'" : "") . " $noMostrar >" . $linkas . "</th> \n";
 					}
-					$html .= "<th " . ($styleTh != "" ? "style='$styleTh'" : "") . " $noMostrar $campo->getTituloOver() >" . $linkas . "</th> \n";
 				}
 				if ($this->mostrarEditar)
 				{
@@ -3746,8 +3750,6 @@ class class_abm
 			$html .= "</thead> \n";
 			// filas de datos
 			$i = 0;
-
-			// Realizamos la consulta y recuperamos los datos
 			while ($fila = $db->fetch_array ($result))
 			{
 				if (!isset ($rallado))
@@ -3822,13 +3824,18 @@ class class_abm
 						$centradoCol = '';
 					}
 
-					if ($campo->existeDato ("colorearValores") and !empty ($campo->getColorearValores ()))
+					if ($campo->existeDato ("colorearValores") and (is_array ($campo->getColorearValores ())))
 					{
 						if (array_key_exists ($fila[$campo->getCampo ()], $campo->getColorearValores ()))
 						{
 							// XXX revisar la implementacion de las funciones que retornan arrays en generarListado()
 							$spanColorear = "<span class='" . ($campo->isColorearConEtiqueta () ? "label" : "") . "' style='" . ($campo->isColorearConEtiqueta () ? "background-" : "") . "color:" . $campo->getColorearValores ()[$fila[$campo->getCampo ()]] . "'>";
 							$spanColorearFin = "</span>";
+						}
+						else
+						{
+							$spanColorear = "";
+							$spanColorearFin = "";
 						}
 					}
 					else
@@ -3837,7 +3844,7 @@ class class_abm
 						$spanColorearFin = "";
 					}
 
-					if ($campo->existeDato ("customEvalListado"))
+					if ($campo->getCustomEvalListado () != "")
 					{
 						$id = $fila['ID'];
 
@@ -3861,7 +3868,8 @@ class class_abm
 						{
 							$parametroUsr = $campo->getParametroUsr ();
 						}
-						eval (str_replace ("echo", '$html.=', $campo->getCustomEvalListado ()));
+
+						eval ($campo->getCustomEvalListado ());
 					}
 					elseif ($campo->existeDato ("customFuncionListado"))
 					{
@@ -3871,7 +3879,6 @@ class class_abm
 					}
 					elseif ($campo->existeDato ("customPrintListado"))
 					{
-
 						if (is_array ($this->campoId))
 						{
 							$this->campoId = $this->convertirIdMultiple ($this->campoId, $this->tabla);
@@ -3922,9 +3929,11 @@ class class_abm
 						// si es tipo combo le decimos que muestre el texto en vez del valor
 						elseif ($campo->getTipo () == "combo")
 						{
-							if ($fila[$campo->getCampo ()] != "")
+							if (isset ($fila[$campo->getCampo ()]))
 							{
-								$html .= "<td " . $centradoCol . " " . $noMostrar . ">" . $spanColorear . " " . $campo->getDatos ()[$fila[$campo->getCampo ()]] . " " . $spanColorearFin . "</td> \n";
+								// XXX verificar acomodar y documentar $campo['datos']
+								$datos = $campo->getDatos ();
+								$html .= "<td $centradoCol " . $noMostrar . ">$spanColorear" . $datos[$fila[$campo->getCampo ()]] . "$spanColorearFin</td> \n";
 							}
 						}
 						elseif ($campo->getTipo () == "moneda")
