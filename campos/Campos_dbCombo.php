@@ -32,7 +32,6 @@ class Campos_dbCombo extends class_campo
 	 * @var string
 	 */
 	private $sqlQuery = '';
-<<<<<<< HEAD
 
 	/**
 	 * Para los tipo "combo" o "dbCombo", si esta en True incluye <option value=''></option>
@@ -57,8 +56,6 @@ class Campos_dbCombo extends class_campo
 	 * @var boolean
 	 */
 	protected $textoMayuscula = true;
-=======
->>>>>>> ABM-006
 
 	/**
 	 *
