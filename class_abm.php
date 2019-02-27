@@ -5462,11 +5462,18 @@ class class_abm
 					{
 						$campoUsar == str_replace (substr ($tablaJoin, 0, 3) . "_", "", $campo['campo']);
 					}
+
+					$tabla = $tablaJoin;
+				}
+				else
+				{
+
+					$tabla = $this->tabla;
 				}
 
 				if ($campo['tipo'] == 'fecha')
 				{
-					$camposWhereBuscar .= $db->toChar ($this->tabla . "." . $campoUsar, "", $this->formatoFechaListado);
+					$camposWhereBuscar .= $db->toChar ($tabla . "." . $campoUsar, "", $this->formatoFechaListado);
 
 					$valorABuscar = str_replace ("/", "%", $valorABuscar);
 					$valorABuscar = str_replace ("-", "%", $valorABuscar);
@@ -5474,7 +5481,7 @@ class class_abm
 				}
 				else
 				{
-					$camposWhereBuscar .= "UPPER(" . $this->tabla . "." . $campoUsar . ")";
+					$camposWhereBuscar .= "UPPER(" . $tabla . "." . $campoUsar . ")";
 				}
 			}
 
