@@ -5422,7 +5422,7 @@ class class_abm
 
 				if (isset ($camposWhereBuscar) and $camposWhereBuscar != "")
 				{
-					$camposWhereBuscar .= " AND 1111";
+					$camposWhereBuscar .= " AND ";
 				}
 				else
 				{
@@ -5433,7 +5433,7 @@ class class_abm
 			{
 				$valorABuscar = $this->limpiarParaSql ($_REQUEST['c_busquedaTotal'], $db);
 
-				if (isset ($camposWhereBuscar))
+				if (isset ($camposWhereBuscar) and $camposWhereBuscar != "")
 				{
 					$camposWhereBuscar .= " OR ";
 				}
