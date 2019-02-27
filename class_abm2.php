@@ -3242,7 +3242,11 @@ class class_abm
 					}
 					else
 					{
-						$camposSelect .= $campo->getJoinTable () . "." . $campo->getCampo ();
+						// FIXME Hay que encontrar un metodo mejor ya que si hay mas de una tabla con el mismo campo y las primeras tres letras del nombre de la tabla iguales tirara que la columna esta definida de forma ambigua.
+
+						$camposSelect .= $campo->getJoinTable () . "." . $campo->getCampo () . " AS " . substr ($tablaJoin, 0, 3) . "_" . $campo->getCampo ();
+
+						// $camposSelect .= $campo->getJoinTable () . "." . $campo->getCampo ();
 					}
 				}
 				else

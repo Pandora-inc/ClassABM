@@ -25,7 +25,6 @@ require_once 'class_fechas.php';
  *
  */
 use function class_sitio\agregarLinksEmail;
-use function class_sitio\codificacion;
 use function class_sitio\delTree;
 use function class_sitio\filesToArray;
 use function class_sitio\formatearLinks;
@@ -672,12 +671,14 @@ class class_sitio
 
 	function fecha_oracle($fecha)
 	{
-		return Fechas::fecha_oracle ($fecha);
-		$fecha = $this->formatear_fecha_Oracle ($fecha, "-");
+		//
+		$retorno = Fechas::fecha_oracle ($fecha);
 
-		$fecha = "TO_DATE('$fecha', 'DD-MM-YYYY')";
+		// $fecha = $this->formatear_fecha_Oracle ($fecha, "-");
 
-		return $fecha;
+		// $fecha = "TO_DATE('$fecha', 'DD-MM-YYYY')";
+
+		return $retorno;
 	}
 
 	/**

@@ -32,6 +32,33 @@ class Campos_dbCombo extends class_campo
 	 * @var string
 	 */
 	private $sqlQuery = '';
+<<<<<<< HEAD
+
+	/**
+	 * Para los tipo "combo" o "dbCombo", si esta en True incluye <option value=''></option>
+	 *
+	 * @name incluirOpcionVacia =
+	 * @var boolean
+	 */
+	protected $incluirOpcionVacia = true;
+
+	/**
+	 * Muestra el valor del campo en el combo.
+	 *
+	 * @name mostrarValor
+	 * @var boolean
+	 */
+	protected $mostrarValor = true;
+
+	/**
+	 * Pone el texto del combo en mayusculas.
+	 *
+	 * @name textoMayuscula
+	 * @var boolean
+	 */
+	protected $textoMayuscula = true;
+=======
+>>>>>>> ABM-006
 
 	/**
 	 *

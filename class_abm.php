@@ -3221,8 +3221,14 @@ class class_abm
 						}
 						else
 						{
-							// $camposOrder .= $this->campos[$i]['joinTable'] . "." . $this->campos[$i]['campo'];
-							$camposOrder .= $this->campos[$i]['joinTable'] . "." . $this->campos[$i]['campoTexto'];
+							if (isset ($this->campos[$i]['campoTexto']) and $this->campos[$i]['campoTexto'] != "")
+							{
+								$camposOrder .= $this->campos[$i]['joinTable'] . "." . $this->campos[$i]['campoTexto'];
+							}
+							else
+							{
+								$camposOrder .= $this->campos[$i]['joinTable'] . "." . $this->campos[$i]['joinTable'] . "_" . $this->campos[$i]['campo'];
+							}
 						}
 					}
 				}
@@ -3255,6 +3261,7 @@ class class_abm
 					else
 					{
 						$camposSelect .= $this->campos[$i]['joinTable'] . "." . $this->campos[$i]['campoTexto'] . " AS " . substr ($tablaJoin . "_" . $this->campos[$i]['campoTexto'], 0, 30);
+						// $this->campos[$i]['campoTexto'] = substr ($tablaJoin . "_" . $this->campos[$i]['campoTexto'], 0, 30);
 					}
 
 					$camposOrder .= "|" . $this->campos[$i]['campoTexto'];
@@ -3277,7 +3284,10 @@ class class_abm
 					}
 					else
 					{
-						$camposSelect .= $this->campos[$i]['joinTable'] . "." . $this->campos[$i]['campo'];
+						// FIXME Hay que encontrar un metodo mejor ya que si hay mas de una tabla con el mismo campo y las primeras tres letras del nombre de la tabla iguales tirara que la columna esta definida de forma ambigua.
+
+						$camposSelect .= $this->campos[$i]['joinTable'] . "." . $this->campos[$i]['campo'] . " AS " . substr ($tablaJoin, 0, 3) . "_" . $this->campos[$i]['campo'];
+						$this->campos[$i]['campo'] = substr ($tablaJoin, 0, 3) . "_" . $this->campos[$i]['campo'];
 					}
 				}
 				else
@@ -3963,7 +3973,7 @@ class class_abm
 
 					if ($campo['campo'] == "" or isset ($campo['noOrdenar']))
 					{
-						echo "<th " . ($styleTh != "" ? "style='$styleTh'" : "") . $noMostrar . ">" . ((isset ($campo['tituloListado']) and $campo['tituloListado'] != "") ? $campo['tituloListado'] : ($campo['titulo'] != '' ? $campo['titulo'] : $campo['campo'])) . "</th> \n";
+						$linkas = ((isset ($campo['tituloListado']) and $campo['tituloListado'] != "") ? $campo['tituloListado'] : ($campo['titulo'] != '' ? $campo['titulo'] : $campo['campo']));
 					}
 					else
 					{
@@ -4007,9 +4017,8 @@ class class_abm
 							$linkas = $o->linkOrderBy ($campo['campo'], $campoOrder);
 						}
 						// echo "<th " . ($styleTh != "" ? "style='$styleTh'" : "") . " $noMostrar >" . $o->linkOrderBy(((isset($campo['tituloListado']) and $campo['tituloListado'] != "") ? $campo['tituloListado'] : ($campo['titulo'] != '' ? $campo['titulo'] : $campo['campo'])), $campoOrder) . "</th> \n";
-
-						echo "<th " . ($styleTh != "" ? "style='$styleTh'" : "") . " $noMostrar >" . $linkas . "</th> \n";
 					}
+					echo "<th " . ($styleTh != "" ? "style='$styleTh'" : "") . " " . $noMostrar . " title='" . $campo['tituloMouseOver'] . "'>" . $linkas . "</th> \n";
 				}
 				if ($this->mostrarEditar)
 				{
@@ -4262,14 +4271,14 @@ class class_abm
 							{
 								if ($fila[$campo['campo']] != "" and $fila[$campo['campo']] != "0000-00-00" and $fila[$campo['campo']] != "0000-00-00 00:00:00")
 								{
-									if (strtotime ($fila[$campo['campo']]) !== -1)
-									{
-										// FIXME Urgente arreglar
+									// if (strtotime ($fila[$campo['campo']]) !== -1)
+									// {
+									// FIXME Urgente arreglar
 
-										// $fila[$campo['campo']] = date ($this->formatoFechaListado, strtotime ($fila[$campo['campo']]));
-										// $fila[$campo['campo']] = date ($this->formatoFechaListado, $fila[$campo['campo']]);
-										$fila[$campo['campo']] = $fila[$campo['campo']];
-									}
+									// $fila[$campo['campo']] = date ($this->formatoFechaListado, strtotime ($fila[$campo['campo']]));
+									// $fila[$campo['campo']] = date ($this->formatoFechaListado, $fila[$campo['campo']]);
+									// $fila[$campo['campo']] = $fila[$campo['campo']];
+									// }
 								}
 							}
 
@@ -4279,13 +4288,21 @@ class class_abm
 							}
 							else
 							{
-								if (isset ($fila[$campo['campo']]))
+
+								if (isset ($campo['noLimpiar']) and $campo['noLimpiar'] == true)
 								{
-									echo "<td $centradoCol " . $noMostrar . ">$spanColorear" . $fila[$campo['campo']] . "$spanColorearFin</td> \n";
+									echo "<td $centradoCol " . $noMostrar . ">$spanColorear" . html_entity_decode ($fila[$campo['campo']]) . "$spanColorearFin</td> \n";
 								}
 								else
 								{
-									echo "<td $centradoCol " . $noMostrar . ">$spanColorear" . $fila[$campo['campoTexto']] . "$spanColorearFin</td> \n";
+									if (isset ($fila[$campo['campo']]))
+									{
+										echo "<td $centradoCol " . $noMostrar . ">$spanColorear" . $fila[$campo['campo']] . "$spanColorearFin</td> \n";
+									}
+									else
+									{
+										echo "<td $centradoCol " . $noMostrar . ">$spanColorear" . $fila[$campo['campoTexto']] . "$spanColorearFin</td> \n";
+									}
 								}
 							}
 						}

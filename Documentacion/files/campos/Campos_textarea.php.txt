@@ -1,4 +1,11 @@
 <?php
+<<<<<<< HEAD
+<<<<<<< develop
+<<<<<<< develop
+=======
+>>>>>>> BS-004
+=======
+>>>>>>> ABM-006
 /**
  *
  * @author iberlot
@@ -7,6 +14,15 @@
 require_once 'class_campo.php';
 
 // require_once '../funciones.php';
+<<<<<<< HEAD
+<<<<<<< develop
+=======
+
+>>>>>>> F_C-002
+=======
+>>>>>>> BS-004
+=======
+>>>>>>> ABM-006
 /*
  * Querido programador:
  *
@@ -20,12 +36,37 @@ require_once 'class_campo.php';
  * totalHorasPerdidasAqui = 0
  *
  */
+<<<<<<< HEAD
+<<<<<<< develop
+<<<<<<< develop
+=======
+>>>>>>> ABM-006
 
 /**
  * Clase encargada de manejar todo lo referente a los campos de texto.
  *
  * @author iberlot <@> ivanberlot@gmail.com
  * @since 16 Nov. 2018
+<<<<<<< HEAD
+=======
+require_once 'class_campo.php';
+
+// require_once '../funciones.php';
+=======
+>>>>>>> BS-004
+
+/**
+ * Clase encargada de manejar todo lo referente a los campos de texto.
+ *
+<<<<<<< develop
+ * @author iberlot
+>>>>>>> F_C-002
+=======
+ * @author iberlot <@> ivanberlot@gmail.com
+ * @since 16 Nov. 2018
+>>>>>>> BS-004
+=======
+>>>>>>> ABM-006
  *
  */
 class Campos_textarea extends class_campo
