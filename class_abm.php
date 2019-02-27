@@ -3290,6 +3290,11 @@ class class_abm
 					{
 						$camposSelect .= $this->campos[$i]['selectPersonal'] . " AS " . $this->campos[$i]['campoTexto'];
 					}
+					elseif ($this->campos[$i]['tipo'] == 'fecha')
+					{
+						$camposSelect .= $db->toChar ($this->tabla . "." . $this->campos[$i]['campo'], substr ($tablaJoin, 0, 3) . "_" . $this->campos[$i]['campo'], "dd/mm/YYYY");
+						$this->campos[$i]['campo'] = substr ($tablaJoin, 0, 3) . "_" . $this->campos[$i]['campo'];
+					}
 					else
 					{
 						// FIXME Hay que encontrar un metodo mejor ya que si hay mas de una tabla con el mismo campo y las primeras tres letras del nombre de la tabla iguales tirara que la columna esta definida de forma ambigua.
