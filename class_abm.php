@@ -3181,6 +3181,14 @@ class class_abm
 			if (isset ($this->campos[$i]['exportar']) and $this->campos[$i]['exportar'] == true)
 			{
 				$mostrarExportar = true;
+
+				if (!isset ($camposWhereBuscar))
+				{
+					$camposWhereBuscar = "";
+				}
+				$camposWhereBuscar = $this->generaWhereBuscar ($db, $camposWhereBuscar, $this->campos[$i]);
+
+				$estaBuscando = true;
 			}
 
 			// para la class de ordenar por columnas
@@ -3261,6 +3269,7 @@ class class_abm
 					else
 					{
 						$camposSelect .= $this->campos[$i]['joinTable'] . "." . $this->campos[$i]['campoTexto'] . " AS " . substr ($tablaJoin . "_" . $this->campos[$i]['campoTexto'], 0, 30);
+						// $this->campos[$i]['campoTexto'] = substr ($tablaJoin . "_" . $this->campos[$i]['campoTexto'], 0, 30);
 					}
 
 					$camposOrder .= "|" . $this->campos[$i]['campoTexto'];
@@ -3286,6 +3295,7 @@ class class_abm
 						// FIXME Hay que encontrar un metodo mejor ya que si hay mas de una tabla con el mismo campo y las primeras tres letras del nombre de la tabla iguales tirara que la columna esta definida de forma ambigua.
 
 						$camposSelect .= $this->campos[$i]['joinTable'] . "." . $this->campos[$i]['campo'] . " AS " . substr ($tablaJoin, 0, 3) . "_" . $this->campos[$i]['campo'];
+						$this->campos[$i]['campo'] = substr ($tablaJoin, 0, 3) . "_" . $this->campos[$i]['campo'];
 					}
 				}
 				else
@@ -3319,78 +3329,6 @@ class class_abm
 			{
 				$agregarFormBuscar = true;
 				// }
-
-				if ((isset ($_REQUEST['c_' . $this->campos[$i]['campo']]) and (trim ($_REQUEST['c_' . $this->campos[$i]['campo']]) != '')) or (isset ($_REQUEST['c_busquedaTotal']) and (trim ($_REQUEST['c_busquedaTotal']) != '')))
-				{
-					if (isset ($_REQUEST['c_' . $this->campos[$i]['campo']]))
-					{
-						$valorABuscar = $this->limpiarParaSql ($_REQUEST['c_' . $this->campos[$i]['campo']], $db);
-
-						if (isset ($camposWhereBuscar))
-						{
-							$camposWhereBuscar .= " AND ";
-						}
-						else
-						{
-							$camposWhereBuscar = " ";
-						}
-					}
-					elseif (isset ($_REQUEST['c_busquedaTotal']))
-					{
-						$valorABuscar = $this->limpiarParaSql ($_REQUEST['c_busquedaTotal'], $db);
-
-						if (isset ($camposWhereBuscar))
-						{
-							$camposWhereBuscar .= " OR ";
-						}
-						else
-						{
-							$camposWhereBuscar = " ";
-						}
-					}
-
-					$estaBuscando = true;
-
-					// quita la variable de paginado, ya que estoy buscando y no se aplica
-					// unset($_REQUEST['r']);
-					// unset($_POST['r']);
-					// unset($_GET['r']);
-
-					if (isset ($this->campos[$i]['buscarUsarCampo']) and ($this->campos[$i]['buscarUsarCampo'] != ""))
-					{
-						$camposWhereBuscar .= "UPPER(" . $this->campos[$i]['buscarUsarCampo'] . ")";
-					}
-					else
-					{
-						if ($this->campos[$i]['tipo'] == 'fecha')
-						{
-							// $camposWhereBuscar .= $db->toChar ($this->tabla . "." . $this->campos[$i]['campo'], "", "DD/MM/YYYY");
-							$camposWhereBuscar .= $db->toChar ($this->tabla . "." . $this->campos[$i]['campo'], "", $this->formatoFechaListado);
-							// $camposWhereBuscar .= "TO_CHAR(" . $this->tabla . "." . $this->campos[$i]['campo'] . ", 'DD/MM/YYYY')";
-							// $camposWhereBuscar .= "TO_CHAR(" . $this->tabla . "." . $this->campos[$i]['campo'] . ", 'YYYY-MM-DD')"; // @iberlot 2016/10/18 se cambia para que funcionen los nuevos parametros de busqueda
-
-							$valorABuscar = str_replace ("/", "%", $valorABuscar);
-							$valorABuscar = str_replace ("-", "%", $valorABuscar);
-							$valorABuscar = str_replace (" ", "%", $valorABuscar);
-						}
-						else
-						{
-							$camposWhereBuscar .= "UPPER(" . $this->tabla . "." . $this->campos[$i]['campo'] . ")";
-						}
-					}
-
-					$camposWhereBuscar .= " ";
-
-					if (isset ($this->campos[$i]['buscarOperador']) and (($this->campos[$i]['buscarOperador'] != '')) and strtolower ($this->campos[$i]['buscarOperador']) != 'like')
-					{
-						$camposWhereBuscar .= $this->campos[$i]['buscarOperador'] . " UPPER('" . $valorABuscar . "')";
-					}
-					else
-					{
-						$valorABuscar = str_replace (" ", "%", $valorABuscar);
-						$camposWhereBuscar .= "LIKE UPPER('%" . $valorABuscar . "%')";
-					}
-				}
 			}
 			// tablas para sql join
 			if ((isset ($this->campos[$i]['joinTable']) and $this->campos[$i]['joinTable'] != '') and ((!isset ($this->campos[$i]['omitirJoin'])) or $this->campos[$i]['omitirJoin'] == false))
@@ -3458,7 +3396,7 @@ class class_abm
 			$joinSql = "";
 		}
 
-		if (!isset ($camposWhereBuscar))
+		if (!isset ($camposWhereBuscar) or $camposWhereBuscar == "")
 		{
 			$camposWhereBuscar = "1=1";
 		}
@@ -3606,6 +3544,7 @@ class class_abm
 		echo "</th></tr> \n";
 
 		// formulario de busqueda
+		// XXX Hay que convertirlo en una funcion que retorne el string del formulario
 		if ((isset ($agregarFormBuscar) and $this->mostrarListado) and $this->busquedaTotal == false)
 		{
 			echo "<tr class='mbuscar'><th colspan='" . (count ($this->campos) + 2) . "'> \n";
@@ -3971,7 +3910,7 @@ class class_abm
 
 					if ($campo['campo'] == "" or isset ($campo['noOrdenar']))
 					{
-						echo "<th " . ($styleTh != "" ? "style='$styleTh'" : "") . $noMostrar . ">" . ((isset ($campo['tituloListado']) and $campo['tituloListado'] != "") ? $campo['tituloListado'] : ($campo['titulo'] != '' ? $campo['titulo'] : $campo['campo'])) . "</th> \n";
+						$linkas = ((isset ($campo['tituloListado']) and $campo['tituloListado'] != "") ? $campo['tituloListado'] : ($campo['titulo'] != '' ? $campo['titulo'] : $campo['campo']));
 					}
 					else
 					{
@@ -4015,9 +3954,8 @@ class class_abm
 							$linkas = $o->linkOrderBy ($campo['campo'], $campoOrder);
 						}
 						// echo "<th " . ($styleTh != "" ? "style='$styleTh'" : "") . " $noMostrar >" . $o->linkOrderBy(((isset($campo['tituloListado']) and $campo['tituloListado'] != "") ? $campo['tituloListado'] : ($campo['titulo'] != '' ? $campo['titulo'] : $campo['campo'])), $campoOrder) . "</th> \n";
-
-						echo "<th " . ($styleTh != "" ? "style='$styleTh'" : "") . " $noMostrar >" . $linkas . "</th> \n";
 					}
+					echo "<th " . ($styleTh != "" ? "style='$styleTh'" : "") . " " . $noMostrar . " title='" . (isset ($campo['tituloMouseOver']) ? $campo['tituloMouseOver'] : $campo['campo']) . "'>" . $linkas . "</th> \n";
 				}
 				if ($this->mostrarEditar)
 				{
@@ -4270,14 +4208,14 @@ class class_abm
 							{
 								if ($fila[$campo['campo']] != "" and $fila[$campo['campo']] != "0000-00-00" and $fila[$campo['campo']] != "0000-00-00 00:00:00")
 								{
-									if (strtotime ($fila[$campo['campo']]) !== -1)
-									{
-										// FIXME Urgente arreglar
+									// if (strtotime ($fila[$campo['campo']]) !== -1)
+									// {
+									// FIXME Urgente arreglar
 
-										// $fila[$campo['campo']] = date ($this->formatoFechaListado, strtotime ($fila[$campo['campo']]));
-										// $fila[$campo['campo']] = date ($this->formatoFechaListado, $fila[$campo['campo']]);
-										$fila[$campo['campo']] = $fila[$campo['campo']];
-									}
+									// $fila[$campo['campo']] = date ($this->formatoFechaListado, strtotime ($fila[$campo['campo']]));
+									// $fila[$campo['campo']] = date ($this->formatoFechaListado, $fila[$campo['campo']]);
+									// $fila[$campo['campo']] = $fila[$campo['campo']];
+									// }
 								}
 							}
 
@@ -4287,13 +4225,21 @@ class class_abm
 							}
 							else
 							{
-								if (isset ($fila[$campo['campo']]))
+
+								if (isset ($campo['noLimpiar']) and $campo['noLimpiar'] == true)
 								{
-									echo "<td $centradoCol " . $noMostrar . ">$spanColorear" . $fila[$campo['campo']] . "$spanColorearFin</td> \n";
+									echo "<td $centradoCol " . $noMostrar . ">$spanColorear" . html_entity_decode ($fila[$campo['campo']]) . "$spanColorearFin</td> \n";
 								}
 								else
 								{
-									echo "<td $centradoCol " . $noMostrar . ">$spanColorear" . $fila[$campo['campoTexto']] . "$spanColorearFin</td> \n";
+									if (isset ($fila[$campo['campo']]))
+									{
+										echo "<td $centradoCol " . $noMostrar . ">$spanColorear" . $fila[$campo['campo']] . "$spanColorearFin</td> \n";
+									}
+									else
+									{
+										echo "<td $centradoCol " . $noMostrar . ">$spanColorear" . $fila[$campo['campoTexto']] . "$spanColorearFin</td> \n";
+									}
 								}
 							}
 						}
@@ -5451,6 +5397,116 @@ class class_abm
 			echo "<HTML><HEAD><META HTTP-EQUIV=\"Refresh\" CONTENT=\"0; URL=$url\"></HEAD></HTML>";
 			exit ();
 		}
+	}
+
+	/**
+	 * Funcion que arma los parametros del where de la consulta en caso de estar realizando una busqueda
+	 *
+	 * @todo En la version 2 de esta clase esto va a estar en las clases referiadas a los campos.
+	 *
+	 * @param object $db
+	 *        	Conectos a la base de datos
+	 * @param String $camposWhereBuscar
+	 *        	Variable a la que se le vana a sumar los resultados.
+	 * @param array $campo
+	 *        	Array con la informacion del campo.
+	 * @return string
+	 */
+	private function generaWhereBuscar($db, $camposWhereBuscar, $campo)
+	{
+		if ((isset ($_REQUEST['c_' . $campo['campo']]) and (trim ($_REQUEST['c_' . $campo['campo']]) != '')) or (isset ($_REQUEST['c_busquedaTotal']) and (trim ($_REQUEST['c_busquedaTotal']) != '')))
+		{
+			if (isset ($_REQUEST['c_' . $campo['campo']]))
+			{
+				$valorABuscar = $this->limpiarParaSql ($_REQUEST['c_' . $campo['campo']], $db);
+
+				if (isset ($camposWhereBuscar) and $camposWhereBuscar != "")
+				{
+					$camposWhereBuscar .= " AND ";
+				}
+				else
+				{
+					$camposWhereBuscar = " ";
+				}
+			}
+			elseif (isset ($_REQUEST['c_busquedaTotal']))
+			{
+				$valorABuscar = $this->limpiarParaSql ($_REQUEST['c_busquedaTotal'], $db);
+
+				if (isset ($camposWhereBuscar) and $camposWhereBuscar != "")
+				{
+					$camposWhereBuscar .= " OR ";
+				}
+				else
+				{
+					$camposWhereBuscar = " ";
+				}
+			}
+
+			if (isset ($campo['buscarUsarCampo']) and ($campo['buscarUsarCampo'] != ""))
+			{
+				$camposWhereBuscar .= "UPPER(" . $campo['buscarUsarCampo'] . ")";
+			}
+			else
+			{
+				$campoUsar = $campo['campo'];
+
+				if ((isset ($campo['joinTable']) and $campo['joinTable'] != '') and ($campo['omitirJoin'] == true))
+				{
+					$tablaJoin = $campo['joinTable'];
+
+					$tablaJoin = explode (".", $tablaJoin);
+					$tablaJoin = $tablaJoin[count ($tablaJoin) - 1];
+
+					if (!isset ($campo['selectPersonal']) or $campo['selectPersonal'] == false)
+					{
+						$campoUsar == str_replace (substr ($tablaJoin, 0, 3) . "_", "", $campo['campo']);
+					}
+
+					$tabla = $tablaJoin;
+				}
+				else
+				{
+
+					$tabla = $this->tabla;
+				}
+
+				if ($campo['tipo'] == 'fecha')
+				{
+					$camposWhereBuscar .= $db->toChar ($tabla . "." . $campoUsar, "", $this->formatoFechaListado);
+
+					$valorABuscar = str_replace ("/", "%", $valorABuscar);
+					$valorABuscar = str_replace ("-", "%", $valorABuscar);
+					$valorABuscar = str_replace (" ", "%", $valorABuscar);
+				}
+				else
+				{
+					if (strtoupper ($campoUsar) == "ROWNUM")
+					{
+
+						$camposWhereBuscar .= "UPPER(" . $campoUsar . ")";
+					}
+					else
+					{
+						$camposWhereBuscar .= "UPPER(" . $tabla . "." . $campoUsar . ")";
+					}
+				}
+			}
+
+			$camposWhereBuscar .= " ";
+
+			if (isset ($campo['buscarOperador']) and (($campo['buscarOperador'] != '')) and strtolower ($campo['buscarOperador']) != 'like')
+			{
+				$camposWhereBuscar .= $campo['buscarOperador'] . " UPPER('" . $valorABuscar . "')";
+			}
+			else
+			{
+				$valorABuscar = str_replace (" ", "%", $valorABuscar);
+				$camposWhereBuscar .= "LIKE UPPER('%" . $valorABuscar . "%')";
+			}
+		}
+
+		return $camposWhereBuscar;
 	}
 }
 ?>

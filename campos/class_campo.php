@@ -78,6 +78,14 @@ class class_campo
 	protected $titulo = '';
 
 	/**
+	 * Texto para el campo en los formularios y listado al pasar el mouse por encima.
+	 *
+	 * @name tituloMouseOver
+	 * @var string
+	 */
+	protected $tituloMouseOver = '';
+
+	/**
 	 * Centrar los datos de la columna en el listado.
 	 *
 	 * @name centrarColumna
@@ -96,8 +104,12 @@ class class_campo
 	protected $customEvalListado = '';
 
 	/**
+	 *
 	 * Parametro a pasarle de forma manual a customEvalListado.
 	 * Solo se utiliza si customEvalListado tiene datos.
+	 *
+	 * No muestra el dato en el listado (lo unico que hace es esconderlo por mecio de css con la propiedad display none.
+	 *
 	 *
 	 * @name parametroUsr
 	 * @var string
@@ -105,7 +117,7 @@ class class_campo
 	protected $parametroUsr = '';
 
 	/**
-	 * No muestra el dato en el listado (lo unico que hace es esconderlo por mecio de css con la propiedad display none.
+	 * No muestra el dato en el listado (lo unico que hace es esconderlo por mecio de css con la propiedad display none, su valor por defecto es false.
 	 *
 	 * @name noMostrar
 	 * @var boolean
@@ -240,30 +252,6 @@ class class_campo
 	 * @var string
 	 */
 	protected $joinCondition = 'INNER';
-
-	/**
-	 * Para los tipo "combo" o "dbCombo", si esta en True incluye <option value=''></option>
-	 *
-	 * @name incluirOpcionVacia =
-	 * @var boolean
-	 */
-	protected $incluirOpcionVacia = true;
-
-	/**
-	 * Muestra el valor del campo en el combo.
-	 *
-	 * @name mostrarValor
-	 * @var boolean
-	 */
-	protected $mostrarValor = true;
-
-	/**
-	 * Pone el texto del combo en mayusculas.
-	 *
-	 * @name textoMayuscula
-	 * @var boolean
-	 */
-	protected $textoMayuscula = true;
 
 	/**
 	 * Valor predefinido para un campo en el formulario de alta.
@@ -1315,6 +1303,15 @@ class class_campo
 		return false;
 	}
 
+	/**
+	 *
+	 * @return string
+	 */
+	public function getTituloMouseOver()
+	{
+		return $this->tituloMouseOver;
+	}
+
 	/*
 	 * *************************************************************
 	 * ARRANCA EL SETEO DE DATOS
@@ -1824,9 +1821,30 @@ class class_campo
 		$this->maxMostrar = $maxMostrar;
 	}
 
+	/**
+	 *
+	 * @param string $tituloMouseOver
+	 */
+	public function setTituloMouseOver($tituloMouseOver)
+	{
+		$this->tituloMouseOver = $tituloMouseOver;
+	}
+
 	/*
 	 * OTRAS FUNCIONES
 	 */
+
+	/**
+	 *
+	 * @param string $tituloOver
+	 */
+	public function getTituloOver()
+	{
+		if ($this->tituloMouseOver = !"")
+		{
+			return ' title="' . $this->tituloMouseOver . '" ';
+		}
+	}
 
 	/**
 	 * Comprueba que esxista cun campo en particular y que sea distinto de nulo
