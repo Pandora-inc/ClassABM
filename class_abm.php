@@ -5481,7 +5481,15 @@ class class_abm
 				}
 				else
 				{
-					$camposWhereBuscar .= "UPPER(" . $tabla . "." . $campoUsar . ")";
+					if (strtoupper ($campoUsar) == "ROWNUM")
+					{
+
+						$camposWhereBuscar .= "UPPER(" . $campoUsar . ")";
+					}
+					else
+					{
+						$camposWhereBuscar .= "UPPER(" . $tabla . "." . $campoUsar . ")";
+					}
 				}
 			}
 
