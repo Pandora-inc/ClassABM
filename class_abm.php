@@ -5420,7 +5420,7 @@ class class_abm
 			{
 				$valorABuscar = $this->limpiarParaSql ($_REQUEST['c_' . $campo['campo']], $db);
 
-				if (isset ($camposWhereBuscar))
+				if (isset ($camposWhereBuscar) and $camposWhereBuscar != "")
 				{
 					$camposWhereBuscar .= " AND ";
 				}
