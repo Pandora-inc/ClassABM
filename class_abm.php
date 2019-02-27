@@ -3182,6 +3182,10 @@ class class_abm
 			{
 				$mostrarExportar = true;
 
+				if (!isset ($camposWhereBuscar))
+				{
+					$camposWhereBuscar = "";
+				}
 				$camposWhereBuscar = $this->generaWhereBuscar ($db, $camposWhereBuscar, $this->campos[$i]);
 
 				$estaBuscando = true;
@@ -5445,7 +5449,7 @@ class class_abm
 			}
 			else
 			{
-				$campoUsar = "";
+				$campoUsar = $campo['campo'];
 
 				if ((isset ($campo['joinTable']) and $campo['joinTable'] != '') and ($campo['omitirJoin'] == true))
 				{
