@@ -3396,7 +3396,7 @@ class class_abm
 			$joinSql = "";
 		}
 
-		if (!isset ($camposWhereBuscar))
+		if (!isset ($camposWhereBuscar) or $camposWhereBuscar == "")
 		{
 			$camposWhereBuscar = "1=1";
 		}
