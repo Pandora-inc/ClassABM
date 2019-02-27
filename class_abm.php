@@ -5422,7 +5422,7 @@ class class_abm
 
 				if (isset ($camposWhereBuscar) and $camposWhereBuscar != "")
 				{
-					$camposWhereBuscar .= " AND ";
+					$camposWhereBuscar .= " AND 1111";
 				}
 				else
 				{
