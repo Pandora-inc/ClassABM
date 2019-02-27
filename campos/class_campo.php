@@ -104,21 +104,12 @@ class class_campo
 	protected $customEvalListado = '';
 
 	/**
-	 * <<<<<<<
-	 * Parametro a pasarle de forma manual a customEvalListado.
-	 * Solo se utiliza si customEvalListado tiene datos.
-	 * =======
+	 *
 	 * Parametro a pasarle de forma manual a customEvalListado.
 	 * Solo se utiliza si customEvalListado tiene datos.
 	 *
-	 * @name parametroUsr
-	 * @var string
-	 */
-	protected $parametroUsr = '';
-
-	/**
 	 * No muestra el dato en el listado (lo unico que hace es esconderlo por mecio de css con la propiedad display none.
-	 * >>>>>>>
+	 *
 	 *
 	 * @name parametroUsr
 	 * @var string
