@@ -1339,9 +1339,9 @@ class class_campo
 	 */
 	public function setTipo($tipo)
 	{
-		if (in_array ($tipo, $this->tiposAdmitidos))
+		if (in_array (strtolower ($tipo), $this->tiposAdmitidos))
 		{
-			$this->tipo = $tipo;
+			$this->tipo = strtolower ($tipo);
 
 			return true;
 		}
