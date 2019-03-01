@@ -1830,6 +1830,15 @@ class class_campo
 		$this->tituloMouseOver = $tituloMouseOver;
 	}
 
+	/**
+	 *
+	 * @param string $sqlQuery
+	 */
+	public function setSqlQuery($sqlQuery)
+	{
+		$this->setSqlQuery = $sqlQuery;
+	}
+
 	/*
 	 * OTRAS FUNCIONES
 	 */
