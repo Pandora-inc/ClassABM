@@ -3154,7 +3154,6 @@ class class_abm
 		// por cada campo...
 		foreach ($this->campo as $campo)
 		{
-
 			if (!$campo->existeDato ("campo") or $campo->isNoListar () == true)
 			{
 				continue;
@@ -3716,7 +3715,7 @@ class class_abm
 							}
 							else
 							{
-								$campoOrder = $this->tabla . '.' . $campo->getCampo ();
+								$campoOrder = $this->tabla . '.22' . $campo->getCampo ();
 							}
 						}
 

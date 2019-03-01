@@ -59,6 +59,14 @@ class class_campo
 	protected $tipo = '';
 
 	/**
+	 * Tabla en la que se encuentra el campo.
+	 *
+	 * @name tabla
+	 * @var string
+	 */
+	protected $tabla = '';
+
+	/**
 	 * Incluye ese campo en la exportacion.
 	 * Si al menos uno de los campos lo incluye entonces aparecen los iconos de exportar.
 	 *
@@ -1312,6 +1320,15 @@ class class_campo
 		return $this->tituloMouseOver;
 	}
 
+	/**
+	 *
+	 * @return string
+	 */
+	public function getTabla()
+	{
+		return $this->tabla;
+	}
+
 	/*
 	 * *************************************************************
 	 * ARRANCA EL SETEO DE DATOS
@@ -1828,6 +1845,15 @@ class class_campo
 	public function setTituloMouseOver($tituloMouseOver)
 	{
 		$this->tituloMouseOver = $tituloMouseOver;
+	}
+
+	/**
+	 *
+	 * @param string $tabla
+	 */
+	public function setTabla($tabla)
+	{
+		$this->tabla = $tabla;
 	}
 
 	/*
