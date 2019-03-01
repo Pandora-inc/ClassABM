@@ -3716,7 +3716,7 @@ class class_abm
 							}
 							else
 							{
-								$campoOrder = $this->tabla . '.22' . $campo->getCampo ();
+								$campoOrder = $this->tabla . '.' . $campo->getCampo ();
 							}
 						}
 

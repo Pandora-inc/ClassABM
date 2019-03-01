@@ -3169,10 +3169,7 @@ class class_abm
 			{
 				continue;
 			}
-			// if ($this->campos[$i]['tipo'] == "upload")
-			// {
-			// continue;
-			// }
+
 			if (isset ($this->campos[$i]['noListar']) and $this->campos[$i]['noListar'] == true)
 			{
 				continue;
@@ -3181,15 +3178,15 @@ class class_abm
 			if (isset ($this->campos[$i]['exportar']) and $this->campos[$i]['exportar'] == true)
 			{
 				$mostrarExportar = true;
-
-				if (!isset ($camposWhereBuscar))
-				{
-					$camposWhereBuscar = "";
-				}
-				$camposWhereBuscar = $this->generaWhereBuscar ($db, $camposWhereBuscar, $this->campos[$i]);
-
-				$estaBuscando = true;
 			}
+
+			if (!isset ($camposWhereBuscar))
+			{
+				$camposWhereBuscar = "";
+			}
+			$camposWhereBuscar = $this->generaWhereBuscar ($db, $camposWhereBuscar, $this->campos[$i]);
+
+			$estaBuscando = true;
 
 			// para la class de ordenar por columnas
 			if (((!isset ($this->campos[$i]['noListar'])) or $this->campos[$i]['noListar'] == false) and ((!isset ($this->campos[$i]['noOrdenar']) or $this->campos[$i]['noOrdenar'] == false)))
