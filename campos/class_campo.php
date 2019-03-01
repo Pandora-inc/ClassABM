@@ -1347,7 +1347,7 @@ class class_campo
 		}
 		else
 		{
-			throw new Exception ('Tipo de campo no admitido: ' . $tipo . '.');
+			throw new Exception ('Tipo de campo no admitido: ' . strtolower ($tipo) . '.');
 		}
 	}
 
