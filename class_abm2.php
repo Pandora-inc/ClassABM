@@ -3541,6 +3541,7 @@ class class_abm
 		$html .= "</th></tr> \n";
 
 		// formulario de busqueda
+		// XXX Hay que convertirlo en una funcion que retorne el string del formulario
 		if ((isset ($agregarFormBuscar) and $this->mostrarListado) and $this->busquedaTotal == false)
 		{
 			$html .= "<tr class='mbuscar'><th colspan='" . (count ($this->campos) + 2) . "'> \n";
@@ -5208,6 +5209,85 @@ class class_abm
 			}
 		}
 		// print_r ($this->campo);
+	}
+
+	private function generaWhereBuscar()
+	{
+		$retorno = Array ();
+
+		if ((isset ($_REQUEST['c_' . $this->campos[$i]['campo']]) and (trim ($_REQUEST['c_' . $this->campos[$i]['campo']]) != '')) or (isset ($_REQUEST['c_busquedaTotal']) and (trim ($_REQUEST['c_busquedaTotal']) != '')))
+		{
+			if (isset ($_REQUEST['c_' . $this->campos[$i]['campo']]))
+			{
+				$valorABuscar = $this->limpiarParaSql ($_REQUEST['c_' . $this->campos[$i]['campo']], $db);
+
+				if (isset ($camposWhereBuscar))
+				{
+					$camposWhereBuscar .= " AND ";
+				}
+				else
+				{
+					$camposWhereBuscar = " ";
+				}
+			}
+			elseif (isset ($_REQUEST['c_busquedaTotal']))
+			{
+				$valorABuscar = $this->limpiarParaSql ($_REQUEST['c_busquedaTotal'], $db);
+
+				if (isset ($camposWhereBuscar))
+				{
+					$camposWhereBuscar .= " OR ";
+				}
+				else
+				{
+					$camposWhereBuscar = " ";
+				}
+			}
+
+			$estaBuscando = true;
+
+			// quita la variable de paginado, ya que estoy buscando y no se aplica
+			// unset($_REQUEST['r']);
+			// unset($_POST['r']);
+			// unset($_GET['r']);
+
+			if (isset ($this->campos[$i]['buscarUsarCampo']) and ($this->campos[$i]['buscarUsarCampo'] != ""))
+			{
+				$camposWhereBuscar .= "UPPER(" . $this->campos[$i]['buscarUsarCampo'] . ")";
+			}
+			else
+			{
+				if ($this->campos[$i]['tipo'] == 'fecha')
+				{
+					// $camposWhereBuscar .= $db->toChar ($this->tabla . "." . $this->campos[$i]['campo'], "", "DD/MM/YYYY");
+					$camposWhereBuscar .= $db->toChar ($this->tabla . "." . $this->campos[$i]['campo'], "", $this->formatoFechaListado);
+					// $camposWhereBuscar .= "TO_CHAR(" . $this->tabla . "." . $this->campos[$i]['campo'] . ", 'DD/MM/YYYY')";
+					// $camposWhereBuscar .= "TO_CHAR(" . $this->tabla . "." . $this->campos[$i]['campo'] . ", 'YYYY-MM-DD')"; // @iberlot 2016/10/18 se cambia para que funcionen los nuevos parametros de busqueda
+
+					$valorABuscar = str_replace ("/", "%", $valorABuscar);
+					$valorABuscar = str_replace ("-", "%", $valorABuscar);
+					$valorABuscar = str_replace (" ", "%", $valorABuscar);
+				}
+				else
+				{
+					$camposWhereBuscar .= "UPPER(" . $this->tabla . "." . $this->campos[$i]['campo'] . ")";
+				}
+			}
+
+			$camposWhereBuscar .= " ";
+
+			if (isset ($this->campos[$i]['buscarOperador']) and (($this->campos[$i]['buscarOperador'] != '')) and strtolower ($this->campos[$i]['buscarOperador']) != 'like')
+			{
+				$camposWhereBuscar .= $this->campos[$i]['buscarOperador'] . " UPPER('" . $valorABuscar . "')";
+			}
+			else
+			{
+				$valorABuscar = str_replace (" ", "%", $valorABuscar);
+				$camposWhereBuscar .= "LIKE UPPER('%" . $valorABuscar . "%')";
+			}
+		}
+
+		return $camposWhereBuscar;
 	}
 }
 ?>

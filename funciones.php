@@ -38,7 +38,7 @@ abstract class Funciones
 	 * @param array $array
 	 * @return mixed
 	 */
-	public function endKey($array)
+	public static function endKey($array)
 	{
 
 		// Aquí utilizamos end() para poner el puntero

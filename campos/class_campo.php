@@ -1356,15 +1356,15 @@ class class_campo
 	 */
 	public function setTipo($tipo)
 	{
-		if (in_array ($tipo, $this->tiposAdmitidos))
+		if (in_array (strtolower ($tipo), $this->tiposAdmitidos))
 		{
-			$this->tipo = $tipo;
+			$this->tipo = strtolower ($tipo);
 
 			return true;
 		}
 		else
 		{
-			throw new Exception ('Tipo de campo no admitido: ' . $tipo . '.');
+			throw new Exception ('Tipo de campo no admitido: ' . strtolower ($tipo) . '.');
 		}
 	}
 
@@ -1845,6 +1845,15 @@ class class_campo
 	public function setTituloMouseOver($tituloMouseOver)
 	{
 		$this->tituloMouseOver = $tituloMouseOver;
+	}
+
+	/**
+	 *
+	 * @param string $sqlQuery
+	 */
+	public function setSqlQuery($sqlQuery)
+	{
+		$this->setSqlQuery = $sqlQuery;
 	}
 
 	/**
