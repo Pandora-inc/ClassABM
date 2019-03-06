@@ -3952,11 +3952,11 @@ class class_abm
 						{
 							if ($fila[$campo->getCampo ()] != "" and $fila[$campo->getCampo ()] > 0)
 							{
-								$html .= "<td style='text-align: right;' " . $noMostrar . ">$spanColorear" . number_format ($fila[$campo->getCampo ()], $campo['cantidadDecimales'], ',', '.') . "$spanColorearFin</td> \n";
+								$html .= "<td style='text-align: right;' " . $noMostrar . ">$spanColorear" . number_format ($fila[$campo->getCampo ()], $campo->getCantidadDecimales (), ',', '.') . "$spanColorearFin</td> \n";
 							}
 							else
 							{
-								$html .= "<td style='text-align: right;' $noMostrar>$spanColorear" . number_format (0, $campo['cantidadDecimales'], ',', '.') . "$spanColorearFin</td> \n";
+								$html .= "<td style='text-align: right;' $noMostrar>$spanColorear" . number_format (0, $campo->getCantidadDecimales (), ',', '.') . "$spanColorearFin</td> \n";
 							}
 						}
 						elseif ($campo->getTipo () == "textarea")
