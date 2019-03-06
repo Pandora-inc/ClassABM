@@ -3223,7 +3223,7 @@ class class_abm
 					}
 					else
 					{
-						$camposSelect .= $campo->getJoinTable () . "." . $campo->getCampoTexto () . " AS " . substr ($tablaJoin . "_" . $campo->getCampoTexto (), 0, 30);
+						$camposSelect .= $campo->getJoinTable () . "." . $campo->getCampoTexto () . " AS " . substr ($tablaJoin . "__" . $campo->getCampoTexto (), 0, 30);
 					}
 
 					$camposOrder .= "|" . $campo->getCampoTexto ();
