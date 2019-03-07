@@ -3199,7 +3199,7 @@ class class_abm
 
 			// XXX creo que lo que sigue deberia ser una funcion es las clases de los campos que retorne el campoSelect.
 			// campos para el select
-			if ($campo->isBuscar () == true)
+			if ($campo->isBuscar () == true or $campo->isNoListar () == false)
 			{
 				if (isset ($camposSelect) and ($camposSelect != ""))
 				{
@@ -3246,17 +3246,22 @@ class class_abm
 					{
 						$camposSelect .= $campo->getSelectPersonal () . " AS " . $campo->getCampoTexto ();
 					}
+					elseif ($campo->getTipo () == 'fecha')
+					{
+						$camposSelect .= $db->toChar ($this->tabla . "." . $this->campos[$i]['campo'], substr ($tablaJoin, 0, 3) . "_" . $this->campos[$i]['campo'], "dd/mm/YYYY");
+						$campo->setCampo (substr ($tablaJoin, 0, 3) . "_" . $campo->getCampo ());
+					}
 					else
 					{
 						// FIXME Hay que encontrar un metodo mejor ya que si hay mas de una tabla con el mismo campo y las primeras tres letras del nombre de la tabla iguales tirara que la columna esta definida de forma ambigua.
 
 						$camposSelect .= $campo->getJoinTable () . "." . $campo->getCampo () . " AS " . substr ($tablaJoin, 0, 3) . "_" . $campo->getCampo ();
-
-						// $camposSelect .= $campo->getJoinTable () . "." . $campo->getCampo ();
+						$campo->setCampo (substr ($tablaJoin, 0, 3) . "_" . $campo->getCampo ());
 					}
 				}
 				else
 				{
+					// XXX Lo siguiente debe mover a la fincion getCampoSelect de las clases campo
 					if ($campo->getTipo () == 'rownum')
 					{
 						$camposSelect .= $campo->getCampo ();
@@ -3370,7 +3375,7 @@ class class_abm
 				// FIXME Esto es un parche temporal y requiere que se arragle con urgencia
 				if ($campo->existeDato ("compareMasJoin"))
 				{
-					$joinSql_aux .= " AND " . $campo->compareMasJoin;
+					$joinSql_aux .= " AND " . $campo->getCompareMasJoin ();
 				}
 
 				$pos = strpos ($joinSql, $joinSql_aux);
@@ -3384,9 +3389,6 @@ class class_abm
 				}
 			}
 		}
-
-		// hasta aca uso la clase
-
 		$camposSelect .= $this->adicionalesCamposSelect;
 
 		// class para ordenar por columna
@@ -3402,7 +3404,7 @@ class class_abm
 			$joinSql = "";
 		}
 
-		if (!isset ($camposWhereBuscar))
+		if (!isset ($camposWhereBuscar) or $camposWhereBuscar == "")
 		{
 			$camposWhereBuscar = "1=1";
 		}

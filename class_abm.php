@@ -3242,18 +3242,17 @@ class class_abm
 			// campos para el select
 			if ((!isset ($this->campos[$i]['noListar']) or ($this->campos[$i]['noListar'] == false)) or (isset ($this->campos[$i]['buscar']) and ($this->campos[$i]['buscar'] == true)))
 			{
+				if (isset ($camposSelect) and $camposSelect != "")
+				{
+					$camposSelect .= ", ";
+				}
+				else
+				{
+					$camposSelect = "";
+				}
 
 				if ((isset ($this->campos[$i]['joinTable']) and $this->campos[$i]['joinTable'] != '') and ((!isset ($this->campos[$i]['omitirJoin'])) or $this->campos[$i]['omitirJoin'] == false))
 				{
-					if (isset ($camposSelect) and $camposSelect != "")
-					{
-						$camposSelect .= ", ";
-					}
-					else
-					{
-						$camposSelect = "";
-					}
-
 					$tablaJoin = $this->campos[$i]['joinTable'];
 
 					$tablaJoin = explode (".", $tablaJoin);
@@ -3273,11 +3272,6 @@ class class_abm
 				}
 				elseif ((isset ($this->campos[$i]['joinTable']) and $this->campos[$i]['joinTable'] != '') and ($this->campos[$i]['omitirJoin'] == true))
 				{
-					if ($camposSelect != "")
-					{
-						$camposSelect .= ", ";
-					}
-
 					$tablaJoin = $this->campos[$i]['joinTable'];
 
 					$tablaJoin = explode (".", $tablaJoin);
@@ -3302,15 +3296,6 @@ class class_abm
 				}
 				else
 				{
-					if (isset ($camposSelect) and ($camposSelect != ""))
-					{
-						$camposSelect .= ", ";
-					}
-					else
-					{
-						$camposSelect = "";
-					}
-
 					if ($this->campos[$i]['tipo'] == 'rownum')
 					{
 						$camposSelect .= $this->campos[$i]['campo'];
