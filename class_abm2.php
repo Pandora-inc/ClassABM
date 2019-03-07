@@ -3814,25 +3814,18 @@ class class_abm
 					{
 						if ($campo->existeDato ("joinTable") and $campo->isOmitirJoin () == false)
 						{
-							print_r ("hasta adentro");
-
 							$tablaJoin = $campo->getJoinTable ();
 							$tablaJoin = explode (".", $tablaJoin);
 							$tablaJoin = $tablaJoin[count ($tablaJoin) - 1];
 
 							if ($campo->existeDato ("campoTexto"))
 							{
-
-								print_r ("HAY");
 								$campo->setCampo ($tablaJoin . "_" . $campo->getCampoTexto ());
 							}
 							else
 							{
-								print_r ("HUY");
 								$campo->setCampo ($tablaJoin . "_" . $campo->getCampo ());
 							}
-
-							print_r ($campo->getCampo ());
 						}
 					}
 
