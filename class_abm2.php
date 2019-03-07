@@ -3840,6 +3840,8 @@ class class_abm
 
 					if ($campo->existeDato ("colorearValores") and (is_array ($campo->getColorearValores ())))
 					{
+						print_r ($campo);
+						print_r ("<Br><Br>");
 						if (array_key_exists ($fila[$campo->getCampo ()], $campo->getColorearValores ()))
 						{
 							// XXX revisar la implementacion de las funciones que retornan arrays en generarListado()
