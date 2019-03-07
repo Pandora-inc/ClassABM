@@ -3856,6 +3856,7 @@ class class_abm
 							}
 						}
 
+						print_r ($campo->getCampo ());
 						if (array_key_exists ($fila[$campo->getCampo ()], $campo->getColorearValores ()))
 						{
 							// XXX revisar la implementacion de las funciones que retornan arrays en generarListado()
