@@ -3915,7 +3915,6 @@ class class_abm
 							if ((isset ($campo['joinTable']) and $campo['joinTable'] != '') and (@$campo['omitirJoin'] == false))
 							{
 								$campoOrder = $campo['campoTexto'];
-								// $campoOrder = $campo['joinTable'] . '.' . $campo['campoTexto'];
 							}
 							elseif ((isset ($campo['joinTable']) and $campo['joinTable'] != '') and ($campo['omitirJoin'] == true))
 							{

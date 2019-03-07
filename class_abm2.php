@@ -3708,12 +3708,12 @@ class class_abm
 					else
 					{
 						if ($campo->existeDato ("campoOrder"))
-
 						{
 							$campoOrder = $campo->getCampoOrder ();
 						}
 						else
 						{
+
 							if ($campo->existeDato ("joinTable") and $campo->isOmitirJoin () == false)
 							{
 								$campoOrder = $campo->getCampoTexto ();
@@ -3801,20 +3801,18 @@ class class_abm
 					// {
 					// continue;
 					// }
-
 					if ($campo->getSeparador ())
 					{
 						continue;
 					}
 
 					if ($campo->existeDato ("campoOrder"))
-
 					{
 						$campo->setCampo ($campo->getCampoOrder ());
 					}
 					else
 					{
-						if ($campo->existeDato ("joinTable") and !$campo->existeDato ("omitirJoin"))
+						if ($campo->existeDato ("joinTable") and $campo->isOmitirJoin () == false)
 						{
 							$tablaJoin = $campo->getJoinTable ();
 							$tablaJoin = explode (".", $tablaJoin);
