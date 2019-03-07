@@ -3812,7 +3812,6 @@ class class_abm
 					}
 					else
 					{
-						print_r ("entro");
 						if ($campo->existeDato ("joinTable") and $campo->isOmitirJoin () == false)
 						{
 							print_r ("hasta adentro");
@@ -3832,6 +3831,8 @@ class class_abm
 								print_r ("HUY");
 								$campo->setCampo ($tablaJoin . "_" . $campo->getCampo ());
 							}
+
+							print_r ($campo->getCampo ());
 						}
 					}
 
