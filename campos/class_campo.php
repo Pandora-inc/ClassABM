@@ -262,6 +262,15 @@ class class_campo
 	protected $joinCondition = 'INNER';
 
 	/**
+	 * Condicion a agregar al final del join
+	 *
+	 * XXX esto es un parche temporal y hay que corregirlo.
+	 *
+	 * @var string
+	 */
+	protected $compareMasJoin = '';
+
+	/**
 	 * Valor predefinido para un campo en el formulario de alta.
 	 *
 	 * @name valorPredefinido
@@ -1329,6 +1338,15 @@ class class_campo
 		return $this->tabla;
 	}
 
+	/**
+	 *
+	 * @return string
+	 */
+	public function getCompareMasJoin()
+	{
+		return $this->compareMasJoin;
+	}
+
 	/*
 	 * *************************************************************
 	 * ARRANCA EL SETEO DE DATOS
@@ -1863,6 +1881,15 @@ class class_campo
 	public function setTabla($tabla)
 	{
 		$this->tabla = $tabla;
+	}
+
+	/**
+	 *
+	 * @param string $compareMasJoin
+	 */
+	public function setCompareMasJoin($compareMasJoin)
+	{
+		$this->compareMasJoin = $compareMasJoin;
 	}
 
 	/*
