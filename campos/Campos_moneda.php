@@ -56,6 +56,24 @@ class Campos_moneda extends class_campo
 
 	/**
 	 *
+	 * @return number
+	 */
+	public function getCantidadDecimales()
+	{
+		return $this->cantidadDecimales;
+	}
+
+	/**
+	 *
+	 * @param number $cantidadDecimales
+	 */
+	public function setCantidadDecimales($cantidadDecimales)
+	{
+		$this->cantidadDecimales = $cantidadDecimales;
+	}
+
+	/**
+	 *
 	 * @param object $db
 	 *        	Objeto de coneccion a la base.
 	 * @param String $busqueda

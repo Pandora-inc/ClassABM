@@ -3223,7 +3223,14 @@ class class_abm
 					}
 					else
 					{
-						$camposSelect .= $campo->getJoinTable () . "." . $campo->getCampoTexto () . " AS " . substr ($tablaJoin . "_" . $campo->getCampoTexto (), 0, 30);
+						if ($campo->getCampoTexto () != "")
+						{
+							$camposSelect .= $campo->getJoinTable () . "." . $campo->getCampoTexto () . " AS " . substr ($tablaJoin . "_" . $campo->getCampoTexto (), 0, 30);
+						}
+						else
+						{
+							$camposSelect .= $campo->getJoinTable () . "." . $campo->getCampo () . " AS " . substr ($tablaJoin . "_" . $campo->getCampo (), 0, 30);
+						}
 					}
 
 					$camposOrder .= "|" . $campo->getCampoTexto ();
@@ -3716,7 +3723,7 @@ class class_abm
 							}
 							else
 							{
-								$campoOrder = $this->tabla . '.22' . $campo->getCampo ();
+								$campoOrder = $this->tabla . '.' . $campo->getCampo ();
 							}
 						}
 
@@ -3945,11 +3952,11 @@ class class_abm
 						{
 							if ($fila[$campo->getCampo ()] != "" and $fila[$campo->getCampo ()] > 0)
 							{
-								$html .= "<td style='text-align: right;' " . $noMostrar . ">$spanColorear" . number_format ($fila[$campo->getCampo ()], $campo['cantidadDecimales'], ',', '.') . "$spanColorearFin</td> \n";
+								$html .= "<td style='text-align: right;' " . $noMostrar . ">$spanColorear" . number_format ($fila[$campo->getCampo ()], $campo->getCantidadDecimales (), ',', '.') . "$spanColorearFin</td> \n";
 							}
 							else
 							{
-								$html .= "<td style='text-align: right;' $noMostrar>$spanColorear" . number_format (0, $campo['cantidadDecimales'], ',', '.') . "$spanColorearFin</td> \n";
+								$html .= "<td style='text-align: right;' $noMostrar>$spanColorear" . number_format (0, $campo->getCantidadDecimales (), ',', '.') . "$spanColorearFin</td> \n";
 							}
 						}
 						elseif ($campo->getTipo () == "textarea")
