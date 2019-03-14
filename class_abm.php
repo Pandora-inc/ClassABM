@@ -2362,7 +2362,7 @@ class class_abm
 				$imprForm = "";
 			}
 
-			$imprForm .= "<div class='content mabm'>";
+			$imprForm .= "<div class='content'>";
 			$imprForm .= "<section>\n";
 			$imprForm .= "<div id='form'>\n";
 
