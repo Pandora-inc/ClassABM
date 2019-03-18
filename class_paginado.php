@@ -239,12 +239,14 @@ class class_paginado
 
 			$RegistroHasta = $registros_por_pagina + $registro;
 
-			$query = preg_replace ('/^(SELECT)/', 'SELECT ROWNUM AS FILA, ', $query);
+			// $query = preg_replace ('/^(SELECT)/', 'SELECT ROWNUM AS FILA, ', $query);
+			$query = preg_replace ('/^(SELECT)/', ' SELECT a.*, ROWNUM rnum FROM (SELECT ', $query);
 
 			$query = "
 			SELECT * FROM (
-			" . $query . ")
-			WHERE FILA > " . $registro . " AND FILA <= " . $RegistroHasta;
+			" . $query . ") a WHERE ROWNUM <= " . $RegistroHasta . ")
+			WHERE rnum > " . $registro;
+			// WHERE ROWNUM > " . $registro . " AND ROWNUM <= " . $RegistroHasta;
 		}
 		$result = $db->query ($query);
 
