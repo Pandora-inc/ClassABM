@@ -59,6 +59,14 @@ class class_campo
 	protected $tipo = '';
 
 	/**
+	 * Tabla en la que se encuentra el campo.
+	 *
+	 * @name tabla
+	 * @var string
+	 */
+	protected $tabla = '';
+
+	/**
 	 * Incluye ese campo en la exportacion.
 	 * Si al menos uno de los campos lo incluye entonces aparecen los iconos de exportar.
 	 *
@@ -252,6 +260,15 @@ class class_campo
 	 * @var string
 	 */
 	protected $joinCondition = 'INNER';
+
+	/**
+	 * Condicion a agregar al final del join
+	 *
+	 * XXX esto es un parche temporal y hay que corregirlo.
+	 *
+	 * @var string
+	 */
+	protected $compareMasJoin = '';
 
 	/**
 	 * Valor predefinido para un campo en el formulario de alta.
@@ -1312,6 +1329,24 @@ class class_campo
 		return $this->tituloMouseOver;
 	}
 
+	/**
+	 *
+	 * @return string
+	 */
+	public function getTabla()
+	{
+		return $this->tabla;
+	}
+
+	/**
+	 *
+	 * @return string
+	 */
+	public function getCompareMasJoin()
+	{
+		return $this->compareMasJoin;
+	}
+
 	/*
 	 * *************************************************************
 	 * ARRANCA EL SETEO DE DATOS
@@ -1837,6 +1872,24 @@ class class_campo
 	public function setSqlQuery($sqlQuery)
 	{
 		$this->setSqlQuery = $sqlQuery;
+	}
+
+	/**
+	 *
+	 * @param string $tabla
+	 */
+	public function setTabla($tabla)
+	{
+		$this->tabla = $tabla;
+	}
+
+	/**
+	 *
+	 * @param string $compareMasJoin
+	 */
+	public function setCompareMasJoin($compareMasJoin)
+	{
+		$this->compareMasJoin = $compareMasJoin;
 	}
 
 	/*

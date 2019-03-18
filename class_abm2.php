@@ -3154,7 +3154,6 @@ class class_abm
 		// por cada campo...
 		foreach ($this->campo as $campo)
 		{
-
 			if (!$campo->existeDato ("campo") or $campo->isNoListar () == true)
 			{
 				continue;
@@ -3200,7 +3199,7 @@ class class_abm
 
 			// XXX creo que lo que sigue deberia ser una funcion es las clases de los campos que retorne el campoSelect.
 			// campos para el select
-			if ($campo->isBuscar () == true)
+			if ($campo->isBuscar () == true or $campo->isNoListar () == false)
 			{
 				if (isset ($camposSelect) and ($camposSelect != ""))
 				{
@@ -3224,7 +3223,14 @@ class class_abm
 					}
 					else
 					{
-						$camposSelect .= $campo->getJoinTable () . "." . $campo->getCampoTexto () . " AS " . substr ($tablaJoin . "_" . $campo->getCampoTexto (), 0, 30);
+						if ($campo->getCampoTexto () != "")
+						{
+							$camposSelect .= $campo->getJoinTable () . "." . $campo->getCampoTexto () . " AS " . substr ($tablaJoin . "_" . $campo->getCampoTexto (), 0, 30);
+						}
+						else
+						{
+							$camposSelect .= $campo->getJoinTable () . "." . $campo->getCampo () . " AS " . substr ($tablaJoin . "_" . $campo->getCampo (), 0, 30);
+						}
 					}
 
 					$camposOrder .= "|" . $campo->getCampoTexto ();
@@ -3240,17 +3246,22 @@ class class_abm
 					{
 						$camposSelect .= $campo->getSelectPersonal () . " AS " . $campo->getCampoTexto ();
 					}
+					elseif ($campo->getTipo () == 'fecha')
+					{
+						$camposSelect .= $db->toChar ($this->tabla . "." . $this->campos[$i]['campo'], substr ($tablaJoin, 0, 3) . "_" . $this->campos[$i]['campo'], "dd/mm/YYYY");
+						$campo->setCampo (substr ($tablaJoin, 0, 3) . "_" . $campo->getCampo ());
+					}
 					else
 					{
 						// FIXME Hay que encontrar un metodo mejor ya que si hay mas de una tabla con el mismo campo y las primeras tres letras del nombre de la tabla iguales tirara que la columna esta definida de forma ambigua.
 
 						$camposSelect .= $campo->getJoinTable () . "." . $campo->getCampo () . " AS " . substr ($tablaJoin, 0, 3) . "_" . $campo->getCampo ();
-
-						// $camposSelect .= $campo->getJoinTable () . "." . $campo->getCampo ();
+						$campo->setCampo (substr ($tablaJoin, 0, 3) . "_" . $campo->getCampo ());
 					}
 				}
 				else
 				{
+					// XXX Lo siguiente debe mover a la fincion getCampoSelect de las clases campo
 					if ($campo->getTipo () == 'rownum')
 					{
 						$camposSelect .= $campo->getCampo ();
@@ -3364,7 +3375,7 @@ class class_abm
 				// FIXME Esto es un parche temporal y requiere que se arragle con urgencia
 				if ($campo->existeDato ("compareMasJoin"))
 				{
-					$joinSql_aux .= " AND " . $campo->compareMasJoin;
+					$joinSql_aux .= " AND " . $campo->getCompareMasJoin ();
 				}
 
 				$pos = strpos ($joinSql, $joinSql_aux);
@@ -3378,9 +3389,6 @@ class class_abm
 				}
 			}
 		}
-
-		// hasta aca uso la clase
-
 		$camposSelect .= $this->adicionalesCamposSelect;
 
 		// class para ordenar por columna
@@ -3396,7 +3404,7 @@ class class_abm
 			$joinSql = "";
 		}
 
-		if (!isset ($camposWhereBuscar))
+		if (!isset ($camposWhereBuscar) or $camposWhereBuscar == "")
 		{
 			$camposWhereBuscar = "1=1";
 		}
@@ -3700,12 +3708,12 @@ class class_abm
 					else
 					{
 						if ($campo->existeDato ("campoOrder"))
-
 						{
 							$campoOrder = $campo->getCampoOrder ();
 						}
 						else
 						{
+
 							if ($campo->existeDato ("joinTable") and $campo->isOmitirJoin () == false)
 							{
 								$campoOrder = $campo->getCampoTexto ();
@@ -3793,26 +3801,31 @@ class class_abm
 					// {
 					// continue;
 					// }
-
 					if ($campo->getSeparador ())
 					{
 						continue;
 					}
 
 					if ($campo->existeDato ("campoOrder"))
-
 					{
 						$campo->setCampo ($campo->getCampoOrder ());
 					}
 					else
 					{
-						if ($campo->existeDato ("joinTable") and !$campo->existeDato ("omitirJoin"))
+						if ($campo->existeDato ("joinTable") and $campo->isOmitirJoin () == false)
 						{
 							$tablaJoin = $campo->getJoinTable ();
 							$tablaJoin = explode (".", $tablaJoin);
 							$tablaJoin = $tablaJoin[count ($tablaJoin) - 1];
 
-							$campo->setCampo ($tablaJoin . "_" . $campo->getCampoTexto ());
+							if ($campo->existeDato ("campoTexto"))
+							{
+								$campo->setCampo ($tablaJoin . "_" . $campo->getCampoTexto ());
+							}
+							else
+							{
+								$campo->setCampo ($tablaJoin . "_" . $campo->getCampo ());
+							}
 						}
 					}
 
@@ -3827,6 +3840,23 @@ class class_abm
 
 					if ($campo->existeDato ("colorearValores") and (is_array ($campo->getColorearValores ())))
 					{
+						if ($campo->existeDato ("joinTable") and $campo->isOmitirJoin () == false)
+						{
+							$tablaJoin = $campo->getJoinTable ();
+							$tablaJoin = explode (".", $tablaJoin);
+							$tablaJoin = $tablaJoin[count ($tablaJoin) - 1];
+
+							if ($campo->existeDato ("campoTexto"))
+							{
+								$campo->setCampo ($tablaJoin . "_" . $campo->getCampoTexto ());
+							}
+							else
+							{
+								$campo->setCampo ($tablaJoin . "_" . $campo->getCampo ());
+							}
+						}
+
+						print_r ($campo->getCampo ());
 						if (array_key_exists ($fila[$campo->getCampo ()], $campo->getColorearValores ()))
 						{
 							// XXX revisar la implementacion de las funciones que retornan arrays en generarListado()
@@ -3946,11 +3976,11 @@ class class_abm
 						{
 							if ($fila[$campo->getCampo ()] != "" and $fila[$campo->getCampo ()] > 0)
 							{
-								$html .= "<td style='text-align: right;' " . $noMostrar . ">$spanColorear" . number_format ($fila[$campo->getCampo ()], $campo['cantidadDecimales'], ',', '.') . "$spanColorearFin</td> \n";
+								$html .= "<td style='text-align: right;' " . $noMostrar . ">$spanColorear" . number_format ($fila[$campo->getCampo ()], $campo->getCantidadDecimales (), ',', '.') . "$spanColorearFin</td> \n";
 							}
 							else
 							{
-								$html .= "<td style='text-align: right;' $noMostrar>$spanColorear" . number_format (0, $campo['cantidadDecimales'], ',', '.') . "$spanColorearFin</td> \n";
+								$html .= "<td style='text-align: right;' $noMostrar>$spanColorear" . number_format (0, $campo->getCantidadDecimales (), ',', '.') . "$spanColorearFin</td> \n";
 							}
 						}
 						elseif ($campo->getTipo () == "textarea")
