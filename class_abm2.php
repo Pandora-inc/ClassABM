@@ -3818,7 +3818,14 @@ class class_abm
 							$tablaJoin = explode (".", $tablaJoin);
 							$tablaJoin = $tablaJoin[count ($tablaJoin) - 1];
 
-							$campo->setCampo ($tablaJoin . "_" . $campo->getCampoTexto ());
+							if ($campo->existeDato ("campoTexto"))
+							{
+								$campo->setCampo ($tablaJoin . "_" . $campo->getCampoTexto ());
+							}
+							else
+							{
+								$campo->setCampo ($tablaJoin . "_" . $campo->getCampo ());
+							}
 						}
 					}
 
@@ -3833,6 +3840,23 @@ class class_abm
 
 					if ($campo->existeDato ("colorearValores") and (is_array ($campo->getColorearValores ())))
 					{
+						if ($campo->existeDato ("joinTable") and $campo->isOmitirJoin () == false)
+						{
+							$tablaJoin = $campo->getJoinTable ();
+							$tablaJoin = explode (".", $tablaJoin);
+							$tablaJoin = $tablaJoin[count ($tablaJoin) - 1];
+
+							if ($campo->existeDato ("campoTexto"))
+							{
+								$campo->setCampo ($tablaJoin . "_" . $campo->getCampoTexto ());
+							}
+							else
+							{
+								$campo->setCampo ($tablaJoin . "_" . $campo->getCampo ());
+							}
+						}
+
+						print_r ($campo->getCampo ());
 						if (array_key_exists ($fila[$campo->getCampo ()], $campo->getColorearValores ()))
 						{
 							// XXX revisar la implementacion de las funciones que retornan arrays en generarListado()
