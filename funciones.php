@@ -38,7 +38,7 @@ abstract class Funciones
 	 * @param array $array
 	 * @return mixed
 	 */
-	public function endKey($array)
+	public static function endKey($array)
 	{
 
 		// Aquí utilizamos end() para poner el puntero
@@ -56,7 +56,7 @@ abstract class Funciones
 	 * @param String[] $param
 	 * @return String[] - Depende del parametro recibido, un array con los datos remplazados o un String
 	 */
-	public function limpiarEntidadesHTML($param, $sitio = "")
+	public static function limpiarEntidadesHTML($param, $sitio = "")
 	{
 		if (!isset ($sitio) and empty ($sitio))
 		{

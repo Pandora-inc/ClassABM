@@ -2362,7 +2362,7 @@ class class_abm
 				$imprForm = "";
 			}
 
-			$imprForm .= "<div class='content mabm'>";
+			// $imprForm .= "<div class='content'>";
 			$imprForm .= "<section>\n";
 			$imprForm .= "<div id='form'>\n";
 
@@ -3169,10 +3169,7 @@ class class_abm
 			{
 				continue;
 			}
-			// if ($this->campos[$i]['tipo'] == "upload")
-			// {
-			// continue;
-			// }
+
 			if (isset ($this->campos[$i]['noListar']) and $this->campos[$i]['noListar'] == true)
 			{
 				continue;
@@ -3181,15 +3178,15 @@ class class_abm
 			if (isset ($this->campos[$i]['exportar']) and $this->campos[$i]['exportar'] == true)
 			{
 				$mostrarExportar = true;
-
-				if (!isset ($camposWhereBuscar))
-				{
-					$camposWhereBuscar = "";
-				}
-				$camposWhereBuscar = $this->generaWhereBuscar ($db, $camposWhereBuscar, $this->campos[$i]);
-
-				$estaBuscando = true;
 			}
+
+			if (!isset ($camposWhereBuscar))
+			{
+				$camposWhereBuscar = "";
+			}
+			$camposWhereBuscar = $this->generaWhereBuscar ($db, $camposWhereBuscar, $this->campos[$i]);
+
+			$estaBuscando = true;
 
 			// para la class de ordenar por columnas
 			if (((!isset ($this->campos[$i]['noListar'])) or $this->campos[$i]['noListar'] == false) and ((!isset ($this->campos[$i]['noOrdenar']) or $this->campos[$i]['noOrdenar'] == false)))
@@ -3245,18 +3242,17 @@ class class_abm
 			// campos para el select
 			if ((!isset ($this->campos[$i]['noListar']) or ($this->campos[$i]['noListar'] == false)) or (isset ($this->campos[$i]['buscar']) and ($this->campos[$i]['buscar'] == true)))
 			{
+				if (isset ($camposSelect) and $camposSelect != "")
+				{
+					$camposSelect .= ", ";
+				}
+				else
+				{
+					$camposSelect = "";
+				}
 
 				if ((isset ($this->campos[$i]['joinTable']) and $this->campos[$i]['joinTable'] != '') and ((!isset ($this->campos[$i]['omitirJoin'])) or $this->campos[$i]['omitirJoin'] == false))
 				{
-					if (isset ($camposSelect) and $camposSelect != "")
-					{
-						$camposSelect .= ", ";
-					}
-					else
-					{
-						$camposSelect = "";
-					}
-
 					$tablaJoin = $this->campos[$i]['joinTable'];
 
 					$tablaJoin = explode (".", $tablaJoin);
@@ -3276,11 +3272,6 @@ class class_abm
 				}
 				elseif ((isset ($this->campos[$i]['joinTable']) and $this->campos[$i]['joinTable'] != '') and ($this->campos[$i]['omitirJoin'] == true))
 				{
-					if ($camposSelect != "")
-					{
-						$camposSelect .= ", ";
-					}
-
 					$tablaJoin = $this->campos[$i]['joinTable'];
 
 					$tablaJoin = explode (".", $tablaJoin);
@@ -3305,15 +3296,6 @@ class class_abm
 				}
 				else
 				{
-					if (isset ($camposSelect) and ($camposSelect != ""))
-					{
-						$camposSelect .= ", ";
-					}
-					else
-					{
-						$camposSelect = "";
-					}
-
 					if ($this->campos[$i]['tipo'] == 'rownum')
 					{
 						$camposSelect .= $this->campos[$i]['campo'];
@@ -3933,7 +3915,6 @@ class class_abm
 							if ((isset ($campo['joinTable']) and $campo['joinTable'] != '') and (@$campo['omitirJoin'] == false))
 							{
 								$campoOrder = $campo['campoTexto'];
-								// $campoOrder = $campo['joinTable'] . '.' . $campo['campoTexto'];
 							}
 							elseif ((isset ($campo['joinTable']) and $campo['joinTable'] != '') and ($campo['omitirJoin'] == true))
 							{
