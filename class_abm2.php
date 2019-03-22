@@ -3786,7 +3786,6 @@ class class_abm
 				{
 					$campo->setDato ($fila[$campo->getCampo ()]);
 
-					print_r ($campo);
 					if ($campo->isNoMostrar () == true)
 					{
 						$noMostrar = " style='display: none;' ";
@@ -3944,124 +3943,124 @@ class class_abm
 					else
 					{
 
-						// $html .= $abrirTD;
+						$html .= $abrirTD;
 
-						// $campo->getMostrarListar ();
+						$campo->getMostrarListar ();
 
-						// $html .= $cerrarTD;
+						$html .= $cerrarTD;
 
 						// FIXME Debe crearse un metodo polimorfico que arme la celda de cada campo como corresponda y remplace lo siguiente
-						if ($campo->getTipo () == "bit")
-						{
-							if ($fila[$campo->getCampo ()])
-							{
-								$html .= "<td $centradoCol " . $noMostrar . ">$spanColorear" . (($campo->existeDato ("textoBitTrue")) ? $campo->getTextoBitTrue () : $this->textoBitTrue) . $spanColorearFin . "</td> \n";
-							}
-							else
-							{
-								$html .= "<td $centradoCol " . $noMostrar . ">$spanColorear" . (($campo->existeDato ("textoBitTrue")) ? $campo->getTextoBitFalse () : $this->textoBitFalse) . $spanColorearFin . "</td> \n";
-							}
-						}
+						// if ($campo->getTipo () == "bit")
+						// {
+						// if ($fila[$campo->getCampo ()])
+						// {
+						// $html .= "<td $centradoCol " . $noMostrar . ">$spanColorear" . (($campo->existeDato ("textoBitTrue")) ? $campo->getTextoBitTrue () : $this->textoBitTrue) . $spanColorearFin . "</td> \n";
+						// }
+						// else
+						// {
+						// $html .= "<td $centradoCol " . $noMostrar . ">$spanColorear" . (($campo->existeDato ("textoBitTrue")) ? $campo->getTextoBitFalse () : $this->textoBitFalse) . $spanColorearFin . "</td> \n";
+						// }
+						// }
 						// si es tipo combo le decimos que muestre el texto en vez del valor
-						elseif ($campo->getTipo () == "combo")
-						{
-							if (isset ($fila[$campo->getCampo ()]))
-							{
-								// XXX verificar acomodar y documentar $campo['datos']
-								$datos = $campo->getDatos ();
-								$html .= "<td $centradoCol " . $noMostrar . ">$spanColorear" . $datos[$fila[$campo->getCampo ()]] . "$spanColorearFin</td> \n";
-							}
-						}
-						elseif ($campo->getTipo () == "moneda")
-						{
-							setlocale (LC_MONETARY, 'es_AR');
-							$html .= "<td style='text-align: right;' " . $noMostrar . ">$spanColorear" . money_format ('%.2n', $fila[$campo->getCampo ()]) . "$spanColorearFin</td> \n";
-						}
-						elseif ($campo->getTipo () == "numero")
-						{
-							if ($fila[$campo->getCampo ()] != "" and $fila[$campo->getCampo ()] > 0)
-							{
-								$html .= "<td style='text-align: right;' " . $noMostrar . ">$spanColorear" . number_format ($fila[$campo->getCampo ()], $campo->getCantidadDecimales (), ',', '.') . "$spanColorearFin</td> \n";
-							}
-							else
-							{
-								$html .= "<td style='text-align: right;' $noMostrar>$spanColorear" . number_format (0, $campo->getCantidadDecimales (), ',', '.') . "$spanColorearFin</td> \n";
-							}
-						}
-						elseif ($campo->getTipo () == "textarea")
-						{
-							if ($campo->isNoLimpiar () == true)
-							{
-								$html .= "<td $centradoCol " . $noMostrar . ">" . substr (($spanColorear . html_entity_decode ($fila[$campo->getCampo ()]) . $spanColorearFin), 0, $campo->getMaxMostrar ()) . "</td> \n";
-							}
-							else
-							{
-								if (isset ($fila[$campo->getCampo ()]))
-								{
-									$html .= "<td $centradoCol " . $noMostrar . ">" . substr (($spanColorear . $fila[$campo->getCampo ()] . $spanColorearFin), 0, $campo->getMaxMostrar ()) . "</td> \n";
-								}
-								else
-								{
-									$html .= "<td $centradoCol " . $noMostrar . ">" . substr (($spanColorear . $fila[$campo->getCampoTexto ()] . $spanColorearFin), 0, $campo->getMaxMostrar ()) . "</td> \n";
-								}
-							}
-						}
-						elseif ($campo->getTipo () == "upload")
-						{
-							$dato = explode (".", $fila[$campo->getCampo ()]);
-							if (in_array (strtolower (end ($dato)), array (
-									'jpg',
-									'jpeg',
-									'bmp',
-									'png'
-							)))
-							{
-								$otrosImagen = "";
-								$otrosImagen .= " height='" . $campo['alto'] . "' ";
-								$otrosImagen .= " width='" . $campo['ancho'] . "' ";
+						// elseif ($campo->getTipo () == "combo")
+						// {
+						// if (isset ($fila[$campo->getCampo ()]))
+						// {
+						// // XXX verificar acomodar y documentar $campo['datos']
+						// $datos = $campo->getDatos ();
+						// $html .= "<td $centradoCol " . $noMostrar . ">$spanColorear" . $datos[$fila[$campo->getCampo ()]] . "$spanColorearFin</td> \n";
+						// }
+						// }
+						// elseif ($campo->getTipo () == "moneda")
+						// {
+						// setlocale (LC_MONETARY, 'es_AR');
+						// $html .= "<td style='text-align: right;' " . $noMostrar . ">$spanColorear" . money_format ('%.2n', $fila[$campo->getCampo ()]) . "$spanColorearFin</td> \n";
+						// }
+						// elseif ($campo->getTipo () == "numero")
+						// {
+						// if ($fila[$campo->getCampo ()] != "" and $fila[$campo->getCampo ()] > 0)
+						// {
+						// $html .= "<td style='text-align: right;' " . $noMostrar . ">$spanColorear" . number_format ($fila[$campo->getCampo ()], $campo->getCantidadDecimales (), ',', '.') . "$spanColorearFin</td> \n";
+						// }
+						// else
+						// {
+						// $html .= "<td style='text-align: right;' $noMostrar>$spanColorear" . number_format (0, $campo->getCantidadDecimales (), ',', '.') . "$spanColorearFin</td> \n";
+						// }
+						// }
+						// elseif ($campo->getTipo () == "textarea")
+						// {
+						// if ($campo->isNoLimpiar () == true)
+						// {
+						// $html .= "<td $centradoCol " . $noMostrar . ">" . substr (($spanColorear . html_entity_decode ($fila[$campo->getCampo ()]) . $spanColorearFin), 0, $campo->getMaxMostrar ()) . "</td> \n";
+						// }
+						// else
+						// {
+						// if (isset ($fila[$campo->getCampo ()]))
+						// {
+						// $html .= "<td $centradoCol " . $noMostrar . ">" . substr (($spanColorear . $fila[$campo->getCampo ()] . $spanColorearFin), 0, $campo->getMaxMostrar ()) . "</td> \n";
+						// }
+						// else
+						// {
+						// $html .= "<td $centradoCol " . $noMostrar . ">" . substr (($spanColorear . $fila[$campo->getCampoTexto ()] . $spanColorearFin), 0, $campo->getMaxMostrar ()) . "</td> \n";
+						// }
+						// }
+						// }
+						// elseif ($campo->getTipo () == "upload")
+						// {
+						// $dato = explode (".", $fila[$campo->getCampo ()]);
+						// if (in_array (strtolower (end ($dato)), array (
+						// 'jpg',
+						// 'jpeg',
+						// 'bmp',
+						// 'png'
+						// )))
+						// {
+						// $otrosImagen = "";
+						// $otrosImagen .= " height='" . $campo['alto'] . "' ";
+						// $otrosImagen .= " width='" . $campo['ancho'] . "' ";
 
-								$html .= "<td $centradoCol " . $noMostrar . "><img " . $otrosImagen . " src='" . $campo['directorio'] . "/" . $fila[$campo->getCampo ()] . "'></td> \n";
-							}
-							elseif ($campo['mostrar'] == true)
-							{
-								$html .= "<td $centradoCol " . $noMostrar . ">" . $fila[$campo->getCampo ()] . "</td> \n";
-							}
-						}
-						else
-						{
-							// si es tipo fecha lo formatea
-							if ($campo->getTipo () == "fecha")
-							{
-								if ($fila[$campo->getCampo ()] != "" and $fila[$campo->getCampo ()] != "0000-00-00" and $fila[$campo->getCampo ()] != "0000-00-00 00:00:00")
-								{
-									if (strtotime ($fila[$campo->getCampo ()]) !== -1)
-									{
-										// FIXME Urgente arreglar el formateo de fecha y que pasa con strtotime -1
+						// $html .= "<td $centradoCol " . $noMostrar . "><img " . $otrosImagen . " src='" . $campo['directorio'] . "/" . $fila[$campo->getCampo ()] . "'></td> \n";
+						// }
+						// elseif ($campo['mostrar'] == true)
+						// {
+						// $html .= "<td $centradoCol " . $noMostrar . ">" . $fila[$campo->getCampo ()] . "</td> \n";
+						// }
+						// }
+						// else
+						// {
+						// // si es tipo fecha lo formatea
+						// if ($campo->getTipo () == "fecha")
+						// {
+						// if ($fila[$campo->getCampo ()] != "" and $fila[$campo->getCampo ()] != "0000-00-00" and $fila[$campo->getCampo ()] != "0000-00-00 00:00:00")
+						// {
+						// if (strtotime ($fila[$campo->getCampo ()]) !== -1)
+						// {
+						// // FIXME Urgente arreglar el formateo de fecha y que pasa con strtotime -1
 
-										// $fila[$campo['campo']] = date ($this->formatoFechaListado, strtotime ($fila[$campo['campo']]));
-										// $fila[$campo['campo']] = date ($this->formatoFechaListado, $fila[$campo['campo']]);
-										// $fila[$campo['campo']] = $fila[$campo['campo']];
-									}
-								}
-							}
+						// // $fila[$campo['campo']] = date ($this->formatoFechaListado, strtotime ($fila[$campo['campo']]));
+						// // $fila[$campo['campo']] = date ($this->formatoFechaListado, $fila[$campo['campo']]);
+						// // $fila[$campo['campo']] = $fila[$campo['campo']];
+						// }
+						// }
+						// }
 
-							// XXX definir y documentar el atributo noLimpiar
-							if ($campo->isNoLimpiar () == true)
-							{
-								$html .= "<td $centradoCol " . $noMostrar . ">$spanColorear" . html_entity_decode ($fila[$campo->getCampo ()]) . "$spanColorearFin</td> \n";
-							}
-							else
-							{
-								if (isset ($fila[$campo->getCampo ()]))
-								{
-									$html .= "<td $centradoCol " . $noMostrar . ">$spanColorear" . $fila[$campo->getCampo ()] . "$spanColorearFin</td> \n";
-								}
-								else
-								{
-									$html .= "<td $centradoCol " . $noMostrar . ">$spanColorear" . $fila[$campo->getCampoTexto ()] . "$spanColorearFin</td> \n";
-								}
-							}
-						}
+						// // XXX definir y documentar el atributo noLimpiar
+						// if ($campo->isNoLimpiar () == true)
+						// {
+						// $html .= "<td $centradoCol " . $noMostrar . ">$spanColorear" . html_entity_decode ($fila[$campo->getCampo ()]) . "$spanColorearFin</td> \n";
+						// }
+						// else
+						// {
+						// if (isset ($fila[$campo->getCampo ()]))
+						// {
+						// $html .= "<td $centradoCol " . $noMostrar . ">$spanColorear" . $fila[$campo->getCampo ()] . "$spanColorearFin</td> \n";
+						// }
+						// else
+						// {
+						// $html .= "<td $centradoCol " . $noMostrar . ">$spanColorear" . $fila[$campo->getCampoTexto ()] . "$spanColorearFin</td> \n";
+						// }
+						// }
+						// }
 					}
 				}
 

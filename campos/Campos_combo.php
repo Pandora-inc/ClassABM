@@ -93,11 +93,28 @@ class Campos_combo extends class_campo
 	/**
 	 * Retorna el valor de datos
 	 *
-	 * @return array
+	 * @param mixed $index
+	 *        	parametro opcional, en caso de estar definido busca el indice y retorna el valor asociado. en caso de no estarlo retorna todo el array.
+	 *
+	 * @return array|mixed
 	 */
-	public function getDatos()
+	public function getDatos($index = "")
 	{
-		return $this->datos;
+		if ($index == "")
+		{
+			return $this->datos;
+		}
+		else
+		{
+			if (array_key_exists ($index, $this->datos))
+			{
+				return $this->datos[$index];
+			}
+			else
+			{
+				throw new Exception ("No se encontro el indice buscado. " . $index);
+			}
+		}
 	}
 
 	public function campoFormBuscar($db, &$busqueda)
@@ -124,6 +141,19 @@ class Campos_combo extends class_campo
 		$retorno .= "</select> \n";
 
 		return $retorno;
+	}
+
+	/**
+	 * Comprueba el valor de un campo y hace el retorno que corresponda.
+	 *
+	 * @return string
+	 */
+	public function getMostrarListar()
+	{
+		if ($this->getCampo () != "")
+		{
+			return $this->getDatos ($this->getDato ());
+		}
 	}
 }
 

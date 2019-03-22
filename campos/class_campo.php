@@ -1992,6 +1992,30 @@ class class_campo
 	}
 
 	/**
+	 * Comprueba el valor de un campo y hace el retorno que corresponda.
+	 *
+	 * @return string
+	 */
+	public function getMostrarListar()
+	{
+		if ($this->getDato () != "")
+		{
+			// XXX definir y documentar el atributo noLimpiar
+			if ($this->isNoLimpiar () == true)
+			{
+				return html_entity_decode ($this->getDato ());
+			}
+			else
+			{
+				if (isset ($fila[$campo->getCampo ()]))
+				{
+					return $this->getDato ();
+				}
+			}
+		}
+	}
+
+	/**
 	 *
 	 * @return mixed
 	 */
