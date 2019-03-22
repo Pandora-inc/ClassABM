@@ -3786,6 +3786,7 @@ class class_abm
 				{
 					$campo->setDato ($fila[$campo->getCampo ()]);
 
+					print_r ($campo);
 					if ($campo->isNoMostrar () == true)
 					{
 						$noMostrar = " style='display: none;' ";
@@ -3952,7 +3953,6 @@ class class_abm
 						// FIXME Debe crearse un metodo polimorfico que arme la celda de cada campo como corresponda y remplace lo siguiente
 						if ($campo->getTipo () == "bit")
 						{
-							print_r ($campo);
 							if ($fila[$campo->getCampo ()])
 							{
 								$html .= "<td $centradoCol " . $noMostrar . ">$spanColorear" . (($campo->existeDato ("textoBitTrue")) ? $campo->getTextoBitTrue () : $this->textoBitTrue) . $spanColorearFin . "</td> \n";
