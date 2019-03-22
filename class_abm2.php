@@ -3947,7 +3947,7 @@ class class_abm
 
 						$html .= $abrirTD;
 
-						$campo->getMostrarListar ();
+						$html .= $campo->getMostrarListar ();
 
 						$html .= $cerrarTD;
 
