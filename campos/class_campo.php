@@ -48,6 +48,14 @@ class class_campo
 	protected $campo = '';
 
 	/**
+	 * Dato guardado en la base de datos.
+	 *
+	 * @name dato
+	 * @var mixed
+	 */
+	protected $dato;
+
+	/**
 	 * Tipo de elemento de formulario.
 	 * Puede tomar uno de los siguientes valores: texto, bit, textarea, combo, dbCombo,
 	 * password, upload, moneda, numero, rownum
@@ -1981,6 +1989,24 @@ class class_campo
 		$retorno .= "<input type='text' class='input-text' name='c_" . $this->campo . "' value='" . $valor . "' /> \n";
 
 		return $retorno;
+	}
+
+	/**
+	 *
+	 * @return mixed
+	 */
+	public function getDato()
+	{
+		return $this->dato;
+	}
+
+	/**
+	 *
+	 * @param mixed $dato
+	 */
+	public function setDato($dato)
+	{
+		$this->dato = $dato;
 	}
 }
 ?>

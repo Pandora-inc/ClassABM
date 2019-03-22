@@ -3761,6 +3761,7 @@ class class_abm
 			$i = 0;
 			while ($fila = $db->fetch_array ($result))
 			{
+
 				if (!isset ($rallado))
 				{
 					$rallado = "";
@@ -3783,6 +3784,8 @@ class class_abm
 
 				foreach ($this->campo as $campo)
 				{
+					$campo->setDato ($fila[$campo->getCampo ()]);
+
 					if ($campo->isNoMostrar () == true)
 					{
 						$noMostrar = " style='display: none;' ";
@@ -3792,16 +3795,7 @@ class class_abm
 						$noMostrar = " ";
 					}
 
-					if ($campo->isNoListar () == true)
-					{
-						continue;
-					}
-
-					// if (isset ($campo['tipo']) and ($campo['tipo'] == "upload"))
-					// {
-					// continue;
-					// }
-					if ($campo->getSeparador ())
+					if (($campo->isNoListar () == true) or $campo->getSeparador ())
 					{
 						continue;
 					}
@@ -3856,7 +3850,6 @@ class class_abm
 							}
 						}
 
-						print_r ($campo->getCampo ());
 						if (array_key_exists ($fila[$campo->getCampo ()], $campo->getColorearValores ()))
 						{
 							// XXX revisar la implementacion de las funciones que retornan arrays en generarListado()
@@ -3874,6 +3867,10 @@ class class_abm
 						$spanColorear = "";
 						$spanColorearFin = "";
 					}
+
+					$abrirTD = "<td " . $centradoCol . " " . $noMostrar . ">" . $spanColorear;
+
+					$cerrarTD .= $spanColorearFin . "</td> \n";
 
 					if ($campo->getCustomEvalListado () != "")
 					{
@@ -3900,7 +3897,7 @@ class class_abm
 							$parametroUsr = $campo->getParametroUsr ();
 						}
 
-						eval ($campo->getCustomEvalListado ());
+						$html .= eval ($campo->getCustomEvalListado ());
 					}
 					elseif ($campo->existeDato ("customFuncionListado"))
 					{
@@ -3929,7 +3926,7 @@ class class_abm
 							}
 						}
 
-						$html .= "<td $centradoCol " . $noMostrar . ">$spanColorear";
+						$html .= $abrirTD;
 
 						$campo->setCustomPrintListado (str_ireplace ('{id}', $fila['ID'], $campo->getCustomPrintListado ()));
 
@@ -3941,10 +3938,17 @@ class class_abm
 						{
 							$html .= sprintf ($campo->getCustomPrintListado ());
 						}
-						$html .= $spanColorearFin . "</td> \n";
+						$html .= $cerrarTD;
 					}
 					else
 					{
+
+						// $html .= $abrirTD;
+
+						// $campo->getMostrarListar ();
+
+						// $html .= $cerrarTD;
+
 						// FIXME Debe crearse un metodo polimorfico que arme la celda de cada campo como corresponda y remplace lo siguiente
 						if ($campo->getTipo () == "bit")
 						{
