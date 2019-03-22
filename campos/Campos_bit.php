@@ -207,5 +207,23 @@ class Campos_bit extends class_campo
 
 		return $retorno;
 	}
+
+	/**
+	 * Comprueba el valor de un campo y hace el retorno que corresponda.
+	 *
+	 * @return string
+	 */
+	public function getMostrarListar()
+	{
+		if ($this->getCampo () != "" and $this->getCampo () != false and $this->getCampo () != 0)
+		{
+			return $this->textoBitTrue;
+		}
+		else
+		{
+
+			return $this->textoBitFalse;
+		}
+	}
 }
 

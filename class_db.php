@@ -1612,7 +1612,7 @@ class class_db
 	 *        	- Array con los campos que se quieren buscar.
 	 *
 	 * @throws Exception - Retorno de errores.
-	 * @return boolean true en caso de estar todo OK o el error en caso de que no.
+	 * @return array con los campos retornados por la consulta.
 	 */
 	function realizarSelect($tabla, $where = "1=1", $campos = "*")
 	{
@@ -1643,7 +1643,7 @@ class class_db
 	 *        	- Array con los campos que se quieren buscar.
 	 *
 	 * @throws Exception - Retorno de errores.
-	 * @return boolean true en caso de estar todo OK o el error en caso de que no.
+	 * @return array con los campos retornados por la consulta.
 	 */
 	function realizarSelectAll($tabla, $where = "1=1", $campos = "*")
 	{

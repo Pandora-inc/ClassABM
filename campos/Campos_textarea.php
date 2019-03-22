@@ -30,6 +30,13 @@ require_once 'class_campo.php';
  */
 class Campos_textarea extends class_campo
 {
+	/**
+	 * Establece si hay que limpiar o no las entidades html del campo.
+	 * Esto es util para lo que es textos formatesados.
+	 *
+	 * @var boolean
+	 */
+	protected $noLimpiar = false;
 
 	/**
 	 * Constructor de la clase.
@@ -47,6 +54,44 @@ class Campos_textarea extends class_campo
 		{
 			parent::__construct ();
 		}
+	}
+
+	/**
+	 * Comprueba el valor de un campo y hace el retorno que corresponda.
+	 *
+	 * @return string
+	 */
+	public function getMostrarListar()
+	{
+		if ($this->getDato () != "")
+		{
+			if ($this->isNoLimpiar () == true)
+			{
+				return substr ((html_entity_decode ($this->getDato ())), 0, $this->getMaxMostrar ());
+			}
+			else
+			{
+				return substr ($this->getDato (), 0, $this->getMaxMostrar ());
+			}
+		}
+	}
+
+	/**
+	 *
+	 * @return boolean
+	 */
+	public function isNoLimpiar()
+	{
+		return $this->noLimpiar;
+	}
+
+	/**
+	 *
+	 * @param boolean $noLimpiar
+	 */
+	public function setNoLimpiar($noLimpiar)
+	{
+		$this->noLimpiar = $noLimpiar;
 	}
 }
 

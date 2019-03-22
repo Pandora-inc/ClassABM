@@ -4068,6 +4068,18 @@ class class_abm
 							$parametroUsr = $campo['parametroUsr'];
 						}
 
+						if (isset ($campo['incluirCampo']) and $campo['incluirCampo'] != "")
+						{
+							$campo['incluirCampo'] = explode (",", $campo['incluirCampo']);
+
+							$cant = count ($campo['incluirCampo']);
+
+							for($j = 0; $j < $cant; $j++)
+							{
+								$campo['customEvalListado'] = str_ireplace ("{" . trim ($campo['incluirCampo'][$j]) . "}", $fila[trim ($campo['incluirCampo'][$j])], $campo['customEvalListado']);
+							}
+						}
+
 						eval ($campo['customEvalListado']);
 					}
 					elseif (isset ($campo['customFuncionListado']) and ($campo['customFuncionListado'] != ""))

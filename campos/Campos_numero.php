@@ -44,6 +44,14 @@ class Campos_numero extends class_campo
 	protected $cantidadDecimales = 2;
 
 	/**
+	 * Dato guardado en la base de datos.
+	 *
+	 * @name dato
+	 * @var float
+	 */
+	protected $dato = 0;
+
+	/**
 	 * Constructor de la clase.
 	 * Puede recibir un array con los datos a inicializar. Utiliza el constructor padre y en caso de corresponder carga los propios.
 	 *
@@ -118,6 +126,19 @@ class Campos_numero extends class_campo
 		$retorno .= "<input type='number' class='input-text $requerido currency' step='0.01' min='0.01' max='250000000.00'  name='c_" . $this->campo . "' value='" . $valor . "' /> \n";
 
 		return $retorno;
+	}
+
+	/**
+	 * Comprueba el valor de un campo y hace el retorno que corresponda.
+	 *
+	 * @return string
+	 */
+	public function getMostrarListar()
+	{
+		if ($this->getCampo () != "")
+		{
+			return number_format ((int) $this->getDato (), $this->getCantidadDecimales (), ',', '.');
+		}
 	}
 }
 
