@@ -137,7 +137,7 @@ class Campos_numero extends class_campo
 	{
 		if ($this->getCampo () != "")
 		{
-			return number_format ($this->getDato (), $campo->getCantidadDecimales (), ',', '.');
+			return number_format ($this->getDato (), $this->getCantidadDecimales (), ',', '.');
 		}
 	}
 }
