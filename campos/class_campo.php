@@ -2007,10 +2007,7 @@ class class_campo
 			}
 			else
 			{
-				if (isset ($fila[$campo->getCampo ()]))
-				{
-					return $this->getDato ();
-				}
+				return $this->getDato ();
 			}
 		}
 	}

@@ -3867,6 +3867,8 @@ class class_abm
 						$spanColorear = "";
 						$spanColorearFin = "";
 					}
+					$abrirTD = "";
+					$cerrarTD = "";
 
 					$abrirTD = "<td " . $centradoCol . " " . $noMostrar . ">" . $spanColorear;
 
