@@ -4095,7 +4095,7 @@ class class_abm
 				$paginado->mostrarTotalRegistros = false;
 			}
 
-			$html .= $paginado->mostrar_paginado ();
+			$html .= $paginado->get_paginado ();
 			$html .= "</th> \n";
 			$html .= "</tr> \n";
 			$html .= "</tfoot> \n";
