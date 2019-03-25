@@ -3591,11 +3591,6 @@ class class_abm
 				$html .= "<div>\n";
 				$html .= "<label>" . $campo->obtenerTitulo (true) . "</label>";
 
-				// if ($campo->existeDato ("tipoBuscar"))
-				// {
-				// $campo['tipo'] = $campo['tipoBuscar'];
-				// }
-
 				if ($campo->existeDato ("customFuncionBuscar"))
 				{
 					call_user_func_array ($campo->getCustomFuncionBuscar (), array ());
@@ -3685,10 +3680,6 @@ class class_abm
 					{
 						continue;
 					}
-					// if (isset ($campo['tipo']) and ($campo['tipo'] == "upload"))
-					// {
-					// continue;
-					// }
 
 					$styleTh = "";
 
@@ -3741,8 +3732,6 @@ class class_abm
 						{
 							$linkas = $o->linkOrderBy ($campo->getCampo (), $campoOrder);
 						}
-						// echo "<th " . ($styleTh != "" ? "style='$styleTh'" : "") . " $noMostrar >" . $o->linkOrderBy(((isset($campo->getTituloListado()) and $campo->getTituloListado() != "") ? $campo->getTituloListado() : ($campo->getTitulo() != '' ? $campo->getTitulo() : $campo->getCampo())), $campoOrder) . "</th> \n";
-
 						$html .= "<th " . ($styleTh != "" ? "style='$styleTh'" : "") . " $noMostrar >" . $linkas . "</th> \n";
 					}
 				}
@@ -3944,125 +3933,10 @@ class class_abm
 					}
 					else
 					{
-
 						$html .= $abrirTD;
-
 						$html .= $campo->getMostrarListar ();
 
 						$html .= $cerrarTD;
-
-						// FIXME Debe crearse un metodo polimorfico que arme la celda de cada campo como corresponda y remplace lo siguiente
-						// if ($campo->getTipo () == "bit")
-						// {
-						// if ($fila[$campo->getCampo ()])
-						// {
-						// $html .= "<td $centradoCol " . $noMostrar . ">$spanColorear" . (($campo->existeDato ("textoBitTrue")) ? $campo->getTextoBitTrue () : $this->textoBitTrue) . $spanColorearFin . "</td> \n";
-						// }
-						// else
-						// {
-						// $html .= "<td $centradoCol " . $noMostrar . ">$spanColorear" . (($campo->existeDato ("textoBitTrue")) ? $campo->getTextoBitFalse () : $this->textoBitFalse) . $spanColorearFin . "</td> \n";
-						// }
-						// }
-						// si es tipo combo le decimos que muestre el texto en vez del valor
-						// elseif ($campo->getTipo () == "combo")
-						// {
-						// if (isset ($fila[$campo->getCampo ()]))
-						// {
-						// // XXX verificar acomodar y documentar $campo['datos']
-						// $datos = $campo->getDatos ();
-						// $html .= "<td $centradoCol " . $noMostrar . ">$spanColorear" . $datos[$fila[$campo->getCampo ()]] . "$spanColorearFin</td> \n";
-						// }
-						// }
-						// elseif ($campo->getTipo () == "moneda")
-						// {
-						// setlocale (LC_MONETARY, 'es_AR');
-						// $html .= "<td style='text-align: right;' " . $noMostrar . ">$spanColorear" . money_format ('%.2n', $fila[$campo->getCampo ()]) . "$spanColorearFin</td> \n";
-						// }
-						// elseif ($campo->getTipo () == "numero")
-						// {
-						// if ($fila[$campo->getCampo ()] != "" and $fila[$campo->getCampo ()] > 0)
-						// {
-						// $html .= "<td style='text-align: right;' " . $noMostrar . ">$spanColorear" . number_format ($fila[$campo->getCampo ()], $campo->getCantidadDecimales (), ',', '.') . "$spanColorearFin</td> \n";
-						// }
-						// else
-						// {
-						// $html .= "<td style='text-align: right;' $noMostrar>$spanColorear" . number_format (0, $campo->getCantidadDecimales (), ',', '.') . "$spanColorearFin</td> \n";
-						// }
-						// }
-						// elseif ($campo->getTipo () == "textarea")
-						// {
-						// if ($campo->isNoLimpiar () == true)
-						// {
-						// $html .= "<td $centradoCol " . $noMostrar . ">" . substr (($spanColorear . html_entity_decode ($fila[$campo->getCampo ()]) . $spanColorearFin), 0, $campo->getMaxMostrar ()) . "</td> \n";
-						// }
-						// else
-						// {
-						// if (isset ($fila[$campo->getCampo ()]))
-						// {
-						// $html .= "<td $centradoCol " . $noMostrar . ">" . substr (($spanColorear . $fila[$campo->getCampo ()] . $spanColorearFin), 0, $campo->getMaxMostrar ()) . "</td> \n";
-						// }
-						// else
-						// {
-						// $html .= "<td $centradoCol " . $noMostrar . ">" . substr (($spanColorear . $fila[$campo->getCampoTexto ()] . $spanColorearFin), 0, $campo->getMaxMostrar ()) . "</td> \n";
-						// }
-						// }
-						// }
-						// elseif ($campo->getTipo () == "upload")
-						// {
-						// $dato = explode (".", $fila[$campo->getCampo ()]);
-						// if (in_array (strtolower (end ($dato)), array (
-						// 'jpg',
-						// 'jpeg',
-						// 'bmp',
-						// 'png'
-						// )))
-						// {
-						// $otrosImagen = "";
-						// $otrosImagen .= " height='" . $campo['alto'] . "' ";
-						// $otrosImagen .= " width='" . $campo['ancho'] . "' ";
-
-						// $html .= "<td $centradoCol " . $noMostrar . "><img " . $otrosImagen . " src='" . $campo['directorio'] . "/" . $fila[$campo->getCampo ()] . "'></td> \n";
-						// }
-						// elseif ($campo['mostrar'] == true)
-						// {
-						// $html .= "<td $centradoCol " . $noMostrar . ">" . $fila[$campo->getCampo ()] . "</td> \n";
-						// }
-						// }
-						// else
-						// {
-						// // si es tipo fecha lo formatea
-						// if ($campo->getTipo () == "fecha")
-						// {
-						// if ($fila[$campo->getCampo ()] != "" and $fila[$campo->getCampo ()] != "0000-00-00" and $fila[$campo->getCampo ()] != "0000-00-00 00:00:00")
-						// {
-						// if (strtotime ($fila[$campo->getCampo ()]) !== -1)
-						// {
-						// // FIXME Urgente arreglar el formateo de fecha y que pasa con strtotime -1
-
-						// // $fila[$campo['campo']] = date ($this->formatoFechaListado, strtotime ($fila[$campo['campo']]));
-						// // $fila[$campo['campo']] = date ($this->formatoFechaListado, $fila[$campo['campo']]);
-						// // $fila[$campo['campo']] = $fila[$campo['campo']];
-						// }
-						// }
-						// }
-
-						// // XXX definir y documentar el atributo noLimpiar
-						// if ($campo->isNoLimpiar () == true)
-						// {
-						// $html .= "<td $centradoCol " . $noMostrar . ">$spanColorear" . html_entity_decode ($fila[$campo->getCampo ()]) . "$spanColorearFin</td> \n";
-						// }
-						// else
-						// {
-						// if (isset ($fila[$campo->getCampo ()]))
-						// {
-						// $html .= "<td $centradoCol " . $noMostrar . ">$spanColorear" . $fila[$campo->getCampo ()] . "$spanColorearFin</td> \n";
-						// }
-						// else
-						// {
-						// $html .= "<td $centradoCol " . $noMostrar . ">$spanColorear" . $fila[$campo->getCampoTexto ()] . "$spanColorearFin</td> \n";
-						// }
-						// }
-						// }
 					}
 				}
 
@@ -4765,7 +4639,7 @@ class class_abm
 	{
 		if (trim ($id) == '')
 		{
-			die ('Parametro id vacio en dbRealizarModificacion');
+			throw new Exception ('Parametro id vacio en dbRealizarModificacion');
 		}
 		if (!$this->formularioEnviado ())
 		{
@@ -4811,10 +4685,6 @@ class class_abm
 					{
 						continue;
 					}
-					// if (!isset ($campo['tipo']) or $campo['tipo'] == '' or $campo['tipo'] == 'upload')
-					// {
-					// continue;
-					// }
 
 					if (!isset ($campo['tipo']) or ($campo['tipo'] == 'upload' and $campo['cargarEnBase'] != true))
 					{
@@ -5245,7 +5115,6 @@ class class_abm
 					break;
 			}
 		}
-		// print_r ($this->campo);
 	}
 
 	private function generaWhereBuscar()
@@ -5283,11 +5152,6 @@ class class_abm
 
 			$estaBuscando = true;
 
-			// quita la variable de paginado, ya que estoy buscando y no se aplica
-			// unset($_REQUEST['r']);
-			// unset($_POST['r']);
-			// unset($_GET['r']);
-
 			if (isset ($this->campos[$i]['buscarUsarCampo']) and ($this->campos[$i]['buscarUsarCampo'] != ""))
 			{
 				$camposWhereBuscar .= "UPPER(" . $this->campos[$i]['buscarUsarCampo'] . ")";
@@ -5296,10 +5160,7 @@ class class_abm
 			{
 				if ($this->campos[$i]['tipo'] == 'fecha')
 				{
-					// $camposWhereBuscar .= $db->toChar ($this->tabla . "." . $this->campos[$i]['campo'], "", "DD/MM/YYYY");
 					$camposWhereBuscar .= $db->toChar ($this->tabla . "." . $this->campos[$i]['campo'], "", $this->formatoFechaListado);
-					// $camposWhereBuscar .= "TO_CHAR(" . $this->tabla . "." . $this->campos[$i]['campo'] . ", 'DD/MM/YYYY')";
-					// $camposWhereBuscar .= "TO_CHAR(" . $this->tabla . "." . $this->campos[$i]['campo'] . ", 'YYYY-MM-DD')"; // @iberlot 2016/10/18 se cambia para que funcionen los nuevos parametros de busqueda
 
 					$valorABuscar = str_replace ("/", "%", $valorABuscar);
 					$valorABuscar = str_replace ("-", "%", $valorABuscar);
