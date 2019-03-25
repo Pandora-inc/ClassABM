@@ -4067,8 +4067,9 @@ class class_abm
 					$this->iconoEditar = str_ireplace ('/img/', $this->directorioImagenes, $this->iconoEditar);
 
 					// echo "<td class='celdaEditar'>" . $this->iconoEditar . $fila['ID'] . "</td> \n";
+					// $html .= "<td class='celdaEditar' " . $noMostrar . ">" . sprintf ($this->iconoEditar, $_SERVER['PHP_SELF'] . "?abm_editar=" . $fila['ID'] . $qsamb) . "</td> \n";
 
-					$html .= "<td class='celdaEditar' " . $noMostrar . ">" . sprintf ($this->iconoEditar, $_SERVER['PHP_SELF'] . "?abm_editar=" . $fila['ID'] . $qsamb) . "</td> \n";
+					$html .= "<td class='celdaEditar' " . $noMostrar . "><a href='#' title='editar' onclick='f_editar()'>" . $this->iconoEditar . "</a></td> \n";
 				}
 				if ($this->mostrarBorrar)
 				{
