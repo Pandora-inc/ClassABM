@@ -30,3 +30,4 @@ class Campos_texto extends class_campo
 	}
 }
 
+?>

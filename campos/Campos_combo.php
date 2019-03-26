@@ -127,3 +127,4 @@ class Campos_combo extends class_campo
 	}
 }
 
+?>

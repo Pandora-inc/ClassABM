@@ -121,3 +121,4 @@ class Campos_numero extends class_campo
 	}
 }
 
+?>

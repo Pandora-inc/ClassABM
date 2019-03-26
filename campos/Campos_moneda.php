@@ -115,3 +115,4 @@ class Campos_moneda extends class_campo
 	}
 }
 
+?>

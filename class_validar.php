@@ -230,7 +230,7 @@ class validar
 					$this->verificarLargo ($_REQUEST[$campo], $minimoLargo, $maximoLargo, $campo, $textoCampo);
 				}
 				break;
-                                
+
 			case "alfanumericoAcentos" :
 
 				if (!$this->esAlfaNumericoAcentos ($_REQUEST[$campo]))

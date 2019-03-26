@@ -142,3 +142,4 @@ class Campos_dbCombo extends class_campo
 	}
 }
 
+?>

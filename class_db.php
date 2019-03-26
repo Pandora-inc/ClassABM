@@ -1718,3 +1718,5 @@ class class_db
 		}
 	}
 }
+
+?>

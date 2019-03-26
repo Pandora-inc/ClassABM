@@ -121,3 +121,4 @@ class Campos_fecha extends class_campo
 		return $retorno;
 	}
 }
+?>

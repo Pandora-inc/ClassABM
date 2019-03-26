@@ -1324,7 +1324,7 @@ class class_persona
 			}
 			else
 			{
-				throw new Exception ('O person o el numero de doc deben contener algun valor ! '.":".$datosAUsar['person'].":D:".$datosAUsar['docNumero'].":");
+				throw new Exception ('O person o el numero de doc deben contener algun valor ! ' . ":" . $datosAUsar['person'] . ":D:" . $datosAUsar['docNumero'] . ":");
 			}
 
 			$i = 0;
@@ -1603,7 +1603,7 @@ class class_persona
 		{
 			$perdoc = $this->buscarPerdoc ($datosAUsar);
 
-			for($i = 0; $i < count ($perdoc); $i ++)
+			for($i = 0; $i < count ($perdoc); $i++)
 			{
 				$persons = $this->buscarPerson ($perdoc[$i]);
 				$person[$i] = $persons[0];
@@ -1621,7 +1621,7 @@ class class_persona
 		{
 			$person = $this->buscarPerson ($datosAUsar);
 
-			for($i = 0; $i < count ($person); $i ++)
+			for($i = 0; $i < count ($person); $i++)
 			{
 				$perdocs = $this->buscarPerdoc ($person[$i]);
 				$perdoc[$i] = $perdocs[0];
@@ -1639,7 +1639,7 @@ class class_persona
 		{
 			$personca = $this->buscarTargeta ($datosAUsar);
 
-			for($i = 0; $i < count ($personca); $i ++)
+			for($i = 0; $i < count ($personca); $i++)
 			{
 				$persons = $this->buscarPerson ($personca[$i]);
 				$person[$i] = $persons[0];
@@ -1654,14 +1654,14 @@ class class_persona
 			}
 		}
 
-		for($i = 0; $i < count ($perdoc); $i ++)
+		for($i = 0; $i < count ($perdoc); $i++)
 		{
 			$persona[$i]['person'] = $perdoc[$i]['person'];
 			$persona[$i]['typdoc'] = $perdoc[$i]['typdoc'];
 			$persona[$i]['docNumero'] = $perdoc[$i]['docNumero'];
 		}
 
-		for($i = 0; $i < count ($person); $i ++)
+		for($i = 0; $i < count ($person); $i++)
 		{
 			if (!isset ($persona[$i]['person']) or $persona[$i]['person'] == "")
 			{
@@ -1689,7 +1689,7 @@ class class_persona
 			$persona[$i]['qson'] = $person[$i]['qson'];
 		}
 
-		for($i = 0; $i < count ($personca); $i ++)
+		for($i = 0; $i < count ($personca); $i++)
 		{
 			if (!isset ($persona[$i]['person']) or $persona[$i]['person'] == "")
 			{
@@ -1711,7 +1711,7 @@ class class_persona
 			$persona[$i]['estadocredenca'] = $personca[$i]['estadocredenca'];
 		}
 
-		for($i = 0; $i < count ($apers); $i ++)
+		for($i = 0; $i < count ($apers); $i++)
 		{
 			if (!isset ($persona[$i]['person']) or $persona[$i]['person'] == "")
 			{
@@ -1764,7 +1764,7 @@ class class_persona
 			}
 		}
 
-		for($i = 0; $i < count ($cuentaWeb); $i ++)
+		for($i = 0; $i < count ($cuentaWeb); $i++)
 		{
 			if (!isset ($persona[$i]['person']) or $persona[$i]['person'] == "")
 			{
@@ -2011,7 +2011,7 @@ class class_persona
 		$digitos = str_split ($cuit);
 		$digito = array_pop ($digitos);
 
-		for($i = 0; $i < count ($digitos); $i ++)
+		for($i = 0; $i < count ($digitos); $i++)
 		{
 			$acumulado += $digitos[9 - $i] * (2 + ($i % 6));
 		}
@@ -2448,7 +2448,7 @@ class class_persona
 
 					$parametros[$i] = $arrayDatosPersona['person'];
 
-					$i ++;
+					$i++;
 				}
 			}
 			if (!isset ($arrayDatosPersona['categoria']) or $arrayDatosPersona['categoria'] == "")
@@ -2465,7 +2465,7 @@ class class_persona
 
 					$parametros[$i] = $arrayDatosPersona['categoria'];
 
-					$i ++;
+					$i++;
 				}
 			}
 			if (!isset ($arrayDatosPersona['fIngreso']) or $arrayDatosPersona['fIngreso'] == "")
@@ -2482,7 +2482,7 @@ class class_persona
 
 					$parametros[$i] = $arrayDatosPersona['fIngreso'];
 
-					$i ++;
+					$i++;
 				}
 			}
 			if (isset ($arrayDatosPersona['fbaja']) and $arrayDatosPersona['fbaja'] != "")
@@ -2495,7 +2495,7 @@ class class_persona
 
 					$parametros[$i] = $arrayDatosPersona['fbaja'];
 
-					$i ++;
+					$i++;
 				}
 			}
 			if (!isset ($arrayDatosPersona['legajo']) or $arrayDatosPersona['legajo'] == "")
@@ -2512,7 +2512,7 @@ class class_persona
 
 					$parametros[$i] = $arrayDatosPersona['legajo'];
 
-					$i ++;
+					$i++;
 				}
 			}
 			if (!isset ($_SESSION['person']) or $_SESSION['person'] == "")
@@ -2529,7 +2529,7 @@ class class_persona
 
 					$parametros[$i] = $_SESSION['person'];
 
-					$i ++;
+					$i++;
 				}
 			}
 			if (!isset ($_SESSION['app']) or $_SESSION['app'] == "")
@@ -2546,7 +2546,7 @@ class class_persona
 
 					$parametros[$i] = $_SESSION['app'];
 
-					$i ++;
+					$i++;
 				}
 			}
 
@@ -2606,7 +2606,7 @@ class class_persona
 			if (isset ($arrayDatosPersona['categoria']) and $this->comprobarExisteDato ($arrayDatosPersona['categoria']))
 			{
 				$parametros[$a] = $arrayDatosPersona['categoria'];
-				$a ++;
+				$a++;
 
 				$campos .= ", categoria = :categoria";
 			}
@@ -2614,7 +2614,7 @@ class class_persona
 			if (isset ($arrayDatosPersona['fIngreso']) and $this->comprobarExisteDato ($arrayDatosPersona['fIngreso']))
 			{
 				$parametros[$a] = $arrayDatosPersona['fIngreso'];
-				$a ++;
+				$a++;
 
 				$campos .= ", finicio = TO_DATE(:finicio, 'YYYY-MM-DD')";
 			}
@@ -2622,7 +2622,7 @@ class class_persona
 			if (isset ($arrayDatosPersona['fbaja']) and $this->comprobarExisteDato ($arrayDatosPersona['fbaja']))
 			{
 				$parametros[$a] = $arrayDatosPersona['fbaja'];
-				$a ++;
+				$a++;
 
 				$campos .= ", fbaja = TO_DATE(:fbaja, 'YYYY-MM-DD')";
 			}
@@ -2630,7 +2630,7 @@ class class_persona
 			if (isset ($arrayDatosPersona['legajo']) and $this->comprobarExisteDato ($arrayDatosPersona['legajo']))
 			{
 				$parametros[$a] = $arrayDatosPersona['legajo'];
-				$a ++;
+				$a++;
 
 				$campos .= ", legajo = :legajo";
 			}
@@ -2642,7 +2642,7 @@ class class_persona
 			else
 			{
 				$parametros[$a] = $_SESSION['person'];
-				$a ++;
+				$a++;
 
 				$campos .= ", muid = :muid";
 			}
@@ -2654,7 +2654,7 @@ class class_persona
 			else
 			{
 				$parametros[$a] = $_SESSION['app'];
-				$a ++;
+				$a++;
 
 				$campos .= ", idaplicacion = :idaplicacion";
 			}
@@ -2666,7 +2666,7 @@ class class_persona
 			else
 			{
 				$parametros[$a] = $arrayDatosPersona['person'];
-				$a ++;
+				$a++;
 
 				$wer = "AND person = :person";
 			}
@@ -2676,7 +2676,7 @@ class class_persona
 				$extraWhere = " AND LTRIM(LTRIM(categoria, '0')) = LTRIM(LTRIM(:categoria, '0')) ";
 				$parametros[$a] = $arrayDatosPersona['categoria'];
 
-				$a ++;
+				$a++;
 			}
 
 			$sql = "UPDATE appgral.catxperson" . $this->db_link . " SET mtime = SYSDATE" . $campos . " WHERE 1=1 " . $wer . $extraWhere;

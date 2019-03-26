@@ -44,3 +44,4 @@ class Campos_password extends class_campo
 	}
 }
 
+?>

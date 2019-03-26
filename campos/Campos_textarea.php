@@ -50,3 +50,4 @@ class Campos_textarea extends class_campo
 	}
 }
 
+?>

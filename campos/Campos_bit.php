@@ -209,3 +209,4 @@ class Campos_bit extends class_campo
 	}
 }
 
+?>

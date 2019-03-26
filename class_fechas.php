@@ -519,5 +519,4 @@ abstract class Fechas
 		return date ($formatoFecha, $ts);
 	}
 }
-
 ?>

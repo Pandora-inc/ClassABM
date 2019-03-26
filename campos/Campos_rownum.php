@@ -46,3 +46,4 @@ class Campos_rownum extends class_campo
 	}
 }
 
+?>

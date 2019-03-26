@@ -44,3 +44,4 @@ class Campos_upload extends class_campo
 	}
 }
 
+?>
