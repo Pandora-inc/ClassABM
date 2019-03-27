@@ -677,7 +677,8 @@ class class_abm
 	/**
 	 * Icono editar del listado.
 	 */
-	public $iconoEditar = "<a href=\"%s\"><i class='fa fa-pencil-square-o' aria-hidden='true'></i></a>";
+	// public $iconoEditar = "<a href=\"%s\"><i class='fa fa-pencil-square-o' aria-hidden='true'></i></a>";
+	public $iconoEditar = "<a onclick=\"%s\"><i class='fa fa-pencil-square-o' aria-hidden='true'></i></a>";
 	// public $iconoEditar = "<a href=\"%s\"><img src='/img/editar.gif' title='Editar' alt='Editar' border='0' /></a>";
 
 	/**
@@ -909,6 +910,30 @@ class class_abm
 				  $(\'input.currency\').currencyInput();
 				});
         </script>';
+	/**
+	 * Definicion de la funcion que se encarga de abrir el dialod de edicion
+	 *
+	 * @var string
+	 */
+	private $jsUpdateForm = '<script type="text/javascript">
+	function f_editar(direccion)
+	{
+		$.ajax({
+			url: direccion,
+			type: "POST",
+			data:"",
+			dataType: \'text\',
+			success: function(tablaPerson)
+			{
+				vex.dialog.open(
+				{
+					message: \'\',
+  					input: [tablaPerson].join(\'\')
+				})
+			}
+		});
+	}
+	</script>';
 
 	/**
 	 * Establece si los formularios del abm se separaran en solapas o no
@@ -3462,7 +3487,7 @@ class class_abm
 		}
 
 		$html .= "<div class='mabm'>";
-
+		$html .= $this->jsUpdateForm;
 		$html .= "\n<script>
 		        function abmBorrar(id, obj){
 		            var colorAnt = obj.parentNode.parentNode.style.border;
@@ -4066,8 +4091,8 @@ class class_abm
 					$this->iconoEditar = str_ireplace ('/img/', $this->directorioImagenes, $this->iconoEditar);
 
 					// echo "<td class='celdaEditar'>" . $this->iconoEditar . $fila['ID'] . "</td> \n";
-					$html .= "<td class='celdaEditar' " . $noMostrar . ">" . sprintf ($this->iconoEditar, $_SERVER['PHP_SELF'] . "?abm_editar=" . $fila['ID'] . $qsamb) . "</td> \n";
-					// $html .= "<td class='celdaEditar' " . $noMostrar . ">" . sprintf ($this->iconoEditar, "f_editar()") . "</td> \n";
+					// $html .= "<td class='celdaEditar' " . $noMostrar . ">" . sprintf ($this->iconoEditar, $_SERVER['PHP_SELF'] . "?abm_editar=" . $fila['ID'] . $qsamb) . "</td> \n";
+					$html .= "<td class='celdaEditar' " . $noMostrar . ">" . sprintf ($this->iconoEditar, "f_editar( '" . $_SERVER['PHP_SELF'] . "?abm_editar=" . $fila['ID'] . $qsamb . "')") . "</td> \n";
 					// $html .= "<td class='celdaEditar' " . $noMostrar . "><a href='#' title='editar' onclick='f_editar()'>" . $this->iconoEditar . "</a></td> \n";
 				}
 				if ($this->mostrarBorrar)
@@ -4089,7 +4114,7 @@ class class_abm
 				$paginado->mostrarTotalRegistros = false;
 			}
 
-			$paginado->mostrar_paginado ();
+			$html .= $paginado->get_paginado ();
 			$html .= "</th> \n";
 			$html .= "</tr> \n";
 			$html .= "</tfoot> \n";

@@ -1451,12 +1451,13 @@ class class_db
 
 		foreach ($array as $clave => $valor)
 		{
-			if (strpos ($valor, "TO_DATE") === false)
+			if ((strpos ($valor, "TO_DATE") === false) and (strpos (strtoupper ($valor), "NEXTVAL") === false) and (strpos (strtoupper ($valor), "SYSDATE") === false))
 			{
 				$campos[] = " " . $clave . " ";
 				$valores[] = " :" . $clave . " ";
 				$parametros[] = $valor;
 			}
+
 			else
 			{
 				$campos[] = " " . $clave . " ";
@@ -1493,7 +1494,7 @@ class class_db
 
 		foreach ($array as $clave => $valor)
 		{
-			if (strpos ($valor, "TO_DATE") === false)
+			if ((strpos ($valor, "TO_DATE") === false) and (strpos (strtoupper ($valor), "NEXTVAL") === false) and (strpos (strtoupper ($valor), "SYSDATE") === false))
 			{
 				if (strpos ($valor, "!=") === false)
 				{
