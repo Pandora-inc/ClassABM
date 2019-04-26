@@ -189,7 +189,7 @@ class class_campo
 	 * @name maxLen
 	 * @var integer
 	 */
-	protected $maxLen = 00;
+	protected $maxLen = 0;
 
 	/**
 	 * Maximo de caracteres que mostrara por pantalla.
@@ -312,7 +312,7 @@ class class_campo
 	 * @name requerido
 	 * @var boolean
 	 */
-	protected $requerido = '';
+	protected $requerido = false;
 
 	/**
 	 * una funcion de usuario que reciba el parametro $fila.
@@ -379,9 +379,9 @@ class class_campo
 	 * no muestra el campo en el formulario de edicion
 	 *
 	 * @name noMostrarEditar
-	 * @var string
+	 * @var boolean
 	 */
-	protected $noMostrarEditar = '';
+	protected $noMostrarEditar = false;
 
 	/**
 	 * para ejecutar una funcion del usuario en cada celda del listado sin imprimir ni siquiera los tags < td >< / td>.
@@ -491,6 +491,13 @@ class class_campo
 	 * @var string
 	 */
 	protected $selectPersonal = '';
+
+	/**
+	 * En caso de ir en una solapa diferente indica en cual.
+	 *
+	 * @var integer
+	 */
+	protected $enSolapa = 0;
 
 	/**
 	 * Va a retornar el valor (la informacion) del campo.
@@ -1260,7 +1267,7 @@ class class_campo
 	 *
 	 * @return string
 	 */
-	public function getNoMostrarEditar()
+	public function isNoMostrarEditar()
 	{
 		return $this->noMostrarEditar;
 	}
@@ -1892,6 +1899,26 @@ class class_campo
 		$this->compareMasJoin = $compareMasJoin;
 	}
 
+	/**
+	 * Retorna el valor de $enSolapa
+	 *
+	 * @return number
+	 */
+	public function getEnSolapa()
+	{
+		return $this->enSolapa;
+	}
+
+	/**
+	 * Setea $enSolapa con el parametro dado.
+	 *
+	 * @param number $enSolapa
+	 */
+	public function setEnSolapa($enSolapa)
+	{
+		$this->enSolapa = $enSolapa;
+	}
+
 	/*
 	 * OTRAS FUNCIONES
 	 */
@@ -1981,6 +2008,51 @@ class class_campo
 		$retorno .= "<input type='text' class='input-text' name='c_" . $this->campo . "' value='" . $valor . "' /> \n";
 
 		return $retorno;
+	}
+
+	/**
+	 *
+	 * @return mixed
+	 */
+	public function prepara_joinTable()
+	{
+		$join = explode (".", $joinTable);
+
+		return $join[count ($join) - 1];
+	}
+
+	/**
+	 * Si esta seteado el campo retorna el parametro a poner en la etiqueta.
+	 *
+	 * @return string
+	 */
+	public function establecerMaxLeng()
+	{
+		if ($campo->existeDato ('maxLen') and $campo->getMaxLen () > 0)
+		{
+			return " maxlength='" . $this->maxLen . "' ";
+		}
+		else
+		{
+			return " ";
+		}
+	}
+
+	/**
+	 * Si esta seteado el campo retorna el parametro a poner en la etiqueta.
+	 *
+	 * @return string
+	 */
+	public function establecerHint()
+	{
+		if ($campo->existeDato ('hint'))
+		{
+			return "title='" . $this->hint . "' ";
+		}
+		else
+		{
+			return " ";
+		}
 	}
 }
 ?>

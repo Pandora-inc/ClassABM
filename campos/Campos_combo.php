@@ -61,11 +61,68 @@ class Campos_combo extends class_campo
 
 	/**
 	 *
+	 * @return boolean el dato de la variable $incluirOpcionVacia
+	 */
+	public function isIncluirOpcionVacia()
+	{
+		return $this->incluirOpcionVacia;
+	}
+
+	/**
+	 *
+	 * @return boolean el dato de la variable $mostrarValor
+	 */
+	public function isMostrarValor()
+	{
+		return $this->mostrarValor;
+	}
+
+	/**
+	 *
+	 * @return boolean el dato de la variable $textoMayuscula
+	 */
+	public function isTextoMayuscula()
+	{
+		return $this->textoMayuscula;
+	}
+
+	/**
+	 *
+	 * @param
+	 *        	boolean a cargar en la variable $incluirOpcionVacia
+	 */
+	public function setIncluirOpcionVacia($incluirOpcionVacia)
+	{
+		$this->incluirOpcionVacia = $incluirOpcionVacia;
+	}
+
+	/**
+	 *
+	 * @param
+	 *        	boolean a cargar en la variable $mostrarValor
+	 */
+	public function setMostrarValor($mostrarValor)
+	{
+		$this->mostrarValor = $mostrarValor;
+	}
+
+	/**
+	 *
+	 * @param
+	 *        	boolean a cargar en la variable $textoMayuscula
+	 */
+	public function setTextoMayuscula($textoMayuscula)
+	{
+		$this->textoMayuscula = $textoMayuscula;
+	}
+
+	/**
+	 *
 	 * @param array $array
 	 */
 	public function __construct($array = array())
 	{
-		if (isset ($array) and !empty ($array))
+		if (isset ($array) and ! empty ($array))
 		{
 			parent::__construct ($array);
 		}
@@ -76,7 +133,7 @@ class Campos_combo extends class_campo
 
 		if (array_key_exists ('datos', $array))
 		{
-			$this->setDatos ($array['datos']);
+			$this->setDatos ($array ['datos']);
 		}
 	}
 
@@ -107,13 +164,13 @@ class Campos_combo extends class_campo
 		$retorno .= "<select name='c_" . $this->campo . "' id='c_" . $this->campo . "' class='input-select'> \n";
 		$retorno .= "<option value=''></option> \n";
 
-		foreach ($campo['datos'] as $valor => $texto)
+		foreach ($campo ['datos'] as $valor => $texto)
 		{
-			if ((isset ($_REQUEST['c_' . $this->campo]) and $_REQUEST['c_' . $this->campo] == $valor))
+			if ((isset ($_REQUEST ['c_' . $this->campo]) and $_REQUEST ['c_' . $this->campo] == $valor))
 			{
 				$sel = "selected='selected'";
 				// FIXME - esto es un parche para poder paginar sin perder la busqueda pero hay que corregirlo para mejorarlo
-				$busqueda .= '&c_' . $this->campo . '=' . Funciones::limpiarEntidadesHTML ($_REQUEST['c_' . $this->campo]);
+				$busqueda .= '&c_' . $this->campo . '=' . Funciones::limpiarEntidadesHTML ($_REQUEST ['c_' . $this->campo]);
 			}
 			else
 			{

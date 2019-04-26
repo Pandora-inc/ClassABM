@@ -296,14 +296,13 @@ class class_db
 			if ($esParam == true)
 			{
 				$cantParam = "";
-				$pepinos = "";
 				$param_arr = array ();
 
 				$cantidad = substr_count ($str_query, ':');
 
 				$para = explode (':', $str_query);
 
-				for($i = 0; $i < $cantidad; $i++)
+				for($i = 0; $i < $cantidad; $i ++)
 				{
 					$e = $i + 1;
 
@@ -377,7 +376,7 @@ class class_db
 
 				$para = explode (':', $str_query);
 
-				for($i = 0; $i < $cantidad; $i++)
+				for($i = 0; $i < $cantidad; $i ++)
 				{
 					$e = $i + 1;
 
@@ -1184,7 +1183,7 @@ class class_db
 
 			$para = explode (':', $str_query);
 
-			for($i = 0; $i < $cantidad; $i++)
+			for($i = 0; $i < $cantidad; $i ++)
 			{
 				$e = $i + 1;
 
@@ -1490,7 +1489,6 @@ class class_db
 	{
 		$parametros = array ();
 		$campos = array ();
-		$valores = array ();
 
 		foreach ($array as $clave => $valor)
 		{
@@ -1560,12 +1558,16 @@ class class_db
 	public function prepararConsultaSelect($tabla, &$parametros, $where = "1=1", $array = "*")
 	{
 		$parametros = array ();
-		$campos = array ();
+		$campos = $array;
 		$valores = array ();
 
 		if (is_array ($array))
 		{
 			$campos = implode (", ", $array);
+		}
+		else
+		{
+			$campos = $array;
 		}
 
 		foreach ($where as $clave => $valor)
@@ -1599,7 +1601,7 @@ class class_db
 			$wheres = "1=1";
 		}
 
-		return "SELECT " . $array . " FROM " . $tabla . " WHERE " . $wheres;
+		return "SELECT " . $campos . " FROM " . $tabla . " WHERE " . $wheres;
 	}
 
 	/**
@@ -1621,7 +1623,7 @@ class class_db
 
 		$sql = $this->prepararConsultaSelect ($tabla, $parametros, $where, $campos);
 
-		$result = $this->query ($sql, $esParam = true, $parametros);
+		$result = $this->query ($sql, true, $parametros);
 
 		if ($result)
 		{

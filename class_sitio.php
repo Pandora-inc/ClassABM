@@ -667,7 +667,7 @@ class Sitios
 		return Fechas::formatear_fecha_Oracle ($fecha_inicio, $separador);
 	}
 
-	function fecha_oracle($fecha)
+	public static function fecha_oracle($fecha)
 	{
 		//
 		$retorno = Fechas::fecha_oracle ($fecha);

@@ -89,7 +89,7 @@ abstract class Fechas
 	 */
 	public static function fecha_oracle($fecha)
 	{
-		$fecha = Fechas::formatear_fecha_Oracle ($fecha);
+		$fecha = Fechas::formatear_fecha_Oracle ($fecha, "-");
 
 		$fecha = "TO_DATE('$fecha', 'DD-MM-YYYY')";
 		// $fecha = "TO_DATE('$fecha', 'DD-MM-YYYY HH24:MI:SS')";
