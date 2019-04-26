@@ -168,7 +168,7 @@ class class_campo
 	 * Colorea el texto de esta columna en el listado segun el valor.
 	 *
 	 * @example Array("Hombre" => "blue", "Mujer" => "#FF00AE")
-	 *
+	 *         
 	 * @name colorearValores
 	 * @var array
 	 */
@@ -212,7 +212,7 @@ class class_campo
 	 * Es el que tiene el valor que va en <option value='{ac&aacute;}'>
 	 *
 	 * @todo Obligatorio para el tipo de campo dbCombo.
-	 *
+	 *      
 	 * @name campoValor
 	 * @var string
 	 */
@@ -222,7 +222,7 @@ class class_campo
 	 * Campo de la tabla izquierda que tiene el texto que se muestra en el listado y que va en <option value=''>{ac&aacute;}</option>
 	 *
 	 * @todo Obligatorio para el tipo de campo dbCombo.
-	 *
+	 *      
 	 * @name campoTexto
 	 * @var string
 	 */
@@ -232,7 +232,7 @@ class class_campo
 	 * Tabla para hacer join en el listado (es la misma tabla de sqlQuery).
 	 *
 	 * @todo Obligatorio para el tipo de campo dbCombo.
-	 *
+	 *      
 	 * @name joinTable
 	 * @var string
 	 */
@@ -255,7 +255,7 @@ class class_campo
 	 * - FULL: devuelve todos los registros cuando hay una coincidencia en la tabla izquierda o derecha
 	 *
 	 * @todo El valor por defecto es INNER.
-	 *
+	 *      
 	 * @name joinCondition
 	 * @var string
 	 */
@@ -292,7 +292,7 @@ class class_campo
 	 * %s sera el valor del campo y {id} se remplaza por el Id del registro definido para la tabla.
 	 *
 	 * @example @link examples/customPrintListado.html
-	 *
+	 *         
 	 * @name customPrintListado
 	 * @var string
 	 */
@@ -437,7 +437,7 @@ class class_campo
 	 * No funciona si se usa la funcion generarAbm() con un query.
 	 *
 	 * @todo NOTA: el buscador funciona verificando variables de $_REQUEST con los nombres de los campos con prefijo "c_". Si se quisiera hacer un formulario de busqueda independiente sin usar el de la class se puede hacer usando los mismos nombres de los campos, o sea con el prefijo "c_".)
-	 *
+	 *      
 	 * @name buscar
 	 * @var boolean
 	 */
@@ -1364,7 +1364,7 @@ class class_campo
 	 * Comprueba y setea el valor de campo
 	 *
 	 * @example /u00/html/classes/examples/campo.html 12 10 Ejemplo de definicion de un campo para la utilizacion de la clase abm.
-	 *
+	 *         
 	 * @param string $campo
 	 */
 	public function setCampo($campo)

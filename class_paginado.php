@@ -156,7 +156,7 @@ class class_paginado
 	 *
 	 * @since 3.6.1 Se modifico para que devolviera 1 en vez de $db->result ($result_paginado, 0, "cantidad"); cuando el conteo de rows fuera igual a uno.
 	 *        Con esto se corrige el error de que no mostraba datos cuando habia un unico registro.
-	 *
+	 *       
 	 * @param string $sqlQuery
 	 *        	query a ejecutar
 	 * @param object $db
@@ -299,7 +299,7 @@ class class_paginado
 
 		if (count ($this->variablesNoConservar) > 0)
 		{
-			for($i = 0; $i < count ($this->variablesNoConservar); $i++)
+			for($i = 0; $i < count ($this->variablesNoConservar); $i ++)
 			{
 				unset ($_GET[$this->variablesNoConservar[$i]]);
 			}
@@ -355,7 +355,7 @@ class class_paginado
 			{ // si ya se paso link del numero de p&aacute;gina actual
 				if (isset ($cant_adelante))
 				{
-					$cant_adelante++;
+					$cant_adelante ++;
 				}
 				else
 				{

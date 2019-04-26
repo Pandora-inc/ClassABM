@@ -20,7 +20,7 @@ require_once 'class_campo.php';
 /**
  *
  * @author iberlot
- *
+ *        
  */
 class Campos_dbCombo extends class_campo
 {
@@ -120,7 +120,7 @@ class Campos_dbCombo extends class_campo
 	 */
 	public function __construct($array = array())
 	{
-		if (isset ($array) and ! empty ($array))
+		if (isset ($array) and !empty ($array))
 		{
 			parent::__construct ($array);
 		}
@@ -161,12 +161,12 @@ class Campos_dbCombo extends class_campo
 
 		while ($filadbCombo = $db->fetch_array ($resultdbCombo))
 		{
-			if ((isset ($_REQUEST ['c_' . $this->campo]) and $_REQUEST ['c_' . $this->campo] == $filadbCombo [$this->campoValor]))
+			if ((isset ($_REQUEST['c_' . $this->campo]) and $_REQUEST['c_' . $this->campo] == $filadbCombo[$this->campoValor]))
 			{
 				$sel = "selected='selected'";
 
 				// FIXME - esto es un parche para poder paginar sin perder la busqueda pero hay que corregirlo para mejorarlo
-				$busqueda .= '&c_' . $this->campo . '=' . Funciones::limpiarEntidadesHTML ($_REQUEST ['c_' . $this->campo]);
+				$busqueda .= '&c_' . $this->campo . '=' . Funciones::limpiarEntidadesHTML ($_REQUEST['c_' . $this->campo]);
 			}
 			else
 			{
@@ -177,19 +177,19 @@ class Campos_dbCombo extends class_campo
 
 			if (isset ($this->mostrarValor) and ($this->mostrarValor == true))
 			{
-				$combobit .= ' (' . $filadbCombo [$this->campoValor] . ') ';
+				$combobit .= ' (' . $filadbCombo[$this->campoValor] . ') ';
 			}
 
 			if (isset ($this->textoMayuscula) and ($this->textoMayuscula == true))
 			{
-				$combobit .= substr ($filadbCombo [$this->campoTexto], 0, 50);
+				$combobit .= substr ($filadbCombo[$this->campoTexto], 0, 50);
 			}
 			else
 			{
-				$combobit .= ucwords (strtolower (substr ($filadbCombo [$this->campoTexto], 0, 50)));
+				$combobit .= ucwords (strtolower (substr ($filadbCombo[$this->campoTexto], 0, 50)));
 			}
 
-			$retorno .= "<option value='" . $filadbCombo [$this->campoValor] . "' $sel>" . $combobit . "</option> \n";
+			$retorno .= "<option value='" . $filadbCombo[$this->campoValor] . "' $sel>" . $combobit . "</option> \n";
 		}
 		$retorno .= "</select> \n";
 

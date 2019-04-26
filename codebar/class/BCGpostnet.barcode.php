@@ -20,18 +20,32 @@
  * Copyright (C) Jean-Sebastien Goupil
  * http://www.barcodephp.com
  */
-include_once('BCGBarcode1D.php');
+include_once ('BCGBarcode1D.php');
 
-class BCGpostnet extends BCGBarcode1D {
+class BCGpostnet extends BCGBarcode1D
+{
+
 	/**
 	 * Constructor
 	 */
-	public function __construct() {
-		parent::__construct();
+	public function __construct()
+	{
+		parent::__construct ();
 
-		$this->keys = array('0','1','2','3','4','5','6','7','8','9');
-		$this->code = array(
-			'11000',	/* 0 */
+		$this->keys = array (
+				'0',
+				'1',
+				'2',
+				'3',
+				'4',
+				'5',
+				'6',
+				'7',
+				'8',
+				'9'
+		);
+		$this->code = array (
+				'11000',	/* 0 */
 			'00011',	/* 1 */
 			'00101',	/* 2 */
 			'00110',	/* 3 */
@@ -40,7 +54,7 @@ class BCGpostnet extends BCGBarcode1D {
 			'01100',	/* 6 */
 			'10001',	/* 7 */
 			'10010',	/* 8 */
-			'10100'		/* 9 */
+			'10100' /* 9 */
 		);
 	}
 
@@ -49,45 +63,52 @@ class BCGpostnet extends BCGBarcode1D {
 	 *
 	 * @param resource $im
 	 */
-	public function draw(&$im) {
+	public function draw(&$im)
+	{
 		$error_stop = false;
 
 		// Checking if all chars are allowed
-		$c = strlen($this->text);
-		for($i = 0; $i < $c; $i++) {
-			if(array_search($this->text[$i], $this->keys) === false) {
-				$this->drawError($im, 'Char \'' . $this->text[$i] . '\' not allowed.');
+		$c = strlen ($this->text);
+		for($i = 0; $i < $c; $i ++)
+		{
+			if (array_search ($this->text[$i], $this->keys) === false)
+			{
+				$this->drawError ($im, 'Char \'' . $this->text[$i] . '\' not allowed.');
 				$error_stop = true;
 			}
 		}
-		if($error_stop === false) {
+		if ($error_stop === false)
+		{
 			// Must contain 5, 9 or 11 chars
-			if($c !== 5 && $c !== 9 && $c !== 11) {
-				$this->drawError($im, 'Must contain 5, 9 or 11 chars.');
+			if ($c !== 5 && $c !== 9 && $c !== 11)
+			{
+				$this->drawError ($im, 'Must contain 5, 9 or 11 chars.');
 				$error_stop = true;
 			}
-			if($error_stop === false) {
+			if ($error_stop === false)
+			{
 				// Checksum
 				$checksum = 0;
-				for($i = 0; $i < $c; $i++) {
-					$checksum += intval($this->text[$i]);
+				for($i = 0; $i < $c; $i ++)
+				{
+					$checksum += intval ($this->text[$i]);
 				}
 				$checksum = 10 - ($checksum % 10);
 
 				// Starting Code
-				$this->drawChar($im, '1');
+				$this->drawChar ($im, '1');
 				// Code
-				for($i = 0; $i < $c; $i++) {
-					$this->drawChar($im, $this->findCode($this->text[$i]));
+				for($i = 0; $i < $c; $i ++)
+				{
+					$this->drawChar ($im, $this->findCode ($this->text[$i]));
 				}
 				// Checksum
-				$this->drawChar($im, $this->findCode($checksum));
-				//Ending Code
-				$this->drawChar($im, '1');
-				$this->drawText($im);
+				$this->drawChar ($im, $this->findCode ($checksum));
+				// Ending Code
+				$this->drawChar ($im, '1');
+				$this->drawText ($im);
 			}
 		}
-
 	}
 
 	/**
@@ -95,18 +116,22 @@ class BCGpostnet extends BCGBarcode1D {
 	 *
 	 * @return int
 	 */
-	public function getMaxSize() {
-		$p = parent::getMaxSize();
+	public function getMaxSize()
+	{
+		$p = parent::getMaxSize ();
 
-		$c = strlen($this->text);
+		$c = strlen ($this->text);
 		$startlength = 6 * $this->scale;
 		$textlength = $c * 5 * 6 * $this->scale;
 		$checksumlength = 5 * 6 * $this->scale;
 		$endlength = 6 * $this->scale;
 		// We remove the white on the right
-		$removelength = - 3 * $this->scale;
+		$removelength = -3 * $this->scale;
 
-		return array($p[0] + $startlength + $textlength + $checksumlength + $endlength + $removelength, $p[1]);
+		return array (
+				$p[0] + $startlength + $textlength + $checksumlength + $endlength + $removelength,
+				$p[1]
+		);
 	}
 
 	/**
@@ -116,19 +141,25 @@ class BCGpostnet extends BCGBarcode1D {
 	 * @param string $code
 	 * @param boolean $last
 	 */
-	protected function drawChar(&$im, $code, $last = false) {
-		$c = strlen($code);
-		for($i = 0; $i < $c; $i++) {
-			if($code[$i] === '0') {
+	protected function drawChar(&$im, $code, $last = false)
+	{
+		$c = strlen ($code);
+		for($i = 0; $i < $c; $i ++)
+		{
+			if ($code[$i] === '0')
+			{
 				$posY = $this->thickness / 2;
-			} else {
+			}
+			else
+			{
 				$posY = 0;
 			}
 
-			$this->drawFilledRectangle($im, $this->positionX, $posY, $this->positionX + 2, $this->thickness, BCGBarcode::COLOR_FG);
+			$this->drawFilledRectangle ($im, $this->positionX, $posY, $this->positionX + 2, $this->thickness, BCGBarcode::COLOR_FG);
 
 			$this->positionX += 2 * 3;
 		}
 	}
-};
+}
+;
 ?>

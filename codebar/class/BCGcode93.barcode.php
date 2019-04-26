@@ -21,14 +21,14 @@
  * Copyright (C) Jean-Sebastien Goupil
  * http://www.barcodephp.com
  */
-include_once('BCGBarcode1D.php');
+include_once ('BCGBarcode1D.php');
 
-class BCGcode93 extends BCGBarcode1D {
+class BCGcode93 extends BCGBarcode1D
+{
 	const EXTENDED_1 = 43;
 	const EXTENDED_2 = 44;
 	const EXTENDED_3 = 45;
 	const EXTENDED_4 = 46;
-
 	private $starting, $ending;
 	private $indcheck, $data;
 	private $errorText;
@@ -36,13 +36,63 @@ class BCGcode93 extends BCGBarcode1D {
 	/**
 	 * Constructor
 	 */
-	public function __construct() {
-		parent::__construct();
+	public function __construct()
+	{
+		parent::__construct ();
 
 		$this->starting = $this->ending = 47; /* * */
-		$this->keys = array('0','1','2','3','4','5','6','7','8','9','A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z','-','.',' ','$','/','+','%','($)','(%)','(/)','(+)','(*)');
-		$this->code = array(
-			'020001',	/* 0 */
+		$this->keys = array (
+				'0',
+				'1',
+				'2',
+				'3',
+				'4',
+				'5',
+				'6',
+				'7',
+				'8',
+				'9',
+				'A',
+				'B',
+				'C',
+				'D',
+				'E',
+				'F',
+				'G',
+				'H',
+				'I',
+				'J',
+				'K',
+				'L',
+				'M',
+				'N',
+				'O',
+				'P',
+				'Q',
+				'R',
+				'S',
+				'T',
+				'U',
+				'V',
+				'W',
+				'X',
+				'Y',
+				'Z',
+				'-',
+				'.',
+				' ',
+				'$',
+				'/',
+				'+',
+				'%',
+				'($)',
+				'(%)',
+				'(/)',
+				'(+)',
+				'(*)'
+		);
+		$this->code = array (
+				'020001',	/* 0 */
 			'000102',	/* 1 */
 			'000201',	/* 2 */
 			'000300',	/* 3 */
@@ -89,7 +139,7 @@ class BCGcode93 extends BCGBarcode1D {
 			'201000',	/*(%)*/
 			'200010',	/*(/)*/
 			'011100',	/*(+)*/
-			'000030'	/*(*)*/
+			'000030' /* (*) */
 		);
 		$this->errorText = '';
 	}
@@ -99,51 +149,72 @@ class BCGcode93 extends BCGBarcode1D {
 	 *
 	 * @param string $text
 	 */
-	public function parse($text) {
+	public function parse($text)
+	{
 		$this->text = $text;
 
-		$data = array();
-		$indcheck = array();
+		$data = array ();
+		$indcheck = array ();
 
 		$this->errorText = ''; // Reset Error
-		$c = strlen($this->text);
-		for($i = 0; $i < $c; $i++) {
-			$pos = array_search($this->text[$i], $this->keys);
-			if($pos === false) {
+		$c = strlen ($this->text);
+		for($i = 0; $i < $c; $i ++)
+		{
+			$pos = array_search ($this->text[$i], $this->keys);
+			if ($pos === false)
+			{
 				// Search in extended?
-				$extended = $this->getExtendedVersion($this->text[$i]);
-				if($extended === false) {
-					$this->errorText .= 'Char \'' . $this->text[$i] . '\' not allowed.'."\n";
-				} else {
-					$extc = strlen($extended);
-					for($j = 0; $j < $extc; $j++) {
+				$extended = $this->getExtendedVersion ($this->text[$i]);
+				if ($extended === false)
+				{
+					$this->errorText .= 'Char \'' . $this->text[$i] . '\' not allowed.' . "\n";
+				}
+				else
+				{
+					$extc = strlen ($extended);
+					for($j = 0; $j < $extc; $j ++)
+					{
 						$v = $extended[$j];
-						if($v === '$') {
+						if ($v === '$')
+						{
 							$indcheck[] = self::EXTENDED_1;
 							$data[] = $this->code[self::EXTENDED_1];
-						} elseif($v === '%') {
+						}
+						elseif ($v === '%')
+						{
 							$indcheck[] = self::EXTENDED_2;
 							$data[] = $this->code[self::EXTENDED_2];
-						} elseif($v === '/') {
+						}
+						elseif ($v === '/')
+						{
 							$indcheck[] = self::EXTENDED_3;
 							$data[] = $this->code[self::EXTENDED_3];
-						} elseif($v === '+') {
+						}
+						elseif ($v === '+')
+						{
 							$indcheck[] = self::EXTENDED_4;
 							$data[] = $this->code[self::EXTENDED_4];
-						} else {
-							$pos2 = array_search($v, $this->keys);
+						}
+						else
+						{
+							$pos2 = array_search ($v, $this->keys);
 							$indcheck[] = $pos2;
 							$data[] = $this->code[$pos2];
 						}
 					}
 				}
-			} else {
+			}
+			else
+			{
 				$indcheck[] = $pos;
 				$data[] = $this->code[$pos];
 			}
 		}
 
-		$this->setData(array($indcheck, $data));
+		$this->setData (array (
+				$indcheck,
+				$data
+		));
 	}
 
 	/**
@@ -151,33 +222,43 @@ class BCGcode93 extends BCGBarcode1D {
 	 *
 	 * @param resource $im
 	 */
-	public function draw(&$im) {
-		if(!empty($this->errorText)) {
-			$error = explode("\n", trim($this->errorText));
-			$c = count($error);
-			for($i = 0; $i < $c; $i++) {
-				$this->drawError($im, $error[$i]);
+	public function draw(&$im)
+	{
+		if (!empty ($this->errorText))
+		{
+			$error = explode ("\n", trim ($this->errorText));
+			$c = count ($error);
+			for($i = 0; $i < $c; $i ++)
+			{
+				$this->drawError ($im, $error[$i]);
 			}
-		} else {
-			$c = count($this->data);
-			if($c === 0) {
-				$this->drawError($im, 'No text has been entered.');
-			} else {
+		}
+		else
+		{
+			$c = count ($this->data);
+			if ($c === 0)
+			{
+				$this->drawError ($im, 'No text has been entered.');
+			}
+			else
+			{
 				// Starting *
-				$this->drawChar($im, $this->code[$this->starting], true);
-				for($i = 0; $i < $c; $i++) {
-					$this->drawChar($im, $this->data[$i], true);
+				$this->drawChar ($im, $this->code[$this->starting], true);
+				for($i = 0; $i < $c; $i ++)
+				{
+					$this->drawChar ($im, $this->data[$i], true);
 				}
 				// Checksum
-				$c = count($this->checksumValue);
-				for($i = 0; $i < $c; $i++) {
-					$this->drawChar($im, $this->code[$this->checksumValue[$i]], true);
+				$c = count ($this->checksumValue);
+				for($i = 0; $i < $c; $i ++)
+				{
+					$this->drawChar ($im, $this->code[$this->checksumValue[$i]], true);
 				}
 				// Ending *
-				$this->drawChar($im, $this->code[$this->ending], true);
+				$this->drawChar ($im, $this->code[$this->ending], true);
 				// Draw a Final Bar
-				$this->drawChar($im, '0', true);
-				$this->drawText($im);
+				$this->drawChar ($im, '0', true);
+				$this->drawText ($im);
 			}
 		}
 	}
@@ -187,20 +268,25 @@ class BCGcode93 extends BCGBarcode1D {
 	 *
 	 * @return int[]
 	 */
-	public function getMaxSize() {
-		$p = parent::getMaxSize();
+	public function getMaxSize()
+	{
+		$p = parent::getMaxSize ();
 
 		$startlength = 9 * $this->scale;
-		$textlength = 9 * count($this->data) * $this->scale;
+		$textlength = 9 * count ($this->data) * $this->scale;
 		$checksumlength = 2 * 9 * $this->scale;
 		$endlength = 9 * $this->scale + $this->scale; // + final bar
-		return array($p[0] + $startlength + $textlength + $checksumlength + $endlength, $p[1]);
+		return array (
+				$p[0] + $startlength + $textlength + $checksumlength + $endlength,
+				$p[1]
+		);
 	}
 
 	/**
 	 * Overloaded method to calculate checksum
 	 */
-	protected function calculateChecksum() {
+	protected function calculateChecksum()
+	{
 		// Checksum
 		// First CheckSUM "C"
 		// The "C" checksum character is the modulo 47 remainder of the sum of the weighted
@@ -211,14 +297,20 @@ class BCGcode93 extends BCGBarcode1D {
 		// Second CheckSUM "K"
 		// Same as CheckSUM "C" but we count the CheckSum "C" at the end
 		// After 15, the sequence wraps around back to 1.
-		$sequence_multiplier = array(20, 15);
-		$this->checksumValue = array();
+		$sequence_multiplier = array (
+				20,
+				15
+		);
+		$this->checksumValue = array ();
 		$indcheck = $this->indcheck;
-		for($z = 0; $z < 2; $z++) {
+		for($z = 0; $z < 2; $z ++)
+		{
 			$checksum = 0;
-			for($i = count($indcheck), $j = 0; $i > 0; $i--, $j++) {
+			for($i = count ($indcheck), $j = 0; $i > 0; $i --, $j ++)
+			{
 				$multiplier = $i % $sequence_multiplier[$z];
-				if($multiplier === 0) {
+				if ($multiplier === 0)
+				{
 					$multiplier = $sequence_multiplier[$z];
 				}
 				$checksum += $indcheck[$j] * $multiplier;
@@ -231,14 +323,18 @@ class BCGcode93 extends BCGBarcode1D {
 	/**
 	 * Overloaded method to display the checksum
 	 */
-	protected function processChecksum() {
-		if($this->checksumValue === false) { // Calculate the checksum only once
-			$this->calculateChecksum();
+	protected function processChecksum()
+	{
+		if ($this->checksumValue === false)
+		{ // Calculate the checksum only once
+			$this->calculateChecksum ();
 		}
-		if($this->checksumValue !== false) {
+		if ($this->checksumValue !== false)
+		{
 			$ret = '';
-			$c = count($this->checksumValue);
-			for($i = 0; $i < $c; $i++) {
+			$c = count ($this->checksumValue);
+			for($i = 0; $i < $c; $i ++)
+			{
 				$ret .= $this->keys[$this->checksumValue[$i]];
 			}
 			return $ret;
@@ -256,39 +352,41 @@ class BCGcode93 extends BCGBarcode1D {
 	 *
 	 * @param array $data
 	 */
-	private function setData($data) {
+	private function setData($data)
+	{
 		$this->indcheck = $data[0];
 		$this->data = $data[1];
-		$this->calculateChecksum();
-
+		$this->calculateChecksum ();
 	}
 
-	private function getExtendedVersion($char) {
-		$o = ord($char);
-		if($o === 0)
+	private function getExtendedVersion($char)
+	{
+		$o = ord ($char);
+		if ($o === 0)
 			return '%U';
-		elseif($o >= 1 && $o <= 26)
-			return '$' . chr($o + 64);
-		elseif(($o >= 33 && $o <= 44) || $o === 47 || $o === 48)
-			return '/' . chr($o + 32);
-		elseif($o >= 97 && $o <= 122)
-			return '+' . chr($o - 32);
-		elseif($o >= 27 && $o <= 31)
-			return '%' . chr($o + 38);
-		elseif($o >= 59 && $o <= 63)
-			return '%' . chr($o + 11);
-		elseif($o >= 91 && $o <= 95)
-			return '%' . chr($o - 16);
-		elseif($o >= 123 && $o <= 127)
-			return '%' . chr($o - 43);
-		elseif($o === 64)
+		elseif ($o >= 1 && $o <= 26)
+			return '$' . chr ($o + 64);
+		elseif (($o >= 33 && $o <= 44) || $o === 47 || $o === 48)
+			return '/' . chr ($o + 32);
+		elseif ($o >= 97 && $o <= 122)
+			return '+' . chr ($o - 32);
+		elseif ($o >= 27 && $o <= 31)
+			return '%' . chr ($o + 38);
+		elseif ($o >= 59 && $o <= 63)
+			return '%' . chr ($o + 11);
+		elseif ($o >= 91 && $o <= 95)
+			return '%' . chr ($o - 16);
+		elseif ($o >= 123 && $o <= 127)
+			return '%' . chr ($o - 43);
+		elseif ($o === 64)
 			return '%V';
-		elseif($o === 96)
+		elseif ($o === 96)
 			return '%W';
-		elseif($o > 127)
+		elseif ($o > 127)
 			return false;
 		else
 			return $char;
 	}
-};
+}
+;
 ?>

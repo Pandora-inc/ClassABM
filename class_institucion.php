@@ -14,15 +14,15 @@
  * Clase encargada del manejo de todos los datos referentes a la persona.
  *
  * @author iberlot <@> ivanberlot@gmail.com
- *
+ *        
  * @name class_institucion
- *
+ *      
  * @version 0.1 - Version de inicio
- *
+ *         
  * @package Classes_USAL
- *
+ *         
  * @category General
- *
+ *          
  * @todo El usuario que se conecta a la base debe tener los siguientes permisos -
  *       - SELECT :
  *       - UPDATE :
@@ -189,7 +189,7 @@ class class_institucion
 	 * @name buscarAentity
 	 * @param mixed[] $datosAUsar
 	 *        	- Requiere que dentro de los datos enviados este si o si el person de la persona
-	 *
+	 *        	
 	 * @return Array
 	 */
 	public function buscarAentity($datosAUsar)

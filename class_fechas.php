@@ -57,7 +57,7 @@ abstract class Fechas
 	 * @param string $separador
 	 *        	- Caracter con el cual se va a separar la fecha, por defecto /.
 	 * @throws Exception - retorna un error si la cantidad de digitos numericos de $fecha_inicio es menor que 8.
-	 *
+	 *        
 	 * @return string - retorna la fecha con el formato DD MM YYYY separado por el caracter separador.
 	 */
 	public static function formatear_fecha_Oracle($fecha_inicio, $separador = "/")
@@ -101,7 +101,7 @@ abstract class Fechas
 	 * invierte el orden de la fecha para que quede en el formato dia-mes-a�o
 	 *
 	 * @deprecated - Conviene utilizar formatear_fecha_Oracle.
-	 *
+	 *            
 	 * @param DateTime $fecha
 	 *        	fecha con el formato ano-mes-dia
 	 * @return string $aux
@@ -238,14 +238,14 @@ abstract class Fechas
 	 * Chequea que la fecha ingresada sea correcta
 	 *
 	 * @deprecated conviene usar checkdate directamente.
-	 *
+	 *            
 	 * @param int $d
 	 *        	- El Dia que esta dentro del Numero de Duas del mes m dado. Los anos a bisiestos son tomados en consideracion.
 	 * @param int $m
 	 *        	- El mes entre 1 y 12 inclusive.
 	 * @param int $a
 	 *        	- El ano entre 1 y 32767 inclusive.
-	 *
+	 *        	
 	 * @return bool puede ser true o false dependiendo si la fecha es correcta o no
 	 */
 	public static function fechaCorrecta($d, $m, $a)
@@ -264,12 +264,12 @@ abstract class Fechas
 	 * Se le pasan dos horas y realiza la diferencia entre ambas.
 	 *
 	 * @deprecated Por su mayor presicion se recomienda la utilizacion de difHoras.
-	 *
+	 *            
 	 * @param string $hora1
 	 *        	- Hora base con el formato hh:mm.
 	 * @param string $hora2
 	 *        	- Hora a restar con el formato hh:mm.
-	 *
+	 *        	
 	 * @return number - Cantidad de minutos de diferencia entre horas.
 	 */
 	public static function calcularMminutosExcedentes($hora1, $hora2)
@@ -369,7 +369,7 @@ abstract class Fechas
 	 *        	True si se quiere dejar la hora o false si se quiere quitar
 	 * @return String La fecha formateada
 	 * @version 1.1
-	 *
+	 *         
 	 */
 	public static function mysql2date($mysqldate, $conHora = false)
 	{
@@ -412,7 +412,7 @@ abstract class Fechas
 	 *        	La fecha en formato DD/MM/YYYY o D/M/YYYY
 	 * @return String La fecha formateada o FALSE si el formato es invalido
 	 * @version 1.3
-	 *
+	 *         
 	 */
 	public static function date2mysql($date)
 	{

@@ -20,7 +20,7 @@ require_once 'class_campo.php';
 /**
  *
  * @author iberlot
- *
+ *        
  */
 class Campos_combo extends class_campo
 {
@@ -29,7 +29,7 @@ class Campos_combo extends class_campo
 	 * Datos para el tipo de campo "combo".
 	 *
 	 * @example Array("key" => "value"...)
-	 *
+	 *         
 	 * @name datos
 	 * @var array
 	 */
@@ -122,7 +122,7 @@ class Campos_combo extends class_campo
 	 */
 	public function __construct($array = array())
 	{
-		if (isset ($array) and ! empty ($array))
+		if (isset ($array) and !empty ($array))
 		{
 			parent::__construct ($array);
 		}
@@ -133,7 +133,7 @@ class Campos_combo extends class_campo
 
 		if (array_key_exists ('datos', $array))
 		{
-			$this->setDatos ($array ['datos']);
+			$this->setDatos ($array['datos']);
 		}
 	}
 
@@ -164,13 +164,13 @@ class Campos_combo extends class_campo
 		$retorno .= "<select name='c_" . $this->campo . "' id='c_" . $this->campo . "' class='input-select'> \n";
 		$retorno .= "<option value=''></option> \n";
 
-		foreach ($campo ['datos'] as $valor => $texto)
+		foreach ($campo['datos'] as $valor => $texto)
 		{
-			if ((isset ($_REQUEST ['c_' . $this->campo]) and $_REQUEST ['c_' . $this->campo] == $valor))
+			if ((isset ($_REQUEST['c_' . $this->campo]) and $_REQUEST['c_' . $this->campo] == $valor))
 			{
 				$sel = "selected='selected'";
 				// FIXME - esto es un parche para poder paginar sin perder la busqueda pero hay que corregirlo para mejorarlo
-				$busqueda .= '&c_' . $this->campo . '=' . Funciones::limpiarEntidadesHTML ($_REQUEST ['c_' . $this->campo]);
+				$busqueda .= '&c_' . $this->campo . '=' . Funciones::limpiarEntidadesHTML ($_REQUEST['c_' . $this->campo]);
 			}
 			else
 			{

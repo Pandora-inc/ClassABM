@@ -1,113 +1,140 @@
 <?php
-if (!defined('IN_CB')) { die('You are not allowed to access to this page.'); }
-
-$imageKeys = array();
-function registerImageKey($key, $value) {
-    global $imageKeys;
-    $imageKeys[$key] = $value;
+if (!defined ('IN_CB'))
+{
+	die ('You are not allowed to access to this page.');
 }
 
-function getImageKeys() {
-    global $imageKeys;
-    return $imageKeys;
+$imageKeys = array ();
+
+function registerImageKey($key, $value)
+{
+	global $imageKeys;
+	$imageKeys[$key] = $value;
 }
 
-function getElementHtml($tag, $attributes, $content = false) {
-    $code = '<' . $tag;
-    foreach ($attributes as $attribute => $value) {
-        $code .= ' ' . $attribute . '="' . htmlentities(stripslashes($value), ENT_COMPAT) . '"';
-    }
-
-    if ($content === false || $content === null) {
-        $code .= ' />';
-    } else {
-        $code .= '>' . $content . '</' . $tag . '>';
-    }
-
-    return $code;
+function getImageKeys()
+{
+	global $imageKeys;
+	return $imageKeys;
 }
 
-function getInputTextHtml($name, $currentValue, $attributes = array()) {
-    $defaultAttributes = array(
-        'id' => $name,
-        'name' => $name
-    );
+function getElementHtml($tag, $attributes, $content = false)
+{
+	$code = '<' . $tag;
+	foreach ($attributes as $attribute => $value)
+	{
+		$code .= ' ' . $attribute . '="' . htmlentities (stripslashes ($value), ENT_COMPAT) . '"';
+	}
 
-    $finalAttributes = array_merge($defaultAttributes, $attributes);
-    if ($currentValue !== null) {
-        $finalAttributes['value'] = $currentValue;
-    }
+	if ($content === false || $content === null)
+	{
+		$code .= ' />';
+	}
+	else
+	{
+		$code .= '>' . $content . '</' . $tag . '>';
+	}
 
-    return getElementHtml('input', $finalAttributes, false);
+	return $code;
 }
 
-function getOptionGroup($options, $currentValue) {
-    $content = '';
-    foreach ($options as $optionKey => $optionValue) {
-        if (is_array($optionValue)) {
-            $content .= '<optgroup label="' . $optionKey . '">' . getOptionGroup($optionValue, $currentValue) . '</optgroup>';
-        } else {
-            $optionAttributes = array();
-            if ($currentValue == $optionKey) {
-                $optionAttributes['selected'] = 'selected';
-            }
-            $content .= getOptionHtml($optionKey, $optionValue, $optionAttributes);
-        }
-    }
+function getInputTextHtml($name, $currentValue, $attributes = array())
+{
+	$defaultAttributes = array (
+			'id' => $name,
+			'name' => $name
+	);
 
-    return $content;
+	$finalAttributes = array_merge ($defaultAttributes, $attributes);
+	if ($currentValue !== null)
+	{
+		$finalAttributes['value'] = $currentValue;
+	}
+
+	return getElementHtml ('input', $finalAttributes, false);
 }
 
-function getOptionHtml($value, $content, $attributes = array()) {
-    $defaultAttributes = array(
-        'value' => $value
-    );
+function getOptionGroup($options, $currentValue)
+{
+	$content = '';
+	foreach ($options as $optionKey => $optionValue)
+	{
+		if (is_array ($optionValue))
+		{
+			$content .= '<optgroup label="' . $optionKey . '">' . getOptionGroup ($optionValue, $currentValue) . '</optgroup>';
+		}
+		else
+		{
+			$optionAttributes = array ();
+			if ($currentValue == $optionKey)
+			{
+				$optionAttributes['selected'] = 'selected';
+			}
+			$content .= getOptionHtml ($optionKey, $optionValue, $optionAttributes);
+		}
+	}
 
-    $finalAttributes = array_merge($defaultAttributes, $attributes);
-
-    return getElementHtml('option', $finalAttributes, $content);
+	return $content;
 }
 
-function getSelectHtml($name, $currentValue, $options, $attributes = array()) {
-    $defaultAttributes = array(
-        'size' => 1,
-        'id' => $name,
-        'name' => $name
-    );
+function getOptionHtml($value, $content, $attributes = array())
+{
+	$defaultAttributes = array (
+			'value' => $value
+	);
 
-    $finalAttributes = array_merge($defaultAttributes, $attributes);
-    $content = getOptionGroup($options, $currentValue);
+	$finalAttributes = array_merge ($defaultAttributes, $attributes);
 
-    return getElementHtml('select', $finalAttributes, $content);
+	return getElementHtml ('option', $finalAttributes, $content);
 }
 
-function getCheckboxHtml($name, $currentValue, $attributes = array()) {
-    $defaultAttributes = array(
-        'type' => 'checkbox',
-        'id' => $name,
-        'name' => $name,
-        'value' => isset($attributes['value']) ? $attributes['value'] : 'On'
-    );
+function getSelectHtml($name, $currentValue, $options, $attributes = array())
+{
+	$defaultAttributes = array (
+			'size' => 1,
+			'id' => $name,
+			'name' => $name
+	);
 
-    $finalAttributes = array_merge($defaultAttributes, $attributes);
-    if ($currentValue == $finalAttributes['value']) {
-        $finalAttributes['checked'] = 'checked';
-    }
+	$finalAttributes = array_merge ($defaultAttributes, $attributes);
+	$content = getOptionGroup ($options, $currentValue);
 
-    return getElementHtml('input', $finalAttributes, false);
+	return getElementHtml ('select', $finalAttributes, $content);
 }
 
-function getButton($value, $output = null) {
-    $escaped = false;
-    $finalValue = $value[0] === '&' ? $value : htmlentities($value);
-    if ($output === null) {
-        $output = $value;
-    } else {
-        $escaped = true;
-    }
+function getCheckboxHtml($name, $currentValue, $attributes = array())
+{
+	$defaultAttributes = array (
+			'type' => 'checkbox',
+			'id' => $name,
+			'name' => $name,
+			'value' => isset ($attributes['value']) ? $attributes['value'] : 'On'
+	);
 
-    $code = '<input type="button" value="' . $finalValue . '" data-output="' . $output . '"' . ($escaped ? ' data-escaped="true"' : '') . ' />';
-    return $code;
+	$finalAttributes = array_merge ($defaultAttributes, $attributes);
+	if ($currentValue == $finalAttributes['value'])
+	{
+		$finalAttributes['checked'] = 'checked';
+	}
+
+	return getElementHtml ('input', $finalAttributes, false);
+}
+
+function getButton($value, $output = null)
+{
+	$escaped = false;
+	$finalValue = $value[0] === '&' ? $value : htmlentities ($value);
+	if ($output === null)
+	{
+		$output = $value;
+	}
+	else
+	{
+		$escaped = true;
+	}
+
+	$code = '<input type="button" value="' . $finalValue . '" data-output="' . $output . '"' . ($escaped ? ' data-escaped="true"' : '') . ' />';
+	return $code;
 }
 
 /**
@@ -115,20 +142,24 @@ function getButton($value, $output = null) {
  *
  * @return string[]
  */
-function listfonts($folder) {
-    $array = array();
-    if (($handle = opendir($folder)) !== false) {
-        while (($file = readdir($handle)) !== false) {
-            if(substr($file, -4, 4) === '.ttf') {
-                $array[$file] = $file;
-            }
-        }
-    }
-    closedir($handle);
+function listfonts($folder)
+{
+	$array = array ();
+	if (($handle = opendir ($folder)) !== false)
+	{
+		while (($file = readdir ($handle)) !== false)
+		{
+			if (substr ($file, -4, 4) === '.ttf')
+			{
+				$array[$file] = $file;
+			}
+		}
+	}
+	closedir ($handle);
 
-    array_unshift($array, 'No Label');
+	array_unshift ($array, 'No Label');
 
-    return $array;
+	return $array;
 }
 
 /**
@@ -136,35 +167,43 @@ function listfonts($folder) {
  *
  * @return string[]
  */
-function listbarcodes() {
-    include_once('barcode.php');
+function listbarcodes()
+{
+	include_once ('barcode.php');
 
-    $availableBarcodes = array();
-    foreach ($supportedBarcodes as $file => $title) {
-        if (file_exists($file)) {
-            $availableBarcodes[$file] = $title;
-        }
-    }
+	$availableBarcodes = array ();
+	foreach ($supportedBarcodes as $file => $title)
+	{
+		if (file_exists ($file))
+		{
+			$availableBarcodes[$file] = $title;
+		}
+	}
 
-    return $availableBarcodes;
+	return $availableBarcodes;
 }
 
-function findValueFromKey($haystack, $needle) {
-    foreach ($haystack as $key => $value) {
-        if (strcasecmp($key, $needle) === 0) {
-            return $value;
-        }
-    }
+function findValueFromKey($haystack, $needle)
+{
+	foreach ($haystack as $key => $value)
+	{
+		if (strcasecmp ($key, $needle) === 0)
+		{
+			return $value;
+		}
+	}
 
-    return null;
+	return null;
 }
 
-function convertText($text) {
-    $text = stripslashes($text);
-    if (function_exists('mb_convert_encoding')) {
-        $text = mb_convert_encoding($text, 'ISO-8859-1', 'UTF-8');
-    }
+function convertText($text)
+{
+	$text = stripslashes ($text);
+	if (function_exists ('mb_convert_encoding'))
+	{
+		$text = mb_convert_encoding ($text, 'ISO-8859-1', 'UTF-8');
+	}
 
-    return $text;
+	return $text;
 }
 ?>

@@ -14,15 +14,15 @@
  * Clase encargada del manejo de todos los datos referentes a la persona.
  *
  * @author iberlot <@> ivanberlot@gmail.com
- *
+ *        
  * @name class_persona
- *
+ *      
  * @version 0.1 - Version de inicio
- *
+ *         
  * @package Classes_USAL
- *
+ *         
  * @category General
- *
+ *          
  * @todo El usuario que se conecta a la base debe tener los siguientes permisos -
  *       - SELECT :
  *       portal.usuario_web | appgral.apers | appgral.person | appgral.perdoc | appgral.personca | interfaz.estadocredenca | appgral.lnumber
@@ -95,7 +95,7 @@ class class_personas
 	 *      @ubicacionBase appgral.person.lname - VARCHAR2(50 BYTE)
 	 *
 	 * @todo Este campo es obligatorio a la hora de crear personas.
-	 *
+	 *      
 	 * @internal Este dato siempre tiene que estar en mayuscula.
 	 *           $apellido = strtoupper($apellido);
 	 */
@@ -108,7 +108,7 @@ class class_personas
 	 *      @ubicacionBase appgral.person.fname - VARCHAR2(50 BYTE)
 	 *
 	 * @todo Este campo es obligatorio a la hora de crear personas.
-	 *
+	 *      
 	 * @internal Este campo deberia tener la primer letra en mayuscula y el resto siempre en minuscula
 	 *           $realname = ucwords($realname);
 	 */
@@ -134,7 +134,7 @@ class class_personas
 	 *      @ubicacionBase appgral.perdoc.docno - VARCHAR2(30 BYTE)
 	 *
 	 * @todo Este campo es obligatorio a la hora de crear personas.
-	 *
+	 *      
 	 *       <Br>
 	 *       Hay que tener en cuenta que el campo appgral.perdoc.isKey debe se igual a 1
 	 */
@@ -147,7 +147,7 @@ class class_personas
 	 *      @ubicacionBase appgral.perdoc.typdoc - VARCHAR2(10 BYTE)
 	 *
 	 * @todo Este campo es obligatorio a la hora de crear personas.
-	 *
+	 *      
 	 *       <Br>
 	 *       Hay que tener en cuenta que el campo appgral.perdoc.isKey debe se igual a 1
 	 *       <Br>
@@ -251,7 +251,7 @@ class class_personas
 	 *      substr($person, - 1)."/".substr($person, - 2, 1)."/".substr($person, - 3, 1)."/".$person.".jpg";
 	 *      ?>
 	 *      </code>
-	 *
+	 *     
 	 * @example para el Person 112469 quedaria:
 	 *          9/6/4/112469.jpg
 	 */
@@ -264,7 +264,7 @@ class class_personas
 	 *      @ubicacionBase appgral.person.birdate - DATE
 	 *
 	 * @todo el formato correcto para pasar este dato deberia ser 'RRRR-MM-DD' o su equivalente Año-mes-dia.
-	 *
+	 *      
 	 * @todo Este campo es obligatorio a la hora de crear personas.
 	 */
 	public $birdate = "";
@@ -284,7 +284,7 @@ class class_personas
 	 *      5 = Union de hecho
 	 *
 	 * @todo Este campo es obligatorio a la hora de crear personas.
-	 *
+	 *      
 	 */
 	public $marstat = "";
 
@@ -295,7 +295,7 @@ class class_personas
 	 *      @ubicacionBase appgral.person.nation - VARCHAR2(3 BYTE)
 	 *
 	 * @todo Este campo es obligatorio a la hora de crear personas.
-	 *
+	 *      
 	 *       <Br>
 	 *       La tabla de referencia al dato es appgral.country.
 	 *       Mas espesificamente appgral.country.nation
@@ -315,7 +315,7 @@ class class_personas
 	 *      3 = Por Opcion
 	 *
 	 * @todo Este campo es obligatorio a la hora de crear personas.
-	 *
+	 *      
 	 */
 	public $tnation = "";
 
@@ -595,7 +595,7 @@ class class_personas
 	 * Direccion en string que une calle numero y muchas veces depto en un solo campo.
 	 *
 	 * @todo lo ideal es tratarlo para que quede separado de la forma que corresponde
-	 *
+	 *      
 	 * @var string <Br>
 	 *      @ubicacionBase sueldos.personal.domicilio - VARCHAR2(30 BYTE)
 	 */
@@ -1080,7 +1080,7 @@ class class_personas
 	 * @name buscarAppers
 	 * @param mixed[] $datosAUsar
 	 *        	- Requiere que dentro de los datos enviados este si o si el person de la persona
-	 *
+	 *        	
 	 * @return Array
 	 */
 	public function buscarAppers($datosAUsar)
@@ -1136,10 +1136,10 @@ class class_personas
 	 * En caso de que no recupere ningun dato devuelve 0
 	 *
 	 * @name buscarPerson
-	 *
+	 *      
 	 * @param string[] $datosAUsar
 	 *        	- 'person' o 'realname'
-	 *
+	 *        	
 	 * @return array - 'person' 'lname' 'fname' 'country' 'poldiv' 'city' 'birdate' 'nation' 'sex' 'marstat' 'address' 'rcountry' 'rpoldiv' 'rcity' 'telep' 'active' 'tnation' 'incountrysince' 'religion' 'qbrother' 'qson'
 	 */
 	public function buscarPerson($datosAUsar)
@@ -1361,7 +1361,7 @@ class class_personas
 	 * Devuelve todos los datos relacionados a la tarjeta de la persona.
 	 *
 	 * @name buscarTargeta
-	 *
+	 *      
 	 * @param mixed[] $datosAUsar
 	 *        	- 'person' o 'num_tarj'
 	 * @return mixed[] - 'person' 'estadocredencialca' 'email' 'codigoisic' 'nrodechip' 'sca_fecha' 'sca_categoria' 'sca_lote' 'tipo_formulario' 'nrodechip_dec' 'fecha_chip' 'motivo' 'tipo_credencial'
@@ -1450,7 +1450,7 @@ class class_personas
 	 * Busca los datos de la tabla usuario_web para una persona X.
 	 *
 	 * @name buscarUsuarioWeb -
-	 *
+	 *      
 	 * @param mixed[] $datosAUsar
 	 *        	- 'person' o 'docno' o 'altaDeLaCuenta' o 'vtoDeLaCuenta' o 'cuenta' o 'idCuenta'
 	 * @return array - 'docno' 'docnoCuenta' 'tipoDocCuenta' 'cuenta' 'nombreCompleto' 'fecha_altaCuenta' 'fecha_vencCuenta' 'fecha_bajaCuenta' 'frase' 'email' 'uid_cCuenta' 'uid_mCuenta' 'fecha_mCuenta' 'academicoCuenta' 'administrativoCuenta' 'alumnoCuenta' 'docenteCuenta' 'genericoCuenta' 'operadorCuenta' 'externoCuenta' 'ultimocambioclaveCuenta' 'ultimoacceso' 'ultimaaplicacion' 'ultimoip' 'person'
@@ -1603,7 +1603,7 @@ class class_personas
 		{
 			$perdoc = $this->buscarPerdoc ($datosAUsar);
 
-			for($i = 0; $i < count ($perdoc); $i++)
+			for($i = 0; $i < count ($perdoc); $i ++)
 			{
 				$persons = $this->buscarPerson ($perdoc[$i]);
 				$person[$i] = $persons[0];
@@ -1621,7 +1621,7 @@ class class_personas
 		{
 			$person = $this->buscarPerson ($datosAUsar);
 
-			for($i = 0; $i < count ($person); $i++)
+			for($i = 0; $i < count ($person); $i ++)
 			{
 				$perdocs = $this->buscarPerdoc ($person[$i]);
 				$perdoc[$i] = $perdocs[0];
@@ -1639,7 +1639,7 @@ class class_personas
 		{
 			$personca = $this->buscarTargeta ($datosAUsar);
 
-			for($i = 0; $i < count ($personca); $i++)
+			for($i = 0; $i < count ($personca); $i ++)
 			{
 				$persons = $this->buscarPerson ($personca[$i]);
 				$person[$i] = $persons[0];
@@ -1654,14 +1654,14 @@ class class_personas
 			}
 		}
 
-		for($i = 0; $i < count ($perdoc); $i++)
+		for($i = 0; $i < count ($perdoc); $i ++)
 		{
 			$persona[$i]['person'] = $perdoc[$i]['person'];
 			$persona[$i]['typdoc'] = $perdoc[$i]['typdoc'];
 			$persona[$i]['docNumero'] = $perdoc[$i]['docNumero'];
 		}
 
-		for($i = 0; $i < count ($person); $i++)
+		for($i = 0; $i < count ($person); $i ++)
 		{
 			if (!isset ($persona[$i]['person']) or $persona[$i]['person'] == "")
 			{
@@ -1689,7 +1689,7 @@ class class_personas
 			$persona[$i]['qson'] = $person[$i]['qson'];
 		}
 
-		for($i = 0; $i < count ($personca); $i++)
+		for($i = 0; $i < count ($personca); $i ++)
 		{
 			if (!isset ($persona[$i]['person']) or $persona[$i]['person'] == "")
 			{
@@ -1711,7 +1711,7 @@ class class_personas
 			$persona[$i]['estadocredenca'] = $personca[$i]['estadocredenca'];
 		}
 
-		for($i = 0; $i < count ($apers); $i++)
+		for($i = 0; $i < count ($apers); $i ++)
 		{
 			if (!isset ($persona[$i]['person']) or $persona[$i]['person'] == "")
 			{
@@ -1764,7 +1764,7 @@ class class_personas
 			}
 		}
 
-		for($i = 0; $i < count ($cuentaWeb); $i++)
+		for($i = 0; $i < count ($cuentaWeb); $i ++)
 		{
 			if (!isset ($persona[$i]['person']) or $persona[$i]['person'] == "")
 			{
@@ -2011,7 +2011,7 @@ class class_personas
 		$digitos = str_split ($cuit);
 		$digito = array_pop ($digitos);
 
-		for($i = 0; $i < count ($digitos); $i++)
+		for($i = 0; $i < count ($digitos); $i ++)
 		{
 			$acumulado += $digitos[9 - $i] * (2 + ($i % 6));
 		}
@@ -2300,12 +2300,12 @@ class class_personas
 	 *
 	 * @param array $arrayDatosPersona
 	 *        	Tiene como indices obligatorios docNumero y docTipo.
-	 *
+	 *        	
 	 * @todo adicionalmente updatea el registro en appgral.lnumber para generarle el nuevo person.
-	 *
+	 *      
 	 * @throws Exception
 	 * @return int|boolean - el person en caso de realizarce todo sin problema y false si no.array
-	 *
+	 *        
 	 *         En caso de que el parametro docTipo sea numerico realiza la siguiente convecion ( 1=LE, 2=LC, 7=DNI )
 	 */
 	public function nuevoPerdoc($arrayDatosPersona)
@@ -2410,10 +2410,10 @@ class class_personas
 	 * @param mixed[] $arrayDatosPersona
 	 *        	- Debe contener los siguientes indices de forma obligatoria
 	 *        	person, categoria, fIngreso, fbaja, legajo
-	 *
+	 *        	
 	 * @global $db - coneccion a la base de datos.
 	 * @global $_SESSION - Requiere acceder a las siguirenres variables de session 'person' y 'app'.
-	 *
+	 *        
 	 * @throws Exception
 	 * @return boolean
 	 */
@@ -2448,7 +2448,7 @@ class class_personas
 
 					$parametros[$i] = $arrayDatosPersona['person'];
 
-					$i++;
+					$i ++;
 				}
 			}
 			if (!isset ($arrayDatosPersona['categoria']) or $arrayDatosPersona['categoria'] == "")
@@ -2465,7 +2465,7 @@ class class_personas
 
 					$parametros[$i] = $arrayDatosPersona['categoria'];
 
-					$i++;
+					$i ++;
 				}
 			}
 			if (!isset ($arrayDatosPersona['fIngreso']) or $arrayDatosPersona['fIngreso'] == "")
@@ -2482,7 +2482,7 @@ class class_personas
 
 					$parametros[$i] = $arrayDatosPersona['fIngreso'];
 
-					$i++;
+					$i ++;
 				}
 			}
 			if (isset ($arrayDatosPersona['fbaja']) and $arrayDatosPersona['fbaja'] != "")
@@ -2495,7 +2495,7 @@ class class_personas
 
 					$parametros[$i] = $arrayDatosPersona['fbaja'];
 
-					$i++;
+					$i ++;
 				}
 			}
 			if (!isset ($arrayDatosPersona['legajo']) or $arrayDatosPersona['legajo'] == "")
@@ -2512,7 +2512,7 @@ class class_personas
 
 					$parametros[$i] = $arrayDatosPersona['legajo'];
 
-					$i++;
+					$i ++;
 				}
 			}
 			if (!isset ($_SESSION['person']) or $_SESSION['person'] == "")
@@ -2529,7 +2529,7 @@ class class_personas
 
 					$parametros[$i] = $_SESSION['person'];
 
-					$i++;
+					$i ++;
 				}
 			}
 			if (!isset ($_SESSION['app']) or $_SESSION['app'] == "")
@@ -2546,7 +2546,7 @@ class class_personas
 
 					$parametros[$i] = $_SESSION['app'];
 
-					$i++;
+					$i ++;
 				}
 			}
 
@@ -2580,10 +2580,10 @@ class class_personas
 	 * @param array $arrayDatosPersona
 	 *        	- Debe contener los siguientes indices de forma obligatoria
 	 *        	person, legajo
-	 *
+	 *        	
 	 * @global $db - coneccion a la base de datos.
 	 * @global $_SESSION - Requiere acceder a las siguirenres variables de session 'person' y 'app'.
-	 *
+	 *        
 	 * @throws Exception
 	 * @return boolean
 	 */
@@ -2606,7 +2606,7 @@ class class_personas
 			if (isset ($arrayDatosPersona['categoria']) and $this->comprobarExisteDato ($arrayDatosPersona['categoria']))
 			{
 				$parametros[$a] = $arrayDatosPersona['categoria'];
-				$a++;
+				$a ++;
 
 				$campos .= ", categoria = :categoria";
 			}
@@ -2614,7 +2614,7 @@ class class_personas
 			if (isset ($arrayDatosPersona['fIngreso']) and $this->comprobarExisteDato ($arrayDatosPersona['fIngreso']))
 			{
 				$parametros[$a] = $arrayDatosPersona['fIngreso'];
-				$a++;
+				$a ++;
 
 				$campos .= ", finicio = TO_DATE(:finicio, 'YYYY-MM-DD')";
 			}
@@ -2622,7 +2622,7 @@ class class_personas
 			if (isset ($arrayDatosPersona['fbaja']) and $this->comprobarExisteDato ($arrayDatosPersona['fbaja']))
 			{
 				$parametros[$a] = $arrayDatosPersona['fbaja'];
-				$a++;
+				$a ++;
 
 				$campos .= ", fbaja = TO_DATE(:fbaja, 'YYYY-MM-DD')";
 			}
@@ -2630,7 +2630,7 @@ class class_personas
 			if (isset ($arrayDatosPersona['legajo']) and $this->comprobarExisteDato ($arrayDatosPersona['legajo']))
 			{
 				$parametros[$a] = $arrayDatosPersona['legajo'];
-				$a++;
+				$a ++;
 
 				$campos .= ", legajo = :legajo";
 			}
@@ -2642,7 +2642,7 @@ class class_personas
 			else
 			{
 				$parametros[$a] = $_SESSION['person'];
-				$a++;
+				$a ++;
 
 				$campos .= ", muid = :muid";
 			}
@@ -2654,7 +2654,7 @@ class class_personas
 			else
 			{
 				$parametros[$a] = $_SESSION['app'];
-				$a++;
+				$a ++;
 
 				$campos .= ", idaplicacion = :idaplicacion";
 			}
@@ -2666,7 +2666,7 @@ class class_personas
 			else
 			{
 				$parametros[$a] = $arrayDatosPersona['person'];
-				$a++;
+				$a ++;
 
 				$wer = "AND person = :person";
 			}
@@ -2676,7 +2676,7 @@ class class_personas
 				$extraWhere = " AND LTRIM(LTRIM(categoria, '0')) = LTRIM(LTRIM(:categoria, '0')) ";
 				$parametros[$a] = $arrayDatosPersona['categoria'];
 
-				$a++;
+				$a ++;
 			}
 
 			$sql = "UPDATE appgral.catxperson" . $this->db_link . " SET mtime = SYSDATE" . $campos . " WHERE 1=1 " . $wer . $extraWhere;
@@ -2709,7 +2709,7 @@ class class_personas
 	 * @throws Exception
 	 *
 	 * @global $db - coneccion a la base de datos.
-	 *
+	 *        
 	 * @return boolean
 	 */
 	public function inserPerson($arrayDatosPersona)
@@ -2856,11 +2856,11 @@ class class_personas
 	 * @param mixed[] $arrayDatosPersona
 	 *        	- Debe contener los siguientes indices de forma obligatoria
 	 *        	person, apellido, realname, country, poldiv, city, birdate, nation, sexo, marstat, rcountry, rpoldiv, rcity, tnation
-	 *
+	 *        	
 	 * @throws Exception
 	 *
 	 * @global $db - coneccion a la base de datos.
-	 *
+	 *        
 	 * @return number
 	 */
 	public function nuevaPersona($arrayDatosPersona)

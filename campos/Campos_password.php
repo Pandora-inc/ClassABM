@@ -20,7 +20,7 @@ require_once 'class_campo.php';
 /**
  *
  * @author iberlot
- *
+ *        
  */
 class Campos_password extends class_campo
 {

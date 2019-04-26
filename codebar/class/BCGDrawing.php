@@ -20,35 +20,39 @@
  * Copyright (C) Jean-Sebastien Goupil
  * http://www.barcodephp.com
  */
-include_once('BCGBarcode.php');
-include_once('drawer/BCGDrawJPG.php');
-include_once('drawer/BCGDrawPNG.php');
+include_once ('BCGBarcode.php');
+include_once ('drawer/BCGDrawJPG.php');
+include_once ('drawer/BCGDrawPNG.php');
 
-class BCGDrawing {
+class BCGDrawing
+{
 	const IMG_FORMAT_PNG = 1;
 	const IMG_FORMAT_JPEG = 2;
 	const IMG_FORMAT_GIF = 3;
 	const IMG_FORMAT_WBMP = 4;
+	private $w, $h; // int
+	private $color; // BCGColor
+	private $filename; // char *
+	private $im; // {object}
+	private $barcode; // BCGBarcode
+	private $dpi; // int
+	private $rotateDegree;
 
-	private $w, $h;		// int
-	private $color;		// BCGColor
-	private $filename;	// char *
-	private $im;		// {object}
-	private $barcode;	// BCGBarcode
-	private $dpi;		// int
-	private $rotateDegree;	// float
+	// float
 
 	/**
 	 * Constructor
 	 *
 	 * @param int $w
 	 * @param int $h
-	 * @param string filename
+	 * @param
+	 *        	string filename
 	 * @param BCGColor $color
 	 */
-	public function __construct($filename, BCGColor $color) {
+	public function __construct($filename, BCGColor $color)
+	{
 		$this->im = null;
-		$this->setFilename($filename);
+		$this->setFilename ($filename);
 		$this->color = $color;
 		$this->dpi = null;
 		$this->rotateDegree = 0.0;
@@ -57,8 +61,9 @@ class BCGDrawing {
 	/**
 	 * Destructor
 	 */
-	public function __destruct() {
-		$this->destroy();
+	public function __destruct()
+	{
+		$this->destroy ();
 	}
 
 	/**
@@ -66,32 +71,38 @@ class BCGDrawing {
 	 *
 	 * @param string $filaneme
 	 */
-	public function setFilename($filename) {
+	public function setFilename($filename)
+	{
 		$this->filename = $filename;
 	}
 
 	/**
 	 * Init Image and color background
 	 */
-	private function init() {
-		if($this->im === null) {
-			$this->im = imagecreatetruecolor($this->w, $this->h)
-			or die('Can\'t Initialize the GD Libraty');
-			imagefilledrectangle($this->im, 0, 0, $this->w - 1, $this->h - 1, $this->color->allocate($this->im));
+	private function init()
+	{
+		if ($this->im === null)
+		{
+			$this->im = imagecreatetruecolor ($this->w, $this->h) or die ('Can\'t Initialize the GD Libraty');
+			imagefilledrectangle ($this->im, 0, 0, $this->w - 1, $this->h - 1, $this->color->allocate ($this->im));
 		}
 	}
 
 	/**
+	 *
 	 * @return resource
 	 */
-	public function get_im() {
+	public function get_im()
+	{
 		return $this->im;
 	}
 
 	/**
+	 *
 	 * @param resource $im
 	 */
-	public function set_im(&$im) {
+	public function set_im(&$im)
+	{
 		$this->im = $im;
 	}
 
@@ -100,7 +111,8 @@ class BCGDrawing {
 	 *
 	 * @param BCGBarcode $barcode
 	 */
-	public function setBarcode(BCGBarcode $barcode) {
+	public function setBarcode(BCGBarcode $barcode)
+	{
 		$this->barcode = $barcode;
 	}
 
@@ -109,7 +121,8 @@ class BCGDrawing {
 	 *
 	 * @return int
 	 */
-	public function getDPI() {
+	public function getDPI()
+	{
 		return $this->dpi;
 	}
 
@@ -118,7 +131,8 @@ class BCGDrawing {
 	 *
 	 * @param float $dpi
 	 */
-	public function setDPI($dpi) {
+	public function setDPI($dpi)
+	{
 		$this->dpi = $dpi;
 	}
 
@@ -127,7 +141,8 @@ class BCGDrawing {
 	 *
 	 * @return float
 	 */
-	public function getRotationAngle() {
+	public function getRotationAngle()
+	{
 		return $this->rotateDegree;
 	}
 
@@ -136,19 +151,21 @@ class BCGDrawing {
 	 *
 	 * @param float $degree
 	 */
-	public function setRotationAngle($degree) {
-		$this->rotateDegree = (float)$degree;
+	public function setRotationAngle($degree)
+	{
+		$this->rotateDegree = (float) $degree;
 	}
 
 	/**
 	 * Draw the barcode on the image $im
 	 */
-	public function draw() {
-		$size = $this->barcode->getMaxSize();
-		$this->w = max(1, $size[0]);
-		$this->h = max(1, $size[1]);
-		$this->init();
-		$this->barcode->draw($this->im);
+	public function draw()
+	{
+		$size = $this->barcode->getMaxSize ();
+		$this->w = max (1, $size[0]);
+		$this->h = max (1, $size[1]);
+		$this->init ();
+		$this->barcode->draw ($this->im);
 	}
 
 	/**
@@ -157,39 +174,51 @@ class BCGDrawing {
 	 * @param int $image_style
 	 * @param int $quality
 	 */
-	public function finish($image_style = self::IMG_FORMAT_PNG, $quality = 100) {
+	public function finish($image_style = self::IMG_FORMAT_PNG, $quality = 100)
+	{
 		$drawer = null;
 
 		$im = $this->im;
-		if($this->rotateDegree > 0.0) {
-			$im = imagerotate($this->im, $this->rotateDegree, $this->color->allocate($this->im));
+		if ($this->rotateDegree > 0.0)
+		{
+			$im = imagerotate ($this->im, $this->rotateDegree, $this->color->allocate ($this->im));
 		}
 
-		if ($image_style === self::IMG_FORMAT_PNG) {
-			$drawer = new BCGDrawPNG($im);
-			$drawer->setFilename($this->filename);
-			$drawer->setDPI($this->dpi);
-		} elseif ($image_style === self::IMG_FORMAT_JPEG) {
-			$drawer = new BCGDrawJPG($im);
-			$drawer->setFilename($this->filename);
-			$drawer->setDPI($this->dpi);
-			$drawer->setQuality($quality);
-		} elseif ($image_style === self::IMG_FORMAT_GIF) {
-			imagegif($im, $this->filename);
-		} elseif ($image_style === self::IMG_FORMAT_WBMP) {
-			imagewbmp($im, $this->filename);
+		if ($image_style === self::IMG_FORMAT_PNG)
+		{
+			$drawer = new BCGDrawPNG ($im);
+			$drawer->setFilename ($this->filename);
+			$drawer->setDPI ($this->dpi);
+		}
+		elseif ($image_style === self::IMG_FORMAT_JPEG)
+		{
+			$drawer = new BCGDrawJPG ($im);
+			$drawer->setFilename ($this->filename);
+			$drawer->setDPI ($this->dpi);
+			$drawer->setQuality ($quality);
+		}
+		elseif ($image_style === self::IMG_FORMAT_GIF)
+		{
+			imagegif ($im, $this->filename);
+		}
+		elseif ($image_style === self::IMG_FORMAT_WBMP)
+		{
+			imagewbmp ($im, $this->filename);
 		}
 
-		if($drawer !== null) {
-			$drawer->draw();
+		if ($drawer !== null)
+		{
+			$drawer->draw ();
 		}
 	}
 
 	/**
 	 * Free the memory of PHP (called also by destructor)
 	 */
-	public function destroy() {
-		@imagedestroy($this->im);
+	public function destroy()
+	{
+		@imagedestroy ($this->im);
 	}
-};
+}
+;
 ?>

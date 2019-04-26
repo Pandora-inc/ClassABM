@@ -27,7 +27,7 @@
  * Clase abstracta con una agrupacion de funciones genericas.
  *
  * @author iberlot
- *
+ *        
  */
 abstract class Funciones
 {
@@ -52,7 +52,7 @@ abstract class Funciones
 	 * Convierte de un array todas las entidades HTML para que sea seguro mostrar en pantalla strings ingresados por los usuarios
 	 *
 	 * @example $_REQUEST = limpiarEntidadesHTML($_REQUEST);
-	 *
+	 *         
 	 * @param String[] $param
 	 * @return String[] - Depende del parametro recibido, un array con los datos remplazados o un String
 	 */

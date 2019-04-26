@@ -6,7 +6,7 @@ require_once 'class_campo.php';
 /**
  *
  * @author iberlot
- *
+ *        
  */
 class Campos_texto extends class_campo
 {

@@ -26,7 +26,7 @@ require_once 'class_campo.php';
  *
  * @author iberlot <@> ivanberlot@gmail.com
  * @since 16 Nov. 2018
- *
+ *       
  */
 class Campos_textarea extends class_campo
 {

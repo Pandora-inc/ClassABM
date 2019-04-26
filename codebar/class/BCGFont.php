@@ -1,4 +1,5 @@
 <?php
+
 /**
  * BCGFont.php
  *--------------------------------------------------------------------
@@ -17,7 +18,8 @@
  * Copyright (C) Jean-Sebastien Goupil
  * http://www.barcodephp.com
  */
-class BCGFont {
+class BCGFont
+{
 	private $path;
 	private $text;
 	private $size;
@@ -26,10 +28,13 @@ class BCGFont {
 	/**
 	 * Constructor
 	 *
-	 * @param string $fontPath path to the file
-	 * @param int $size size in point
+	 * @param string $fontPath
+	 *        	path to the file
+	 * @param int $size
+	 *        	size in point
 	 */
-	public function __construct($fontPath, $size) {
+	public function __construct($fontPath, $size)
+	{
 		$this->path = $fontPath;
 		$this->size = $size;
 	}
@@ -37,12 +42,14 @@ class BCGFont {
 	/**
 	 * Text associated to the font
 	 *
-	 * @param string text
+	 * @param
+	 *        	string text
 	 */
-	public function setText($text) {
+	public function setText($text)
+	{
 		$this->text = $text;
-		$im = imagecreate(1, 1);
-		$this->box = imagettftext($im, $this->size, 0, 0, 0, imagecolorallocate($im, 0, 0, 0), $this->path, $this->text);
+		$im = imagecreate (1, 1);
+		$this->box = imagettftext ($im, $this->size, 0, 0, 0, imagecolorallocate ($im, 0, 0, 0), $this->path, $this->text);
 	}
 
 	/**
@@ -50,14 +57,18 @@ class BCGFont {
 	 *
 	 * @return float
 	 */
-	public function getWidth() {
-		if ($this->box !== NULL) {
+	public function getWidth()
+	{
+		if ($this->box !== NULL)
+		{
 			// Bug fixed : a number is aligned on the "right" in the box...
 			// If we are writting the number "1" with minX at 2 and maxX at 10
 			// The maxWidth will be 10 and not 8 because we don't squeeze the number
 			// on its left. So now we don't remove the minX.
-			return abs(max($this->box[2], $this->box[4]));
-		} else {
+			return abs (max ($this->box[2], $this->box[4]));
+		}
+		else
+		{
 			return 0;
 		}
 	}
@@ -67,10 +78,14 @@ class BCGFont {
 	 *
 	 * @return float
 	 */
-	public function getHeight() {
-		if ($this->box !== NULL) {
-			return (float) abs(max($this->box[5], $this->box[7]) - min($this->box[1], $this->box[3]));
-		} else {
+	public function getHeight()
+	{
+		if ($this->box !== NULL)
+		{
+			return (float) abs (max ($this->box[5], $this->box[7]) - min ($this->box[1], $this->box[3]));
+		}
+		else
+		{
 			return 0.0;
 		}
 	}
@@ -80,9 +95,10 @@ class BCGFont {
 	 *
 	 * @return float
 	 */
-	public function getUnderBaseline() {
+	public function getUnderBaseline()
+	{
 		// Y for imagettftext : This sets the position of the fonts baseline, not the very bottom of the character.
-		return (float) max($this->box[1], $this->box[3]);
+		return (float) max ($this->box[1], $this->box[3]);
 	}
 
 	/**
@@ -94,8 +110,9 @@ class BCGFont {
 	 * @param int $x
 	 * @param int $y
 	 */
-	public function draw(&$im, $color, $x, $y) {
-		imagettftext($im, $this->size, 0, $x, $y, $color, $this->path, $this->text);
+	public function draw(&$im, $color, $x, $y)
+	{
+		imagettftext ($im, $this->size, 0, $x, $y, $color, $this->path, $this->text);
 	}
 }
 ?>
