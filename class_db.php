@@ -408,18 +408,18 @@
 			}
 
 			// Empezamos el debug de la consulta
-			// if ($this->debug)
-			// {
-			// echo "<div style='background-color:#E8E8FF; padding:10px; margin:10px; font-family:Arial; font-size:11px; border:1px solid blue'>";
-			// echo $this->format_query_imprimir ($str_query);
+			if ($this->debug)
+			{
+				echo "<div style='background-color:#E8E8FF; padding:10px; margin:10px; font-family:Arial; font-size:11px; border:1px solid blue'>";
+				echo $this->format_query_imprimir ($str_query);
 
-			// if ($esParam == true)
-			// {
-			// $this->imprimirParam ($str_query, $parametros);
-			// }
+				if ($esParam == true)
+				{
+					$this->imprimirParam ($str_query, $parametros);
+				}
 
-			// echo "</div>";
-			// }
+				echo "</div>";
+			}
 
 			if (isset ($this->debugsql))
 			{
@@ -436,12 +436,13 @@
 
 			$errorNo = $this->errorNro ($result);
 
-			if ($errorNo != 0 and $errorNo != 1062)
+			if ($errorNo != 0 and $errorNo != 1062 and $errorNo != 666)
 			{ // el error 1062 es "Duplicate entry"
-				if ($this->mostrarErrores)
+
+				if ($this->mostrarErrores == TRUE)
 				{
 					echo "<div style='background-color:#FFECEC; padding:10px; margin:10px; font-family:Arial; font-size:11px; border:1px solid red'>";
-					echo "<B>Error:</B> " . $this->error ($result) . "<br><br>";
+					echo "<B>Error: </B> " . $this->error ($result) . "<br><br>";
 					echo "<B>P&aacute;gina:</B> " . getenv ("REQUEST_URI") . "<br>";
 					echo "<br>" . $this->format_query_imprimir ($str_query);
 
@@ -456,7 +457,8 @@
 				{
 					echo "DB Error";
 				}
-				if ($this->dieOnError)
+
+				if ($this->dieOnError == true)
 				{
 					die ("class_db die()");
 				}
