@@ -408,31 +408,31 @@
 			}
 
 			// Empezamos el debug de la consulta
-			// if ($this->debug)
-			// {
-			// echo "<div style='background-color:#E8E8FF; padding:10px; margin:10px; font-family:Arial; font-size:11px; border:1px solid blue'>";
-			// echo $this->format_query_imprimir ($str_query);
-
-			// if ($esParam == true)
-			// {
-			// $this->imprimirParam ($str_query, $parametros);
-			// }
-
-			// echo "</div>";
-			// }
-
-			if (isset ($this->debugsql))
+			if ($this->debug)
 			{
-				consola ($str_query);
+				echo "<div style='background-color:#E8E8FF; padding:10px; margin:10px; font-family:Arial; font-size:11px; border:1px solid blue'>";
+				echo $this->format_query_imprimir ($str_query);
+
+				if ($esParam == true)
+				{
+					$this->imprimirParam ($str_query, $parametros);
+				}
+
+				echo "</div>";
 			}
 
-			if ($this->grabarArchivoLogQuery)
-			{
-				$str_log = date ("d/m/Y H:i:s") . " " . getenv ("REQUEST_URI") . "\n";
-				$str_log .= $str_query;
-				$str_log .= "\n------------------------------------------------------\n";
-				error_log ($str_log);
-			}
+			// if (isset ($this->debugsql))
+			// {
+			// consola ($str_query);
+			// }
+
+			// if ($this->grabarArchivoLogQuery)
+			// {
+			// $str_log = date ("d/m/Y H:i:s") . " " . getenv ("REQUEST_URI") . "\n";
+			// $str_log .= $str_query;
+			// $str_log .= "\n------------------------------------------------------\n";
+			// error_log ($str_log);
+			// }
 
 			$errorNo = $this->errorNro ($result);
 
