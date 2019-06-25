@@ -421,18 +421,18 @@
 				echo "</div>";
 			}
 
-			// if (isset ($this->debugsql))
-			// {
-			// consola ($str_query);
-			// }
+			if (isset ($this->debugsql))
+			{
+				consola ($str_query);
+			}
 
-			// if ($this->grabarArchivoLogQuery)
-			// {
-			// $str_log = date ("d/m/Y H:i:s") . " " . getenv ("REQUEST_URI") . "\n";
-			// $str_log .= $str_query;
-			// $str_log .= "\n------------------------------------------------------\n";
-			// error_log ($str_log);
-			// }
+			if ($this->grabarArchivoLogQuery)
+			{
+				$str_log = date ("d/m/Y H:i:s") . " " . getenv ("REQUEST_URI") . "\n";
+				$str_log .= $str_query;
+				$str_log .= "\n------------------------------------------------------\n";
+				error_log ($str_log);
+			}
 
 			$errorNo = $this->errorNro ($result);
 
@@ -456,6 +456,7 @@
 				{
 					echo "DB Error";
 				}
+
 				if ($this->dieOnError)
 				{
 					die ("class_db die()");
@@ -478,7 +479,7 @@
 					@mail ($this->emailAvisoErrorSql, "Error MySQL", "Error: " . $this->error () . "\n\nP&aacute;gina:" . getenv ("REQUEST_URI") . "\n\nIP del visitante:" . getenv ("REMOTE_ADDR") . "\n\nQuery:" . $str_query);
 				}
 
-				throw new Exception ($this->error ($result));
+				// throw new Exception ($this->error ($result));
 			}
 
 			return $result;
