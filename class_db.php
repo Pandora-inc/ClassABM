@@ -436,51 +436,51 @@
 
 			$errorNo = $this->errorNro ($result);
 
-			// if ($errorNo != 0 and $errorNo != 1062)
-			// { // el error 1062 es "Duplicate entry"
-			// if ($this->mostrarErrores)
-			// {
-			// echo "<div style='background-color:#FFECEC; padding:10px; margin:10px; font-family:Arial; font-size:11px; border:1px solid red'>";
-			// echo "<B>Error:</B> " . $this->error ($result) . "<br><br>";
-			// echo "<B>P&aacute;gina:</B> " . getenv ("REQUEST_URI") . "<br>";
-			// echo "<br>" . $this->format_query_imprimir ($str_query);
+			if ($errorNo != 0 and $errorNo != 1062)
+			{ // el error 1062 es "Duplicate entry"
+			  // if ($this->mostrarErrores)
+			  // {
+			  // echo "<div style='background-color:#FFECEC; padding:10px; margin:10px; font-family:Arial; font-size:11px; border:1px solid red'>";
+			  // echo "<B>Error:</B> " . $this->error ($result) . "<br><br>";
+			  // echo "<B>P&aacute;gina:</B> " . getenv ("REQUEST_URI") . "<br>";
+			  // echo "<br>" . $this->format_query_imprimir ($str_query);
 
-			// if ($esParam == true)
-			// {
-			// $this->imprimirParam ($str_query, $parametros);
-			// }
+				// if ($esParam == true)
+				// {
+				// $this->imprimirParam ($str_query, $parametros);
+				// }
 
-			// echo "</div>";
-			// }
-			// else
-			// {
-			// echo "DB Error";
-			// }
+				// echo "</div>";
+				// }
+				// else
+				// {
+				// echo "DB Error";
+				// }
 
-			// if ($this->dieOnError)
-			// {
-			// die ("class_db die()");
-			// }
+				if ($this->dieOnError == true)
+				{
+					die ("class_db die()");
+				}
 
-			// if ($this->grabarArchivoLogError)
-			// {
-			// $str_log = "******************* ERROR ****************************\n";
-			// $str_log .= date ("d/m/Y H:i:s") . " " . getenv ("REQUEST_URI") . "\n";
-			// $str_log .= "IP del visitante: " . getenv ("REMOTE_ADDR") . "\n";
-			// $str_log .= "Error: " . $this->error () . "\n";
-			// $str_log .= $str_query;
-			// $str_log .= "\n------------------------------------------------------\n";
-			// error_log ($str_log);
-			// }
+				if ($this->grabarArchivoLogError)
+				{
+					$str_log = "******************* ERROR ****************************\n";
+					$str_log .= date ("d/m/Y H:i:s") . " " . getenv ("REQUEST_URI") . "\n";
+					$str_log .= "IP del visitante: " . getenv ("REMOTE_ADDR") . "\n";
+					$str_log .= "Error: " . $this->error () . "\n";
+					$str_log .= $str_query;
+					$str_log .= "\n------------------------------------------------------\n";
+					error_log ($str_log);
+				}
 
-			// // envio de aviso de error
-			// if ($this->emailAvisoErrorSql != "")
-			// {
-			// @mail ($this->emailAvisoErrorSql, "Error MySQL", "Error: " . $this->error () . "\n\nP&aacute;gina:" . getenv ("REQUEST_URI") . "\n\nIP del visitante:" . getenv ("REMOTE_ADDR") . "\n\nQuery:" . $str_query);
-			// }
+				// envio de aviso de error
+				if ($this->emailAvisoErrorSql != "")
+				{
+					@mail ($this->emailAvisoErrorSql, "Error MySQL", "Error: " . $this->error () . "\n\nP&aacute;gina:" . getenv ("REQUEST_URI") . "\n\nIP del visitante:" . getenv ("REMOTE_ADDR") . "\n\nQuery:" . $str_query);
+				}
 
-			// throw new Exception ($this->error ($result));
-			// }
+				throw new Exception ($this->error ($result));
+			}
 
 			return $result;
 		}
