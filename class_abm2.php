@@ -1907,7 +1907,7 @@ class class_abm
 			}
 			elseif ($campo->existeDato ('joinTable') and ($campo->existeDato ('omitirJoin') and $campo->isOmitirJoin () == true))
 			{
-				if (isset ($campo->getSelectPersonal ()) and $campo->getSelectPersonal () == true)
+				if ($campo->existeDato ('selectPersonal') and $campo->getSelectPersonal () == true)
 				{
 					$campo->setJoinTable ($campo->prepara_joinTable ());
 
@@ -1915,15 +1915,7 @@ class class_abm
 				}
 				else
 				{
-					if (isset ($campo->getSelectPersonal ()) and $campo->getSelectPersonal () == true)
-					{
-						$campo->setJoinTable ($campo->prepara_joinTable ());
-						$camposSelect .= $campo;
-					}
-					else
-					{
-						$camposSelect .= $campo->prepara_joinTable () . "." . $campo;
-					}
+					$camposSelect .= $campo->prepara_joinTable () . "." . $campo;
 				}
 			}
 			elseif ($campo->getTipo () == 'rownum')
