@@ -20,7 +20,7 @@ require_once 'class_campo.php';
 /**
  *
  * @author iberlot
- *        
+ *
  */
 class Campos_dbCombo extends class_campo
 {
@@ -138,6 +138,23 @@ class Campos_dbCombo extends class_campo
 	public function getSqlQuery()
 	{
 		return $this->sqlQuery;
+	}
+
+	/**
+	 * Comprueba que la clase tenga definida una salQuery propia
+	 *
+	 * @return boolean
+	 */
+	public function tieneSqlQuery()
+	{
+		if (isset ($this->sqlQuery) and $this->sqlQuery != "")
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
 	}
 
 	/**

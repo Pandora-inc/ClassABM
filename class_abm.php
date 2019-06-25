@@ -93,6 +93,15 @@
  * 'customEvalListado' => 'echo "<td align=\"center\">"; if($valor=="admin"){echo "Si";}else{echo "No";}; echo "</td>";'
  * ),
  * array(
+ * 'campo' => "IdProveedor",
+ * 'tipo' => "texto",
+ * 'campoValor' => "Cuit",
+ * 'campoTexto' => "Calle",
+ * 'joinTable' => "Proveedor",
+ * 'joinCondition' => "Inner",
+ * 'titulo' => "C alle"
+ * )
+ * array(
  * 'campo' => "paisId",
  * 'tipo' => "dbCombo",
  * "sqlQuery" => "SELECT * FROM paises ORDER BY pais",
@@ -188,11 +197,11 @@ include_once 'campos/class_campo.php';
  * Clase que genera automaticamente un listado y los formularios que modifican o agregan datos en una tabla de BD.
  *
  * @name class_abm
- *      
+ *
  * @uses class_paginado.php, class_orderby.php, class_db.php
  * @author Andres Carizza www.andrescarizza.com.ar
  * @author iberlot <@> ivanberlot@gmail.com
- *        
+ *
  * @version 3.96
  * @since 3.0 cambia la forma de aplicar los estilos css.
  * @since 3.4 cambia de usar MooTools a usar JQuery.
@@ -405,7 +414,7 @@ class class_abm
 	 *
 	 * @var string
 	 * @example a $abm->adicionalesExtra = 'onclick="window.location="abmCapitulos.php?abm_extra=1&r=40&idLibro=2""';
-	 *         
+	 *
 	 */
 	public $adicionalesExtra;
 
@@ -1089,7 +1098,7 @@ class class_abm
 	 *
 	 * @author iberlot <@> ivanberlot@gmail.com
 	 * @name convertirIdMultipleSelect
-	 *      
+	 *
 	 * @param array $array
 	 *        	--> array con todos los campos a utilizar para generar el id compuesto
 	 * @param string $tabla
@@ -1809,14 +1818,14 @@ class class_abm
 	 * Genera el formulario de modificacion de un registro
 	 *
 	 * @version 1.0.2 Se corrigio el uso de $customCompareValor para que quedara entre comillas simples cosa de poder hacer comparaciones de textos.
-	 *         
+	 *
 	 * @param string $id
 	 *        	id por el que debe identificarse el registro a modificar
 	 * @param string $titulo
 	 *        	en caso de que el formulario deba tener un titulo especial
 	 * @param object $db
 	 *        	- Objeto encargado de la interaccion con la base de datos.
-	 *        	
+	 *
 	 * @return string
 	 */
 	public function generarFormModificacion($id, $titulo = "", $db)
@@ -3142,14 +3151,14 @@ class class_abm
 	 * Genera el listado ABM con las funciones de editar, nuevo y borrar (segun la configuracion).
 	 *
 	 * @todo NOTA: Esta funcion solamente genera el listado, se necesita usar la funcion generarAbm() para que funcione el ABM.
-	 *      
+	 *
 	 * @param object $db
 	 *        	- Objeto encargado de la interaccion con la base de datos.
 	 * @param string $titulo
 	 *        	Un titulo para mostrar en el encabezado del listado
 	 * @param string $sql
 	 *        	Query SQL personalizado para el listado. Usando este query no se usa $adicionalesSelect
-	 *        	
+	 *
 	 */
 	public function generarListado($db, $titulo, $sql = "")
 	{
@@ -4446,7 +4455,7 @@ class class_abm
 	 *
 	 * @param object $db
 	 *        	- Objeto encargado de la interaccion con la base de datos.
-	 *        	
+	 *
 	 * @return void|string En caso de haber algun problema devuelve un error
 	 */
 	private function dbRealizarAlta($db)
@@ -5206,7 +5215,7 @@ class class_abm
 	 *        	- id del registro a eliminar.
 	 * @param object $db
 	 *        	- Objeto encargado de la interaccion con la base de datos.
-	 *        	
+	 *
 	 * @return int devuelve codigo de error en caso de ser necesario
 	 */
 	private function dbBorrarRegistro($id, $db)
@@ -5273,7 +5282,7 @@ class class_abm
 	 * Convierte de un array todas las entidades HTML para que sea seguro mostrar en pantalla strings ingresados por los usuarios
 	 *
 	 * @example $_REQUEST = limpiarEntidadesHTML($_REQUEST);
-	 *         
+	 *
 	 * @param String[] $param
 	 * @return String[] - Depende del parametro recibido, un array con los datos remplazados o un String
 	 */
@@ -5313,7 +5322,7 @@ class class_abm
 	 * Escapa de un array todos los caracteres especiales de una cadena para su uso en una sentencia SQL
 	 *
 	 * @example $_REQUEST = limpiarParaSql($_REQUEST, $db);
-	 *         
+	 *
 	 * @param String[] $param
 	 * @param object $db
 	 *        	- Objeto encargado de la interaccion con la base de datos.
@@ -5389,7 +5398,7 @@ class class_abm
 	 * Funcion que arma los parametros del where de la consulta en caso de estar realizando una busqueda
 	 *
 	 * @todo En la version 2 de esta clase esto va a estar en las clases referiadas a los campos.
-	 *      
+	 *
 	 * @param object $db
 	 *        	Conectos a la base de datos
 	 * @param String $camposWhereBuscar
