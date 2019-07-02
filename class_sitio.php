@@ -275,9 +275,9 @@ class Sitios
 	 */
 	public static function setMsg($msg, $class = 'info', $mostrarUnaSolaVez = true)
 	{
-		$this->sitio_sitio_msg = $msg;
-		$this->sitio_msgClass = $class;
-		$this->sitio_msgMostrarUnaSolaVez = $mostrarUnaSolaVez;
+		Sitios::$sitio_sitio_msg = $msg;
+		Sitios::$sitio_msgClass = $class;
+		Sitios::$sitio_msgMostrarUnaSolaVez = $mostrarUnaSolaVez;
 	}
 
 	/**
@@ -2674,13 +2674,13 @@ class Sitios
 	{
 		if ((Sitios::getDbSever () != "") and (Sitios::getDbUser () != "") and (Sitios::getDbPass () != "") and (Sitios::getDbBase () != "") and (Sitios::getDbCharset () != "") and (Sitios::getDbTipo () != ""))
 		{
-			$this->db = new class_db (Sitios::getDbSever (), Sitios::getDbUser (), Sitios::getDbPass (), Sitios::getDbBase (), Sitios::getDbCharset (), Sitios::getDbTipo ());
+			Sitios::$db = new class_db (Sitios::getDbSever (), Sitios::getDbUser (), Sitios::getDbPass (), Sitios::getDbBase (), Sitios::getDbCharset (), Sitios::getDbTipo ());
 
-			$this->db->connect ();
+			Sitios::$db->connect ();
 
-			$this->db->dieOnError = $this->dieOnError;
-			$this->db->mostrarErrores = $this->mostrarErrores;
-			$this->db->debug = $this->debug; // True si quiero que muestre el Query en por pantalla
+			Sitios::$db->dieOnError = $this->dieOnError;
+			Sitios::$db->mostrarErrores = $this->mostrarErrores;
+			Sitios::$db->debug = $this->debug; // True si quiero que muestre el Query en por pantalla
 		}
 	}
 
