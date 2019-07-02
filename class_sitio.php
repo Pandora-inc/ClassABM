@@ -2681,6 +2681,8 @@ class Sitios
 			Sitios::$db->dieOnError = Sitios::$dieOnError;
 			Sitios::$db->mostrarErrores = Sitios::$mostrarErrores;
 			Sitios::$db->debug = Sitios::$debug; // True si quiero que muestre el Query en por pantalla
+
+			return Sitios::$db;
 		}
 	}
 
