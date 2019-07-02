@@ -18,11 +18,11 @@ require_once 'class_fechas.php';
  * @name class_sitio
  * @author iberlot <@> iberlot@usal.edu.ar
  * @author Andres Carizza
- *        
+ *
  * @version 1.0.6 - Se eliminan la mayoria de las variables de secion remplazadas por propiedades de la clase.
  * @version 1.0.5 - Se agrega la suma de funciones comunes y genericas que se pueden llegar a utilizar en cualquier sitio.
  * @version 1.0.5 - Correcciones de codigo optimizacion y comnetado.
- *         
+ *
  */
 class Sitios
 {
@@ -390,9 +390,9 @@ class Sitios
 	 * Convierte de un array todas las entidades HTML para que sea seguro mostrar en pantalla strings ingresados por los usuarios.
 	 *
 	 * @deprecated Se recomienda utilizar directamente la funcion de la clase FuncionesString
-	 *            
+	 *
 	 * @example $_REQUEST = limpiarEntidadesHTML($_REQUEST, $config);
-	 *         
+	 *
 	 * @param string[] $param
 	 *        	- datos de lo cuales limpiarl las entidades html.
 	 * @return array|string - Depende del parametro recibido, un array con los datos remplazados o un String
@@ -406,7 +406,7 @@ class Sitios
 	 * Comprueba que la direccion de mail no tenga caracteres extranos.
 	 *
 	 * @deprecated Se recomienda utilizar directamente la funcion de la clase validar
-	 *            
+	 *
 	 * @param string $str
 	 *        	- email a verificar
 	 * @return bool - Devuelve true o false dependiendo de si es o no un mail valido.
@@ -420,9 +420,9 @@ class Sitios
 	 * Escapa de un array todos los caracteres especiales de una cadena para su uso en una sentencia SQL
 	 *
 	 * @example $_REQUEST = limpiarParaSql($_REQUEST);
-	 *         
+	 *
 	 * @deprecated - Esta funcion es remplazada por real_escape_string de la clase db.
-	 *            
+	 *
 	 * @param string[] $param
 	 * @param object $db
 	 *        	- Objeto encargado de la administracion de la base de datos.
@@ -438,10 +438,10 @@ class Sitios
 	 * Ademas elimina cualquier caracter extrano en el string.
 	 *
 	 * @deprecated Se recomienda utilizar directamente la funcion de la clase FuncionesString
-	 *            
+	 *
 	 * @param string $string
 	 *        	- la cadena a sanear
-	 *        	
+	 *
 	 * @return string $string - saneada
 	 */
 	public static function sanear_string($string)
@@ -453,15 +453,15 @@ class Sitios
 	 * Remplaza los caracteres especiales por sus etiquetas html.
 	 *
 	 * @name convertir_especiales_html
-	 *      
+	 *
 	 * @version 1.2 - Se remplazan las variables globales por variables de la clase.
 	 * @deprecated Se recomienda utilizar directamente la funcion de la clase FuncionesString
-	 *            
+	 *
 	 * @todo esta funcion usa la propiedad de la clase 'carateres_latinos' si no llegara a estar definida lo hace.
-	 *      
+	 *
 	 * @param string $str
 	 *        	- Texto en el cual remplazar los caracteres especiales.
-	 *        	
+	 *
 	 * @return string - Texto con los caracteres remplazados.
 	 */
 	public static function convertir_especiales_html($str)
@@ -473,7 +473,7 @@ class Sitios
 	 * Alimina cualquier caracter que no sea de la A a la z o numero.
 	 *
 	 * @deprecated Se recomienda utilizar directamente la funcion de la clase FuncionesString
-	 *            
+	 *
 	 * @param string $texto
 	 * @return string
 	 */
@@ -487,7 +487,7 @@ class Sitios
 	 * A diferencia de las funciones de PHP esta solo va a retornar TRUE si en el valor hay unicamente numeros.
 	 *
 	 * @name es_numerico
-	 *      
+	 *
 	 * @param mixed $valor
 	 *        	- Dato que queremos comprobar
 	 * @return boolean
@@ -640,7 +640,7 @@ class Sitios
 	 * Formatea la fecha de la forma dd/mm/yyyy
 	 *
 	 * @deprecated Se recomienda utilizar directamente la funcion de la clase Fechas
-	 *            
+	 *
 	 * @param string $fecha_inicio
 	 * @return string
 	 */
@@ -653,13 +653,13 @@ class Sitios
 	 * Agarra caulquier fecha con el format inicial YYYY MM DD y la formatea para oracle.
 	 *
 	 * @deprecated Se recomienda utilizar directamente la funcion de la clase Fechas
-	 *            
+	 *
 	 * @param string $fecha_inicio
 	 *        	- Fecha con el formato YYYY-MM-DD o YYYY/MM/DD.
 	 * @param string $separador
 	 *        	- Caracter con el cual se va a separar la fecha, por defecto /.
 	 * @throws Exception - retorna un error si la cantidad de digitos numericos de $fecha_inicio es menor que 8.
-	 *        
+	 *
 	 * @return string - retorna la fecha con el formato DD MM YYYY separado por el caracter separador.
 	 */
 	public static function formatear_fecha_Oracle($fecha_inicio, $separador = "/")
@@ -683,7 +683,7 @@ class Sitios
 	 * invierte el orden de la fecha para que quede en el formato dia-mes-a�o
 	 *
 	 * @deprecated - Conviene utilizar formatear_fecha_Oracle.
-	 *            
+	 *
 	 * @param DateTime $fecha
 	 *        	fecha con el formato ano-mes-dia
 	 * @return string $aux
@@ -700,7 +700,7 @@ class Sitios
 	 * Devuelve el dia correspondiente de la semana en formato de tres letras.
 	 *
 	 * @deprecated Se recomienda utilizar directamente la funcion de la clase Fechas
-	 *            
+	 *
 	 * @param string $fecha
 	 *        	- fecha con el formato ano-mes-dia
 	 * @return string $dias
@@ -714,7 +714,7 @@ class Sitios
 	 * Pasandosele un numero devielve el nombre del mes que le corresponde.
 	 *
 	 * @deprecated Se recomienda utilizar directamente la funcion de la clase Fechas
-	 *            
+	 *
 	 * @param int $numMes
 	 * @return string
 	 */
@@ -727,7 +727,7 @@ class Sitios
 	 * Suma una cantidad X de dias a una fecha.
 	 *
 	 * @deprecated Se recomienda utilizar directamente la funcion de la clase Fechas
-	 *            
+	 *
 	 * @param string $fecha
 	 *        	- fecha con el formato ano-mes-dia.
 	 * @param int $dia
@@ -743,7 +743,7 @@ class Sitios
 	 * Diferencia de Dias - Fecha mayor, Fecha menor
 	 *
 	 * @deprecated Se recomienda utilizar directamente la funcion de la clase Fechas
-	 *            
+	 *
 	 * @param string $fecha2
 	 *        	- Fecha mayor con el formato ano-mes-dia
 	 * @param string $fecha1
@@ -759,14 +759,14 @@ class Sitios
 	 * Chequea que la fecha ingresada sea correcta
 	 *
 	 * @deprecated conviene usar checkdate directamente.
-	 *            
+	 *
 	 * @param int $d
 	 *        	- El Dia que esta dentro del Numero de Duas del mes m dado. Los anos a bisiestos son tomados en consideracion.
 	 * @param int $m
 	 *        	- El mes entre 1 y 12 inclusive.
 	 * @param int $a
 	 *        	- El ano entre 1 y 32767 inclusive.
-	 *        	
+	 *
 	 * @return bool puede ser true o false dependiendo si la fecha es correcta o no
 	 */
 	public static function fechaCorrecta($d, $m, $a)
@@ -785,12 +785,12 @@ class Sitios
 	 * Se le pasan dos horas y realiza la diferencia entre ambas.
 	 *
 	 * @deprecated Por su mayor presicion se recomienda la utilizacion de difHoras.
-	 *            
+	 *
 	 * @param string $hora1
 	 *        	- Hora base con el formato hh:mm.
 	 * @param string $hora2
 	 *        	- Hora a restar con el formato hh:mm.
-	 *        	
+	 *
 	 * @return number - Cantidad de minutos de diferencia entre horas.
 	 */
 	public static function calcularMminutosExcedentes($hora1, $hora2)
@@ -809,7 +809,7 @@ class Sitios
 	 * Diferencia de horas - Hora mayor, Hora menor
 	 *
 	 * @deprecated Se recomienda utilizar directamente la funcion de la clase Fechas
-	 *            
+	 *
 	 * @param string $inicio
 	 *        	- Hora mayor con el formato H:i:s
 	 * @param string $fin
@@ -825,7 +825,7 @@ class Sitios
 	 * Suma de horas
 	 *
 	 * @deprecated Se recomienda utilizar directamente la funcion de la clase Fechas
-	 *            
+	 *
 	 * @param string $hora1
 	 *        	- Primer valor a sumar con el formato H:i:s
 	 * @param string $hora2
@@ -841,7 +841,7 @@ class Sitios
 	 * Resibe un int con la cantidad de meses y retorna un string con la cantidad de años y meses.
 	 *
 	 * @deprecated Se recomienda utilizar directamente la funcion de la clase Fechas
-	 *            
+	 *
 	 * @param int $meses
 	 *        	Cantidad de meses
 	 * @return string - XxXx años y XxXx meses.
@@ -855,7 +855,7 @@ class Sitios
 	 * Devuelve el tipo de codificacion de los caracteres usados en un string
 	 *
 	 * @deprecated Se recomienda utilizar directamente la funcion de la clase Fechas
-	 *            
+	 *
 	 * @param string $texto
 	 * @return string
 	 */
@@ -870,7 +870,7 @@ class Sitios
 	 * Primero comprueba que este no este ya en utf8 para no romper los caracteres
 	 *
 	 * @deprecated Se recomienda utilizar directamente la funcion de la clase FuncionesString
-	 *            
+	 *
 	 * @param string $texto
 	 * @return string
 	 */
@@ -884,7 +884,7 @@ class Sitios
 	 * Evita la inyeccion de SQL. Elimina cualquier caracter no numerico.
 	 *
 	 * @deprecated Se recomienda utilizar directamente la funcion de la clase FuncionesString
-	 *            
+	 *
 	 * @param string $str
 	 */
 	public static function clean($str)
@@ -899,7 +899,7 @@ class Sitios
 	 *        	Directorio a copiar
 	 * @param string $outPath
 	 *        	Directorio de destino.
-	 *        	
+	 *
 	 * @throws Exception Devuelve un mensaje de error en caso de no poder realizar la copia.
 	 * @return string
 	 */
@@ -943,7 +943,7 @@ class Sitios
 	 *        	valos a convertir
 	 * @param number $decimals
 	 *        	cantidad de decimales a mostrar
-	 *        	
+	 *
 	 * @return string
 	 */
 	public static function human_filesize($bytes, $decimals = 2)
@@ -1212,12 +1212,12 @@ class Sitios
 	 * Remplaza caracteres latinos.
 	 *
 	 * @deprecated Se recomienda utilizar directamente la funcion de la clase FuncionesString
-	 *            
+	 *
 	 * @param string $str
 	 * @return string
 	 * @author Andres Carizza
 	 * @version 1.2
-	 *         
+	 *
 	 */
 	public static function remplazar_caracteres_latinos($str)
 	{
@@ -1284,7 +1284,7 @@ class Sitios
 	 * between ascii characters, like Java\0script.
 	 *
 	 * @deprecated Se recomienda utilizar directamente la funcion de la clase FuncionesString
-	 *            
+	 *
 	 * @access public
 	 * @param
 	 *        	string
@@ -1299,7 +1299,7 @@ class Sitios
 	 * Lo mismo que utf8_encode() pero aplicado a todo el array
 	 *
 	 * @deprecated Se recomienda utilizar directamente la funcion de la clase FuncionesString
-	 *            
+	 *
 	 * @param array $array
 	 * @return array
 	 */
@@ -1312,7 +1312,7 @@ class Sitios
 	 * Lo mismo que utf8_decode() pero aplicado a todo el array
 	 *
 	 * @deprecated Se recomienda utilizar directamente la funcion de la clase FuncionesString
-	 *            
+	 *
 	 * @param array $array
 	 * @return array
 	 */
@@ -1330,14 +1330,14 @@ class Sitios
 	 * En caso de que falle el formateo retorna FALSE
 	 *
 	 * @deprecated Se recomienda utilizar directamente la funcion de la clase Fechas
-	 *            
+	 *
 	 * @param String $mysqldate
 	 *        	La fecha en formato YYYY-MM-DD o YYYY-MM-DD HH:MM:SS
 	 * @param Boolean $conHora
 	 *        	True si se quiere dejar la hora o false si se quiere quitar
 	 * @return String La fecha formateada
 	 * @version 1.1
-	 *         
+	 *
 	 */
 	public static function mysql2date($mysqldate, $conHora = false)
 	{
@@ -1351,12 +1351,12 @@ class Sitios
 	 * En caso de que falle el formateo retorna FALSE
 	 *
 	 * @deprecated Se recomienda utilizar directamente la funcion de la clase Fechas
-	 *            
+	 *
 	 * @param String $date
 	 *        	La fecha en formato DD/MM/YYYY o D/M/YYYY
 	 * @return String La fecha formateada o FALSE si el formato es invalido
 	 * @version 1.3
-	 *         
+	 *
 	 */
 	public static function date2mysql($date)
 	{
@@ -1369,7 +1369,7 @@ class Sitios
 	 * Para usar entre 0 minutos de diferencia hasta semanas
 	 *
 	 * @deprecated Se recomienda utilizar directamente la funcion de la clase Fechas
-	 *            
+	 *
 	 * @param Integer $ts
 	 *        	Timestamp
 	 * @param String $formatoFecha
@@ -1565,7 +1565,7 @@ class Sitios
 	 * Borra un directorio con todos sus archivos y sub directorios
 	 *
 	 * @name delTree
-	 *      
+	 *
 	 * @param string $dir
 	 *        	- direccion del directorio a eliminar.
 	 * @return boolean
@@ -1606,7 +1606,7 @@ class Sitios
 	 * Crea los tags <OPTION> numericos para un <SELECT>
 	 *
 	 * @name crear_opciones_select
-	 *      
+	 *
 	 * @param number $desde
 	 *        	- desde que numero
 	 * @param number $hasta
@@ -1615,7 +1615,7 @@ class Sitios
 	 *        	- de a cuanto incrementa
 	 * @param string $selected
 	 *        	- cual tiene que estar seleccionado (ninguno = "")
-	 *        	
+	 *
 	 * @return string
 	 */
 	public static function crear_opciones_select($desde, $hasta, $incremento = 1, $selected = "")
@@ -1640,9 +1640,9 @@ class Sitios
 	 * Obtiene el hostname de una url.
 	 *
 	 * @example http://www.google.com/adsense?u=232 retorna: google.com
-	 *         
+	 *
 	 * @name extractHostPart
-	 *      
+	 *
 	 * @param string $url
 	 * @param bool $stripWww
 	 *        	- Opcional.
@@ -1675,7 +1675,7 @@ class Sitios
 	 * ej: ejemplo@gmail.com retorna: gmail.com
 	 *
 	 * @name getHostNameEmail
-	 *      
+	 *
 	 * @param string $email
 	 * @return string|bool hostname o FALSE si no es un email valido.
 	 */
@@ -1698,7 +1698,7 @@ class Sitios
 	 * Genera un dump de una base de datos a un archivo en el servidor o para bajar directamente sin usar comandos externos
 	 *
 	 * @name backup_db
-	 *      
+	 *
 	 * @param object $db
 	 *        	- Objeto encargado de la administracion de la base de datos.
 	 * @param string $tables
@@ -1795,7 +1795,7 @@ class Sitios
 	 * Retorna true si el dominio del $email pertenece a un dominio de emails temporales anti spam.
 	 *
 	 * @name dominioEmailBaneado
-	 *      
+	 *
 	 * @param string $email
 	 * @param string[] $hostNoValidosParaEmail
 	 *        	- Array con el listado de dominios baneados, si no se espesifica usa el listado por defecto.
@@ -1849,7 +1849,7 @@ class Sitios
 	 * Verifica que una peticion de AJAX
 	 *
 	 * @name is_ajax_request
-	 *      
+	 *
 	 * @return boolean
 	 */
 	public static function is_ajax_request()
@@ -1879,7 +1879,7 @@ class Sitios
 	 *        	Listado de directorios/archivos a omitir.
 	 *        	- Opcional.
 	 *        	- Puede o no ser un array.
-	 *        	
+	 *
 	 * @throws Exception
 	 * @return string - Listado de directorios y archivos.
 	 */
@@ -1968,7 +1968,7 @@ class Sitios
 	 * Retorna un array con todos los archivos de una direccion X.
 	 *
 	 * @since 20/11/2018 - Se modifica para que se puedan obviar los archivos ocultos
-	 *       
+	 *
 	 * @param String $path
 	 *        	Direccion del directorio a recorrer
 	 * @param boolean $recusivo
@@ -2667,20 +2667,33 @@ class Sitios
 	/**
 	 * Si estan asignados los parametros de coneccion a la base de datos establece una nueva y la setea en el atributo $db de la clase
 	 *
+	 *
 	 * @throws Exception
 	 */
 	public static function openConnection()
 	{
-		if ((isset ($this->dbSever) and ($this->dbSever != "")) and (isset ($this->dbUser) and ($this->dbUser != "")) and (isset ($this->dbPass) and ($this->dbPass != "")) and (isset ($this->dbBase) and ($this->dbBase != "")) and (isset ($this->dbCharset) and ($this->dbCharset != "")) and (isset ($this->dbTipo) and ($this->dbTipo != "")))
+		if ((Sitios::getDbSever () != "") and (Sitios::getDbUser () != "") and (Sitios::getDbPass () != "") and (Sitios::getDbBase () != "") and (Sitios::getDbCharset () != "") and (Sitios::getDbTipo () != ""))
 		{
-
 			$this->db = new class_db (Sitios::getDbSever (), Sitios::getDbUser (), Sitios::getDbPass (), Sitios::getDbBase (), Sitios::getDbCharset (), Sitios::getDbTipo ());
+
 			$this->db->connect ();
 
 			$this->db->dieOnError = $this->dieOnError;
 			$this->db->mostrarErrores = $this->mostrarErrores;
 			$this->db->debug = $this->debug; // True si quiero que muestre el Query en por pantalla
 		}
+	}
+
+	/**
+	 * Comprueba que el string pasado sea un json valido
+	 *
+	 * @param String $str
+	 * @return boolean
+	 */
+	public function isValidJSON($str)
+	{
+		json_decode ($str);
+		return json_last_error () == JSON_ERROR_NONE;
 	}
 }
 ?>
