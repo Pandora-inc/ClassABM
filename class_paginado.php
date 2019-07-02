@@ -156,7 +156,7 @@ class class_paginado
 	 *
 	 * @since 3.6.1 Se modifico para que devolviera 1 en vez de $db->result ($result_paginado, 0, "cantidad"); cuando el conteo de rows fuera igual a uno.
 	 *        Con esto se corrige el error de que no mostraba datos cuando habia un unico registro.
-	 *       
+	 *
 	 * @param string $sqlQuery
 	 *        	query a ejecutar
 	 * @param object $db
@@ -248,6 +248,16 @@ class class_paginado
 			WHERE rnum > " . $registro;
 			// WHERE ROWNUM > " . $registro . " AND ROWNUM <= " . $RegistroHasta;
 		}
+		elseif ($db->dbtype == 'mssql')
+		{
+			$registros_por_pagina = $this->registros_por_pagina;
+			$registro = $this->registro;
+
+			$RegistroHasta = $registros_por_pagina + $registro;
+
+			$query = 'SELECT * FROM(SELECT * ,ROW_NUMBER() OVER (ORDER BY id) AS subrow FROM (' . $query . ') a) b  WHERE   subrow >= ' . $registro . ' and  subrow <= ' . $RegistroHasta;
+		}
+
 		$result = $db->query ($query);
 
 		$this->pagina = ceil ($this->registro / $this->registros_por_pagina) + 1;
