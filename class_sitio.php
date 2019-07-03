@@ -2692,7 +2692,7 @@ class Sitios
 	 * @param String $str
 	 * @return boolean
 	 */
-	public function isValidJSON($str)
+	public static function isValidJSON($str)
 	{
 		json_decode ($str);
 		return json_last_error () == JSON_ERROR_NONE;
