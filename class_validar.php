@@ -7,7 +7,6 @@
  * @author iberlot <@> iberlot@usal.edu.ar
  *
  */
-
 /*
  * Querido programador:
  * Cuando escribi este codigo, solo Dios y yo sabiamos como funcionaba.
