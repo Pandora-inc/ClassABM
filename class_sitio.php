@@ -7,8 +7,8 @@
  * @author iberlot <@> iberlot@usal.edu.ar
  *
  */
-// require_once 'funciones .php';
-require_once 'class_validar.php';
+require_once 'funciones .php';
+// require_once 'class_validar.php';
 require_once 'funciones_string.php';
 require_once 'class_fechas.php';
 
