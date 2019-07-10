@@ -1,4 +1,4 @@
-Ôªø<?php
+<?php
 
 /**
  * Archivo principal de la clase validar.
@@ -25,7 +25,7 @@
  * @author Andres Carizza
  * @version 2.0 - Correcciones de codigo optimizacion y comnetado.
  * @version 1.9
- *         
+ *
  * @todo $validador = new validar();
  *       $validador->validarCampoForm("usuario", "strClave", "Verifique el campo Usuario. Debe ser solo letras y numeros (se permite usar ._)", "Usuario", 2, 20);
  *       $validador->validarCampoForm("pass", "", "", "Contrasena", 4, 20);
@@ -35,12 +35,12 @@
  *       $validador->validarCampoForm("apellido", "", "", "", 1, 50);
  *       $validador->rango("edad", 18, 100);
  *       if($_REQUEST[aceptaTerminos]!="1") $validador->agregarError("Debe aceptar los terminos y condiciones");
- *      
+ *
  */
 class validar
 {
 	/**
-	 * Descripcion de los errores de validaci√Ø¬ø¬Ωn para imprimir en pantalla
+	 * Descripcion de los errores de validaciÔøΩn para imprimir en pantalla
 	 */
 	public $errores;
 
@@ -247,7 +247,9 @@ class validar
 
 			case "url" :
 				if (!$this->esURL ($_REQUEST[$campo]))
+				{
 					$this->agregarError ($msgError, $campo, $textoCampo);
+				}
 				break;
 
 			case "numero" :
@@ -267,9 +269,13 @@ class validar
 				else
 				{
 					if ($msgError == "")
+					{
 						$msgError = sprintf ($this->txtElCampoNoPuedeEstarVacio, $this->formatearNombreCampo ($campo, $textoCampo));
+					}
 					if (trim ($_REQUEST[$campo]) == "")
+					{
 						$this->agregarError ($msgError, $campo, $textoCampo);
+					}
 				}
 				break;
 		}
@@ -465,7 +471,7 @@ class validar
 	 */
 	public static function esAlfaNumericoAcentos($value)
 	{
-		if (preg_match ("/^[A-Za-z0-9 √°√©√≠√≥√∫√±√Å√â√ç√ì√ö√ë√ú√º]+$/", $value))
+		if (preg_match ("/^[A-Za-z0-9 ·ÈÌÛ˙Ò¡…Õ”⁄—‹¸]+$/", $value))
 		{
 			return true;
 		}
@@ -566,7 +572,7 @@ class validar
 	 * Verifica si un email tiene formato valido y opcionalmente verifica los registros MX del dominio tambien
 	 *
 	 * @version 0.2 - Se corrigio para que utilizara preg_match en vez de eregi.
-	 *         
+	 *
 	 * @param String $email
 	 * @param Boolean $test_mx
 	 *        	Verificar los registros MX del dominio

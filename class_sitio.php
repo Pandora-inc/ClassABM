@@ -285,15 +285,15 @@ class Sitios
 	 */
 	public static function showMsg()
 	{
-		if ($this->sitio_sitio_msg != '')
+		if (Sitios::$sitio_sitio_msg != '')
 		{
-			echo "<div class='" . $this->sitio_msgClass . "'>" . $this->sitio_sitio_msg . "</div>";
+			echo "<div class='" . Sitios::$sitio_msgClass . "'>" . Sitios::$sitio_sitio_msg . "</div>";
 
-			if ($this->sitio_msgMostrarUnaSolaVez)
+			if (Sitios::$sitio_msgMostrarUnaSolaVez)
 			{
-				unset ($this->sitio_sitio_msg);
-				unset ($this->sitio_msgClass);
-				unset ($this->sitio_msgMostrarUnaSolaVez);
+				unset (Sitios::$sitio_sitio_msg);
+				unset (Sitios::$sitio_msgClass);
+				unset (Sitios::$sitio_msgMostrarUnaSolaVez);
 			}
 		}
 	}
@@ -308,9 +308,9 @@ class Sitios
 	 */
 	public static function setNotif($titulo, $msg, $segundos = 5)
 	{
-		$this->sitio_notTit = $titulo;
-		$this->sitio_notMsg = $msg;
-		$this->sitio_notSeg = $segundos;
+		Sitios::$sitio_notTit = $titulo;
+		Sitios::$sitio_notMsg = $msg;
+		Sitios::$sitio_notSeg = $segundos;
 	}
 
 	/**
@@ -318,22 +318,22 @@ class Sitios
 	 */
 	public static function showNotif()
 	{
-		if ($this->sitio_notTit != '')
+		if (Sitios::$sitio_notTit != '')
 		{
 			?>
 <script type="text/javascript">
 				$(function(){
 					$.gritter.add({
-						title: '<?=$this->sitio_notTit?>',
-						text: '<?=$this->sitio_notMsg?>',
-						time: <?=($this->sitio_notSeg * 1000)?>
+						title: '<?=Sitios::$sitio_notTit?>',
+						text: '<?=Sitios::$sitio_notMsg?>',
+						time: <?=(Sitios::$sitio_notSeg * 1000)?>
 					});
 				});
 			</script>
 <?php
-			unset ($this->sitio_notTit);
-			unset ($this->sitio_notMsg);
-			unset ($this->sitio_notSeg);
+			unset (Sitios::$sitio_notTit);
+			unset (Sitios::$sitio_notMsg);
+			unset (Sitios::$sitio_notSeg);
 		}
 	}
 
@@ -378,11 +378,11 @@ class Sitios
 		}
 		if ($agregarExtension)
 		{
-			return $this->pathBase . $url . $this->extension . $qs;
+			return Sitios::$pathBase . $url . Sitios::$extension . $qs;
 		}
 		else
 		{
-			return $this->pathBase . $url . $qs;
+			return Sitios::$pathBase . $url . $qs;
 		}
 	}
 
@@ -399,7 +399,7 @@ class Sitios
 	 */
 	public static function limpiarEntidadesHTML($param)
 	{
-		return FuncionesString::limpiarEntidadesHTML ($param, $this->charset);
+		return FuncionesString::limpiarEntidadesHTML ($param, Sitios::$charset);
 	}
 
 	/**
@@ -513,7 +513,7 @@ class Sitios
 	 */
 	public static function clean_numeric($str)
 	{
-		$str = $this->clean ($str);
+		$str = Sitios::clean ($str);
 		// Elimino los espacios
 		$str = str_replace (" ", "", $str);
 		// Elimino todo lo que no sea numerico
@@ -672,7 +672,7 @@ class Sitios
 		//
 		$retorno = Fechas::fecha_oracle ($fecha);
 
-		// $fecha = $this->formatear_fecha_Oracle ($fecha, "-");
+		// $fecha = Sitios::formatear_fecha_Oracle ($fecha, "-");
 
 		// $fecha = "TO_DATE('$fecha', 'DD-MM-YYYY')";
 
@@ -1550,7 +1550,7 @@ class Sitios
 	 */
 	public static function redirect($url, $start_time)
 	{
-		if ($this->debug)
+		if (Sitios::$debug)
 		{
 			redirect_http ($url, 120, "<i>Transcurrieron " . (microtime () - $start_time) . " segundos</i><br><a href='$url'>Haga click para continuar a: $url</a>");
 		}
@@ -1903,7 +1903,7 @@ class Sitios
 
 						if (is_dir ($ruta . $file))
 						{
-							$this->listar_directorios_ruta ($ruta . "/" . $file . "/");
+							Sitios::listar_directorios_ruta ($ruta . "/" . $file . "/");
 						}
 						else
 						{
@@ -1935,7 +1935,7 @@ class Sitios
 				}
 				elseif (is_dir ($directorio . '/' . $file))
 				{
-					foreach ($this->listar ($directorio . '/' . $file) as $one)
+					foreach (Sitios::listar ($directorio . '/' . $file) as $one)
 					{
 						$out[] = $file . '/' . $one;
 					}
@@ -2007,7 +2007,7 @@ class Sitios
 	 */
 	public static function manejoDeErrores($e)
 	{
-		if ($this->debug == true)
+		if (Sitios::$debug == true)
 		{
 			return __LINE__ . " - " . __FILE__ . " - " . $e->getMessage ();
 		}
@@ -2016,7 +2016,7 @@ class Sitios
 			return $e->getMessage ();
 		}
 
-		if ($this->dieOnError == true)
+		if (Sitios::$dieOnError == true)
 		{
 			exit ();
 		}
@@ -2551,7 +2551,7 @@ class Sitios
 	 */
 	public static function getSitio_notTit()
 	{
-		return $this->sitio_notTit;
+		return Sitios::$sitio_notTit;
 	}
 
 	/**
@@ -2561,7 +2561,7 @@ class Sitios
 	 */
 	public static function setSitio_notTit($sitio_notTit)
 	{
-		$this->sitio_notTit = $sitio_notTit;
+		Sitios::$sitio_notTit = $sitio_notTit;
 	}
 
 	/**
@@ -2571,7 +2571,7 @@ class Sitios
 	 */
 	public static function getSitio_notMsg()
 	{
-		return $this->sitio_notMsg;
+		return Sitios::$sitio_notMsg;
 	}
 
 	/**
@@ -2581,7 +2581,7 @@ class Sitios
 	 */
 	public static function setSitio_notMsg($sitio_notMsg)
 	{
-		$this->sitio_notMsg = $sitio_notMsg;
+		Sitios::$sitio_notMsg = $sitio_notMsg;
 	}
 
 	/**
@@ -2591,7 +2591,7 @@ class Sitios
 	 */
 	public static function getSitio_notSeg()
 	{
-		return $this->sitio_notSeg;
+		return Sitios::$sitio_notSeg;
 	}
 
 	/**
@@ -2601,7 +2601,7 @@ class Sitios
 	 */
 	public static function setSitio_notSeg($sitio_notSeg)
 	{
-		$this->sitio_notSeg = $sitio_notSeg;
+		Sitios::$sitio_notSeg = $sitio_notSeg;
 	}
 
 	/**
@@ -2611,7 +2611,7 @@ class Sitios
 	 */
 	public static function getSitio_msg()
 	{
-		return $this->sitio_msg;
+		return Sitios::$sitio_msg;
 	}
 
 	/**
@@ -2621,7 +2621,7 @@ class Sitios
 	 */
 	public static function setSitio_msg($sitio_msg)
 	{
-		$this->sitio_msg = $sitio_msg;
+		Sitios::$sitio_msg = $sitio_msg;
 	}
 
 	/**
@@ -2631,7 +2631,7 @@ class Sitios
 	 */
 	public static function getSitio_msgClass()
 	{
-		return $this->sitio_msgClass;
+		return Sitios::$sitio_msgClass;
 	}
 
 	/**
@@ -2641,7 +2641,7 @@ class Sitios
 	 */
 	public static function setSitio_msgClass($sitio_msgClass)
 	{
-		$this->sitio_msgClass = $sitio_msgClass;
+		Sitios::$sitio_msgClass = $sitio_msgClass;
 	}
 
 	/**
@@ -2651,7 +2651,7 @@ class Sitios
 	 */
 	public static function isSitio_msgMostrarUnaSolaVez()
 	{
-		return $this->sitio_msgMostrarUnaSolaVez;
+		return Sitios::$sitio_msgMostrarUnaSolaVez;
 	}
 
 	/**
@@ -2661,7 +2661,7 @@ class Sitios
 	 */
 	public static function setSitio_msgMostrarUnaSolaVez($sitio_msgMostrarUnaSolaVez)
 	{
-		$this->sitio_msgMostrarUnaSolaVez = $sitio_msgMostrarUnaSolaVez;
+		Sitios::$sitio_msgMostrarUnaSolaVez = $sitio_msgMostrarUnaSolaVez;
 	}
 
 	/**
@@ -2678,9 +2678,11 @@ class Sitios
 
 			Sitios::$db->connect ();
 
-			Sitios::$db->dieOnError = $this->dieOnError;
-			Sitios::$db->mostrarErrores = $this->mostrarErrores;
-			Sitios::$db->debug = $this->debug; // True si quiero que muestre el Query en por pantalla
+			Sitios::$db->dieOnError = Sitios::$dieOnError;
+			Sitios::$db->mostrarErrores = Sitios::$mostrarErrores;
+			Sitios::$db->debug = Sitios::$debug; // True si quiero que muestre el Query en por pantalla
+
+			return Sitios::$db;
 		}
 	}
 
@@ -2690,7 +2692,7 @@ class Sitios
 	 * @param String $str
 	 * @return boolean
 	 */
-	public function isValidJSON($str)
+	public static function isValidJSON($str)
 	{
 		json_decode ($str);
 		return json_last_error () == JSON_ERROR_NONE;
