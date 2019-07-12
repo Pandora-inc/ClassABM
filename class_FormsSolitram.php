@@ -882,7 +882,7 @@ class Formularios {
                 to_char(FECHAM,'DD-MM-YYYY hh24*mi*ss') FECHAM,
                 FORMULARIOHIST.IDESTADO,
                 FORMULARIOHIST.COMENTARIO,
-                FORMULARIOHIST.PERSON from FORMULARIOHIST "
+                FORMULARIOHIST.PERSON ,person.LNAME , person.FNAME from FORMULARIOHIST "
                 . "JOIN appgral.person  "
                 . "on FORMULARIOHIST.PERSON=person.person "
                 . "WHERE FORMULARIOHIST.IDFORMULARIO = :idform order by id desc";
