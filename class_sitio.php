@@ -1940,6 +1940,7 @@ class class_sitio
 	{
 		$out = array ();
 		$dir = opendir ($directorio);
+
 		while (false !== ($file = readdir ($dir)))
 		{
 			if (($file != '.') && ($file != '..'))
@@ -1958,6 +1959,7 @@ class class_sitio
 			}
 		}
 		closedir ($dir);
+
 		return $out;
 	}
 
