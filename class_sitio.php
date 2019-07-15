@@ -1176,9 +1176,7 @@ class Sitios
 	 */
 	public static function url_amigable($str)
 	{
-		global $sitio; // de mi framework
-
-		$url = mb_strtolower ($str, $sitio->charset);
+		$url = mb_strtolower ($str, Sitios::charset);
 
 		$url = remplazar_caracteres_latinos ($url);
 

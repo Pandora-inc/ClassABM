@@ -204,7 +204,7 @@ class class_paginado
 		}
 		else
 		{
-			$ejecutarQueryOriginal = true;
+			$this->ejecutarQueryOriginalParaContar = true;
 		}
 
 		// XXX este codigo duplica lo anterior se comenta hasta que se elimine en la proxima revicion
