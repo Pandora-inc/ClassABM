@@ -1,18 +1,20 @@
 <?php
 
 /**
- * Archivo principar de la clase.
+ * Archivo principar de la clase..
+ * 
+ * Manejo de archivos del sistema solitram
  *
  * @author lquiroga <@> lquiroga@gmail.com
  * @todo FechaC 28/02/2019 - Lenguaje PHP
  *
- * @name class_alumnos.php
+ * @name class_formularios.php
  * 
  */
-require_once ("/web/html/clasesPersonas/class_Personas.php");
 //require_once ("DerechosVarios.php");
 //require_once ("Carreras.php");
 //require_once ("Alumnos.php");
+require_once ("/web/html/clasesPersonas/class_Personas.php");
 require_once ("/web/html/classes/class_derechos_varios.php");
 require_once ("/web/html/classes/class_alumnos.php");
 require_once ("/web/html/classes/class_carreras.php");
@@ -126,6 +128,18 @@ class Formularios {
         return $id_insertado;
     }
 
+    /**
+     * Salva datos exclusivos de formularios de tesoreria de solitram
+     * saveTesoreriaExclusivoForm
+     * 
+     * tabla : 
+     * ID - IDFORMULARIO - FECHAVENC - STUDENT - IMPORTE - CONCEPTO - IMPORTEFT
+     * IMPORTER - CODCOBOL - NRO
+     * 
+     * @param array $datos
+     * @return bool
+     * 
+     */
     public function saveTesoreriaExclusivoForm($datos) {
 
         // $db = Conexion::openConnection();
@@ -142,6 +156,7 @@ class Formularios {
      * 
      * @param array $datos DE LA TABLA MATERIAS_FORMULARIO
      * 
+     * Datos tabla: 
      * ID -IDFORMULARIO-SUBJECT-PLAN
      * 
      * @return BOOL
@@ -314,7 +329,15 @@ class Formularios {
 
         return $insercion;
     }
-
+    
+    
+    /**
+     * GetFormById
+     * En base al id de un formulario obtenemos sus datos 
+     * 
+     * @param   int $id
+     * @return  array
+     */
     public function getFormById($id) {
 
         $parametros = array(
@@ -358,7 +381,16 @@ class Formularios {
 
         return($form);
     }
+    
 
+    /**
+     * 
+     * En base al id recibimos el nombre del form
+     * 
+     * @param INT $id
+     * @return string
+     * 
+     */    
     public function obtenerNombreForm($id) {
 
         $parametros = array(
@@ -375,13 +407,15 @@ class Formularios {
     }
 
     /**
+     * 
      * En base al tipo de form que recibimos , mostramos 
      * el template correspondiente
      * 
      * @param string $tipo -->id de tipo formulario
      * @return html
+     * 
      */
-    public function template_html($tipo, $data = null, $lectura = 0) {
+    public function template_html($tipo, $data = null, $lectura = 0){
 
         $fecha_actual = date("d/m/Y");
 
@@ -769,7 +803,7 @@ class Formularios {
 
                         foreach ($materias as $row) {
 
-                            $template.="<option  id='sel_" . $row["SUBJECT"] . "' value='" . $row["SUBJECT"] . "'> " . $row["SUBJECT"] . " - A&ntilde;o: " . $row["YR"] . " - " . $row["SDESC"] . " - " . $row["CARGA_HORARIA"] . " Hs</option>";
+                            $template.="<option  id='sel_" . $row["SUBJECT"] . "' value='" . $row["SUBJECT"] . "'> " . $row["SUBJECT"] . " - A&ntilde;o: " . $row["YR"] . " - " . utf8_encode($row["SDESC"]) . " - " . $row["CARGA_HORARIA"] . " Hs</option>";
                         }
 
                         $template.="</select>";
@@ -806,8 +840,8 @@ class Formularios {
                                     $html_mat_sel.='<br/>
                         
                                 <p  class="mat_seleccionada mat_seleccionada_' . $row["SUBJECT"] . '"> '
-                                            . '' . $row["SUBJECT"] . ' - A&ntilde;o: ' . $row["YR"] . ' - ' . $row["SDESC"] . '  '
-                                            . '<span title="' . $row["SDESC"] . '"  class="quitar_materia">
+                                            . '' . $row["SUBJECT"] . ' - A&ntilde;o: ' . $row["YR"] . ' - ' . utf8_encode($row["SDESC"]) . '  '
+                                            . '<span title="' . utf8_encode($row["SDESC"]) . '"  class="quitar_materia">
                                 </span></p>';
 
                                     //$html_mat_sel.='<input id="hidde_'.$row["SUBJECT"].'" type="hidden" name="materias[]" value="'.$row["SUBJECT"].'" />';                                                
@@ -863,11 +897,13 @@ class Formularios {
     }
 
     /**
+     * 
      * Obtiene el historial de cada Formulario
      * 
      * @param number $IDFORMULARIO
      * @param bool $html si es tru nos devuelve el html para ponerlo directamente en panralla , si no devuelve solo datos
      * @return array datos
+     * 
      */
     public function get_historial($IDFORMULARIO, $html = null) {
 
@@ -900,10 +936,12 @@ class Formularios {
     }
 
     /**
+     * 
      * Obtiene las materias que tiene cargadas un form
      * 
      * @param numeric $IDFORMULARIO
      * @return array
+     * 
      */
     public function get_materias($IDFORMULARIO) {
 
@@ -927,11 +965,13 @@ class Formularios {
     }
 
     /**
+     * 
      * loadData
      * Carga propiedades del objeta que vienen desde la DB
      * @param array $fila 
      * 
-     * return objet alumno
+     * return objet form
+     * 
      */
     public function loadData($fila) {
 
@@ -974,7 +1014,7 @@ class Formularios {
         }
     }
 
-    /*     * ***SETERS***** */
+    /*********SETERS**********/
 
     function set_fecha_crecion($fecha) {
         $this->fecha_crecion = $fecha;
@@ -1012,7 +1052,7 @@ class Formularios {
         $this->IDDERECHOVARIO = $IDDERECHOVARIO;
     }
 
-    /*     * **GETTERS*** */
+    /********GETTERS********/
 
     function get_idderechovario() {
         return $this->IDDERECHOVARIO;
