@@ -7,7 +7,6 @@
  * @author iberlot <@> iberlot@usal.edu.ar
  *
  */
-
 require_once 'funciones.php';
 require_once 'class_validar.php';
 require_once 'funciones_string.php';
@@ -25,16 +24,7 @@ require_once 'class_fechas.php';
  * @version 1.0.5 - Correcciones de codigo optimizacion y comnetado.
  *
  */
-/*
-use function class_sitio\agregarLinksEmail;
-use function class_sitio\delTree;
-use function class_sitio\filesToArray;
-use function class_sitio\formatearLinks;
-use function class_sitio\getHostNameEmail;
-use function class_sitio\redirect_http;
-use function class_sitio\remplazar_caracteres_latinos;
-*/
-class class_sitio
+class Sitios
 {
 	/**
 	 * titulo o nombre del sitio
@@ -141,7 +131,7 @@ class class_sitio
 	private static $dbUser;
 
 	/**
-	 * Contraseï¿½a de conexion a la base
+	 * Contrase?a de conexion a la base
 	 *
 	 * @var string
 	 */
@@ -690,7 +680,7 @@ class class_sitio
 	}
 
 	/**
-	 * invierte el orden de la fecha para que quede en el formato dia-mes-aï¿½o
+	 * invierte el orden de la fecha para que quede en el formato dia-mes-a?o
 	 *
 	 * @deprecated - Conviene utilizar formatear_fecha_Oracle.
 	 *
@@ -848,13 +838,13 @@ class class_sitio
 	}
 
 	/**
-	 * Resibe un int con la cantidad de meses y retorna un string con la cantidad de aÃ±os y meses.
+	 * Resibe un int con la cantidad de meses y retorna un string con la cantidad de años y meses.
 	 *
 	 * @deprecated Se recomienda utilizar directamente la funcion de la clase Fechas
 	 *
 	 * @param int $meses
 	 *        	Cantidad de meses
-	 * @return string - XxXx aÃ±os y XxXx meses.
+	 * @return string - XxXx años y XxXx meses.
 	 */
 	public static function mesesAnios($meses)
 	{
@@ -1054,8 +1044,8 @@ class class_sitio
 	}
 
 	/**
-	 * Formatear un texto para remplazar URLs por links, tambiï¿½n para remplazar URLs largas por
-	 * sus versiï¿½nes resumidas solo para fines estï¿½ticos Ej: http://www.somesite.com/with/a/really/long/url/link por http://www.some...url/link
+	 * Formatear un texto para remplazar URLs por links, tambi?n para remplazar URLs largas por
+	 * sus versi?nes resumidas solo para fines est?ticos Ej: http://www.somesite.com/with/a/really/long/url/link por http://www.some...url/link
 	 *
 	 * @param string $str
 	 *        	texto donde hay que remplazar los links
@@ -1063,7 +1053,7 @@ class class_sitio
 	 *        	En que ventana se va a abrir el link.
 	 *        	- Por defecto _blank
 	 * @param int $maxLen
-	 *        	largo mï¿½ximo
+	 *        	largo m?ximo
 	 * @param string $mid
 	 *        	Caracteres ... de "continuacion"
 	 * @return string
@@ -1190,7 +1180,7 @@ class class_sitio
 
 		$url = remplazar_caracteres_latinos ($url);
 
-		// Aï¿½adimos los guiones
+		// A?adimos los guiones
 		$find = array (
 				' ',
 				'&',
@@ -1200,7 +1190,7 @@ class class_sitio
 		);
 		$url = str_replace ($find, '-', $url);
 
-		// Eliminamos y Reemplazamos demï¿½s caracteres especiales
+		// Eliminamos y Reemplazamos dem?s caracteres especiales
 		$find = array (
 				'/[^a-z0-9\-<>]/',
 				'/[\-]+/',
@@ -1233,7 +1223,7 @@ class class_sitio
 	}
 
 	/**
-	 * Formatea un string para que corresponda con un nombre vï¿½lido de archivo
+	 * Formatea un string para que corresponda con un nombre v?lido de archivo
 	 *
 	 * @param string $str
 	 * @return string
@@ -1279,7 +1269,7 @@ class class_sitio
 		$valor = str_ireplace ("]", "", $valor);
 		$valor = str_ireplace ("\\", "", $valor);
 		$valor = str_ireplace ("!", "", $valor);
-		$valor = str_ireplace ("ï¿½", "", $valor);
+		$valor = str_ireplace ("?", "", $valor);
 		$valor = str_ireplace ("?", "", $valor);
 		$valor = str_ireplace ("=", "", $valor);
 		$valor = str_ireplace ("&", "", $valor);
@@ -1337,7 +1327,7 @@ class class_sitio
 	// *****************************************************************************************************************//
 
 	/**
-	 * Formatea la fecha que usa el MySQL (YYYY-MM-DD) o (YYYY-MM-DD HH:MM:SS) a un formato de fecha mï¿½s claro
+	 * Formatea la fecha que usa el MySQL (YYYY-MM-DD) o (YYYY-MM-DD HH:MM:SS) a un formato de fecha m?s claro
 	 * En caso de que falle el formateo retorna FALSE
 	 *
 	 * @deprecated Se recomienda utilizar directamente la funcion de la clase Fechas
@@ -1357,7 +1347,7 @@ class class_sitio
 
 	/**
 	 * Convierte el formato de fecha (DD/MM/YYYY) al que usa el MySQL (YYYY-MM-DD)
-	 * Se pueden enviar dias y meses con un digito (ej: 3/2/1851) o asï¿½ (ej: 03/02/1851)
+	 * Se pueden enviar dias y meses con un digito (ej: 3/2/1851) o as? (ej: 03/02/1851)
 	 * La fecha tiene que enviarse en el orden dia/mes/ano
 	 * En caso de que falle el formateo retorna FALSE
 	 *
@@ -1384,7 +1374,7 @@ class class_sitio
 	 * @param Integer $ts
 	 *        	Timestamp
 	 * @param String $formatoFecha
-	 *        	El formato de fecha a mostrar para cuando es mayor a 31 dï¿½as
+	 *        	El formato de fecha a mostrar para cuando es mayor a 31 d?as
 	 * @return String
 	 * @version 1.2
 	 */
@@ -1531,7 +1521,7 @@ class class_sitio
 
 	/**
 	 * Imprime el META de HTML y hace Exit para redireccionar al usuario a $url
-	 * Esta funciï¿½n es util para cuando no se pueden mandar headers por haber impreso antes.
+	 * Esta funci?n es util para cuando no se pueden mandar headers por haber impreso antes.
 	 *
 	 * @param String $url
 	 * @param Integer $segundos
@@ -1908,8 +1898,8 @@ class class_sitio
 			{
 				while (($file = readdir ($dh)) !== false)
 				{
-					// esta lï¿½nea la utilizarï¿½amos si queremos listar todo lo que hay en el directorio
-					// mostrarï¿½a tanto archivos como directorios
+					// esta l?nea la utilizar?amos si queremos listar todo lo que hay en el directorio
+					// mostrar?a tanto archivos como directorios
 					// echo "<br>Nombre de archivo: $file : Es un: " . filetype($ruta . $file);
 
 					if ((is_dir ($ruta . $file) && $file != "." && $file != "..") and (isset ($excepcion) and $excepcion != $file) or (is_array ($excepcion) and in_array ($file, $excepcion)))
@@ -1940,6 +1930,7 @@ class class_sitio
 	{
 		$out = array ();
 		$dir = opendir ($directorio);
+
 		while (false !== ($file = readdir ($dir)))
 		{
 			if (($file != '.') && ($file != '..'))
@@ -1958,6 +1949,7 @@ class class_sitio
 			}
 		}
 		closedir ($dir);
+
 		return $out;
 	}
 
