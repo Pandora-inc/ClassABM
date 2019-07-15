@@ -14,15 +14,15 @@
  * Clase encargada del manejo de todos los datos referentes a la persona.
  *
  * @author iberlot <@> ivanberlot@gmail.com
- *
+ *        
  * @name class_persona
- *
+ *      
  * @version 0.1 - Version de inicio
- *
+ *         
  * @package Classes_USAL
- *
+ *         
  * @category General
- *
+ *          
  * @todo El usuario que se conecta a la base debe tener los siguientes permisos -
  *       - SELECT :
  *       portal.usuario_web | appgral.apers | appgral.person | appgral.perdoc | appgral.personca | interfaz.estadocredenca | appgral.lnumber
@@ -95,7 +95,7 @@ class class_persona
 	 *      @ubicacionBase appgral.person.lname - VARCHAR2(50 BYTE)
 	 *
 	 * @todo Este campo es obligatorio a la hora de crear personas.
-	 *
+	 *      
 	 * @internal Este dato siempre tiene que estar en mayuscula.
 	 *           $apellido = strtoupper($apellido);
 	 */
@@ -108,7 +108,7 @@ class class_persona
 	 *      @ubicacionBase appgral.person.fname - VARCHAR2(50 BYTE)
 	 *
 	 * @todo Este campo es obligatorio a la hora de crear personas.
-	 *
+	 *      
 	 * @internal Este campo deberia tener la primer letra en mayuscula y el resto siempre en minuscula
 	 *           $realname = ucwords($realname);
 	 */
@@ -134,7 +134,7 @@ class class_persona
 	 *      @ubicacionBase appgral.perdoc.docno - VARCHAR2(30 BYTE)
 	 *
 	 * @todo Este campo es obligatorio a la hora de crear personas.
-	 *
+	 *      
 	 *       <Br>
 	 *       Hay que tener en cuenta que el campo appgral.perdoc.isKey debe se igual a 1
 	 */
@@ -147,7 +147,7 @@ class class_persona
 	 *      @ubicacionBase appgral.perdoc.typdoc - VARCHAR2(10 BYTE)
 	 *
 	 * @todo Este campo es obligatorio a la hora de crear personas.
-	 *
+	 *      
 	 *       <Br>
 	 *       Hay que tener en cuenta que el campo appgral.perdoc.isKey debe se igual a 1
 	 *       <Br>
@@ -251,7 +251,7 @@ class class_persona
 	 *      substr($person, - 1)."/".substr($person, - 2, 1)."/".substr($person, - 3, 1)."/".$person.".jpg";
 	 *      ?>
 	 *      </code>
-	 *
+	 *     
 	 * @example para el Person 112469 quedaria:
 	 *          9/6/4/112469.jpg
 	 */
@@ -264,7 +264,7 @@ class class_persona
 	 *      @ubicacionBase appgral.person.birdate - DATE
 	 *
 	 * @todo el formato correcto para pasar este dato deberia ser 'RRRR-MM-DD' o su equivalente Año-mes-dia.
-	 *
+	 *      
 	 * @todo Este campo es obligatorio a la hora de crear personas.
 	 */
 	public $birdate = "";
@@ -284,7 +284,7 @@ class class_persona
 	 *      5 = Union de hecho
 	 *
 	 * @todo Este campo es obligatorio a la hora de crear personas.
-	 *
+	 *      
 	 */
 	public $marstat = "";
 
@@ -295,7 +295,7 @@ class class_persona
 	 *      @ubicacionBase appgral.person.nation - VARCHAR2(3 BYTE)
 	 *
 	 * @todo Este campo es obligatorio a la hora de crear personas.
-	 *
+	 *      
 	 *       <Br>
 	 *       La tabla de referencia al dato es appgral.country.
 	 *       Mas espesificamente appgral.country.nation
@@ -315,7 +315,7 @@ class class_persona
 	 *      3 = Por Opcion
 	 *
 	 * @todo Este campo es obligatorio a la hora de crear personas.
-	 *
+	 *      
 	 */
 	public $tnation = "";
 
@@ -595,7 +595,7 @@ class class_persona
 	 * Direccion en string que une calle numero y muchas veces depto en un solo campo.
 	 *
 	 * @todo lo ideal es tratarlo para que quede separado de la forma que corresponde
-	 *
+	 *      
 	 * @var string <Br>
 	 *      @ubicacionBase sueldos.personal.domicilio - VARCHAR2(30 BYTE)
 	 */
@@ -1080,7 +1080,7 @@ class class_persona
 	 * @name buscarAppers
 	 * @param mixed[] $datosAUsar
 	 *        	- Requiere que dentro de los datos enviados este si o si el person de la persona
-	 *
+	 *        	
 	 * @return Array
 	 */
 	public function buscarAppers($datosAUsar)
@@ -1136,10 +1136,10 @@ class class_persona
 	 * En caso de que no recupere ningun dato devuelve 0
 	 *
 	 * @name buscarPerson
-	 *
+	 *      
 	 * @param string[] $datosAUsar
 	 *        	- 'person' o 'realname'
-	 *
+	 *        	
 	 * @return array - 'person' 'lname' 'fname' 'country' 'poldiv' 'city' 'birdate' 'nation' 'sex' 'marstat' 'address' 'rcountry' 'rpoldiv' 'rcity' 'telep' 'active' 'tnation' 'incountrysince' 'religion' 'qbrother' 'qson'
 	 */
 	public function buscarPerson($datosAUsar)
@@ -1324,7 +1324,7 @@ class class_persona
 			}
 			else
 			{
-				throw new Exception ('O person o el numero de doc deben contener algun valor ! '.":".$datosAUsar['person'].":D:".$datosAUsar['docNumero'].":");
+				throw new Exception ('O person o el numero de doc deben contener algun valor ! ' . ":" . $datosAUsar['person'] . ":D:" . $datosAUsar['docNumero'] . ":");
 			}
 
 			$i = 0;
@@ -1361,7 +1361,7 @@ class class_persona
 	 * Devuelve todos los datos relacionados a la tarjeta de la persona.
 	 *
 	 * @name buscarTargeta
-	 *
+	 *      
 	 * @param mixed[] $datosAUsar
 	 *        	- 'person' o 'num_tarj'
 	 * @return mixed[] - 'person' 'estadocredencialca' 'email' 'codigoisic' 'nrodechip' 'sca_fecha' 'sca_categoria' 'sca_lote' 'tipo_formulario' 'nrodechip_dec' 'fecha_chip' 'motivo' 'tipo_credencial'
@@ -1450,7 +1450,7 @@ class class_persona
 	 * Busca los datos de la tabla usuario_web para una persona X.
 	 *
 	 * @name buscarUsuarioWeb -
-	 *
+	 *      
 	 * @param mixed[] $datosAUsar
 	 *        	- 'person' o 'docno' o 'altaDeLaCuenta' o 'vtoDeLaCuenta' o 'cuenta' o 'idCuenta'
 	 * @return array - 'docno' 'docnoCuenta' 'tipoDocCuenta' 'cuenta' 'nombreCompleto' 'fecha_altaCuenta' 'fecha_vencCuenta' 'fecha_bajaCuenta' 'frase' 'email' 'uid_cCuenta' 'uid_mCuenta' 'fecha_mCuenta' 'academicoCuenta' 'administrativoCuenta' 'alumnoCuenta' 'docenteCuenta' 'genericoCuenta' 'operadorCuenta' 'externoCuenta' 'ultimocambioclaveCuenta' 'ultimoacceso' 'ultimaaplicacion' 'ultimoip' 'person'
@@ -2300,12 +2300,12 @@ class class_persona
 	 *
 	 * @param array $arrayDatosPersona
 	 *        	Tiene como indices obligatorios docNumero y docTipo.
-	 *
+	 *        	
 	 * @todo adicionalmente updatea el registro en appgral.lnumber para generarle el nuevo person.
-	 *
+	 *      
 	 * @throws Exception
 	 * @return int|boolean - el person en caso de realizarce todo sin problema y false si no.array
-	 *
+	 *        
 	 *         En caso de que el parametro docTipo sea numerico realiza la siguiente convecion ( 1=LE, 2=LC, 7=DNI )
 	 */
 	public function nuevoPerdoc($arrayDatosPersona)
@@ -2410,10 +2410,10 @@ class class_persona
 	 * @param mixed[] $arrayDatosPersona
 	 *        	- Debe contener los siguientes indices de forma obligatoria
 	 *        	person, categoria, fIngreso, fbaja, legajo
-	 *
+	 *        	
 	 * @global $db - coneccion a la base de datos.
 	 * @global $_SESSION - Requiere acceder a las siguirenres variables de session 'person' y 'app'.
-	 *
+	 *        
 	 * @throws Exception
 	 * @return boolean
 	 */
@@ -2580,10 +2580,10 @@ class class_persona
 	 * @param array $arrayDatosPersona
 	 *        	- Debe contener los siguientes indices de forma obligatoria
 	 *        	person, legajo
-	 *
+	 *        	
 	 * @global $db - coneccion a la base de datos.
 	 * @global $_SESSION - Requiere acceder a las siguirenres variables de session 'person' y 'app'.
-	 *
+	 *        
 	 * @throws Exception
 	 * @return boolean
 	 */
@@ -2709,7 +2709,7 @@ class class_persona
 	 * @throws Exception
 	 *
 	 * @global $db - coneccion a la base de datos.
-	 *
+	 *        
 	 * @return boolean
 	 */
 	public function inserPerson($arrayDatosPersona)
@@ -2856,11 +2856,11 @@ class class_persona
 	 * @param mixed[] $arrayDatosPersona
 	 *        	- Debe contener los siguientes indices de forma obligatoria
 	 *        	person, apellido, realname, country, poldiv, city, birdate, nation, sexo, marstat, rcountry, rpoldiv, rcity, tnation
-	 *
+	 *        	
 	 * @throws Exception
 	 *
 	 * @global $db - coneccion a la base de datos.
-	 *
+	 *        
 	 * @return number
 	 */
 	public function nuevaPersona($arrayDatosPersona)

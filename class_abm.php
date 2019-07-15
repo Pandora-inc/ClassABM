@@ -93,6 +93,15 @@
  * 'customEvalListado' => 'echo "<td align=\"center\">"; if($valor=="admin"){echo "Si";}else{echo "No";}; echo "</td>";'
  * ),
  * array(
+ * 'campo' => "IdProveedor",
+ * 'tipo' => "texto",
+ * 'campoValor' => "Cuit",
+ * 'campoTexto' => "Calle",
+ * 'joinTable' => "Proveedor",
+ * 'joinCondition' => "Inner",
+ * 'titulo' => "C alle"
+ * )
+ * array(
  * 'campo' => "paisId",
  * 'tipo' => "dbCombo",
  * "sqlQuery" => "SELECT * FROM paises ORDER BY pais",
@@ -1251,7 +1260,7 @@ class class_abm
 
 		if ($this->formularioSolapa == true)
 		{
-			for($e = 1; $e <= $this->cantidadSolapa; $e++)
+			for($e = 1; $e <= $this->cantidadSolapa; $e ++)
 			{
 				echo "<input id='tab-" . $e . "' type='radio' name='radio-set' class='tab-selector-" . $e . " folio' />";
 				echo "<label for='tab-" . $e . "' class='tab-label-" . $e . " folio'>" . $this->tituloSolapa[$e - 1] . "</label>";
@@ -1281,7 +1290,7 @@ class class_abm
 							continue;
 						}
 
-						$i++;
+						$i ++;
 
 						if ($i == 1 and $this->autofocus)
 						{
@@ -1539,7 +1548,7 @@ class class_abm
 					continue;
 				}
 
-				$i++;
+				$i ++;
 
 				if ($i == 1 and $this->autofocus)
 				{
@@ -1830,7 +1839,7 @@ class class_abm
 		$joinSql = "";
 
 		// por cada campo...
-		for($i = 0; $i < count ($this->campos); $i++)
+		for($i = 0; $i < count ($this->campos); $i ++)
 		{
 
 			if ($this->campos[$i]['campo'] == "")
@@ -2071,7 +2080,7 @@ class class_abm
 
 		if ($this->formularioSolapa == true)
 		{
-			for($e = 1; $e <= $this->cantidadSolapa; $e++)
+			for($e = 1; $e <= $this->cantidadSolapa; $e ++)
 			{
 				echo "<input id='tab-" . $e . "' type='radio' name='radio-set' class='tab-selector-" . $e . " folio' />";
 				echo "<label for='tab-" . $e . "' class='tab-label-" . $e . " folio'>" . $this->tituloSolapa[$e - 1] . "</label>";
@@ -2103,7 +2112,7 @@ class class_abm
 							continue;
 						}
 
-						$i++;
+						$i ++;
 
 						if ($i == 1 and $this->autofocus)
 						{
@@ -2385,7 +2394,7 @@ class class_abm
 					continue;
 				}
 
-				$i++;
+				$i ++;
 
 				if ($i == 1 and $this->autofocus)
 				{
@@ -2772,17 +2781,17 @@ class class_abm
 		// contar el total de campos que tienen el parametro "exportar"
 		$totalCamposExportar = 0;
 
-		for($i = 0; $i < count ($this->campos); $i++)
+		for($i = 0; $i < count ($this->campos); $i ++)
 		{
 			if (!isset ($this->campos[$i]['exportar']) or $this->campos[$i]['exportar'] != true)
 			{
 				continue;
 			}
-			$totalCamposExportar++;
+			$totalCamposExportar ++;
 		}
 
 		// Por cada campo...
-		for($i = 0; $i < count ($this->campos); $i++)
+		for($i = 0; $i < count ($this->campos); $i ++)
 		{
 			if (!isset ($this->campos[$i]['exportar']) or $this->campos[$i]['exportar'] != true)
 			{
@@ -2982,7 +2991,7 @@ class class_abm
 		{
 			// print_r("<Br />*******************<Br />");
 			$fila = $this->limpiarEntidadesHTML ($fila);
-			$i++;
+			$i ++;
 
 			if (strtolower ($formato) == 'excel')
 			{
@@ -2996,7 +3005,7 @@ class class_abm
 			$c = 0;
 			foreach ($this->campos as $campo)
 			{
-				$c++;
+				$c ++;
 				if (!isset ($campo['exportar']) or $campo['exportar'] != true)
 				{
 					continue;
@@ -3163,7 +3172,7 @@ class class_abm
 		$agregarFormBuscar = false;
 
 		// por cada campo...
-		for($i = 0; $i < count ($this->campos); $i++)
+		for($i = 0; $i < count ($this->campos); $i ++)
 		{
 			if ((!isset ($this->campos[$i]['campo'])) or $this->campos[$i]['campo'] == "")
 			{
@@ -3576,7 +3585,7 @@ class class_abm
 					$campo['adicionalInput'] = "";
 				}
 
-				$iColumna++;
+				$iColumna ++;
 				echo "<div>\n";
 				// echo "<label>" . ($campo ['tituloBuscar'] != "" ? $campo ['tituloBuscar'] : ($campo ['tituloListado'] != "" ? $campo ['tituloListado'] : ($campo ['titulo'] != '' ? $campo ['titulo'] : $campo ['campo']))) . "</label>";
 				echo "<label>" . (((isset ($campo['tituloBuscar']) and ($campo['tituloBuscar'] != "")) ? $campo['tituloBuscar'] : (isset ($campo['tituloListado']) and ($campo['tituloListado'] != "")) ? $campo['tituloListado'] : ($campo['titulo'] != '' ? $campo['titulo'] : $campo['campo']))) . "</label>";
@@ -3964,7 +3973,7 @@ class class_abm
 				}
 				$fila = $this->limpiarEntidadesHTML ($fila);
 
-				$i++;
+				$i ++;
 				$rallado = !$rallado;
 
 				echo "<tr class='rallado$rallado' ";
@@ -4103,7 +4112,7 @@ class class_abm
 
 							$cant = count ($campo['incluirCampo']);
 
-							for($j = 0; $j < $cant; $j++)
+							for($j = 0; $j < $cant; $j ++)
 							{
 								$campo['customPrintListado'] = str_ireplace ("{" . trim ($campo['incluirCampo'][$j]) . "}", $fila[trim ($campo['incluirCampo'][$j])], $campo['customPrintListado']);
 							}

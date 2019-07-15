@@ -18,22 +18,69 @@
  * Copyright (C) Jean-Sebastien Goupil
  * http://www.barcodephp.com
  */
-include_once('BCGBarcode1D.php');
+include_once ('BCGBarcode1D.php');
 
-class BCGcode39 extends BCGBarcode1D {
+class BCGcode39 extends BCGBarcode1D
+{
 	protected $starting, $ending;
 	protected $checksum;
 
 	/**
 	 * Constructor
 	 */
-	public function __construct() {
-		parent::__construct();
+	public function __construct()
+	{
+		parent::__construct ();
 
 		$this->starting = $this->ending = 43;
-		$this->keys = array('0','1','2','3','4','5','6','7','8','9','A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z','-','.',' ','$','/','+','%','*');
-		$this->code = array(	// 0 added to add an extra space
-			'0001101000',	/* 0 */
+		$this->keys = array (
+				'0',
+				'1',
+				'2',
+				'3',
+				'4',
+				'5',
+				'6',
+				'7',
+				'8',
+				'9',
+				'A',
+				'B',
+				'C',
+				'D',
+				'E',
+				'F',
+				'G',
+				'H',
+				'I',
+				'J',
+				'K',
+				'L',
+				'M',
+				'N',
+				'O',
+				'P',
+				'Q',
+				'R',
+				'S',
+				'T',
+				'U',
+				'V',
+				'W',
+				'X',
+				'Y',
+				'Z',
+				'-',
+				'.',
+				' ',
+				'$',
+				'/',
+				'+',
+				'%',
+				'*'
+		);
+		$this->code = array ( // 0 added to add an extra space
+				'0001101000',	/* 0 */
 			'1001000010',	/* 1 */
 			'0011000010',	/* 2 */
 			'1011000000',	/* 3 */
@@ -76,14 +123,15 @@ class BCGcode39 extends BCGBarcode1D {
 			'0101000100',	/* / */
 			'0100010100',	/* + */
 			'0001010100',	/* % */
-			'0100101000'	/* * */
+			'0100101000' /* * */
 		);
 
-		$this->setChecksum(false);
+		$this->setChecksum (false);
 	}
 
-	public function setChecksum($checksum) {
-		$this->checksum = (bool)$checksum;
+	public function setChecksum($checksum)
+	{
+		$this->checksum = (bool) $checksum;
 	}
 
 	/**
@@ -91,8 +139,9 @@ class BCGcode39 extends BCGBarcode1D {
 	 *
 	 * @param string $text
 	 */
-	public function parse($text) {
-		parent::parse(strtoupper($text));	// Only Capital Letters are Allowed
+	public function parse($text)
+	{
+		parent::parse (strtoupper ($text)); // Only Capital Letters are Allowed
 	}
 
 	/**
@@ -100,38 +149,46 @@ class BCGcode39 extends BCGBarcode1D {
 	 *
 	 * @param resource $im
 	 */
-	public function draw(&$im) {
+	public function draw(&$im)
+	{
 		$error_stop = false;
 
 		// Checking if all chars are allowed
-		$c = strlen($this->text);
-		for ($i = 0; $i < $c; $i++) {
-			if (array_search($this->text[$i], $this->keys) === false) {
-				$this->drawError($im, 'Char \'' . $this->text[$i] . '\' not allowed.');
+		$c = strlen ($this->text);
+		for($i = 0; $i < $c; $i ++)
+		{
+			if (array_search ($this->text[$i], $this->keys) === false)
+			{
+				$this->drawError ($im, 'Char \'' . $this->text[$i] . '\' not allowed.');
 				$error_stop = true;
 			}
 		}
-		if ($error_stop === false) {
+		if ($error_stop === false)
+		{
 			// The * is not allowed
-			if (strpos($this->text, '*') !== false) {
-				$this->drawError($im, 'Char \'*\' not allowed.');
+			if (strpos ($this->text, '*') !== false)
+			{
+				$this->drawError ($im, 'Char \'*\' not allowed.');
 				$error_stop = true;
 			}
-			if ($error_stop === false) {
+			if ($error_stop === false)
+			{
 				// Starting *
-				$this->drawChar($im, $this->code[$this->starting], true);
+				$this->drawChar ($im, $this->code[$this->starting], true);
 				// Chars
-				for ($i = 0; $i < $c; $i++) {
-					$this->drawChar($im, $this->findCode($this->text[$i]), true);
+				for($i = 0; $i < $c; $i ++)
+				{
+					$this->drawChar ($im, $this->findCode ($this->text[$i]), true);
 				}
 				// Checksum (rarely used)
-				if ($this->checksum === true) {
-					$this->calculateChecksum();
-					$this->drawChar($im, $this->code[$this->checksumValue % 43], true);
+				if ($this->checksum === true)
+				{
+					$this->calculateChecksum ();
+					$this->drawChar ($im, $this->code[$this->checksumValue % 43], true);
 				}
 				// Ending *
-				$this->drawChar($im, $this->code[$this->ending], true);
-				$this->drawText($im);
+				$this->drawChar ($im, $this->code[$this->ending], true);
+				$this->drawText ($im);
 			}
 		}
 	}
@@ -141,27 +198,34 @@ class BCGcode39 extends BCGBarcode1D {
 	 *
 	 * @return int[]
 	 */
-	public function getMaxSize() {
-		$p = parent::getMaxSize();
+	public function getMaxSize()
+	{
+		$p = parent::getMaxSize ();
 
-		$textlength = 13 * strlen($this->text) * $this->scale;
+		$textlength = 13 * strlen ($this->text) * $this->scale;
 		$startlength = 13 * $this->scale;
 		$checksumlength = 0;
-		if ($this->checksum === true) {
+		if ($this->checksum === true)
+		{
 			$checksumlength = 13 * $this->scale;
 		}
 		$endlength = 13 * $this->scale;
-		return array($p[0] + $startlength + $textlength + $checksumlength + $endlength, $p[1]);
+		return array (
+				$p[0] + $startlength + $textlength + $checksumlength + $endlength,
+				$p[1]
+		);
 	}
 
 	/**
 	 * Overloaded method to calculate checksum
 	 */
-	protected function calculateChecksum() {
+	protected function calculateChecksum()
+	{
 		$this->checksumValue = 0;
-		$c = strlen($this->text);
-		for ($i = 0; $i < $c; $i++) {
-			$this->checksumValue += $this->findIndex($this->text[$i]);
+		$c = strlen ($this->text);
+		for($i = 0; $i < $c; $i ++)
+		{
+			$this->checksumValue += $this->findIndex ($this->text[$i]);
 		}
 		$this->checksumValue = $this->checksumValue % 43;
 	}
@@ -169,14 +233,18 @@ class BCGcode39 extends BCGBarcode1D {
 	/**
 	 * Overloaded method to display the checksum
 	 */
-	protected function processChecksum() {
-		if ($this->checksumValue === false) { // Calculate the checksum only once
-			$this->calculateChecksum();
+	protected function processChecksum()
+	{
+		if ($this->checksumValue === false)
+		{ // Calculate the checksum only once
+			$this->calculateChecksum ();
 		}
-		if ($this->checksumValue !== false) {
+		if ($this->checksumValue !== false)
+		{
 			return $this->keys[$this->checksumValue];
 		}
 		return false;
 	}
-};
+}
+;
 ?>

@@ -20,7 +20,7 @@ require_once 'class_campo.php';
 /**
  *
  * @author iberlot
- *
+ *        
  */
 class Campos_combo extends class_campo
 {
@@ -29,7 +29,7 @@ class Campos_combo extends class_campo
 	 * Datos para el tipo de campo "combo".
 	 *
 	 * @example Array("key" => "value"...)
-	 *
+	 *         
 	 * @name datos
 	 * @var array
 	 */
@@ -58,6 +58,63 @@ class Campos_combo extends class_campo
 	 * @var boolean
 	 */
 	protected $textoMayuscula = true;
+
+	/**
+	 *
+	 * @return boolean el dato de la variable $incluirOpcionVacia
+	 */
+	public function isIncluirOpcionVacia()
+	{
+		return $this->incluirOpcionVacia;
+	}
+
+	/**
+	 *
+	 * @return boolean el dato de la variable $mostrarValor
+	 */
+	public function isMostrarValor()
+	{
+		return $this->mostrarValor;
+	}
+
+	/**
+	 *
+	 * @return boolean el dato de la variable $textoMayuscula
+	 */
+	public function isTextoMayuscula()
+	{
+		return $this->textoMayuscula;
+	}
+
+	/**
+	 *
+	 * @param
+	 *        	boolean a cargar en la variable $incluirOpcionVacia
+	 */
+	public function setIncluirOpcionVacia($incluirOpcionVacia)
+	{
+		$this->incluirOpcionVacia = $incluirOpcionVacia;
+	}
+
+	/**
+	 *
+	 * @param
+	 *        	boolean a cargar en la variable $mostrarValor
+	 */
+	public function setMostrarValor($mostrarValor)
+	{
+		$this->mostrarValor = $mostrarValor;
+	}
+
+	/**
+	 *
+	 * @param
+	 *        	boolean a cargar en la variable $textoMayuscula
+	 */
+	public function setTextoMayuscula($textoMayuscula)
+	{
+		$this->textoMayuscula = $textoMayuscula;
+	}
 
 	/**
 	 *
@@ -157,3 +214,4 @@ class Campos_combo extends class_campo
 	}
 }
 
+?>

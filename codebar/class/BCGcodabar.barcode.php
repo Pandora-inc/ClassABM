@@ -17,18 +17,42 @@
  * Copyright (C) Jean-Sebastien Goupil
  * http://www.barcodephp.com
  */
-include_once('BCGBarcode1D.php');
+include_once ('BCGBarcode1D.php');
 
-class BCGcodabar extends BCGBarcode1D {
+class BCGcodabar extends BCGBarcode1D
+{
+
 	/**
 	 * Constructor
 	 */
-	public function __construct() {
-		parent::__construct();
+	public function __construct()
+	{
+		parent::__construct ();
 
-		$this->keys = array('0','1','2','3','4','5','6','7','8','9','-','$',':','/','.','+','A','B','C','D');
-		$this->code = array(	// 0 added to add an extra space
-			'00000110',	/* 0 */
+		$this->keys = array (
+				'0',
+				'1',
+				'2',
+				'3',
+				'4',
+				'5',
+				'6',
+				'7',
+				'8',
+				'9',
+				'-',
+				'$',
+				':',
+				'/',
+				'.',
+				'+',
+				'A',
+				'B',
+				'C',
+				'D'
+		);
+		$this->code = array ( // 0 added to add an extra space
+				'00000110',	/* 0 */
 			'00001100',	/* 1 */
 			'00010010',	/* 2 */
 			'11000000',	/* 3 */
@@ -47,7 +71,7 @@ class BCGcodabar extends BCGBarcode1D {
 			'00110100',	/* A */
 			'01010010',	/* B */
 			'00010110',	/* C */
-			'00011100'	/* D */
+			'00011100' /* D */
 		);
 	}
 
@@ -56,8 +80,9 @@ class BCGcodabar extends BCGBarcode1D {
 	 *
 	 * @param string $text
 	 */
-	public function parse($text) {
-		parent::parse(strtoupper($text));	// Only Capital Letters are Allowed
+	public function parse($text)
+	{
+		parent::parse (strtoupper ($text)); // Only Capital Letters are Allowed
 	}
 
 	/**
@@ -65,34 +90,42 @@ class BCGcodabar extends BCGBarcode1D {
 	 *
 	 * @param resource $im
 	 */
-	public function draw(&$im) {
+	public function draw(&$im)
+	{
 		$error_stop = false;
 
 		// Checking if all chars are allowed
-		$c = strlen($this->text);
-		for($i = 0; $i < $c; $i++) {
-			if(array_search($this->text[$i], $this->keys) === false) {
-				$this->drawError($im, 'Char \'' . $this->text[$i] . '\' not allowed.');
+		$c = strlen ($this->text);
+		for($i = 0; $i < $c; $i ++)
+		{
+			if (array_search ($this->text[$i], $this->keys) === false)
+			{
+				$this->drawError ($im, 'Char \'' . $this->text[$i] . '\' not allowed.');
 				$error_stop = true;
 			}
 		}
-		if($error_stop === false) {
+		if ($error_stop === false)
+		{
 			// Must start by A, B, C or D
-			if($this->text[0] !== 'A' && $this->text[0] !== 'B' && $this->text[0] !== 'C' && $this->text[0] !== 'D') {
-				$this->drawError($im, 'Must start by char A, B, C or D.');
+			if ($this->text[0] !== 'A' && $this->text[0] !== 'B' && $this->text[0] !== 'C' && $this->text[0] !== 'D')
+			{
+				$this->drawError ($im, 'Must start by char A, B, C or D.');
 				$error_stop = true;
 			}
 			// Must over by A, B, C or D
 			$c2 = $c - 1;
-			if($c2 === 0 || ($this->text[$c2] !== 'A' && $this->text[$c2] !== 'B' && $this->text[$c2] !== 'C' && $this->text[$c2] !== 'D')) {
-				$this->drawError($im, 'Must end by char A, B, C or D.');
+			if ($c2 === 0 || ($this->text[$c2] !== 'A' && $this->text[$c2] !== 'B' && $this->text[$c2] !== 'C' && $this->text[$c2] !== 'D'))
+			{
+				$this->drawError ($im, 'Must end by char A, B, C or D.');
 				$error_stop = true;
 			}
-			if($error_stop === false) {
-				for($i = 0; $i < $c; $i++) {
-					$this->drawChar($im, $this->findCode($this->text[$i]), true);
+			if ($error_stop === false)
+			{
+				for($i = 0; $i < $c; $i ++)
+				{
+					$this->drawChar ($im, $this->findCode ($this->text[$i]), true);
 				}
-				$this->drawText($im);
+				$this->drawText ($im);
 			}
 		}
 	}
@@ -102,19 +135,26 @@ class BCGcodabar extends BCGBarcode1D {
 	 *
 	 * @return int[]
 	 */
-	public function getMaxSize() {
-		$p = parent::getMaxSize();
+	public function getMaxSize()
+	{
+		$p = parent::getMaxSize ();
 
 		$w = 0;
-		$c = strlen($this->text);
-		for($i = 0; $i < $c; $i++) {
-			$index = $this->findIndex($this->text[$i]);
-			if($index !== false) {
+		$c = strlen ($this->text);
+		for($i = 0; $i < $c; $i ++)
+		{
+			$index = $this->findIndex ($this->text[$i]);
+			if ($index !== false)
+			{
 				$w += 8;
-				$w += substr_count($this->code[$index], '1');
+				$w += substr_count ($this->code[$index], '1');
 			}
 		}
-		return array($p[0] + $w * $this->scale, $p[1]);
+		return array (
+				$p[0] + $w * $this->scale,
+				$p[1]
+		);
 	}
-};
+}
+;
 ?>

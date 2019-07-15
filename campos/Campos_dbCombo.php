@@ -59,6 +59,63 @@ class Campos_dbCombo extends class_campo
 
 	/**
 	 *
+	 * @return boolean el dato de la variable $incluirOpcionVacia
+	 */
+	public function isIncluirOpcionVacia()
+	{
+		return $this->incluirOpcionVacia;
+	}
+
+	/**
+	 *
+	 * @return boolean el dato de la variable $mostrarValor
+	 */
+	public function isMostrarValor()
+	{
+		return $this->mostrarValor;
+	}
+
+	/**
+	 *
+	 * @return boolean el dato de la variable $textoMayuscula
+	 */
+	public function isTextoMayuscula()
+	{
+		return $this->textoMayuscula;
+	}
+
+	/**
+	 *
+	 * @param
+	 *        	boolean a cargar en la variable $incluirOpcionVacia
+	 */
+	public function setIncluirOpcionVacia($incluirOpcionVacia)
+	{
+		$this->incluirOpcionVacia = $incluirOpcionVacia;
+	}
+
+	/**
+	 *
+	 * @param
+	 *        	boolean a cargar en la variable $mostrarValor
+	 */
+	public function setMostrarValor($mostrarValor)
+	{
+		$this->mostrarValor = $mostrarValor;
+	}
+
+	/**
+	 *
+	 * @param
+	 *        	boolean a cargar en la variable $textoMayuscula
+	 */
+	public function setTextoMayuscula($textoMayuscula)
+	{
+		$this->textoMayuscula = $textoMayuscula;
+	}
+
+	/**
+	 *
 	 * @param array $array
 	 */
 	public function __construct($array = array())
@@ -81,6 +138,23 @@ class Campos_dbCombo extends class_campo
 	public function getSqlQuery()
 	{
 		return $this->sqlQuery;
+	}
+
+	/**
+	 * Comprueba que la clase tenga definida una salQuery propia
+	 *
+	 * @return boolean
+	 */
+	public function tieneSqlQuery()
+	{
+		if (isset ($this->sqlQuery) and $this->sqlQuery != "")
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
 	}
 
 	/**
@@ -136,9 +210,11 @@ class Campos_dbCombo extends class_campo
 		}
 		$retorno .= "</select> \n";
 
-		$imprForm .= str_replace ('%IDCAMPO%', $this->campo, $this->jsSelectConBusqueda);
+		// $imprForm .= str_replace ('%IDCAMPO%', $this->campo, $this->jsSelectConBusqueda);
+		str_replace ('%IDCAMPO%', $this->campo, $this->jsSelectConBusqueda);
 
 		return $retorno;
 	}
 }
 
+?>

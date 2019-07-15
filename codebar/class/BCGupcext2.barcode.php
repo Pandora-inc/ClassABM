@@ -22,20 +22,33 @@
  * Copyright (C) Jean-Sebastien Goupil
  * http://www.barcodephp.com
  */
-include_once('BCGBarcode1D.php');
+include_once ('BCGBarcode1D.php');
 
-class BCGupcext2 extends BCGBarcode1D {
-	protected $codeParity = array();
+class BCGupcext2 extends BCGBarcode1D
+{
+	protected $codeParity = array ();
 
 	/**
 	 * Constructor
 	 */
-	public function __construct() {
-		parent::__construct();
+	public function __construct()
+	{
+		parent::__construct ();
 
-		$this->keys = array('0','1','2','3','4','5','6','7','8','9');
-		$this->code = array(
-			'2100',	/* 0 */
+		$this->keys = array (
+				'0',
+				'1',
+				'2',
+				'3',
+				'4',
+				'5',
+				'6',
+				'7',
+				'8',
+				'9'
+		);
+		$this->code = array (
+				'2100',	/* 0 */
 			'1110',	/* 1 */
 			'1011',	/* 2 */
 			'0300',	/* 3 */
@@ -44,45 +57,62 @@ class BCGupcext2 extends BCGBarcode1D {
 			'0003',	/* 6 */
 			'0201',	/* 7 */
 			'0102',	/* 8 */
-			'2001'	/* 9 */
+			'2001' /* 9 */
 		);
 		// Parity, 0=Odd, 1=Even. Depending on ?%4
-		$this->codeParity = array(
-			array(0,0),	/* 0 */
-			array(0,1),	/* 1 */
-			array(1,0),	/* 2 */
-			array(1,1)	/* 3 */
+		$this->codeParity = array (
+				array (
+						0,
+						0
+				),	/* 0 */
+			array (
+						0,
+						1
+				),	/* 1 */
+			array (
+						1,
+						0
+				),	/* 2 */
+			array (
+						1,
+						1
+				) /* 3 */
 		);
 	}
 
-	public function parse($text) {
-		parent::parse($text);
-	
-		$this->setLabelOffset();
+	public function parse($text)
+	{
+		parent::parse ($text);
+
+		$this->setLabelOffset ();
 	}
 
-	public function setFont($font) {
-		parent::setFont($font);
+	public function setFont($font)
+	{
+		parent::setFont ($font);
 
-		$this->setLabelOffset();
+		$this->setLabelOffset ();
 	}
 
-	public function setLabel($label) {
-		parent::setLabel($label);
+	public function setLabel($label)
+	{
+		parent::setLabel ($label);
 
-		$this->setLabelOffset();
+		$this->setLabelOffset ();
 	}
 
-	public function setOffsetY($offsetY) {
-		parent::setOffsetY($offsetY);
+	public function setOffsetY($offsetY)
+	{
+		parent::setOffsetY ($offsetY);
 
-		$this->setLabelOffset();
+		$this->setLabelOffset ();
 	}
 
-	public function setScale($scale) {
-		parent::setScale($scale);
+	public function setScale($scale)
+	{
+		parent::setScale ($scale);
 
-		$this->setLabelOffset();
+		$this->setLabelOffset ();
 	}
 
 	/**
@@ -90,34 +120,42 @@ class BCGupcext2 extends BCGBarcode1D {
 	 *
 	 * @param resource $im
 	 */
-	public function draw(&$im) {
+	public function draw(&$im)
+	{
 		$error_stop = false;
 
 		// Checking if all chars are allowed
-		$c = strlen($this->text);
-		for($i = 0; $i < $c; $i++) {
-			if(array_search($this->text[$i], $this->keys) === false) {
-				$this->drawError($im, 'Char \'' . $this->text[$i] . '\' not allowed.');
+		$c = strlen ($this->text);
+		for($i = 0; $i < $c; $i ++)
+		{
+			if (array_search ($this->text[$i], $this->keys) === false)
+			{
+				$this->drawError ($im, 'Char \'' . $this->text[$i] . '\' not allowed.');
 				$error_stop = true;
 			}
 		}
-		if($error_stop === false) {
+		if ($error_stop === false)
+		{
 			// Must contain 2 chars
-			if($c !== 2) {
-				$this->drawError($im, 'Must contain 2 chars.');
+			if ($c !== 2)
+			{
+				$this->drawError ($im, 'Must contain 2 chars.');
 				$error_stop = true;
 			}
-			if($error_stop === false) {
+			if ($error_stop === false)
+			{
 				// Starting Code
-				$this->drawChar($im, '001', true);
+				$this->drawChar ($im, '001', true);
 				// Code
-				for($i = 0; $i < 2; $i++) {
-					$this->drawChar($im, self::inverse($this->findCode($this->text[$i]), $this->codeParity[intval($this->text) % 4][$i]), false);
-					if($i === 0) {
-						$this->DrawChar($im, '00', false);	// Inter-char
+				for($i = 0; $i < 2; $i ++)
+				{
+					$this->drawChar ($im, self::inverse ($this->findCode ($this->text[$i]), $this->codeParity[intval ($this->text) % 4][$i]), false);
+					if ($i === 0)
+					{
+						$this->DrawChar ($im, '00', false); // Inter-char
 					}
 				}
-				$this->drawText($im);
+				$this->drawText ($im);
 			}
 		}
 	}
@@ -127,26 +165,34 @@ class BCGupcext2 extends BCGBarcode1D {
 	 *
 	 * @return int[]
 	 */
-	public function getMaxSize() {
-		$p = parent::getMaxSize();
+	public function getMaxSize()
+	{
+		$p = parent::getMaxSize ();
 
 		$startlength = 4 * $this->scale;
 		$textlength = 2 * 7 * $this->scale;
 		$intercharlength = 2 * $this->scale;
 
-		$label = $this->getLabel();
+		$label = $this->getLabel ();
 		$textHeight = 0;
-		if(!empty($label)) {
-			if($this->textfont instanceof BCGFont) {
+		if (!empty ($label))
+		{
+			if ($this->textfont instanceof BCGFont)
+			{
 				$textfont = clone $this->textfont;
-				$textfont->setText($label);
-				$textHeight = $textfont->getHeight() + self::SIZE_SPACING_FONT;
-			} elseif($this->textfont !== 0) {
-				$textHeight = imagefontheight($this->textfont) + self::SIZE_SPACING_FONT;
+				$textfont->setText ($label);
+				$textHeight = $textfont->getHeight () + self::SIZE_SPACING_FONT;
+			}
+			elseif ($this->textfont !== 0)
+			{
+				$textHeight = imagefontheight ($this->textfont) + self::SIZE_SPACING_FONT;
 			}
 		}
 
-		return array($p[0] + $startlength + $textlength + $intercharlength, $p[1] - $textHeight);
+		return array (
+				$p[0] + $startlength + $textlength + $intercharlength,
+				$p[1] - $textHeight
+		);
 	}
 
 	/**
@@ -154,53 +200,68 @@ class BCGupcext2 extends BCGBarcode1D {
 	 *
 	 * @param resource $im
 	 */
-	protected function drawText($im) {
-		$label = $this->getLabel();
+	protected function drawText($im)
+	{
+		$label = $this->getLabel ();
 
-		if(!empty($label)) {
-			$pA = $this->getMaxSize();
-			$pB = BCGBarcode1D::getMaxSize();
-			$w =  $pA[0] - $pB[0];
+		if (!empty ($label))
+		{
+			$pA = $this->getMaxSize ();
+			$pB = BCGBarcode1D::getMaxSize ();
+			$w = $pA[0] - $pB[0];
 
-			if($this->textfont instanceof BCGFont) {
+			if ($this->textfont instanceof BCGFont)
+			{
 				$textfont = clone $this->textfont;
-				$textfont->setText($label);
-				$xPosition = ($w / 2) - ($textfont->getWidth() / 2) + $this->offsetX * $this->scale;
+				$textfont->setText ($label);
+				$xPosition = ($w / 2) - ($textfont->getWidth () / 2) + $this->offsetX * $this->scale;
 				$yPosition = $this->offsetY * $this->scale - BCGBarcode1D::SIZE_SPACING_FONT;
-				$textfont->draw($im, $this->colorFg->allocate($im), $xPosition, $yPosition);
-			} elseif($this->textfont !== 0) {
-				$xPosition = ($w / 2) - (strlen($label) / 2) * imagefontwidth($this->textfont) + $this->offsetX * $this->scale;
-				$yPosition = $this->offsetY * $this->scale - BCGBarcode1D::SIZE_SPACING_FONT - imagefontheight($this->textfont);
-				imagestring($im, $this->textfont, $xPosition, $yPosition, $label, $this->colorFg->allocate($im));
+				$textfont->draw ($im, $this->colorFg->allocate ($im), $xPosition, $yPosition);
+			}
+			elseif ($this->textfont !== 0)
+			{
+				$xPosition = ($w / 2) - (strlen ($label) / 2) * imagefontwidth ($this->textfont) + $this->offsetX * $this->scale;
+				$yPosition = $this->offsetY * $this->scale - BCGBarcode1D::SIZE_SPACING_FONT - imagefontheight ($this->textfont);
+				imagestring ($im, $this->textfont, $xPosition, $yPosition, $label, $this->colorFg->allocate ($im));
 			}
 		}
 	}
 
-	private function setLabelOffset() {
-		$label = $this->getLabel();
-		if(!empty($label)) {
-			if($this->textfont instanceof BCGFont) {
+	private function setLabelOffset()
+	{
+		$label = $this->getLabel ();
+		if (!empty ($label))
+		{
+			if ($this->textfont instanceof BCGFont)
+			{
 				$f = clone $this->textfont;
-				$f->setText($label);
+				$f->setText ($label);
 
-				$val = ($f->getHeight() - $f->getUnderBaseline()) / $this->scale + BCGBarcode1D::SIZE_SPACING_FONT;
-				if($val > $this->offsetY) {
+				$val = ($f->getHeight () - $f->getUnderBaseline ()) / $this->scale + BCGBarcode1D::SIZE_SPACING_FONT;
+				if ($val > $this->offsetY)
+				{
 					$this->offsetY = $val;
 				}
-			} elseif($this->textfont !== 0) {
-				$val = (imagefontheight($this->textfont) + 2) / $this->scale;
-				if($val > $this->offsetY) {
+			}
+			elseif ($this->textfont !== 0)
+			{
+				$val = (imagefontheight ($this->textfont) + 2) / $this->scale;
+				if ($val > $this->offsetY)
+				{
 					$this->offsetY = $val;
 				}
 			}
 		}
 	}
 
-	private static function inverse($text, $inverse = 1) {
-		if($inverse === 1) {
-			$text = strrev($text);
+	private static function inverse($text, $inverse = 1)
+	{
+		if ($inverse === 1)
+		{
+			$text = strrev ($text);
 		}
 		return $text;
 	}
-};
+}
+;
 ?>

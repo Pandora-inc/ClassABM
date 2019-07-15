@@ -20,20 +20,33 @@
  * Copyright (C) Jean-Sebastien Goupil
  * http://www.barcodephp.com
  */
-include_once('BCGBarcode1D.php');
+include_once ('BCGBarcode1D.php');
 
-class BCGs25 extends BCGBarcode1D {
+class BCGs25 extends BCGBarcode1D
+{
 	private $checksum;
 
 	/**
 	 * Constructor
 	 */
-	public function __construct() {
-		parent::__construct();
+	public function __construct()
+	{
+		parent::__construct ();
 
-		$this->keys = array('0','1','2','3','4','5','6','7','8','9');
-		$this->code = array(
-			'0000202000',	/* 0 */
+		$this->keys = array (
+				'0',
+				'1',
+				'2',
+				'3',
+				'4',
+				'5',
+				'6',
+				'7',
+				'8',
+				'9'
+		);
+		$this->code = array (
+				'0000202000',	/* 0 */
 			'2000000020',	/* 1 */
 			'0020000020',	/* 2 */
 			'2020000000',	/* 3 */
@@ -42,14 +55,15 @@ class BCGs25 extends BCGBarcode1D {
 			'0020200000',	/* 6 */
 			'0000002020',	/* 7 */
 			'2000002000',	/* 8 */
-			'0020002000'	/* 9 */
+			'0020002000' /* 9 */
 		);
 
-		$this->setChecksum(false);
+		$this->setChecksum (false);
 	}
 
-	public function setChecksum($checksum) {
-		$this->checksum = (bool)$checksum;
+	public function setChecksum($checksum)
+	{
+		$this->checksum = (bool) $checksum;
 	}
 
 	/**
@@ -57,43 +71,53 @@ class BCGs25 extends BCGBarcode1D {
 	 *
 	 * @param resource $im
 	 */
-	public function draw(&$im) {
+	public function draw(&$im)
+	{
 		$error_stop = false;
 
 		// Checking if all chars are allowed
-		$c = strlen($this->text);
-		for($i = 0; $i < $c; $i++) {
-			if(array_search($this->text[$i], $this->keys) === false) {
-				$this->drawError($im, 'Char \'' . $this->text[$i] . '\' not allowed.');
+		$c = strlen ($this->text);
+		for($i = 0; $i < $c; $i ++)
+		{
+			if (array_search ($this->text[$i], $this->keys) === false)
+			{
+				$this->drawError ($im, 'Char \'' . $this->text[$i] . '\' not allowed.');
 				$error_stop = true;
 			}
 		}
-		if($error_stop === false) {
+		if ($error_stop === false)
+		{
 			// Must be even
-			if($c % 2 !== 0 && $this->checksum === false) {
-				$this->drawError($im, 's25 must be even if checksum is false.');
-				$error_stop = true;
-			} elseif($c % 2 === 0 && $this->checksum === true) {
-				$this->drawError($im, 's25 must be odd if checksum is true.');
+			if ($c % 2 !== 0 && $this->checksum === false)
+			{
+				$this->drawError ($im, 's25 must be even if checksum is false.');
 				$error_stop = true;
 			}
-			if($error_stop === false) {
+			elseif ($c % 2 === 0 && $this->checksum === true)
+			{
+				$this->drawError ($im, 's25 must be odd if checksum is true.');
+				$error_stop = true;
+			}
+			if ($error_stop === false)
+			{
 				$temp_text = $this->text;
 				// Checksum
-				if($this->checksum === true) {
-					$this->calculateChecksum();
+				if ($this->checksum === true)
+				{
+					$this->calculateChecksum ();
 					$temp_text .= $this->keys[$this->checksumValue];
 				}
 				// Starting Code
-				$this->drawChar($im, '101000', true);
+				$this->drawChar ($im, '101000', true);
 				// Chars
-				$c = strlen($temp_text);
-				for($i = 0; $i < $c; $i++) {
-					$this->drawChar($im, $this->findCode($temp_text[$i]), true);
+				$c = strlen ($temp_text);
+				for($i = 0; $i < $c; $i ++)
+				{
+					$this->drawChar ($im, $this->findCode ($temp_text[$i]), true);
 				}
 				// Ending Code
-				$this->drawChar($im, '10001', true);
-				$this->drawText($im);
+				$this->drawChar ($im, '10001', true);
+				$this->drawText ($im);
 			}
 		}
 	}
@@ -103,25 +127,31 @@ class BCGs25 extends BCGBarcode1D {
 	 *
 	 * @return int[]
 	 */
-	public function getMaxSize() {
-		$p = parent::getMaxSize();
+	public function getMaxSize()
+	{
+		$p = parent::getMaxSize ();
 
-		$c = strlen($this->text);
+		$c = strlen ($this->text);
 		$startlength = 8 * $this->scale;
 		$textlength = $c * 14 * $this->scale;
 		$checksumlength = 0;
-		if($c % 2 !== 0) {
+		if ($c % 2 !== 0)
+		{
 			$checksumlength = 14 * $this->scale;
 		}
 		$endlength = 7 * $this->scale;
 
-		return array($p[0] + $startlength + $textlength + $checksumlength + $endlength, $p[1]);
+		return array (
+				$p[0] + $startlength + $textlength + $checksumlength + $endlength,
+				$p[1]
+		);
 	}
 
 	/**
 	 * Overloaded method to calculate checksum
 	 */
-	protected function calculateChecksum() {
+	protected function calculateChecksum()
+	{
 		// Calculating Checksum
 		// Consider the right-most digit of the message to be in an "even" position,
 		// and assign odd/even to each character moving from right to left
@@ -130,12 +160,16 @@ class BCGs25 extends BCGBarcode1D {
 		// Add all of that and do 10-(?mod10)
 		$even = true;
 		$this->checksumValue = 0;
-		$c = strlen($this->text);
-		for($i = $c; $i > 0; $i--) {
-			if($even === true) {
+		$c = strlen ($this->text);
+		for($i = $c; $i > 0; $i --)
+		{
+			if ($even === true)
+			{
 				$multiplier = 3;
 				$even = false;
-			} else {
+			}
+			else
+			{
 				$multiplier = 1;
 				$even = true;
 			}
@@ -147,14 +181,18 @@ class BCGs25 extends BCGBarcode1D {
 	/**
 	 * Overloaded method to display the checksum
 	 */
-	protected function processChecksum() {
-		if($this->checksumValue === false) { // Calculate the checksum only once
-			$this->calculateChecksum();
+	protected function processChecksum()
+	{
+		if ($this->checksumValue === false)
+		{ // Calculate the checksum only once
+			$this->calculateChecksum ();
 		}
-		if($this->checksumValue !== false) {
+		if ($this->checksumValue !== false)
+		{
 			return $this->keys[$this->checksumValue];
 		}
 		return false;
 	}
-};
+}
+;
 ?>

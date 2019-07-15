@@ -18,18 +18,33 @@
  * Copyright (C) Jean-Sebastien Goupil
  * http://www.barcodephp.com
  */
-include_once('BCGBarcode1D.php');
+include_once ('BCGBarcode1D.php');
 
-class BCGcode11 extends BCGBarcode1D {
+class BCGcode11 extends BCGBarcode1D
+{
+
 	/**
 	 * Constructor
 	 */
-	public function __construct() {
-		parent::__construct();
+	public function __construct()
+	{
+		parent::__construct ();
 
-		$this->keys = array('0','1','2','3','4','5','6','7','8','9','-');
-		$this->code = array(	// 0 added to add an extra space
-			'000010',	/* 0 */
+		$this->keys = array (
+				'0',
+				'1',
+				'2',
+				'3',
+				'4',
+				'5',
+				'6',
+				'7',
+				'8',
+				'9',
+				'-'
+		);
+		$this->code = array ( // 0 added to add an extra space
+				'000010',	/* 0 */
 			'100010',	/* 1 */
 			'010010',	/* 2 */
 			'110000',	/* 3 */
@@ -39,7 +54,7 @@ class BCGcode11 extends BCGBarcode1D {
 			'000110',	/* 7 */
 			'100100',	/* 8 */
 			'100000',	/* 9 */
-			'001000'	/* - */
+			'001000' /* - */
 		);
 	}
 
@@ -48,33 +63,39 @@ class BCGcode11 extends BCGBarcode1D {
 	 *
 	 * @param resource $im
 	 */
-	public function draw(&$im) {
+	public function draw(&$im)
+	{
 		$error_stop = false;
 
 		// Checking if all chars are allowed
-		$c = strlen($this->text);
-		for($i = 0; $i < $c; $i++) {
-			if(array_search($this->text[$i], $this->keys) === false) {
-				$this->drawError($im,'Char \'' . $this->text[$i] . '\' not allowed.');
+		$c = strlen ($this->text);
+		for($i = 0; $i < $c; $i ++)
+		{
+			if (array_search ($this->text[$i], $this->keys) === false)
+			{
+				$this->drawError ($im, 'Char \'' . $this->text[$i] . '\' not allowed.');
 				$error_stop = true;
 			}
 		}
-		if($error_stop === false) {
+		if ($error_stop === false)
+		{
 			// Starting Code
-			$this->drawChar($im, '001100', true);
+			$this->drawChar ($im, '001100', true);
 			// Chars
-			for($i = 0; $i < $c; $i++) {
-				$this->drawChar($im, $this->findCode($this->text[$i]), true);
+			for($i = 0; $i < $c; $i ++)
+			{
+				$this->drawChar ($im, $this->findCode ($this->text[$i]), true);
 			}
 			// Checksum
-			$this->calculateChecksum();
-			$c = count($this->checksumValue);
-			for($i = 0; $i < $c; $i++) {
-				$this->drawChar($im, $this->code[$this->checksumValue[$i]], true);
+			$this->calculateChecksum ();
+			$c = count ($this->checksumValue);
+			for($i = 0; $i < $c; $i ++)
+			{
+				$this->drawChar ($im, $this->code[$this->checksumValue[$i]], true);
 			}
 			// Ending Code
-			$this->drawChar($im, '00110', true);
-			$this->drawText($im);
+			$this->drawChar ($im, '00110', true);
+			$this->drawText ($im);
 		}
 	}
 
@@ -83,33 +104,41 @@ class BCGcode11 extends BCGBarcode1D {
 	 *
 	 * @return int[]
 	 */
-	public function getMaxSize() {
-		$p = parent::getMaxSize();
+	public function getMaxSize()
+	{
+		$p = parent::getMaxSize ();
 
 		$w = 0;
-		$c = strlen($this->text);
-		for($i = 0; $i < $c; $i++) {
-			$index = $this->findIndex($this->text[$i]);
-			if($index !== false) {
+		$c = strlen ($this->text);
+		for($i = 0; $i < $c; $i ++)
+		{
+			$index = $this->findIndex ($this->text[$i]);
+			if ($index !== false)
+			{
 				$w += 6;
-				$w += substr_count($this->code[$index], '1');
+				$w += substr_count ($this->code[$index], '1');
 			}
 		}
 		$startlength = 8 * $this->scale;
 		$textlength = $w * $this->scale;
 		// We take the max length possible for checksums (it is 7 or 8...)
 		$checksumlength = 8 * $this->scale;
-		if($c >= 10) {
+		if ($c >= 10)
+		{
 			$checksumlength += 8 * $this->scale;
 		}
 		$endlength = 7 * $this->scale;
-		return array($p[0] + $startlength + $textlength + $checksumlength + $endlength, $p[1]);
+		return array (
+				$p[0] + $startlength + $textlength + $checksumlength + $endlength,
+				$p[1]
+		);
 	}
 
 	/**
 	 * Overloaded method to calculate checksum
 	 */
-	protected function calculateChecksum() {
+	protected function calculateChecksum()
+	{
 		// Checksum
 		// First CheckSUM "C"
 		// The "C" checksum character is the modulo 11 remainder of the sum of the weighted
@@ -120,22 +149,29 @@ class BCGcode11 extends BCGBarcode1D {
 		// Second CheckSUM "K"
 		// Same as CheckSUM "C" but we count the CheckSum "C" at the end
 		// After 9, the sequence wraps around back to 1.
-		$sequence_multiplier = array(10, 9);
+		$sequence_multiplier = array (
+				10,
+				9
+		);
 		$temp_text = $this->text;
-		$this->checksumValue = array();
-		for($z = 0; $z < 2; $z++) {
-			$c = strlen($temp_text);
+		$this->checksumValue = array ();
+		for($z = 0; $z < 2; $z ++)
+		{
+			$c = strlen ($temp_text);
 			// We don't display the K CheckSum if the original text had a length less than 10
-			if($c <= 10 && $z === 1) {
+			if ($c <= 10 && $z === 1)
+			{
 				break;
 			}
 			$checksum = 0;
-			for($i = $c, $j = 0; $i > 0; $i--, $j++) {
+			for($i = $c, $j = 0; $i > 0; $i --, $j ++)
+			{
 				$multiplier = $i % $sequence_multiplier[$z];
-				if($multiplier === 0) {
+				if ($multiplier === 0)
+				{
 					$multiplier = $sequence_multiplier[$z];
 				}
-				$checksum += $this->findIndex($temp_text[$j]) * $multiplier;
+				$checksum += $this->findIndex ($temp_text[$j]) * $multiplier;
 			}
 			$this->checksumValue[$z] = $checksum % 11;
 			$temp_text .= $this->keys[$this->checksumValue[$z]];
@@ -145,19 +181,24 @@ class BCGcode11 extends BCGBarcode1D {
 	/**
 	 * Overloaded method to display the checksum
 	 */
-	protected function processChecksum() {
-		if($this->checksumValue === false) { // Calculate the checksum only once
-			$this->calculateChecksum();
+	protected function processChecksum()
+	{
+		if ($this->checksumValue === false)
+		{ // Calculate the checksum only once
+			$this->calculateChecksum ();
 		}
-		if($this->checksumValue !== false) {
+		if ($this->checksumValue !== false)
+		{
 			$ret = '';
-			$c = count($this->checksumValue);
-			for($i = 0; $i < $c; $i++) {
+			$c = count ($this->checksumValue);
+			for($i = 0; $i < $c; $i ++)
+			{
 				$ret .= $this->keys[$this->checksumValue[$i]];
 			}
 			return $ret;
 		}
 		return false;
 	}
-};
+}
+;
 ?>

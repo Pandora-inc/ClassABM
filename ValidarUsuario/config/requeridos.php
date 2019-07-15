@@ -16,7 +16,8 @@
 <script src='/js/jquery-1-11-4.js'></script>
 
 <!-- estas librerias levantan el calendario para ser usado en mozilla ya que el "input=date" no funciona en firefox -->
-<script src="http://cdn.jsdelivr.net/webshim/1.12.4/extras/modernizr-custom.js"></script>
+<script
+	src="http://cdn.jsdelivr.net/webshim/1.12.4/extras/modernizr-custom.js"></script>
 <script src="http://cdn.jsdelivr.net/webshim/1.12.4/polyfiller.js"></script>
 <script>
   webshims.setOptions('waitReady', false);
