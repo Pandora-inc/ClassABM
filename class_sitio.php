@@ -1930,6 +1930,7 @@ class Sitios
 	{
 		$out = array ();
 		$dir = opendir ($directorio);
+
 		while (false !== ($file = readdir ($dir)))
 		{
 			if (($file != '.') && ($file != '..'))
@@ -1948,6 +1949,7 @@ class Sitios
 			}
 		}
 		closedir ($dir);
+
 		return $out;
 	}
 
