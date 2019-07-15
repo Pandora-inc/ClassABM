@@ -20,7 +20,7 @@ require_once 'class_campo.php';
 /**
  *
  * @author iberlot
- *
+ *        
  */
 class Campos_bit extends class_campo
 {
@@ -209,3 +209,4 @@ class Campos_bit extends class_campo
 	}
 }
 
+?>

@@ -24,29 +24,21 @@ require_once 'class_fechas.php';
  * @version 1.0.5 - Correcciones de codigo optimizacion y comnetado.
  *
  */
-use function class_sitio\agregarLinksEmail;
-use function class_sitio\delTree;
-use function class_sitio\filesToArray;
-use function class_sitio\formatearLinks;
-use function class_sitio\getHostNameEmail;
-use function class_sitio\redirect_http;
-use function class_sitio\remplazar_caracteres_latinos;
-
-class class_sitio
+class Sitios
 {
 	/**
 	 * titulo o nombre del sitio
 	 *
 	 * @var string
 	 */
-	public $nombre;
+	private static $nombre;
 
 	/**
 	 * url del sitio
 	 *
 	 * @var string
 	 */
-	public $url;
+	private static $url;
 
 	/**
 	 * url del sitio corta para otros propositos.
@@ -54,111 +46,117 @@ class class_sitio
 	 *
 	 * @var string
 	 */
-	public $urlCorta;
+	private static $urlCorta;
 
 	/**
 	 * El path completo del sitio
 	 *
 	 * @var string
 	 */
-	public $pathBase;
+	private static $pathBase;
 
 	/**
 	 * email de donde salen los envios para los usuarios
 	 *
 	 * @var string
 	 */
-	public $emailEnvios;
+	private static $emailEnvios;
 
 	/**
 	 * from del email de donde salen los envios para los usuarios
 	 *
 	 * @var string
 	 */
-	public $emailEnviosFrom;
+	private static $emailEnviosFrom;
 
 	/**
 	 * email del webmaster
 	 *
 	 * @var string
 	 */
-	public $emailWebmaster;
+	private static $emailWebmaster;
 
 	/**
 	 * codigo de idioma por defecto del sitio
 	 *
 	 * @var string
 	 */
-	public $idiomaPorDefecto = "es";
+	private static $idiomaPorDefecto = "es";
 
 	/**
 	 * idioma actualmente seleccionado
 	 *
 	 * @var string
 	 */
-	public $idioma = "es";
+	private static $idioma = "es";
 
 	/**
 	 * extension que agrega a las url SEO amigables
 	 */
-	public $extension;
+	private static $extension;
 
 	/**
 	 * Juego de caracteres del sitio
 	 *
 	 * @var string
 	 */
-	public $charset;
+	private static $charset;
+
+	/**
+	 *
+	 * @var object
+	 */
+	private static $db;
 
 	/**
 	 * Ip o nombre del servidor al que se va a conectar la base de datos.
 	 *
 	 * @var string
 	 */
-	public $dbSever;
+	private static $dbSever;
 
 	/**
 	 * Puerto de coneccion a la DB.
 	 *
 	 * @var int
 	 */
-	public $dbPort;
-	public $dbDSN;
+	private static $dbPort;
+	private static $dbDSN;
 
 	/**
 	 * Usuario de conexion a la base
 	 *
 	 * @var string
 	 */
-	public $dbUser;
+	private static $dbUser;
 
 	/**
 	 * Contrase�a de conexion a la base
 	 *
 	 * @var string
 	 */
-	public $dbPass;
+	private static $dbPass;
 
 	/**
 	 * Base a la cual conectarse
 	 *
 	 * @var string
 	 */
-	public $dbBase;
+	private static $dbBase;
 
 	/**
 	 * Juego de caracteres de la conexion
 	 *
 	 * @var string
 	 */
-	public $dbCharset;
+	private static $dbCharset;
 
 	/**
 	 * El tipo de DB (mysql, oracle o mssql)
 	 *
 	 * @var string
 	 */
-	public $dbTipo;
+	private static $dbTipo;
 
 	/**
 	 * Usar die() si hay un error.
@@ -166,38 +164,38 @@ class class_sitio
 	 *
 	 * @var boolean
 	 */
-	public $dieOnError = false;
+	private static $dieOnError = false;
 
 	/**
 	 * Muestra por pantalla diferentes codigos para facilitar el debug
 	 *
 	 * @var boolean
 	 */
-	public $debug = false;
+	private static $debug = false;
 
 	/**
 	 * Habilita la muestra de mensajes de error.
 	 *
 	 * @var boolean
 	 */
-	public $mostrarErrores = false;
+	private static $mostrarErrores = false;
 
 	/**
 	 * Aca se puede asignar un email para enviar aviso cuando hay errores sql *
 	 */
-	public $emailAvisoErrorSql;
+	private static $emailAvisoErrorSql;
 
 	/**
 	 * Graba log con todas las consultas realizadas (solo usar en casos puntuales para debugear) *
 	 */
-	public $grabarArchivoLogQuery = false;
+	private static $grabarArchivoLogQuery = false;
 
 	/**
 	 * Graba log con los errores de BD *
 	 *
 	 * @var boolean
 	 */
-	public $grabarArchivoLogError = false;
+	private static $grabarArchivoLogError = false;
 
 	/**
 	 * Conjunto de caracteres latinos.
@@ -205,7 +203,7 @@ class class_sitio
 	 *
 	 * @var array
 	 */
-	public $carateres_latinos = array ();
+	private static $carateres_latinos = array ();
 
 	/**
 	 * Titulo para usar en las notificaciones.
@@ -214,7 +212,7 @@ class class_sitio
 	 *
 	 * @var string
 	 */
-	private $sitio_notTit = "";
+	private static $sitio_notTit = "";
 
 	/**
 	 * Mensaje a mostrar en las notificaciones.
@@ -223,7 +221,7 @@ class class_sitio
 	 *
 	 * @var string
 	 */
-	private $sitio_notMsg = "";
+	private static $sitio_notMsg = "";
 
 	/**
 	 * Cantidad de segundos para que aparezcan las notificaciones.
@@ -232,7 +230,7 @@ class class_sitio
 	 *
 	 * @var integer - Por defecto tiene el valor de 5
 	 */
-	private $sitio_notSeg = 5;
+	private static $sitio_notSeg = 5;
 
 	/**
 	 * Mensaje a mostrar en los mensajes.
@@ -241,7 +239,7 @@ class class_sitio
 	 *
 	 * @var string
 	 */
-	private $sitio_msg = "";
+	private static $sitio_msg = "";
 
 	/**
 	 * Clase de mensaje a mostrar, puede tomar loa valorea Class para el mensaje info, tip, error, atencion
@@ -250,7 +248,7 @@ class class_sitio
 	 *
 	 * @var string - por defecto tiene el valor info
 	 */
-	private $sitio_msgClass = "info";
+	private static $sitio_msgClass = "info";
 
 	/**
 	 * Define si mostrar una sola vez el mensaje
@@ -259,7 +257,7 @@ class class_sitio
 	 *
 	 * @var boolean - por defecto tiene el valor true
 	 */
-	private $sitio_msgMostrarUnaSolaVez = true;
+	private static $sitio_msgMostrarUnaSolaVez = true;
 
 	/*
 	 * **********************************************
@@ -275,27 +273,27 @@ class class_sitio
 	 *        	Class para el mensaje (info, tip, error, atencion )
 	 * @param string $mostrarUnaSolaVez
 	 */
-	public function setMsg($msg, $class = 'info', $mostrarUnaSolaVez = true)
+	public static function setMsg($msg, $class = 'info', $mostrarUnaSolaVez = true)
 	{
-		$this->sitio_sitio_msg = $msg;
-		$this->sitio_msgClass = $class;
-		$this->sitio_msgMostrarUnaSolaVez = $mostrarUnaSolaVez;
+		Sitios::$sitio_sitio_msg = $msg;
+		Sitios::$sitio_msgClass = $class;
+		Sitios::$sitio_msgMostrarUnaSolaVez = $mostrarUnaSolaVez;
 	}
 
 	/**
 	 * Imprime, si es que hay, un mensaje asignado por setMsg()
 	 */
-	public function showMsg()
+	public static function showMsg()
 	{
-		if ($this->sitio_sitio_msg != '')
+		if (Sitios::$sitio_sitio_msg != '')
 		{
-			echo "<div class='" . $this->sitio_msgClass . "'>" . $this->sitio_sitio_msg . "</div>";
+			echo "<div class='" . Sitios::$sitio_msgClass . "'>" . Sitios::$sitio_sitio_msg . "</div>";
 
-			if ($this->sitio_msgMostrarUnaSolaVez)
+			if (Sitios::$sitio_msgMostrarUnaSolaVez)
 			{
-				unset ($this->sitio_sitio_msg);
-				unset ($this->sitio_msgClass);
-				unset ($this->sitio_msgMostrarUnaSolaVez);
+				unset (Sitios::$sitio_sitio_msg);
+				unset (Sitios::$sitio_msgClass);
+				unset (Sitios::$sitio_msgMostrarUnaSolaVez);
 			}
 		}
 	}
@@ -308,34 +306,34 @@ class class_sitio
 	 * @param string $msg
 	 * @param number $segundos
 	 */
-	public function setNotif($titulo, $msg, $segundos = 5)
+	public static function setNotif($titulo, $msg, $segundos = 5)
 	{
-		$this->sitio_notTit = $titulo;
-		$this->sitio_notMsg = $msg;
-		$this->sitio_notSeg = $segundos;
+		Sitios::$sitio_notTit = $titulo;
+		Sitios::$sitio_notMsg = $msg;
+		Sitios::$sitio_notSeg = $segundos;
 	}
 
 	/**
 	 * Imprime, si es que hay, un mensaje asignado por setMsg()
 	 */
-	public function showNotif()
+	public static function showNotif()
 	{
-		if ($this->sitio_notTit != '')
+		if (Sitios::$sitio_notTit != '')
 		{
 			?>
-			<script type="text/javascript">
+<script type="text/javascript">
 				$(function(){
 					$.gritter.add({
-						title: '<?=$this->sitio_notTit?>',
-						text: '<?=$this->sitio_notMsg?>',
-						time: <?=($this->sitio_notSeg * 1000)?>
+						title: '<?=Sitios::$sitio_notTit?>',
+						text: '<?=Sitios::$sitio_notMsg?>',
+						time: <?=(Sitios::$sitio_notSeg * 1000)?>
 					});
 				});
 			</script>
-			<?php
-			unset ($this->sitio_notTit);
-			unset ($this->sitio_notMsg);
-			unset ($this->sitio_notSeg);
+<?php
+			unset (Sitios::$sitio_notTit);
+			unset (Sitios::$sitio_notMsg);
+			unset (Sitios::$sitio_notSeg);
 		}
 	}
 
@@ -348,7 +346,7 @@ class class_sitio
 	 * @param string $valorPorDefecto
 	 * @return string
 	 */
-	public function getConfig($db, $parametro, $valorPorDefecto = "")
+	public static function getConfig($db, $parametro, $valorPorDefecto = "")
 	{
 		$valor = $db->getValue ("config", "valor", $parametro, "parametro");
 
@@ -372,7 +370,7 @@ class class_sitio
 	 *        	array de variables del query string ej: array("nombre"=>"juan")
 	 * @return string
 	 */
-	public function link($url, $agregarExtension = true, $arrQS = "")
+	public static function link($url, $agregarExtension = true, $arrQS = "")
 	{
 		if (is_array ($arrQS))
 		{
@@ -380,11 +378,11 @@ class class_sitio
 		}
 		if ($agregarExtension)
 		{
-			return $this->pathBase . $url . $this->extension . $qs;
+			return Sitios::$pathBase . $url . Sitios::$extension . $qs;
 		}
 		else
 		{
-			return $this->pathBase . $url . $qs;
+			return Sitios::$pathBase . $url . $qs;
 		}
 	}
 
@@ -399,9 +397,9 @@ class class_sitio
 	 *        	- datos de lo cuales limpiarl las entidades html.
 	 * @return array|string - Depende del parametro recibido, un array con los datos remplazados o un String
 	 */
-	public function limpiarEntidadesHTML($param)
+	public static function limpiarEntidadesHTML($param)
 	{
-		return FuncionesString::limpiarEntidadesHTML ($param, $this->charset);
+		return FuncionesString::limpiarEntidadesHTML ($param, Sitios::$charset);
 	}
 
 	/**
@@ -413,7 +411,7 @@ class class_sitio
 	 *        	- email a verificar
 	 * @return bool - Devuelve true o false dependiendo de si es o no un mail valido.
 	 */
-	public function validarEmail($str)
+	public static function validarEmail($str)
 	{
 		return validar::esEmail ($str);
 	}
@@ -430,7 +428,7 @@ class class_sitio
 	 *        	- Objeto encargado de la administracion de la base de datos.
 	 * @return string[] - Depende del parametro recibido, un array con los datos remplazados o un String
 	 */
-	public function limpiarParaSql($param, $db)
+	public static function limpiarParaSql($param, $db)
 	{
 		return is_array ($param) ? array_map ('limpiarParaSql', $param) : mysqli_real_escape_string ($db->con, $param);
 	}
@@ -446,7 +444,7 @@ class class_sitio
 	 *
 	 * @return string $string - saneada
 	 */
-	public function sanear_string($string)
+	public static function sanear_string($string)
 	{
 		return FuncionesString::sanear_string ($string);
 	}
@@ -466,7 +464,7 @@ class class_sitio
 	 *
 	 * @return string - Texto con los caracteres remplazados.
 	 */
-	public function convertir_especiales_html($str)
+	public static function convertir_especiales_html($str)
 	{
 		return FuncionesString::convertir_especiales_html ($str);
 	}
@@ -479,7 +477,7 @@ class class_sitio
 	 * @param string $texto
 	 * @return string
 	 */
-	public function limpiarString($texto)
+	public static function limpiarString($texto)
 	{
 		return FuncionesString::impiarString ($texto);
 	}
@@ -494,7 +492,7 @@ class class_sitio
 	 *        	- Dato que queremos comprobar
 	 * @return boolean
 	 */
-	public function es_numerico($valor)
+	public static function es_numerico($valor)
 	{
 		if ($valor != "" and ereg ("^[0-9]+$", $valor))
 		{
@@ -513,9 +511,9 @@ class class_sitio
 	 * @param string $str
 	 * @return int
 	 */
-	public function clean_numeric($str)
+	public static function clean_numeric($str)
 	{
-		$str = $this->clean ($str);
+		$str = Sitios::clean ($str);
 		// Elimino los espacios
 		$str = str_replace (" ", "", $str);
 		// Elimino todo lo que no sea numerico
@@ -533,7 +531,7 @@ class class_sitio
 	 *        	- Caracteres a eliminar del string, ya establecidos por defecto pero con posibilidad de modificarlos.
 	 * @return string - Mensaje ya sin dichos caracteres
 	 */
-	public function quitar($mensaje, $nopermitidos = "")
+	public static function quitar($mensaje, $nopermitidos = "")
 	{
 		if (!isset ($nopermitidos) or $nopermitidos == "")
 		{
@@ -556,7 +554,7 @@ class class_sitio
 	 * @param string $string
 	 * @return string
 	 */
-	public function removeNulls($string)
+	public static function removeNulls($string)
 	{
 		$line = str_replace ("\0", "", $string);
 		return $line;
@@ -581,7 +579,7 @@ class class_sitio
 	 *        	- Si es true al texto del select le agrega entre parentesis el index.
 	 * @return string - String con los option de un campo select html basandose en una consulta a la DB.
 	 */
-	public function generarInputSelect($db, $tabla, $campoSelec, $campoTexto = NULL, $seleccionado = NULL, $textoMayuscula = true, $mostrarValor = false)
+	public static function generarInputSelect($db, $tabla, $campoSelec, $campoTexto = NULL, $seleccionado = NULL, $textoMayuscula = true, $mostrarValor = false)
 	{
 		if ($campoTexto == NULL)
 		{
@@ -646,7 +644,7 @@ class class_sitio
 	 * @param string $fecha_inicio
 	 * @return string
 	 */
-	public function fecha_DD_MM_YYYY_Oracle($fecha_inicio)
+	public static function fecha_DD_MM_YYYY_Oracle($fecha_inicio)
 	{
 		return Fechas::fecha_DD_MM_YYYY_Oracle ($fecha_inicio);
 	}
@@ -664,17 +662,17 @@ class class_sitio
 	 *
 	 * @return string - retorna la fecha con el formato DD MM YYYY separado por el caracter separador.
 	 */
-	public function formatear_fecha_Oracle($fecha_inicio, $separador = "/")
+	public static function formatear_fecha_Oracle($fecha_inicio, $separador = "/")
 	{
 		return Fechas::formatear_fecha_Oracle ($fecha_inicio, $separador);
 	}
 
-	function fecha_oracle($fecha)
+	public static function fecha_oracle($fecha)
 	{
 		//
 		$retorno = Fechas::fecha_oracle ($fecha);
 
-		// $fecha = $this->formatear_fecha_Oracle ($fecha, "-");
+		// $fecha = Sitios::formatear_fecha_Oracle ($fecha, "-");
 
 		// $fecha = "TO_DATE('$fecha', 'DD-MM-YYYY')";
 
@@ -690,7 +688,7 @@ class class_sitio
 	 *        	fecha con el formato ano-mes-dia
 	 * @return string $aux
 	 */
-	public function invertirFecha($fecha)
+	public static function invertirFecha($fecha)
 	{
 		list ($ano, $mes, $dia) = explode ('-', $fecha);
 		$aux = $dia . "-" . $mes . "-" . $ano;
@@ -707,7 +705,7 @@ class class_sitio
 	 *        	- fecha con el formato ano-mes-dia
 	 * @return string $dias
 	 */
-	public function nombreDiacorto($fecha)
+	public static function nombreDiacorto($fecha)
 	{
 		return Fechas::nombreDiacorto ($fecha);
 	}
@@ -720,7 +718,7 @@ class class_sitio
 	 * @param int $numMes
 	 * @return string
 	 */
-	public function getNombreMes($numMes)
+	public static function getNombreMes($numMes)
 	{
 		return Fechas::getNombreMes ($numMes);
 	}
@@ -736,7 +734,7 @@ class class_sitio
 	 *        	- numero de dias a sumar.
 	 * @return string - fecha con los dias sumados.
 	 */
-	public function sumaDia($fecha, $dia)
+	public static function sumaDia($fecha, $dia)
 	{
 		return Fechas::sumaDia ($fecha, $dia);
 	}
@@ -752,7 +750,7 @@ class class_sitio
 	 *        	- fecha menor con el formato ano-mes-dia
 	 * @return string $dias_diferencia - Cantidad de dias que hay entre las dos fechas
 	 */
-	public function diferenciaDias($fecha2, $fecha1)
+	public static function diferenciaDias($fecha2, $fecha1)
 	{
 		return Fechas::diferenciaDias ($fecha2, $fecha1);
 	}
@@ -771,7 +769,7 @@ class class_sitio
 	 *
 	 * @return bool puede ser true o false dependiendo si la fecha es correcta o no
 	 */
-	public function fechaCorrecta($d, $m, $a)
+	public static function fechaCorrecta($d, $m, $a)
 	{
 		if (checkdate ($m, $d, $a))
 		{
@@ -795,7 +793,7 @@ class class_sitio
 	 *
 	 * @return number - Cantidad de minutos de diferencia entre horas.
 	 */
-	public function calcularMminutosExcedentes($hora1, $hora2)
+	public static function calcularMminutosExcedentes($hora1, $hora2)
 	{
 		$separar[1] = explode (':', $hora1);
 		$separar[2] = explode (':', $hora2);
@@ -818,7 +816,7 @@ class class_sitio
 	 *        	- Hora menor con el formato H:i:s
 	 * @return string - Hora con el valor de la resta
 	 */
-	public function difHoras($inicio, $fin)
+	public static function difHoras($inicio, $fin)
 	{
 		return Fechas::difHoras ($inicio, $fin);
 	}
@@ -834,7 +832,7 @@ class class_sitio
 	 *        	- Segundo valor a sumar con el formato H:i:s
 	 * @return string - resultado de la suma de horas
 	 */
-	public function sumaHoras($hora1, $hora2)
+	public static function sumaHoras($hora1, $hora2)
 	{
 		return Fechas::sumaHoras ($hora1, $hora2);
 	}
@@ -848,7 +846,7 @@ class class_sitio
 	 *        	Cantidad de meses
 	 * @return string - XxXx años y XxXx meses.
 	 */
-	public function mesesAnios($meses)
+	public static function mesesAnios($meses)
 	{
 		return Fechas::mesesAnios ($meses);
 	}
@@ -861,7 +859,7 @@ class class_sitio
 	 * @param string $texto
 	 * @return string
 	 */
-	public function codificacion($texto)
+	public static function codificacion($texto)
 	{
 		return FuncionesString::codificacion ($texto);
 	}
@@ -876,7 +874,7 @@ class class_sitio
 	 * @param string $texto
 	 * @return string
 	 */
-	public function utf8_encode_seguro($texto)
+	public static function utf8_encode_seguro($texto)
 	{
 		return FuncionesString::utf8_encode_seguro ($texto);
 	}
@@ -889,7 +887,7 @@ class class_sitio
 	 *
 	 * @param string $str
 	 */
-	public function clean($str)
+	public static function clean($str)
 	{
 		return FuncionesString::clean ($str);
 	}
@@ -905,7 +903,7 @@ class class_sitio
 	 * @throws Exception Devuelve un mensaje de error en caso de no poder realizar la copia.
 	 * @return string
 	 */
-	public function save_image($inPath, $outPath)
+	public static function save_image($inPath, $outPath)
 	{
 		// Download images from remote server
 		$in = fopen ($inPath, "rb");
@@ -925,7 +923,7 @@ class class_sitio
 	/**
 	 * inserta un script de redireccione a Mantenimiento.php
 	 */
-	public function mantenimiento()
+	public static function mantenimiento()
 	{
 		echo '<script language="javascript" type="text/javascript">
 	window.location.href="Mantenimiento.php?backurl="+window.location.href;
@@ -948,7 +946,7 @@ class class_sitio
 	 *
 	 * @return string
 	 */
-	public function human_filesize($bytes, $decimals = 2)
+	public static function human_filesize($bytes, $decimals = 2)
 	{
 		$sz = 'BKMGTP';
 		$factor = floor ((strlen ($bytes) - 1) / 3);
@@ -962,7 +960,7 @@ class class_sitio
 	 * @param string $youtubeVideoLink
 	 * @return string
 	 */
-	public function getYoutubeVideoId($youtubeVideoLink)
+	public static function getYoutubeVideoId($youtubeVideoLink)
 	{
 		if (stripos ($youtubeVideoLink, "youtube") > 0)
 		{
@@ -989,7 +987,7 @@ class class_sitio
 	 *        	- Clave de la encriptacion
 	 * @return string
 	 */
-	public function encryptData($value, $key)
+	public static function encryptData($value, $key)
 	{
 		$iv_size = mcrypt_get_iv_size (MCRYPT_RIJNDAEL_256, MCRYPT_MODE_ECB);
 		$iv = mcrypt_create_iv ($iv_size, MCRYPT_RAND);
@@ -1007,7 +1005,7 @@ class class_sitio
 	 *        	- Clave de la encriptacion
 	 * @return string
 	 */
-	public function decryptData($value, $key)
+	public static function decryptData($value, $key)
 	{
 		$iv_size = mcrypt_get_iv_size (MCRYPT_RIJNDAEL_256, MCRYPT_MODE_ECB);
 		$iv = mcrypt_create_iv ($iv_size, MCRYPT_RAND);
@@ -1022,7 +1020,7 @@ class class_sitio
 	 *        	- Texto al que agregarle el prefijo http
 	 * @return string
 	 */
-	public function agregarHTTP($string)
+	public static function agregarHTTP($string)
 	{
 		if (!preg_match ('/^(https?:\/\/)/i', $string))
 		{
@@ -1039,7 +1037,7 @@ class class_sitio
 	 *
 	 * @return string
 	 */
-	public function agregarLinksEmail($str, $target = "_blank")
+	public static function agregarLinksEmail($str, $target = "_blank")
 	{
 		$str = preg_replace ('/([A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4})/i', '<a href="mailto:\\1">\\1</a>', $str);
 		return $str;
@@ -1060,7 +1058,7 @@ class class_sitio
 	 *        	Caracteres ... de "continuacion"
 	 * @return string
 	 */
-	public function formatearLinks($str, $target = '_blank', $maxLen = 50, $mid = '...')
+	public static function formatearLinks($str, $target = '_blank', $maxLen = 50, $mid = '...')
 	{
 		$left = ceil (0.6666 * $maxLen);
 		$right = $maxLen - $left;
@@ -1088,7 +1086,7 @@ class class_sitio
 	 * formatMoney(10059240.42941, true); # 10,059,240.43
 	 * formatMoney(13245); # 13,245
 	 */
-	public function formatMoney($number, $fractional = false)
+	public static function formatMoney($number, $fractional = false)
 	{
 		if ($fractional)
 		{
@@ -1112,7 +1110,7 @@ class class_sitio
 	/**
 	 * Remplaza links y emails agregandole los links
 	 */
-	public function remplazarEmailyWWW($str, $target = "_blank", $maxLen = 50, $mid = '...')
+	public static function remplazarEmailyWWW($str, $target = "_blank", $maxLen = 50, $mid = '...')
 	{
 		$str = agregarLinksEmail ($str, $target);
 		$str = formatearLinks ($str, $target, $maxLen, $mid);
@@ -1129,7 +1127,7 @@ class class_sitio
 	 *        	Texto que se agrega al final del string si es cortado (Ej: Mi perro se llam(continua...) )
 	 * @return String
 	 */
-	public function cortar_str($str, $len, $txt_continua = "...")
+	public static function cortar_str($str, $len, $txt_continua = "...")
 	{
 		if (strlen ($str) > $len)
 		{
@@ -1143,7 +1141,7 @@ class class_sitio
 			while ($len >= strlen ($texto) + strlen ($arrayTexto[$contador]))
 			{
 				$texto .= ' ' . $arrayTexto[$contador];
-				$contador++;
+				$contador ++;
 			}
 
 			return $texto . $txt_continua;
@@ -1160,7 +1158,7 @@ class class_sitio
 	 * @param string $str
 	 * @return string
 	 */
-	public function strip_saltos($str)
+	public static function strip_saltos($str)
 	{
 		// FIXME como se actualizo el ereg remplase hay que comprobar que funcione correctamente esta funcion
 		$str = preg_replace (chr (13), "", $str);
@@ -1176,11 +1174,9 @@ class class_sitio
 	 * @author Andres Carizza
 	 * @version 1.2
 	 */
-	public function url_amigable($str)
+	public static function url_amigable($str)
 	{
-		global $sitio; // de mi framework
-
-		$url = mb_strtolower ($str, $sitio->charset);
+		$url = mb_strtolower ($str, Sitios::charset);
 
 		$url = remplazar_caracteres_latinos ($url);
 
@@ -1221,7 +1217,7 @@ class class_sitio
 	 * @version 1.2
 	 *
 	 */
-	public function remplazar_caracteres_latinos($str)
+	public static function remplazar_caracteres_latinos($str)
 	{
 		return FuncionesString::remplazar_caracteres_latinos ($str);
 	}
@@ -1234,7 +1230,7 @@ class class_sitio
 	 * @author Andres Carizza
 	 * @version 1.1
 	 */
-	public function format_valid_filename($str, $remplazarCaracteresLatinos = true, $conservarEspacios = false)
+	public static function format_valid_filename($str, $remplazarCaracteresLatinos = true, $conservarEspacios = false)
 	{
 		// Eliminamos y Reemplazamos caracteres especiales
 		$str = str_replace ('\\', '', $str);
@@ -1261,7 +1257,7 @@ class class_sitio
 	 * @param string $valor
 	 * @return string
 	 */
-	public function limpiarParaBusquedaSql($valor)
+	public static function limpiarParaBusquedaSql($valor)
 	{
 		$valor = str_ireplace ("%", "", $valor);
 		$valor = str_ireplace ("--", "", $valor);
@@ -1305,7 +1301,7 @@ class class_sitio
 	 * @param array $array
 	 * @return array
 	 */
-	public function utf8_encode_array($array)
+	public static function utf8_encode_array($array)
 	{
 		return FuncionesString::utf8_encode_array ($array);
 	}
@@ -1318,7 +1314,7 @@ class class_sitio
 	 * @param array $array
 	 * @return array
 	 */
-	public function utf8_decode_array($array)
+	public static function utf8_decode_array($array)
 	{
 		return FuncionesString::utf8_decode_array ($array);
 	}
@@ -1341,7 +1337,7 @@ class class_sitio
 	 * @version 1.1
 	 *
 	 */
-	public function mysql2date($mysqldate, $conHora = false)
+	public static function mysql2date($mysqldate, $conHora = false)
 	{
 		return Fechas::mysql2date ($mysqldate, $conHora);
 	}
@@ -1360,7 +1356,7 @@ class class_sitio
 	 * @version 1.3
 	 *
 	 */
-	public function date2mysql($date)
+	public static function date2mysql($date)
 	{
 		return Fechas::date2mysql ($date);
 	}
@@ -1379,7 +1375,7 @@ class class_sitio
 	 * @return String
 	 * @version 1.2
 	 */
-	public function mysql2preety($ts, $formatoFecha = "d/m/Y")
+	public static function mysql2preety($ts, $formatoFecha = "d/m/Y")
 	{
 		return Fechas::mysql2preety ($ts, $formatoFecha);
 	}
@@ -1410,7 +1406,7 @@ class class_sitio
 	 * @return Boolean
 	 * @version 1.1
 	 */
-	public function enviar_mail($para, $asunto, $mensaje, $deEmail, $deNombre, $html = true, $prioridad = "Normal", $xmailer = "", $notificacion_lectura_a = "")
+	public static function enviar_mail($para, $asunto, $mensaje, $deEmail, $deNombre, $html = true, $prioridad = "Normal", $xmailer = "", $notificacion_lectura_a = "")
 	{
 		$headers = "MIME-Version: 1.0 \n";
 		if ($html)
@@ -1468,7 +1464,7 @@ class class_sitio
 	 *        	"mail" o "sendmail" o "smtp"
 	 * @version 1.0
 	 */
-	public function mail_ext($para, $asunto, $mensaje, $deEmail, $deNombre, $html = true, $adjuntos = "", $charSet = "iso-8859-1", $mailer = "mail", $sendmail = "/usr/sbin/sendmail", $smtpHost = "localhost", $smtpPort = 25, $smtpHelo = "localhost.localdomain", $smtpTimeOut = 10, $mail)
+	public static function mail_ext($para, $asunto, $mensaje, $deEmail, $deNombre, $html = true, $adjuntos = "", $charSet = "iso-8859-1", $mailer = "mail", $sendmail = "/usr/sbin/sendmail", $smtpHost = "localhost", $smtpPort = 25, $smtpHelo = "localhost.localdomain", $smtpTimeOut = 10, $mail)
 	{
 		// $mail = new PHPMailer ();
 		$mail->IsHTML ($html);
@@ -1527,7 +1523,7 @@ class class_sitio
 	 *        	Un mensaje opcional a imprimir en pantalla
 	 * @version 1.0
 	 */
-	public function redirect_http($url, $segundos = 0, $mensaje = "")
+	public static function redirect_http($url, $segundos = 0, $mensaje = "")
 	{
 		echo "<HTML><HEAD>";
 		echo "<META HTTP-EQUIV=\"Refresh\" CONTENT=\"$segundos; URL=$url\">";
@@ -1550,9 +1546,9 @@ class class_sitio
 	 * @version 1.2 - Se remplazaron las variables globales por parametros y otras de la clase.
 	 * @version 1.0
 	 */
-	public function redirect($url, $start_time)
+	public static function redirect($url, $start_time)
 	{
-		if ($this->debug)
+		if (Sitios::$debug)
 		{
 			redirect_http ($url, 120, "<i>Transcurrieron " . (microtime () - $start_time) . " segundos</i><br><a href='$url'>Haga click para continuar a: $url</a>");
 		}
@@ -1572,7 +1568,7 @@ class class_sitio
 	 *        	- direccion del directorio a eliminar.
 	 * @return boolean
 	 */
-	public function delTree($dir)
+	public static function delTree($dir)
 	{
 		if (is_dir ($dir))
 		{
@@ -1620,7 +1616,7 @@ class class_sitio
 	 *
 	 * @return string
 	 */
-	public function crear_opciones_select($desde, $hasta, $incremento = 1, $selected = "")
+	public static function crear_opciones_select($desde, $hasta, $incremento = 1, $selected = "")
 	{
 		$options = "";
 
@@ -1653,7 +1649,7 @@ class class_sitio
 	 *        	- false si se quiere dejar el www
 	 * @return string
 	 */
-	public function extractHostPart($url, $stripWww = true)
+	public static function extractHostPart($url, $stripWww = true)
 	{
 		$partes = parse_url ($url);
 
@@ -1681,7 +1677,7 @@ class class_sitio
 	 * @param string $email
 	 * @return string|bool hostname o FALSE si no es un email valido.
 	 */
-	public function getHostNameEmail($email)
+	public static function getHostNameEmail($email)
 	{
 		// FIXME Hay que probar la funcion para verificar su correcto funcionamiento
 		if (preg_match ('/^([_a-z0-9+-]+)(\.[_a-z0-9+-]+)*@([a-z0-9-]+)(\.[a-z0-9-]+)*(\.[a-z]{2,4})$/', $email, $matches))
@@ -1714,7 +1710,7 @@ class class_sitio
 	 *        	Establece si descargar de forma automatica el archivo o no.
 	 * @return string
 	 */
-	public function backup_db($db, $tables = '*', $fileName = 'bkp', $download = true)
+	public static function backup_db($db, $tables = '*', $fileName = 'bkp', $download = true)
 	{
 
 		// FIXME Hay que probar la funcion para verificar su correcto funcionamiento
@@ -1743,13 +1739,13 @@ class class_sitio
 			$row2 = $db->fetch_row ($db->query ('SHOW CREATE TABLE ' . $table));
 			$return .= "\n\n" . $row2[1] . ";\n\n";
 
-			for($i = 0; $i < $num_fields; $i++)
+			for($i = 0; $i < $num_fields; $i ++)
 			{
 				while ($row = $db->fetch_row ($result))
 				{
 					$return .= 'INSERT INTO ' . $table . ' VALUES(';
 
-					for($j = 0; $j < $num_fields; $j++)
+					for($j = 0; $j < $num_fields; $j ++)
 					{
 						$row[$j] = addslashes ($row[$j]);
 
@@ -1803,7 +1799,7 @@ class class_sitio
 	 *        	- Array con el listado de dominios baneados, si no se espesifica usa el listado por defecto.
 	 * @return boolean
 	 */
-	public function dominioEmailBaneado($email, $hostNoValidosParaEmail = "")
+	public static function dominioEmailBaneado($email, $hostNoValidosParaEmail = "")
 	{
 		if ($hostNoValidosParaEmail == "")
 		{
@@ -1854,7 +1850,7 @@ class class_sitio
 	 *
 	 * @return boolean
 	 */
-	public function is_ajax_request()
+	public static function is_ajax_request()
 	{
 		if (!empty ($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower ($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest')
 		{
@@ -1885,7 +1881,7 @@ class class_sitio
 	 * @throws Exception
 	 * @return string - Listado de directorios y archivos.
 	 */
-	public function listar_directorios_ruta($ruta, $excepcion = "")
+	public static function listar_directorios_ruta($ruta, $excepcion = "")
 	{
 		$lista = "";
 
@@ -1905,7 +1901,7 @@ class class_sitio
 
 						if (is_dir ($ruta . $file))
 						{
-							$this->listar_directorios_ruta ($ruta . "/" . $file . "/");
+							Sitios::listar_directorios_ruta ($ruta . "/" . $file . "/");
 						}
 						else
 						{
@@ -1923,7 +1919,7 @@ class class_sitio
 		}
 	}
 
-	public function listar($directorio)
+	public static function listar($directorio)
 	{
 		$out = array ();
 		$dir = opendir ($directorio);
@@ -1937,7 +1933,7 @@ class class_sitio
 				}
 				elseif (is_dir ($directorio . '/' . $file))
 				{
-					foreach ($this->listar ($directorio . '/' . $file) as $one)
+					foreach (Sitios::listar ($directorio . '/' . $file) as $one)
 					{
 						$out[] = $file . '/' . $one;
 					}
@@ -1954,7 +1950,7 @@ class class_sitio
 	 * @param mixed $v
 	 * @return boolean
 	 */
-	public function is_empty_or_null($v)
+	public static function is_empty_or_null($v)
 	{
 		if (!isset ($v) or empty ($v) or (strlen ($v) == 0) or ($v == NULL) or ($v == 'NULL') or ($v == 'null'))
 		{
@@ -1976,7 +1972,7 @@ class class_sitio
 	 * @param boolean $recusivo
 	 * @return array
 	 */
-	public function filesToArray($path, $recusivo = false, $ocultos = false)
+	public static function filesToArray($path, $recusivo = false, $ocultos = false)
 	{
 		$dir = opendir ($path);
 		$files = array ();
@@ -2007,9 +2003,9 @@ class class_sitio
 	 * @param object $e
 	 * @return string
 	 */
-	public function manejoDeErrores($e)
+	public static function manejoDeErrores($e)
 	{
-		if ($this->debug == true)
+		if (Sitios::$debug == true)
 		{
 			return __LINE__ . " - " . __FILE__ . " - " . $e->getMessage ();
 		}
@@ -2018,13 +2014,686 @@ class class_sitio
 			return $e->getMessage ();
 		}
 
-		if ($this->dieOnError == true)
+		if (Sitios::$dieOnError == true)
 		{
 			exit ();
 		}
 	}
 
 	// ///////////////////////////////////////////////////////////////////////////////////////////////////////////
-}
 
+	/**
+	 * Retorna el valor de $nombre
+	 *
+	 * @return string
+	 */
+	public static function getNombre()
+	{
+		return Sitios::$nombre;
+	}
+
+	/**
+	 * Setea $nombre con el parametro dado.
+	 *
+	 * @param string $nombre
+	 */
+	public static function setNombre($nombre)
+	{
+		Sitios::$nombre = $nombre;
+	}
+
+	/**
+	 * Retorna el valor de $url
+	 *
+	 * @return string
+	 */
+	public static function getUrl()
+	{
+		return Sitios::$url;
+	}
+
+	/**
+	 * Setea $url con el parametro dado.
+	 *
+	 * @param string $url
+	 */
+	public static function setUrl($url)
+	{
+		Sitios::$url = $url;
+	}
+
+	/**
+	 * Retorna el valor de $urlCorta
+	 *
+	 * @return string
+	 */
+	public static function getUrlCorta()
+	{
+		return Sitios::$urlCorta;
+	}
+
+	/**
+	 * Setea $urlCorta con el parametro dado.
+	 *
+	 * @param string $urlCorta
+	 */
+	public static function setUrlCorta($urlCorta)
+	{
+		Sitios::$urlCorta = $urlCorta;
+	}
+
+	/**
+	 * Retorna el valor de $pathBase
+	 *
+	 * @return string
+	 */
+	public static function getPathBase()
+	{
+		return Sitios::$pathBase;
+	}
+
+	/**
+	 * Setea $pathBase con el parametro dado.
+	 *
+	 * @param string $pathBase
+	 */
+	public static function setPathBase($pathBase)
+	{
+		Sitios::$pathBase = $pathBase;
+	}
+
+	/**
+	 * Retorna el valor de $emailEnvios
+	 *
+	 * @return string
+	 */
+	public static function getEmailEnvios()
+	{
+		return Sitios::$emailEnvios;
+	}
+
+	/**
+	 * Setea $emailEnvios con el parametro dado.
+	 *
+	 * @param string $emailEnvios
+	 */
+	public static function setEmailEnvios($emailEnvios)
+	{
+		Sitios::$emailEnvios = $emailEnvios;
+	}
+
+	/**
+	 * Retorna el valor de $emailEnviosFrom
+	 *
+	 * @return string
+	 */
+	public static function getEmailEnviosFrom()
+	{
+		return Sitios::$emailEnviosFrom;
+	}
+
+	/**
+	 * Setea $emailEnviosFrom con el parametro dado.
+	 *
+	 * @param string $emailEnviosFrom
+	 */
+	public static function setEmailEnviosFrom($emailEnviosFrom)
+	{
+		Sitios::$emailEnviosFrom = $emailEnviosFrom;
+	}
+
+	/**
+	 * Retorna el valor de $emailWebmaster
+	 *
+	 * @return string
+	 */
+	public static function getEmailWebmaster()
+	{
+		return Sitios::$emailWebmaster;
+	}
+
+	/**
+	 * Setea $emailWebmaster con el parametro dado.
+	 *
+	 * @param string $emailWebmaster
+	 */
+	public static function setEmailWebmaster($emailWebmaster)
+	{
+		Sitios::$emailWebmaster = $emailWebmaster;
+	}
+
+	/**
+	 * Retorna el valor de $idiomaPorDefecto
+	 *
+	 * @return string
+	 */
+	public static function getIdiomaPorDefecto()
+	{
+		return Sitios::$idiomaPorDefecto;
+	}
+
+	/**
+	 * Setea $idiomaPorDefecto con el parametro dado.
+	 *
+	 * @param string $idiomaPorDefecto
+	 */
+	public static function setIdiomaPorDefecto($idiomaPorDefecto)
+	{
+		Sitios::$idiomaPorDefecto = $idiomaPorDefecto;
+	}
+
+	/**
+	 * Retorna el valor de $idioma
+	 *
+	 * @return string
+	 */
+	public static function getIdioma()
+	{
+		return Sitios::$idioma;
+	}
+
+	/**
+	 * Setea $idioma con el parametro dado.
+	 *
+	 * @param string $idioma
+	 */
+	public static function setIdioma($idioma)
+	{
+		Sitios::$idioma = $idioma;
+	}
+
+	/**
+	 * Retorna el valor de $extension
+	 *
+	 * @return mixed
+	 */
+	public static function getExtension()
+	{
+		return Sitios::$extension;
+	}
+
+	/**
+	 * Setea $extension con el parametro dado.
+	 *
+	 * @param mixed $extension
+	 */
+	public static function setExtension($extension)
+	{
+		Sitios::$extension = $extension;
+	}
+
+	/**
+	 * Retorna el valor de $charset
+	 *
+	 * @return string
+	 */
+	public static function getCharset()
+	{
+		return Sitios::$charset;
+	}
+
+	/**
+	 * Setea $charset con el parametro dado.
+	 *
+	 * @param string $charset
+	 */
+	public static function setCharset($charset)
+	{
+		Sitios::$charset = $charset;
+	}
+
+	/**
+	 * Retorna el valor de $dbSever
+	 *
+	 * @return string
+	 */
+	public static function getDbSever()
+	{
+		return Sitios::$dbSever;
+	}
+
+	/**
+	 * Setea $dbSever con el parametro dado.
+	 *
+	 * @param string $dbSever
+	 */
+	public static function setDbSever($dbSever)
+	{
+		Sitios::$dbSever = $dbSever;
+	}
+
+	/**
+	 * Retorna el valor de $dbPort
+	 *
+	 * @return number
+	 */
+	public static function getDbPort()
+	{
+		return Sitios::$dbPort;
+	}
+
+	/**
+	 * Setea $dbPort con el parametro dado.
+	 *
+	 * @param number $dbPort
+	 */
+	public static function setDbPort($dbPort)
+	{
+		Sitios::$dbPort = $dbPort;
+	}
+
+	/**
+	 * Retorna el valor de $dbDSN
+	 *
+	 * @return mixed
+	 */
+	public static function getDbDSN()
+	{
+		return Sitios::$dbDSN;
+	}
+
+	/**
+	 * Setea $dbDSN con el parametro dado.
+	 *
+	 * @param mixed $dbDSN
+	 */
+	public static function setDbDSN($dbDSN)
+	{
+		Sitios::$dbDSN = $dbDSN;
+	}
+
+	/**
+	 * Retorna el valor de $dbUser
+	 *
+	 * @return string
+	 */
+	public static function getDbUser()
+	{
+		return Sitios::$dbUser;
+	}
+
+	/**
+	 * Setea $dbUser con el parametro dado.
+	 *
+	 * @param string $dbUser
+	 */
+	public static function setDbUser($dbUser)
+	{
+		Sitios::$dbUser = $dbUser;
+	}
+
+	/**
+	 * Retorna el valor de $dbPass
+	 *
+	 * @return string
+	 */
+	public static function getDbPass()
+	{
+		return Sitios::$dbPass;
+	}
+
+	/**
+	 * Setea $dbPass con el parametro dado.
+	 *
+	 * @param string $dbPass
+	 */
+	public static function setDbPass($dbPass)
+	{
+		Sitios::$dbPass = $dbPass;
+	}
+
+	/**
+	 * Retorna el valor de $dbBase
+	 *
+	 * @return string
+	 */
+	public static function getDbBase()
+	{
+		return Sitios::$dbBase;
+	}
+
+	/**
+	 * Setea $dbBase con el parametro dado.
+	 *
+	 * @param string $dbBase
+	 */
+	public static function setDbBase($dbBase)
+	{
+		Sitios::$dbBase = $dbBase;
+	}
+
+	/**
+	 * Retorna el valor de $dbCharset
+	 *
+	 * @return string
+	 */
+	public static function getDbCharset()
+	{
+		return Sitios::$dbCharset;
+	}
+
+	/**
+	 * Setea $dbCharset con el parametro dado.
+	 *
+	 * @param string $dbCharset
+	 */
+	public static function setDbCharset($dbCharset)
+	{
+		Sitios::$dbCharset = $dbCharset;
+	}
+
+	/**
+	 * Retorna el valor de $dbTipo
+	 *
+	 * @return string
+	 */
+	public static function getDbTipo()
+	{
+		return Sitios::$dbTipo;
+	}
+
+	/**
+	 * Setea $dbTipo con el parametro dado.
+	 *
+	 * @param string $dbTipo
+	 */
+	public static function setDbTipo($dbTipo)
+	{
+		Sitios::$dbTipo = $dbTipo;
+	}
+
+	/**
+	 * Retorna el valor de $dieOnError
+	 *
+	 * @return boolean
+	 */
+	public static function isDieOnError()
+	{
+		return Sitios::$dieOnError;
+	}
+
+	/**
+	 * Setea $dieOnError con el parametro dado.
+	 *
+	 * @param boolean $dieOnError
+	 */
+	public static function setDieOnError($dieOnError)
+	{
+		Sitios::$dieOnError = $dieOnError;
+	}
+
+	/**
+	 * Retorna el valor de $debug
+	 *
+	 * @return boolean
+	 */
+	public static function isDebug()
+	{
+		return Sitios::$debug;
+	}
+
+	/**
+	 * Setea $debug con el parametro dado.
+	 *
+	 * @param boolean $debug
+	 */
+	public static function setDebug($debug)
+	{
+		Sitios::$debug = $debug;
+	}
+
+	/**
+	 * Retorna el valor de $mostrarErrores
+	 *
+	 * @return boolean
+	 */
+	public static function isMostrarErrores()
+	{
+		return Sitios::$mostrarErrores;
+	}
+
+	/**
+	 * Setea $mostrarErrores con el parametro dado.
+	 *
+	 * @param boolean $mostrarErrores
+	 */
+	public static function setMostrarErrores($mostrarErrores)
+	{
+		Sitios::$mostrarErrores = $mostrarErrores;
+	}
+
+	/**
+	 * Retorna el valor de $emailAvisoErrorSql
+	 *
+	 * @return mixed
+	 */
+	public static function getEmailAvisoErrorSql()
+	{
+		return Sitios::$emailAvisoErrorSql;
+	}
+
+	/**
+	 * Setea $emailAvisoErrorSql con el parametro dado.
+	 *
+	 * @param mixed $emailAvisoErrorSql
+	 */
+	public static function setEmailAvisoErrorSql($emailAvisoErrorSql)
+	{
+		Sitios::$emailAvisoErrorSql = $emailAvisoErrorSql;
+	}
+
+	/**
+	 * Retorna el valor de $grabarArchivoLogQuery
+	 *
+	 * @return boolean
+	 */
+	public static function getGrabarArchivoLogQuery()
+	{
+		return Sitios::$grabarArchivoLogQuery;
+	}
+
+	/**
+	 * Setea $grabarArchivoLogQuery con el parametro dado.
+	 *
+	 * @param boolean $grabarArchivoLogQuery
+	 */
+	public static function setGrabarArchivoLogQuery($grabarArchivoLogQuery)
+	{
+		Sitios::$grabarArchivoLogQuery = $grabarArchivoLogQuery;
+	}
+
+	/**
+	 * Retorna el valor de $grabarArchivoLogError
+	 *
+	 * @return boolean
+	 */
+	public static function isGrabarArchivoLogError()
+	{
+		return Sitios::$grabarArchivoLogError;
+	}
+
+	/**
+	 * Setea $grabarArchivoLogError con el parametro dado.
+	 *
+	 * @param boolean $grabarArchivoLogError
+	 */
+	public static function setGrabarArchivoLogError($grabarArchivoLogError)
+	{
+		Sitios::$grabarArchivoLogError = $grabarArchivoLogError;
+	}
+
+	/**
+	 * Retorna el valor de $carateres_latinos
+	 *
+	 * @return array
+	 */
+	public static function getCarateres_latinos()
+	{
+		return Sitios::$carateres_latinos;
+	}
+
+	/**
+	 * Setea $carateres_latinos con el parametro dado.
+	 *
+	 * @param array $carateres_latinos
+	 */
+	public static function setCarateres_latinos($carateres_latinos)
+	{
+		Sitios::$carateres_latinos = $carateres_latinos;
+	}
+
+	/**
+	 * Retorna el valor de $sitio_notTit
+	 *
+	 * @return string
+	 */
+	public static function getSitio_notTit()
+	{
+		return Sitios::$sitio_notTit;
+	}
+
+	/**
+	 * Setea $sitio_notTit con el parametro dado.
+	 *
+	 * @param string $sitio_notTit
+	 */
+	public static function setSitio_notTit($sitio_notTit)
+	{
+		Sitios::$sitio_notTit = $sitio_notTit;
+	}
+
+	/**
+	 * Retorna el valor de $sitio_notMsg
+	 *
+	 * @return string
+	 */
+	public static function getSitio_notMsg()
+	{
+		return Sitios::$sitio_notMsg;
+	}
+
+	/**
+	 * Setea $sitio_notMsg con el parametro dado.
+	 *
+	 * @param string $sitio_notMsg
+	 */
+	public static function setSitio_notMsg($sitio_notMsg)
+	{
+		Sitios::$sitio_notMsg = $sitio_notMsg;
+	}
+
+	/**
+	 * Retorna el valor de $sitio_notSeg
+	 *
+	 * @return number
+	 */
+	public static function getSitio_notSeg()
+	{
+		return Sitios::$sitio_notSeg;
+	}
+
+	/**
+	 * Setea $sitio_notSeg con el parametro dado.
+	 *
+	 * @param number $sitio_notSeg
+	 */
+	public static function setSitio_notSeg($sitio_notSeg)
+	{
+		Sitios::$sitio_notSeg = $sitio_notSeg;
+	}
+
+	/**
+	 * Retorna el valor de $sitio_msg
+	 *
+	 * @return string
+	 */
+	public static function getSitio_msg()
+	{
+		return Sitios::$sitio_msg;
+	}
+
+	/**
+	 * Setea $sitio_msg con el parametro dado.
+	 *
+	 * @param string $sitio_msg
+	 */
+	public static function setSitio_msg($sitio_msg)
+	{
+		Sitios::$sitio_msg = $sitio_msg;
+	}
+
+	/**
+	 * Retorna el valor de $sitio_msgClass
+	 *
+	 * @return string
+	 */
+	public static function getSitio_msgClass()
+	{
+		return Sitios::$sitio_msgClass;
+	}
+
+	/**
+	 * Setea $sitio_msgClass con el parametro dado.
+	 *
+	 * @param string $sitio_msgClass
+	 */
+	public static function setSitio_msgClass($sitio_msgClass)
+	{
+		Sitios::$sitio_msgClass = $sitio_msgClass;
+	}
+
+	/**
+	 * Retorna el valor de $sitio_msgMostrarUnaSolaVez
+	 *
+	 * @return boolean
+	 */
+	public static function isSitio_msgMostrarUnaSolaVez()
+	{
+		return Sitios::$sitio_msgMostrarUnaSolaVez;
+	}
+
+	/**
+	 * Setea $sitio_msgMostrarUnaSolaVez con el parametro dado.
+	 *
+	 * @param boolean $sitio_msgMostrarUnaSolaVez
+	 */
+	public static function setSitio_msgMostrarUnaSolaVez($sitio_msgMostrarUnaSolaVez)
+	{
+		Sitios::$sitio_msgMostrarUnaSolaVez = $sitio_msgMostrarUnaSolaVez;
+	}
+
+	/**
+	 * Si estan asignados los parametros de coneccion a la base de datos establece una nueva y la setea en el atributo $db de la clase
+	 *
+	 *
+	 * @throws Exception
+	 */
+	public static function openConnection()
+	{
+		if ((Sitios::getDbSever () != "") and (Sitios::getDbUser () != "") and (Sitios::getDbPass () != "") and (Sitios::getDbBase () != "") and (Sitios::getDbCharset () != "") and (Sitios::getDbTipo () != ""))
+		{
+			Sitios::$db = new class_db (Sitios::getDbSever (), Sitios::getDbUser (), Sitios::getDbPass (), Sitios::getDbBase (), Sitios::getDbCharset (), Sitios::getDbTipo ());
+
+			Sitios::$db->connect ();
+
+			Sitios::$db->dieOnError = Sitios::$dieOnError;
+			Sitios::$db->mostrarErrores = Sitios::$mostrarErrores;
+			Sitios::$db->debug = Sitios::$debug; // True si quiero que muestre el Query en por pantalla
+
+			return Sitios::$db;
+		}
+	}
+
+	/**
+	 * Comprueba que el string pasado sea un json valido
+	 *
+	 * @param String $str
+	 * @return boolean
+	 */
+	public static function isValidJSON($str)
+	{
+		json_decode ($str);
+		return json_last_error () == JSON_ERROR_NONE;
+	}
+}
 ?>

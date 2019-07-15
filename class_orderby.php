@@ -30,7 +30,7 @@
  *
  * @author Andres Carizza www.andrescarizza.com.ar
  * @author iberlot <@> ivanberlot@gmail.com
- *
+ *        
  * @version 2.0
  *          Se actualizaron las funciones obsoletas y corrigieron algunos errores.
  * @version 2.1 - Se modificaron lo iconos para que usara las fuentes de awesome
@@ -160,7 +160,7 @@ class class_orderby
 	 * Retorna el codigo HTML para poner un link para ordenar por columna y la flecha correspondiente.
 	 *
 	 * @example <th><?=linkOrderBy("Usuario","user")?></th>
-	 *
+	 *         
 	 * @param String $txt_campo
 	 *        	Texto del link
 	 * @param String $campo

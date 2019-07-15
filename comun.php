@@ -27,7 +27,7 @@
  * Convierte de un array todas las entidades HTML para que sea seguro mostrar en pantalla strings ingresados por los usuarios.
  *
  * @example $_REQUEST = limpiarEntidadesHTML($_REQUEST, $config);
- *
+ *         
  * @param string[] $param
  *        	- datos de lo cuales limpiarl las entidades html.
  * @param object $sitio
@@ -40,7 +40,7 @@ function limpiarEntidadesHTML($param, $sitio)
 }
 
 /**
- * Comprueba que la direccion de mail no tenga caracteres extraños.
+ * Comprueba que la direccion de mail no tenga caracteres extraï¿½os.
  *
  * @param string $str
  *        	- email a verificar
@@ -59,9 +59,9 @@ function validarEmail($str)
  * Escapa de un array todos los caracteres especiales de una cadena para su uso en una sentencia SQL
  *
  * @example $_REQUEST = limpiarParaSql($_REQUEST);
- *
+ *         
  * @deprecated - Esta funcion es remplazada por real_escape_string de la clase db.
- *
+ *            
  * @param string[] $param
  * @param object $db
  *        	- Objeto encargado de la administracion de la base de datos.
@@ -75,12 +75,12 @@ function limpiarParaSql($param, $db)
 
 /**
  * Reemplaza todos los acentos por sus equivalentes sin ellos.
- * Ademas elimina cualquier caracter extraño en el string.
+ * Ademas elimina cualquier caracter extraï¿½o en el string.
  *
  * @param string $string
  *        	-
  *        	la cadena a sanear
- *
+ *        	
  * @return string $string - saneada
  */
 function sanear_string($string)
@@ -88,15 +88,15 @@ function sanear_string($string)
 	$string = trim ($string);
 
 	$string = str_replace (array (
-			'á',
-			'à',
-			'ä',
-			'â',
-			'ª',
-			'Á',
-			'À',
-			'Â',
-			'Ä'
+			'ï¿½',
+			'ï¿½',
+			'ï¿½',
+			'ï¿½',
+			'ï¿½',
+			'ï¿½',
+			'ï¿½',
+			'ï¿½',
+			'ï¿½'
 	), array (
 			'a',
 			'a',
@@ -110,14 +110,14 @@ function sanear_string($string)
 	), $string);
 
 	$string = str_replace (array (
-			'é',
-			'è',
-			'ë',
-			'ê',
-			'É',
-			'È',
-			'Ê',
-			'Ë'
+			'ï¿½',
+			'ï¿½',
+			'ï¿½',
+			'ï¿½',
+			'ï¿½',
+			'ï¿½',
+			'ï¿½',
+			'ï¿½'
 	), array (
 			'e',
 			'e',
@@ -130,14 +130,14 @@ function sanear_string($string)
 	), $string);
 
 	$string = str_replace (array (
-			'í',
-			'ì',
-			'ï',
-			'î',
-			'Í',
-			'Ì',
-			'Ï',
-			'Î'
+			'ï¿½',
+			'ï¿½',
+			'ï¿½',
+			'ï¿½',
+			'ï¿½',
+			'ï¿½',
+			'ï¿½',
+			'ï¿½'
 	), array (
 			'i',
 			'i',
@@ -150,14 +150,14 @@ function sanear_string($string)
 	), $string);
 
 	$string = str_replace (array (
-			'ó',
-			'ò',
-			'ö',
-			'ô',
-			'Ó',
-			'Ò',
-			'Ö',
-			'Ô'
+			'ï¿½',
+			'ï¿½',
+			'ï¿½',
+			'ï¿½',
+			'ï¿½',
+			'ï¿½',
+			'ï¿½',
+			'ï¿½'
 	), array (
 			'o',
 			'o',
@@ -170,14 +170,14 @@ function sanear_string($string)
 	), $string);
 
 	$string = str_replace (array (
-			'ú',
-			'ù',
-			'ü',
-			'û',
-			'Ú',
-			'Ù',
-			'Û',
-			'Ü'
+			'ï¿½',
+			'ï¿½',
+			'ï¿½',
+			'ï¿½',
+			'ï¿½',
+			'ï¿½',
+			'ï¿½',
+			'ï¿½'
 	), array (
 			'u',
 			'u',
@@ -190,10 +190,10 @@ function sanear_string($string)
 	), $string);
 
 	$string = str_replace (array (
-			'ñ',
-			'Ñ',
-			'ç',
-			'Ç'
+			'ï¿½',
+			'ï¿½',
+			'ï¿½',
+			'ï¿½'
 	), array (
 			'n',
 			'N',
@@ -201,11 +201,11 @@ function sanear_string($string)
 			'C'
 	), $string);
 
-	// Esta parte se encarga de eliminar cualquier caracter extraño
+	// Esta parte se encarga de eliminar cualquier caracter extraï¿½o
 	$string = str_replace (array (
 			"\\",
-			"¨",
-			"º",
+			"ï¿½",
+			"ï¿½",
 			"-",
 			"~",
 			"#",
@@ -213,7 +213,7 @@ function sanear_string($string)
 			"|",
 			"!",
 			"\"",
-			"·",
+			"ï¿½",
 			"$",
 			"%",
 			"&",
@@ -222,8 +222,8 @@ function sanear_string($string)
 			")",
 			"?",
 			"'",
-			"¡",
-			"¿",
+			"ï¿½",
+			"ï¿½",
 			"[",
 			"^",
 			"<code>",
@@ -231,15 +231,15 @@ function sanear_string($string)
 			"+",
 			"}",
 			"{",
-			"¨",
-			"´",
+			"ï¿½",
+			"ï¿½",
 			">",
 			"< ",
 			";",
 			",",
 			":",
 			".",
-			"¥"
+			"ï¿½"
 	), '', $string);
 
 	return $string;
@@ -251,7 +251,7 @@ function sanear_string($string)
  * @global string[] $GLOBALS - Array de variables gobales en caso de no existir usa get_html_translation_table.
  * @param string $str
  *        	- Texto en el cual remplazar los caracteres especiales.
- *
+ *        	
  * @return string - Texto con los caracteres remplazados.
  */
 function convertir_especiales_html($str)
@@ -282,8 +282,8 @@ function limpiarString($texto)
 }
 
 /**
- * Función para sanear los valores recibidos del formulario.
- * Evita la inyección de SQL. Elimina cualquier caracter no numerico.
+ * Funciï¿½n para sanear los valores recibidos del formulario.
+ * Evita la inyecciï¿½n de SQL. Elimina cualquier caracter no numerico.
  *
  * @param string $str
  * @return int
@@ -448,7 +448,7 @@ function generarInputSelect($db, $tabla, $campoSelec, $campoTexto = NULL, $selec
  * @param string $separador
  *        	- Caracter con el cual se va a separar la fecha, por defecto /.
  * @throws Exception - retorna un error si la cantidad de digitos numericos de $fecha_inicio es menor que 8.
- *
+ *        
  * @return string - retorna la fecha con el formato DD MM YYYY separado por el caracter separador.
  */
 function formatear_fecha_Oracle($fecha_inicio, $separador = "/")
@@ -497,7 +497,7 @@ function formatear_fecha_Oracle($fecha_inicio, $separador = "/")
  * invierte el orden de la fecha para que quede en el formato dia-mes-aï¿½o
  *
  * @deprecated - Conviene utilizar formatear_fecha_Oracle.
- *
+ *            
  * @param DateTime $fecha
  *        	fecha con el formato ano-mes-dia
  * @return string $aux
@@ -581,14 +581,14 @@ function diferenciaDias($fecha2, $fecha1)
  * Chequea que la fecha ingresada sea correcta
  *
  * @deprecated conviene usar checkdate directamente.
- *
+ *            
  * @param int $d
  *        	- El Dia que esta dentro del Numero de Duas del mes m dado. Los anos a bisiestos son tomados en consideracion.
  * @param int $m
  *        	- El mes entre 1 y 12 inclusive.
  * @param int $a
  *        	- El ano entre 1 y 32767 inclusive.
- *
+ *        	
  * @return bool puede ser true o false dependiendo si la fecha es correcta o no
  */
 function fechaCorrecta($d, $m, $a)
@@ -607,12 +607,12 @@ function fechaCorrecta($d, $m, $a)
  * Se le pasan dos horas y realiza la diferencia entre ambas.
  *
  * @deprecated Por su mayor presicion se recomienda la utilizacion de difHoras.
- *
+ *            
  * @param string $hora1
  *        	- Hora base con el formato hh:mm.
  * @param string $hora2
  *        	- Hora a restar con el formato hh:mm.
- *
+ *        	
  * @return number - Cantidad de minutos de diferencia entre horas.
  */
 function calcularMminutosExcedentes($hora1, $hora2)

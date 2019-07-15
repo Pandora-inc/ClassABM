@@ -25,9 +25,9 @@ require_once 'class_campo.php';
  * @author iberlot <@> iberlot@usal.edu.ar
  * @since 6 dic. 2018
  * @name Campos_numero.php
- *
+ *      
  * @version 0.1 version inicial del archivo.
- *
+ *         
  */
 class Campos_numero extends class_campo
 {
@@ -37,7 +37,7 @@ class Campos_numero extends class_campo
 	 * Derine el numero de valores despues de la coma.
 	 *
 	 * @todo Por defecto su valor es 2.
-	 *
+	 *      
 	 * @name cantidadDecimales
 	 * @var integer
 	 */
@@ -85,7 +85,7 @@ class Campos_numero extends class_campo
 	 *        	Objeto de coneccion a la base.
 	 * @param String $busqueda
 	 *        	variable donde se registran los parametros de busqueda. es pasada por referencia con lo que se puede utilizar incluso fuera de la funcion.
-	 *
+	 *        	
 	 * @return string
 	 *
 	 * {@inheritdoc}
@@ -121,3 +121,4 @@ class Campos_numero extends class_campo
 	}
 }
 
+?>

@@ -1,4 +1,4 @@
-Ôªø<?php
+<?php
 
 /**
  * Archivo principal de la clase validar.
@@ -40,7 +40,7 @@
 class validar
 {
 	/**
-	 * Descripcion de los errores de validaci√Ø¬ø¬Ωn para imprimir en pantalla
+	 * Descripcion de los errores de validaciÔøΩn para imprimir en pantalla
 	 */
 	public $errores;
 
@@ -230,7 +230,7 @@ class validar
 					$this->verificarLargo ($_REQUEST[$campo], $minimoLargo, $maximoLargo, $campo, $textoCampo);
 				}
 				break;
-                                
+
 			case "alfanumericoAcentos" :
 
 				if (!$this->esAlfaNumericoAcentos ($_REQUEST[$campo]))
@@ -247,7 +247,9 @@ class validar
 
 			case "url" :
 				if (!$this->esURL ($_REQUEST[$campo]))
+				{
 					$this->agregarError ($msgError, $campo, $textoCampo);
+				}
 				break;
 
 			case "numero" :
@@ -267,9 +269,13 @@ class validar
 				else
 				{
 					if ($msgError == "")
+					{
 						$msgError = sprintf ($this->txtElCampoNoPuedeEstarVacio, $this->formatearNombreCampo ($campo, $textoCampo));
+					}
 					if (trim ($_REQUEST[$campo]) == "")
+					{
 						$this->agregarError ($msgError, $campo, $textoCampo);
+					}
 				}
 				break;
 		}
@@ -465,7 +471,7 @@ class validar
 	 */
 	public static function esAlfaNumericoAcentos($value)
 	{
-		if (preg_match ("/^[A-Za-z0-9 √°√©√≠√≥√∫√±√Å√â√ç√ì√ö√ë√ú√º]+$/", $value))
+		if (preg_match ("/^[A-Za-z0-9 ·ÈÌÛ˙Ò¡…Õ”⁄—‹¸]+$/", $value))
 		{
 			return true;
 		}
@@ -552,7 +558,7 @@ class validar
 				"M"
 		);
 
-		for($i = 0; $i < strlen ($str); $i++)
+		for($i = 0; $i < strlen ($str); $i ++)
 		{
 			if (!in_array (substr ($str, $i, 1), $caracteres))
 			{

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * BCGDraw.php
  *--------------------------------------------------------------------
@@ -14,7 +15,8 @@
  * Copyright (C) Jean-Sebastien Goupil
  * http://www.barcodephp.com
  */
-abstract class BCGDraw {
+abstract class BCGDraw
+{
 	protected $im;
 	protected $filename;
 
@@ -23,7 +25,8 @@ abstract class BCGDraw {
 	 *
 	 * @param resource $im
 	 */
-	protected function __construct($im) {
+	protected function __construct($im)
+	{
 		$this->im = $im;
 	}
 
@@ -32,7 +35,8 @@ abstract class BCGDraw {
 	 *
 	 * @param string $filename
 	 */
-	public function setFilename($filename) {
+	public function setFilename($filename)
+	{
 		$this->filename = $filename;
 	}
 

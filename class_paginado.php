@@ -204,7 +204,7 @@ class class_paginado
 		}
 		else
 		{
-			$ejecutarQueryOriginal = true;
+			$this->ejecutarQueryOriginalParaContar = true;
 		}
 
 		// XXX este codigo duplica lo anterior se comenta hasta que se elimine en la proxima revicion
@@ -248,6 +248,16 @@ class class_paginado
 			WHERE rnum > " . $registro;
 			// WHERE ROWNUM > " . $registro . " AND ROWNUM <= " . $RegistroHasta;
 		}
+		elseif ($db->dbtype == 'mssql')
+		{
+			$registros_por_pagina = $this->registros_por_pagina;
+			$registro = $this->registro;
+
+			$RegistroHasta = $registros_por_pagina + $registro;
+
+			$query = 'SELECT * FROM(SELECT * ,ROW_NUMBER() OVER (ORDER BY id) AS subrow FROM (' . $query . ') a) b  WHERE   subrow >= ' . $registro . ' and  subrow <= ' . $RegistroHasta;
+		}
+
 		$result = $db->query ($query);
 
 		$this->pagina = ceil ($this->registro / $this->registros_por_pagina) + 1;
@@ -299,7 +309,7 @@ class class_paginado
 
 		if (count ($this->variablesNoConservar) > 0)
 		{
-			for($i = 0; $i < count ($this->variablesNoConservar); $i++)
+			for($i = 0; $i < count ($this->variablesNoConservar); $i ++)
 			{
 				unset ($_GET[$this->variablesNoConservar[$i]]);
 			}
@@ -355,7 +365,7 @@ class class_paginado
 			{ // si ya se paso link del numero de p&aacute;gina actual
 				if (isset ($cant_adelante))
 				{
-					$cant_adelante++;
+					$cant_adelante ++;
 				}
 				else
 				{
