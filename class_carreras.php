@@ -134,7 +134,7 @@ class Carreras {
   
          }                                  
      
-     /*** SETTERS Y GETTERS ***/
+    /*****SETTERS*****/
                  
     function get_code() {
         return $this->code;
@@ -163,6 +163,10 @@ class Carreras {
     function get_acode() {
         return $this->acode;
     }
+    
+    
+    /*****GETTERS*****/
+    
 
     function set_code($code) {
         $this->code = $code;

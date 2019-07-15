@@ -24,7 +24,16 @@ require_once 'class_fechas.php';
  * @version 1.0.5 - Correcciones de codigo optimizacion y comnetado.
  *
  */
-class Sitios
+/*
+use function class_sitio\agregarLinksEmail;
+use function class_sitio\delTree;
+use function class_sitio\filesToArray;
+use function class_sitio\formatearLinks;
+use function class_sitio\getHostNameEmail;
+use function class_sitio\redirect_http;
+use function class_sitio\remplazar_caracteres_latinos;
+*/
+class class_sitio
 {
 	/**
 	 * titulo o nombre del sitio

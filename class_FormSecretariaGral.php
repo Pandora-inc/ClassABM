@@ -1,16 +1,15 @@
 <?php
-
-require_once ("/web/html/clasesPersonas/class_Personas.php");
 //require_once ("DerechosVarios.php");
 //require_once ("Carreras.php");
 //require_once ("Alumnos.php");
+//require_once ("Formularios.php");
+//require_once ("Session.php");
+require_once ("/web/html/clasesPersonas/class_Personas.php");
 require_once ("/web/html/classes/class_derechos_varios.php");
 require_once ("/web/html/classes/class_alumnos.php");
 require_once ("/web/html/classes/class_carreras.php");
 require_once ("/web/html/classes/class_FormsSolitram.php");
 require_once ("/web/html/classes/class_Session.php");
-//require_once ("Formularios.php");
-//require_once ("Session.php");
 
 /**
  * 
@@ -123,11 +122,13 @@ class FormsSecretariaGral extends Formularios {
     }    
     
     /**
+     * 
     * En base al tipo de form que recibimos , mostramos 
     * el template correspondiente
     * 
     * @param string $tipo -->id de tipo formulario
     * @return html
+    * 
     */
      public function template_html($tipo ,$data=null, $lectura = 0){
           
@@ -352,15 +353,15 @@ class FormsSecretariaGral extends Formularios {
 
                 if($tipo == '111'){
 
-                      $template.="<option class='option_materia'  id='sel_".$row["SUBJECT"]."' value='".$row["SUBJECT"]."'> ".$row["SUBJECT"]." - A&ntilde;o: ".$row["YR"]." - ".$row["SDESC"]." - ".$row["CARGA_HORARIA"]." Hs</option>";
+                      $template.="<option class='option_materia'  id='sel_".$row["SUBJECT"]."' value='".$row["SUBJECT"]."'> ".$row["SUBJECT"]." - A&ntilde;o: ".$row["YR"]." - ".utf8_encode($row["SDESC"])." - ".$row["CARGA_HORARIA"]." Hs</option>";
 
                     }else if($tipo == '113'){
 
-                       $template.="<option class='option_materia' ' id='sel_".$row["SUBJECT"]."' value='".$row["SUBJECT"]."'> ".$row["SUBJECT"]." - A&ntilde;o: ".$row["YR"]." - ".$row["SDESC"]." - ".$row["CARGA_HORARIA"]." Hs</option>";
+                       $template.="<option class='option_materia' ' id='sel_".$row["SUBJECT"]."' value='".$row["SUBJECT"]."'> ".$row["SUBJECT"]." - A&ntilde;o: ".$row["YR"]." - ".utf8_encode($row["SDESC"])." - ".$row["CARGA_HORARIA"]." Hs</option>";
                                            
                     }else{
                         
-                       $template.="<option class='option_materia' id='sel_".$row["SUBJECT"]."' value='".$row["SUBJECT"]."'> ".$row["SUBJECT"]." - A&ntilde;o: ".$row["YR"]." - ".$row["SDESC"]." - ".$row["CARGA_HORARIA"]." Hs</option>";
+                       $template.="<option class='option_materia' id='sel_".$row["SUBJECT"]."' value='".$row["SUBJECT"]."'> ".$row["SUBJECT"]." - A&ntilde;o: ".$row["YR"]." - ".utf8_encode($row["SDESC"])." - ".$row["CARGA_HORARIA"]." Hs</option>";
                     }                 
                 }
                 
@@ -420,7 +421,7 @@ class FormsSecretariaGral extends Formularios {
                                 
                         $html_mat_sel.='
                         
-                        <p class="mat_seleccionada mat_seleccionada_'.$row["SUBJECT"].'"> '.$row["SUBJECT"].' - A&ntilde;o: '.$row["YR"].' - '.$row["SDESC"].'  <span title="'.$row["SDESC"].'"  class="quitar_materia">
+                        <p class="mat_seleccionada mat_seleccionada_'.$row["SUBJECT"].'"> '.$row["SUBJECT"].' - A&ntilde;o: '.$row["YR"].' - '.utf8_encode($row["SDESC"]).'  <span title="'.$row["SDESC"].'"  class="quitar_materia">
                         </span></p>';
                            
                         //$html_mat_sel.='<input id="hidde_'.$row["SUBJECT"].'" type="hidden" name="materias[]" value="'.$row["SUBJECT"].'" />';                                                
@@ -456,8 +457,8 @@ class FormsSecretariaGral extends Formularios {
 
             if ($data["IDESTADO"] == 1) {
 
-                $template.= '<br/><p>Comentario</p>'
-                        . '<textarea name="mensaje" id="mensaje" ></textarea>';
+                $template.=   '<br/><p>Comentario</p>'
+                            . '<textarea name="mensaje" id="mensaje" ></textarea>';
             } else {
 /*
                 $template.= '<br/><p>Comentario</p>'
@@ -475,10 +476,11 @@ class FormsSecretariaGral extends Formularios {
       
 
       /**
+       * 
        * En base al tipo de form obtenemos el nombre
        * 
-       * @param type $id
-       * @return type
+       * @param int $id
+       * @return string
        * 
        */
         public function obtenerNombreForm($tipo){
@@ -514,6 +516,7 @@ class FormsSecretariaGral extends Formularios {
     
       
     /**
+    * 
     * saveSecretariaForm : guarda datos adicionales de los forms de secretaria
     * 
     * @param array $datos DE LA TABLA FORMULARIOMATERIAS
@@ -555,14 +558,14 @@ class FormsSecretariaGral extends Formularios {
 
     
     /**
+    * 
     * loadData
     * Carga propiedades del objeta que vienen desde la DB
     * @param array $fila 
     * 
-    * return objet alumno
+    * return objet From secretaria gral
     * 
     */
-    
     public function loadData($fila){
     
         //cargo utilizo el load data de la clase padre
