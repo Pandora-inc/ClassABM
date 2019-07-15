@@ -1244,10 +1244,13 @@ class Sitios
 		$str = str_replace ('|', '', $str);
 
 		if ($remplazarCaracteresLatinos)
+		{
 			$str = remplazar_caracteres_latinos ($str);
+		}
 		if ($conservarEspacios)
+		{
 			$str = str_replace (" ", "-", $str);
-
+		}
 		return $str;
 	}
 
@@ -1429,10 +1432,14 @@ class Sitios
 		}
 
 		if ($xmailer != "")
+		{
 			$headers .= "X-Mailer: $xmailer \n";
+		}
 
 		if ($notificacion_lectura_a != "")
+		{
 			$headers .= "Disposition-Notification-To: $notificacion_lectura_a \n";
+		}
 
 		if (@mail ($para, $asunto, $mensaje, $headers))
 		{
