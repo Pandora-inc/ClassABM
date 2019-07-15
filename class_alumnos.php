@@ -61,10 +61,12 @@ class Alumnos extends Personas{
     }
         
     /**
+    * 
     * findByPerson busca alumno por person
     *
     * @param int $person
-    *        	id person
+    * @param int $centrodecosto 
+    *        
     **/
     public function findByPerson($person ,$centrocosto = null){            
 
@@ -215,11 +217,15 @@ class Alumnos extends Personas{
 
             return $salida;
     }
-               
+          
+    
         /**
+         * 
 	 * En base al centrocosto seteo la faesca fa-es-ca
 	 *
-	 * @param int $person 	id person
+	 * @param int $centrodecosto
+         * 
+         * @return int ->Faesca
          * 
 	 */
         public function obtenerSeterarFaesca($idcentrocosto){

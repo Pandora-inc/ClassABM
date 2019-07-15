@@ -85,7 +85,6 @@ class DerechosVarios {
             
     }
     
-
     /**
      * 
      * loadData
@@ -120,12 +119,8 @@ class DerechosVarios {
         
     }
 
-      
 
-    
-    
-    
-     /********GETER********/
+    /********GETER********/
     
     function get_db() {
         return $this->db;

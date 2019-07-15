@@ -98,6 +98,8 @@ class files {
 
         if($extension[1] == 'jpeg'){
             $extension = 'jpg';
+        }else{
+              $extension=  $extension[1];
         }
 
         $nombre_real = preg_replace($buscar, $poner, $id . '.' . strtolower($extension));
@@ -383,7 +385,14 @@ class files {
             return 0;
         }
     }
-
+    
+     /**
+     * Actualiza datos del documento en la tbala documento.prearchivo
+     * 
+     * @param  int $tipo_adjunto-->id q identidica al tipo de doc
+     * @param  int $person-->id del usuario que esta usando el sistema
+     * @return int -->devuelve el id de l doc que se inserto en la base
+     */
     public function saveDocToPreArchivos($id_doc, $nombrearchivo, $person){
         /* IDARCHIVO - IDDOCUMEN - NOMBREARCH - ESTADOARCH - FECHAALTA - PERSON */
 
