@@ -273,14 +273,24 @@ class files {
     public function saveDocToArchivos($id_doc, $nombrearchivo, $person){
         /* IDARCHIVO - IDDOCUMEN - NOMBREARCH - ESTADOARCH - FECHAALTA - PERSON */
 
-        $datos = array();
+        $datos               = array();
+        $datanombre          = explode(".",$nombrearchivo);
+        $extension           = end($datanombre);
+        $cortar              = '.';
+        $pos                 = strpos($nombrearchivo, $cortar);
+        $nombrenuevo         = substr($nombrearchivo, 0, $pos);
+
+        if($extension == 'jpeg')
+        {
+            $extension = 'jpg';
+        }
 
         //reemplazar por secuencioa
-        $datos['IDARCHIVO'] = $this->db->insert_id('IDARCHIVO', 'documento.archivo') + 1;
+        $datos['IDARCHIVO']  = $this->db->insert_id('IDARCHIVO', 'documento.archivo') + 1;
 
-        $datos['IDDOCUMEN'] = $id_doc;
+        $datos['IDDOCUMEN']  = $id_doc;
 
-        $datos['NOMBREARCH'] = $nombrearchivo;
+        $datos['NOMBREARCH'] = $nombrenuevo.'.'.$extension;
 
         $datos['ESTADOARCH'] = 1;
 
@@ -329,15 +339,15 @@ class files {
 
         $datos['ESTADOARCH'] = 1;
 
-        $datos['FECHAALTA'] = 'SYSDATE';
+        $datos['FECHAALTA']  = 'SYSDATE';
+ 
+        $datos['PERSON']     = $person;
+ 
+        $where               = array();
+ 
+        $where['IDDOCUMEN']  = $this->get_iddocumen();
 
-        $datos['PERSON'] = $person;
-
-        $where                = array();
-
-        $where['IDDOCUMEN']   = $this->get_iddocumen();
-
-        $insercion = $this->db->realizarUpdate($datos,$tabla,$where);
+        $insercion           = $this->db->realizarUpdate($datos,$tabla,$where);
 
         if ($insercion) {
 
@@ -396,22 +406,32 @@ class files {
     public function saveDocToPreArchivos($id_doc, $nombrearchivo, $person){
         /* IDARCHIVO - IDDOCUMEN - NOMBREARCH - ESTADOARCH - FECHAALTA - PERSON */
 
-        $datos = array();
+        $datos               = array();
+        $datanombre          = explode(".",$nombrearchivo);
+        $extension           = end($datanombre);
+        $cortar              = '.';
+        $pos                 = strpos($nombrearchivo, $cortar);
+        $nombrenuevo         = substr($nombrearchivo, 0, $pos);
+
+        if($extension == 'jpeg')
+        {
+            $extension = 'jpg';
+        }
 
         //reemplazar por secuencioa
-        $datos['IDARCHIVO'] = $this->db->insert_id('IDARCHIVO', 'documento.prearchivo') + 1;
+        $datos['IDARCHIVO']  = $this->db->insert_id('IDARCHIVO', 'documento.prearchivo') + 1;
 
-        $datos['IDDOCUMEN'] = $id_doc;
+        $datos['IDDOCUMEN']  = $id_doc;
 
-        $datos['NOMBREARCH'] = $nombrearchivo;
+        $datos['NOMBREARCH'] = $nombrenuevo.'.'.$extension;
 
         $datos['ESTADOARCH'] = 1;
 
-        $datos['FECHAALTA'] = 'SYSDATE';
+        $datos['FECHAALTA']  = 'SYSDATE';
 
-        $datos['PERSON'] = $person;
+        $datos['PERSON']     = $person;
 
-        $insercion = $this->db->realizarInsert($datos, 'documento.prearchivo');
+        $insercion           = $this->db->realizarInsert($datos, 'documento.prearchivo');
 
         if ($insercion) {
 
@@ -480,7 +500,7 @@ class files {
     }
 
     function get_nombrearch() {
-        return utf8_decode($this->nombrearch);
+        return $this->nombrearch;
     }
 
     function get_estadoarch() {

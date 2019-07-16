@@ -10,6 +10,7 @@ require_once ("/web/html/classes/class_alumnos.php");
 require_once ("/web/html/classes/class_carreras.php");
 require_once ("/web/html/classes/class_FormsSolitram.php");
 require_once ("/web/html/classes/class_Session.php");
+require_once ("/web/html/classes/class_files.php");
 
 /**
  * 
@@ -353,15 +354,15 @@ class FormsSecretariaGral extends Formularios {
 
                 if($tipo == '111'){
 
-                      $template.="<option class='option_materia'  id='sel_".$row["SUBJECT"]."' value='".$row["SUBJECT"]."'> ".$row["SUBJECT"]." - A&ntilde;o: ".$row["YR"]." - ".utf8_encode($row["SDESC"])." - ".$row["CARGA_HORARIA"]." Hs</option>";
+                      $template.="<option class='option_materia'  id='sel_".$row["SUBJECT"]."' value='".$row["SUBJECT"]."'> ".$row["SUBJECT"]." - A&ntilde;o: ".$row["YR"]." - ".$row["SDESC"]." - ".$row["CARGA_HORARIA"]." Hs</option>";
 
                     }else if($tipo == '113'){
 
-                       $template.="<option class='option_materia' ' id='sel_".$row["SUBJECT"]."' value='".$row["SUBJECT"]."'> ".$row["SUBJECT"]." - A&ntilde;o: ".$row["YR"]." - ".utf8_encode($row["SDESC"])." - ".$row["CARGA_HORARIA"]." Hs</option>";
+                       $template.="<option class='option_materia' ' id='sel_".$row["SUBJECT"]."' value='".$row["SUBJECT"]."'> ".$row["SUBJECT"]." - A&ntilde;o: ".$row["YR"]." - ".$row["SDESC"]." - ".$row["CARGA_HORARIA"]." Hs</option>";
                                            
                     }else{
                         
-                       $template.="<option class='option_materia' id='sel_".$row["SUBJECT"]."' value='".$row["SUBJECT"]."'> ".$row["SUBJECT"]." - A&ntilde;o: ".$row["YR"]." - ".utf8_encode($row["SDESC"])." - ".$row["CARGA_HORARIA"]." Hs</option>";
+                       $template.="<option class='option_materia' id='sel_".$row["SUBJECT"]."' value='".$row["SUBJECT"]."'> ".$row["SUBJECT"]." - A&ntilde;o: ".$row["YR"]." - ".$row["SDESC"]." - ".$row["CARGA_HORARIA"]." Hs</option>";
                     }                 
                 }
                 
@@ -421,7 +422,7 @@ class FormsSecretariaGral extends Formularios {
                                 
                         $html_mat_sel.='
                         
-                        <p class="mat_seleccionada mat_seleccionada_'.$row["SUBJECT"].'"> '.$row["SUBJECT"].' - A&ntilde;o: '.$row["YR"].' - '.utf8_encode($row["SDESC"]).'  <span title="'.$row["SDESC"].'"  class="quitar_materia">
+                        <p class="mat_seleccionada mat_seleccionada_'.$row["SUBJECT"].'"> '.$row["SUBJECT"].' - A&ntilde;o: '.$row["YR"].' - '.$row["SDESC"].'  <span title="'.$row["SDESC"].'"  class="quitar_materia">
                         </span></p>';
                            
                         //$html_mat_sel.='<input id="hidde_'.$row["SUBJECT"].'" type="hidden" name="materias[]" value="'.$row["SUBJECT"].'" />';                                                

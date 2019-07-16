@@ -803,7 +803,7 @@ class Formularios {
 
                         foreach ($materias as $row) {
 
-                            $template.="<option  id='sel_" . $row["SUBJECT"] . "' value='" . $row["SUBJECT"] . "'> " . $row["SUBJECT"] . " - A&ntilde;o: " . $row["YR"] . " - " . utf8_encode($row["SDESC"]) . " - " . $row["CARGA_HORARIA"] . " Hs</option>";
+                            $template.="<option  id='sel_" . $row["SUBJECT"] . "' value='" . $row["SUBJECT"] . "'> " . $row["SUBJECT"] . " - A&ntilde;o: " . $row["YR"] . " - " . $row["SDESC"] . " - " . $row["CARGA_HORARIA"] . " Hs</option>";
                         }
 
                         $template.="</select>";
@@ -840,8 +840,8 @@ class Formularios {
                                     $html_mat_sel.='<br/>
                         
                                 <p  class="mat_seleccionada mat_seleccionada_' . $row["SUBJECT"] . '"> '
-                                            . '' . $row["SUBJECT"] . ' - A&ntilde;o: ' . $row["YR"] . ' - ' . utf8_encode($row["SDESC"]) . '  '
-                                            . '<span title="' . utf8_encode($row["SDESC"]) . '"  class="quitar_materia">
+                                            . '' . $row["SUBJECT"] . ' - A&ntilde;o: ' . $row["YR"] . ' - ' . $row["SDESC"] . '  '
+                                            . '<span title="' . $row["SDESC"] . '"  class="quitar_materia">
                                 </span></p>';
 
                                     //$html_mat_sel.='<input id="hidde_'.$row["SUBJECT"].'" type="hidden" name="materias[]" value="'.$row["SUBJECT"].'" />';                                                
