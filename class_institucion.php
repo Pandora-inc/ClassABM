@@ -14,15 +14,15 @@
  * Clase encargada del manejo de todos los datos referentes a la persona.
  *
  * @author iberlot <@> ivanberlot@gmail.com
- *        
+ *
  * @name class_institucion
- *      
+ *
  * @version 0.1 - Version de inicio
- *         
+ *
  * @package Classes_USAL
- *         
+ *
  * @category General
- *          
+ *
  * @todo El usuario que se conecta a la base debe tener los siguientes permisos -
  *       - SELECT :
  *       - UPDATE :
@@ -150,7 +150,7 @@ class class_institucion
 
 			$sql = "SELECT ent FROM appgral.entity" . $this->db_link . " WHERE 1 = 1 " . $where . " " . $extraWhere;
 
-			$result = $db->query ($sql, $esParam = true, $parametros);
+			$result = $db->query ($sql, true, $parametros);
 
 			$rst = $db->fetch_all ($result);
 
@@ -189,7 +189,7 @@ class class_institucion
 	 * @name buscarAentity
 	 * @param mixed[] $datosAUsar
 	 *        	- Requiere que dentro de los datos enviados este si o si el person de la persona
-	 *        	
+	 *
 	 * @return Array
 	 */
 	public function buscarAentity($datosAUsar)
@@ -205,7 +205,7 @@ class class_institucion
 
 				$parametros[0] = $ent;
 
-				$result = $db->query ($sql, $esParam = true, $parametros);
+				$result = $db->query ($sql, true, $parametros);
 
 				while ($recu = $db->fetch_array ($result))
 				{
@@ -268,7 +268,7 @@ class class_institucion
 
 				$sql = "SELECT descrip FROM appgral.entity WHERE 1=1 " . $where;
 
-				if ($result = $db->query ($sql, $esParam = true, $parametros))
+				if ($result = $db->query ($sql, true, $parametros))
 				{
 					$rst = $db->fetch_array ($result);
 
