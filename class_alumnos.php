@@ -27,7 +27,7 @@
  *
  */
 
-require_once ("/web/html/clasesPersonas/class_Personas.php");
+require_once ("/web/html/classesUSAL/class_Personas.php");
 
 class Alumnos extends Personas{    
 

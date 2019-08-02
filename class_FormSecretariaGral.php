@@ -4,7 +4,7 @@
 //require_once ("Alumnos.php");
 //require_once ("Formularios.php");
 //require_once ("Session.php");
-require_once ("/web/html/clasesPersonas/class_Personas.php");
+require_once ("/web/html/classesUSAL/class_Personas.php");
 require_once ("/web/html/classes/class_derechos_varios.php");
 require_once ("/web/html/classes/class_alumnos.php");
 require_once ("/web/html/classes/class_carreras.php");
