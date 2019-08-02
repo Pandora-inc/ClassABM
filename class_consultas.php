@@ -31,15 +31,15 @@ class consulta
 
 	function devolverSQL($registro)
 	{
-		foreach ($registro as $campo)
-		{
-			echo "En este equipo juegan: ";
-			foreach ($equipo as $jugador)
-			{
-				echo $jugador . " ";
-			}
-			echo "<br>";
-		}
+		// foreach ($registro as $campo)
+		// {
+		// echo "En este equipo juegan: ";
+		// foreach ($equipo as $jugador)
+		// {
+		// echo $jugador . " ";
+		// }
+		// echo "<br>";
+		// }
 	}
 }
 
