@@ -105,8 +105,8 @@ class DerechosVarios {
             $this->set_descripcion($fila['DESCRIPCION']);
         }
         
-        if (isset($fila['COD_COBOL'])) {
-            $this->set_cod_cobol($fila['COD_COBOL']);
+        if (isset($fila['CODCOBOL'])) {
+            $this->set_cod_cobol($fila['CODCOBOL']);
         }
 
         if (isset($fila['ESTADO'])) {

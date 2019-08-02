@@ -18,6 +18,7 @@ require_once ("/web/html/clasesPersonas/class_Personas.php");
 require_once ("/web/html/classes/class_derechos_varios.php");
 require_once ("/web/html/classes/class_alumnos.php");
 require_once ("/web/html/classes/class_carreras.php");
+require_once ("/web/html/classes/class_FormTesoreriaSolitram.php");
 
 class Formularios {
 
@@ -84,6 +85,7 @@ class Formularios {
     }
 
     /**
+     * 
      * Salvar formulario en la tabla TESORERIA.FORMULARIO.
      * 
      * @param type $datos datos para insertar en la tabla.
@@ -683,12 +685,18 @@ class Formularios {
                         break;
                     //FROM GENERICO QUE PUEDE CREAR TESORERIA    
                     case '58':
-
+                           
+                        $formtesoreria= new FormTesoreriaSolitram( $this->db , NULL ,$data['ID'] );
+                        
                         $template.='<input type="hidden" value="58" name="tipoform">'
                                 . '<label>Concepto</label><br/>'
                                 . '<input type="text" name="concepto"  value="' . $data["CONCEPTO"] . '"/><br/>'
                                 . '<label>Importe</label><br/>'
-                                . '<input type="number" name="importe"  value="' . $data["IMPORTE"] . '" /><br/>'
+                                . '<input type="number" name="importe"  value="' . $formtesoreria->getIMPORTE() . '" /><br/>'
+                                . '<label>Importe recargo</label><br/>'
+                                . '<input type="number" name="importetef"  value="' . $formtesoreria->getIMPORTER() . '" /><br/>'
+                                . '<label>Importe fuera de termino</label><br/>'
+                                . '<input type="number" name="importetef"  value="' . $formtesoreria->getIMPORTEFT() . '" /><br/>'
                                 . '<label>Fecha de vencimiento</label><br/>'
                                 . '<input type="date" style="width: 100% !important;" value="' . date("Y-m-d") . '" name="fecha_1" id="fecha_1" class="valid fecha" aria-invalid="true">'
                                 . '<br/>';
