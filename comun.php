@@ -27,7 +27,7 @@
  * Convierte de un array todas las entidades HTML para que sea seguro mostrar en pantalla strings ingresados por los usuarios.
  *
  * @example $_REQUEST = limpiarEntidadesHTML($_REQUEST, $config);
- *         
+ *
  * @param string[] $param
  *        	- datos de lo cuales limpiarl las entidades html.
  * @param object $sitio
@@ -59,9 +59,9 @@ function validarEmail($str)
  * Escapa de un array todos los caracteres especiales de una cadena para su uso en una sentencia SQL
  *
  * @example $_REQUEST = limpiarParaSql($_REQUEST);
- *         
+ *
  * @deprecated - Esta funcion es remplazada por real_escape_string de la clase db.
- *            
+ *
  * @param string[] $param
  * @param object $db
  *        	- Objeto encargado de la administracion de la base de datos.
@@ -80,7 +80,7 @@ function limpiarParaSql($param, $db)
  * @param string $string
  *        	-
  *        	la cadena a sanear
- *        	
+ *
  * @return string $string - saneada
  */
 function sanear_string($string)
@@ -251,13 +251,12 @@ function sanear_string($string)
  * @global string[] $GLOBALS - Array de variables gobales en caso de no existir usa get_html_translation_table.
  * @param string $str
  *        	- Texto en el cual remplazar los caracteres especiales.
- *        	
+ *
  * @return string - Texto con los caracteres remplazados.
  */
 function convertir_especiales_html($str)
 {
-	global $GLOBALS;
-
+	// global $GLOBALS;
 	if (!isset ($GLOBALS["carateres_latinos"]))
 	{
 		$todas = get_html_translation_table (HTML_ENTITIES, ENT_NOQUOTES);
@@ -448,7 +447,7 @@ function generarInputSelect($db, $tabla, $campoSelec, $campoTexto = NULL, $selec
  * @param string $separador
  *        	- Caracter con el cual se va a separar la fecha, por defecto /.
  * @throws Exception - retorna un error si la cantidad de digitos numericos de $fecha_inicio es menor que 8.
- *        
+ *
  * @return string - retorna la fecha con el formato DD MM YYYY separado por el caracter separador.
  */
 function formatear_fecha_Oracle($fecha_inicio, $separador = "/")
@@ -497,7 +496,7 @@ function formatear_fecha_Oracle($fecha_inicio, $separador = "/")
  * invierte el orden de la fecha para que quede en el formato dia-mes-a�o
  *
  * @deprecated - Conviene utilizar formatear_fecha_Oracle.
- *            
+ *
  * @param DateTime $fecha
  *        	fecha con el formato ano-mes-dia
  * @return string $aux
@@ -581,14 +580,14 @@ function diferenciaDias($fecha2, $fecha1)
  * Chequea que la fecha ingresada sea correcta
  *
  * @deprecated conviene usar checkdate directamente.
- *            
+ *
  * @param int $d
  *        	- El Dia que esta dentro del Numero de Duas del mes m dado. Los anos a bisiestos son tomados en consideracion.
  * @param int $m
  *        	- El mes entre 1 y 12 inclusive.
  * @param int $a
  *        	- El ano entre 1 y 32767 inclusive.
- *        	
+ *
  * @return bool puede ser true o false dependiendo si la fecha es correcta o no
  */
 function fechaCorrecta($d, $m, $a)
@@ -607,12 +606,12 @@ function fechaCorrecta($d, $m, $a)
  * Se le pasan dos horas y realiza la diferencia entre ambas.
  *
  * @deprecated Por su mayor presicion se recomienda la utilizacion de difHoras.
- *            
+ *
  * @param string $hora1
  *        	- Hora base con el formato hh:mm.
  * @param string $hora2
  *        	- Hora a restar con el formato hh:mm.
- *        	
+ *
  * @return number - Cantidad de minutos de diferencia entre horas.
  */
 function calcularMminutosExcedentes($hora1, $hora2)
