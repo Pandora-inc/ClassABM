@@ -99,7 +99,7 @@
  * 'campoTexto' => "Calle",
  * 'joinTable' => "Proveedor",
  * 'joinCondition' => "Inner",
- * 'titulo' => "C alle"
+ * 'titulo' => "Calle"
  * )
  * array(
  * 'campo' => "paisId",
@@ -3316,6 +3316,11 @@ class class_abm
 					else
 					{
 						$camposSelect .= $this->tabla . "." . $this->campos[$i]['campo'];
+					}
+
+					if (isset ($this->campos[$i]['selectPersonal']) and $this->campos[$i]['selectPersonal'] != "")
+					{
+						$camposSelect .= "(" . $this->campos[$i]['selectPersonal'] . ") AS " . $this->campos[$i]['campoTexto'];
 					}
 				}
 			}
