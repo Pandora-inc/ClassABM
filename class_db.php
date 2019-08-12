@@ -176,23 +176,17 @@
 			}
 			elseif ($this->dbtype == 'mssql')
 			{
-				/**
+				/*
 				 * Creamos la conexion con la base de datos SQLServer
 				 */
-				/*
-				 * Esta conexion esta obsoleta y hay que modificarla
-				 */
+				$connection_string = 'DRIVER={SQL Server};SERVER=' . $this->dbHost . ';DATABASE=' . $this->dbName;
 
 				// Connect to MSSQL
-				$this->con = mssql_connect ($this->dbHost, $this->dbUser, $this->dbPass);
+				$this->con = odbc_connect ($connection_string, $this->dbUser, $this->dbPass);
 
 				if (!$this->con)
 				{
-					die ('Algo fue mal mientras se conectaba a MSSQL');
-				}
-				else
-				{
-					mssql_select_db ($this->dbName, $this->con);
+					throw new Exception ('Algo fue mal mientras se conectaba a MSSQL');
 				}
 			}
 		}
@@ -226,7 +220,7 @@
 			}
 			elseif ($this->dbtype == 'mssql')
 			{
-				return "666";
+				return odbc_error ($this->con);
 			}
 		}
 
@@ -259,7 +253,7 @@
 			}
 			elseif ($this->dbtype == 'mssql')
 			{
-				return mssql_get_last_message ();
+				return odbc_errormsg ($this->con);
 			}
 		}
 
@@ -404,7 +398,16 @@
 			elseif ($this->dbtype == 'mssql')
 			{
 				// preguntamos si ese ususario ya esta registrado en la tabla
-				$result = mssql_query ($str_query, $this->con);
+				// $result = mssql_query ($str_query, $this->con);
+				if ($esParam == true)
+				{
+					$stmt = odbc_prepare ($this->con, $str_query);
+					$result = odbc_execute ($stmt, $parametros);
+				}
+				else
+				{
+					$result = odbc_exec ($this->con, $str_query);
+				}
 			}
 
 			// Empezamos el debug de la consulta
@@ -523,11 +526,13 @@
 			{
 				if ($limpiarEntidadesHTML)
 				{
-					return limpiarEntidadesHTML (mssql_fetch_assoc ($result));
+					// return limpiarEntidadesHTML (mssql_fetch_assoc ($result));
+					return limpiarEntidadesHTML (odbc_fetch_array ($result));
 				}
 				else
 				{
-					return mssql_fetch_assoc ($result);
+					// return mssql_fetch_assoc ($result);
+					return odbc_fetch_array ($result);
 				}
 			}
 		}
@@ -571,11 +576,13 @@
 			{
 				if ($limpiarEntidadesHTML)
 				{
-					return limpiarEntidadesHTML (mssql_fetch_row ($result));
+					// return limpiarEntidadesHTML (mssql_fetch_row ($result));
+					return limpiarEntidadesHTML (odbc_fetch_row ($result));
 				}
 				else
 				{
-					return mssql_fetch_row ($result);
+					// return mssql_fetch_row ($result);
+					return odbc_fetch_row ($result);
 				}
 			}
 		}
@@ -617,11 +624,13 @@
 			{
 				if ($limpiarEntidadesHTML)
 				{
-					return limpiarEntidadesHTML (mssql_fetch_array ($result));
+					// return limpiarEntidadesHTML (mssql_fetch_array ($result));
+					return limpiarEntidadesHTML (odbc_fetch_array ($result));
 				}
 				else
 				{
-					return mssql_fetch_array ($result);
+					// return mssql_fetch_array ($result);
+					return odbc_fetch_array ($result);
 				}
 			}
 		}
@@ -663,13 +672,26 @@
 			}
 			elseif ($this->dbtype == 'mssql')
 			{
-				if ($limpiarEntidadesHTML)
+				if (is_resource ($result))
 				{
-					return limpiarEntidadesHTML (mssql_fetch_array ($result));
+					while ($results[] = odbc_fetch_array ($result))
+					{
+					}
+					odbc_free_result ($rs);
+					$this->close ();
+
+					if ($limpiarEntidadesHTML)
+					{
+						return limpiarEntidadesHTML ($results);
+					}
+					else
+					{
+						return mssql_fetch_array ($results);
+					}
 				}
 				else
 				{
-					return mssql_fetch_array ($result);
+					$this->error ('Database query error');
 				}
 			}
 		}
@@ -693,7 +715,8 @@
 			}
 			elseif ($this->dbtype == 'mssql')
 			{
-				return mssql_fetch_object ($result);
+				// return mssql_fetch_object ($result);
+				return odbc_fetch_object ($result);
 			}
 		}
 
@@ -715,7 +738,8 @@
 			}
 			elseif ($this->dbtype == 'mssql')
 			{
-				return mssql_num_rows ($result);
+				// return mssql_num_rows ($result);
+				return odbc_num_rows ($result);
 			}
 		}
 
@@ -737,7 +761,7 @@
 			}
 			elseif ($this->dbtype == 'mssql')
 			{
-				return mssql_num_fields ($result);
+				return odbc_num_fields ($result);
 			}
 		}
 
@@ -762,7 +786,8 @@
 			}
 			elseif ($this->dbtype == 'mssql')
 			{
-				return mssql_rows_affected ($this->con);
+				// return mssql_rows_affected ($this->con);
+				return odbc_num_rows ($stid);
 			}
 		}
 
@@ -809,7 +834,8 @@
 			}
 			elseif ($this->dbtype == 'mssql')
 			{
-				return mssql_close ($this->con);
+				// return mssql_close ($this->con);
+				return odbc_close ($this->con);
 			}
 		}
 
@@ -839,28 +865,32 @@
 		private function format_query_imprimir($str_query)
 		{
 			$str_query_debug = nl2br (htmlentities ($str_query));
-			$str_query_debug = str_replace ("SELECT", "<span style='color:green;font-weight:bold;'>SELECT</span>", $str_query_debug);
-			$str_query_debug = str_replace ("INSERT", "<span style='color:#660000;font-weight:bold;'>INSERT</span>", $str_query_debug);
-			$str_query_debug = str_replace ("UPDATE", "<span style='color:#FF6600;font-weight:bold;'>UPDATE</span>", $str_query_debug);
-			$str_query_debug = str_replace ("REPLACE", "<span style='color:#FF6600;font-weight:bold;'>UPDATE</span>", $str_query_debug);
-			$str_query_debug = str_replace ("DELETE", "<span style='color:#CC0000;font-weight:bold;'>DELETE</span>", $str_query_debug);
-			$str_query_debug = str_replace ("FROM", "<br/><span style='color:green;font-weight:bold;'>FROM</span>", $str_query_debug);
-			$str_query_debug = str_replace ("WHERE", "<br/><span style='color:green;font-weight:bold;'>WHERE</span>", $str_query_debug);
-			$str_query_debug = str_replace ("ORDER BY", "<br/><span style='color:green;font-weight:bold;'>ORDER BY</span>", $str_query_debug);
-			$str_query_debug = str_replace ("GROUP BY", "<br/><span style='color:green;font-weight:bold;'>GROUP BY</span>", $str_query_debug);
-			$str_query_debug = str_replace ("INTO", "<br/><B>INTO</B>", $str_query_debug);
-			$str_query_debug = str_replace ("VALUES", "<br/><B>VALUES</B>", $str_query_debug);
-			$str_query_debug = str_replace (" AND ", "<B> AND </B>", $str_query_debug);
 
-			$str_query_debug = str_replace (" AS ", "<span style='color:magenta;font-weight:bold;'> AS </span>", $str_query_debug);
-			$str_query_debug = str_replace ("INNER", "<br/><span style='color:magenta;font-weight:bold;'>INNER</span>", $str_query_debug);
-			$str_query_debug = str_replace ("LEFT", "<br/><span style='color:magenta;font-weight:bold;'>LEFT</span>", $str_query_debug);
-			$str_query_debug = str_replace ("RIGHT", "<br/><span style='color:magenta;font-weight:bold;'>RIGHT</span>", $str_query_debug);
-			$str_query_debug = str_replace ("FULL", "<br/><span style='color:magenta;font-weight:bold;'>FULL</span>", $str_query_debug);
-			$str_query_debug = str_replace ("JOIN", "<span style='color:magenta;font-weight:bold;'>JOIN</span>", $str_query_debug);
-			$str_query_debug = str_replace (" ON ", "<span style='color:magenta;font-weight:bold;'> ON </span>", $str_query_debug);
+			$str_query_debug = strtolower ($str_query_debug);
 
-			$str_query_debug = str_replace ("TO_CHAR", "<span style='color:pink;font-weight:bold;'>TO_CHAR</span>", $str_query_debug);
+			$str_query_debug = str_replace ("SELECT", "<span style='color:green;font-weight:bold;'>SELECT</span>", strtoupper ($str_query_debug));
+			$str_query_debug = str_replace ("INSERT", "<span style='color:#660000;font-weight:bold;'>INSERT</span>", strtoupper ($str_query_debug));
+			$str_query_debug = str_replace ("UPDATE", "<span style='color:#FF6600;font-weight:bold;'>UPDATE</span>", strtoupper ($str_query_debug));
+			$str_query_debug = str_replace ("REPLACE", "<span style='color:#FF6600;font-weight:bold;'>UPDATE</span>", strtoupper ($str_query_debug));
+			$str_query_debug = str_replace ("DELETE", "<span style='color:#CC0000;font-weight:bold;'>DELETE</span>", strtoupper ($str_query_debug));
+			$str_query_debug = str_replace ("FROM", "<br/><span style='color:green;font-weight:bold;'>FROM</span>", strtoupper ($str_query_debug));
+			$str_query_debug = str_replace ("WHERE", "<br/><span style='color:green;font-weight:bold;'>WHERE</span>", strtoupper ($str_query_debug));
+			$str_query_debug = str_replace ("ORDER BY", "<br/><span style='color:green;font-weight:bold;'>ORDER BY</span>", strtoupper ($str_query_debug));
+			$str_query_debug = str_replace ("GROUP BY", "<br/><span style='color:green;font-weight:bold;'>GROUP BY</span>", strtoupper ($str_query_debug));
+			$str_query_debug = str_replace ("INTO", "<br/><B>INTO</B>", strtoupper ($str_query_debug));
+			$str_query_debug = str_replace ("VALUES", "<br/><B>VALUES</B>", strtoupper ($str_query_debug));
+			$str_query_debug = str_replace (" AND ", "<B> AND </B>", strtoupper ($str_query_debug));
+
+			$str_query_debug = str_replace (" AS ", "<span style='color:magenta;font-weight:bold;'> AS </span>", strtoupper ($str_query_debug));
+			$str_query_debug = str_replace ("INNER", "<br/><span style='color:magenta;font-weight:bold;'>INNER</span>", strtoupper ($str_query_debug));
+			$str_query_debug = str_replace ("LEFT", "<br/><span style='color:magenta;font-weight:bold;'>LEFT</span>", strtoupper ($str_query_debug));
+			$str_query_debug = str_replace ("RIGHT", "<br/><span style='color:magenta;font-weight:bold;'>RIGHT</span>", strtoupper ($str_query_debug));
+			$str_query_debug = str_replace ("FULL", "<br/><span style='color:magenta;font-weight:bold;'>FULL</span>", strtoupper ($str_query_debug));
+			$str_query_debug = str_replace ("JOIN", "<span style='color:magenta;font-weight:bold;'>JOIN</span>", strtoupper ($str_query_debug));
+			$str_query_debug = str_replace (" ON ", "<span style='color:magenta;font-weight:bold;'> ON </span>", strtoupper ($str_query_debug));
+
+			$str_query_debug = str_replace ("TO_CHAR", "<span style='color:pink;font-weight:bold;'>TO_CHAR</span>", strtoupper ($str_query_debug));
+			$str_query_debug = str_replace ("TO_DATE", "<span style='color:pink;font-weight:bold;'>TO_DATE</span>", strtoupper ($str_query_debug));
 
 			return $str_query_debug;
 		}
@@ -1063,8 +1093,6 @@
 		 */
 		public function insertFromPost($tabla, $campos = array(), $adicionales = "")
 		{
-
-			// campos de $_POST
 			foreach ($_POST as $campo => $valor)
 			{
 				if (is_array ($campos) and count ($campos) > 0)
@@ -1198,6 +1226,15 @@
 					echo "-- :" . $paraY[0] . " = " . $parametros[$i] . "<Br />";
 				}
 			}
+			elseif ($this->dbtype == 'mssql')
+			{
+				$cantidad = substr_count ($str_query, '?');
+
+				for($i = 0; $i < $cantidad; $i ++)
+				{
+					echo "-- ?" . $i . " = " . $parametros[$i] . "<Br />";
+				}
+			}
 		}
 
 		/**
@@ -1219,7 +1256,8 @@
 			}
 			elseif ($this->dbtype == 'mssql')
 			{
-				return mssql_result ($result, $row, $field);
+				// return mssql_result ($result, $row, $field);
+				return odbc_result ($result, $field);
 			}
 		}
 
@@ -1238,10 +1276,10 @@
 			{
 				return mysqli_data_seek ($result, $row_number);
 			}
-			elseif ($this->dbtype == 'mssql')
-			{
-				return mssql_data_seek ($result, $row_number);
-			}
+			// elseif ($this->dbtype == 'mssql')
+			// {
+			// return mssql_data_seek ($result, $row_number);
+			// }
 		}
 
 		/**
@@ -1267,6 +1305,10 @@
 					trigger_error (htmlentities ($e['message']), E_USER_ERROR);
 				}
 			}
+			elseif ($this->dbtype == 'mssql')
+			{
+				return odbc_commit ($this->con);
+			}
 		}
 
 		/**
@@ -1291,6 +1333,10 @@
 					$e = oci_error ($this->con);
 					trigger_error (htmlentities ($e['message']), E_USER_ERROR);
 				}
+			}
+			elseif ($this->dbtype == 'mssql')
+			{
+				return odbc_rollback ($this->con);
 			}
 		}
 
