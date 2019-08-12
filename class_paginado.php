@@ -255,7 +255,24 @@ class class_paginado
 
 			$RegistroHasta = $registros_por_pagina + $registro;
 
-			$query = 'SELECT * FROM(SELECT * ,ROW_NUMBER() OVER (ORDER BY id) AS subrow FROM (' . $query . ') a) b  WHERE   subrow >= ' . $registro . ' and  subrow <= ' . $RegistroHasta;
+			$pos = strpos ($query, "ORDER BY");
+			$ordby = substr ($query, $pos);
+			$query = substr ($query, 0, $pos);
+
+			$porciones = explode (" ", $ordby);
+			for($i = 0; $i < count ($porciones); $i ++)
+			{
+				$pos = strpos ($porciones[$i], ".");
+
+				if ($pos !== false)
+				{
+					$porciones[$i] = "b." . substr ($porciones[$i], $pos);
+				}
+			}
+
+			$ordby = implode (" ", $porciones);
+
+			$query = 'SELECT * FROM(SELECT * ,ROW_NUMBER() OVER (ORDER BY id) AS subrow FROM (' . $query . ') a) b  WHERE   subrow >= ' . $registro . ' and  subrow <= ' . $RegistroHasta . " " . $ordby;
 		}
 
 		$result = $db->query ($query);
