@@ -242,6 +242,8 @@
 
 				if (!$this->con)
 				{
+					print_r ($this->dbHost);
+					print_r ($connectionInfo);
 					die (print_r (sqlsrv_errors (), true));
 					throw new Exception ('Algo fue mal mientras se conectaba a MSSQL');
 				}
