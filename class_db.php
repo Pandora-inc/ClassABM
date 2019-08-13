@@ -117,6 +117,56 @@
 		public $emailAvisoErrorSql;
 
 		/**
+		 * Tipo de base a la que se conectara.
+		 * Los tipos permitidos son: mysql, oracle, mssql
+		 *
+		 * @var string
+		 */
+		private $dbtype = 'mysql';
+
+		/**
+		 * Nombre sel servidor de base de datos.
+		 *
+		 * @var string
+		 */
+		private $dbHost;
+
+		/**
+		 * Usuario que se conectara a la base de datos.
+		 *
+		 * @var string
+		 */
+		private $dbUser;
+
+		/**
+		 * Contraseña del usuario de coeccion.
+		 *
+		 * @var string
+		 */
+		private $dbPass;
+
+		/**
+		 * Nombre de la base de datos a la que conetarse.
+		 *
+		 * @var string
+		 */
+		private $dbName;
+
+		/**
+		 * Juego de caracteres por defecto de la base.
+		 *
+		 * @var string
+		 */
+		private $charset = 'utf8';
+
+		/**
+		 * Establece si se va a realizar o no el commit automatico de las consutas.
+		 *
+		 * @var boolean
+		 */
+		private $commit = true;
+
+		/**
 		 * Parametros basicos necesarios para el funcionamiento de la clase
 		 *
 		 * @param string $host
@@ -135,13 +185,13 @@
 		 */
 		public function __construct($host, $user, $pass, $db, $charset = 'utf8', $dbtype = 'mysql', $commit = true)
 		{
-			$this->dbtype = $dbtype;
-			$this->dbHost = $host;
-			$this->dbUser = $user;
-			$this->dbPass = $pass;
-			$this->dbName = $db;
-			$this->charset = $charset;
-			$this->commit = $commit;
+			$this->setDbHost ($host);
+			$this->setDbUser ($user);
+			$this->setDbtype ($dbtype);
+			$this->setDbPass ($pass);
+			$this->setDbName ($db);
+			$this->setCharset ($charset);
+			$this->setCommit ($commit);
 		}
 
 		/**
@@ -179,10 +229,16 @@
 				/*
 				 * Creamos la conexion con la base de datos SQLServer
 				 */
-				$connection_string = 'DRIVER={SQL Server};SERVER=' . $this->dbHost . ';DATABASE=' . $this->dbName;
-
+				// $connection_string = 'DRIVER={SQL Server};SERVER=' . $this->dbHost . ';DATABASE=' . $this->dbName;
 				// Connect to MSSQL
-				$this->con = odbc_connect ($connection_string, $this->dbUser, $this->dbPass);
+				// $this->con = odbc_connect ($connection_string, $this->dbUser, $this->dbPass);
+
+				$connectionInfo = array (
+						"Database" => $this->dbName,
+						"UID" => $this->dbUser,
+						"PWD" => $this->dbPass
+				);
+				$this->con = sqlsrv_connect ($this->dbHost, $connectionInfo);
 
 				if (!$this->con)
 				{
@@ -220,7 +276,17 @@
 			}
 			elseif ($this->dbtype == 'mssql')
 			{
-				return odbc_error ($this->con);
+				$cod = "";
+				// return odbc_error ($this->con);
+				if (($errors = sqlsrv_errors ()) != null)
+				{
+					foreach ($errors as $error)
+					{
+						$cod .= $error['code'];
+					}
+				}
+
+				return $cod;
 			}
 		}
 
@@ -253,7 +319,17 @@
 			}
 			elseif ($this->dbtype == 'mssql')
 			{
-				return odbc_errormsg ($this->con);
+				// return odbc_errormsg ($this->con);
+				$message = "";
+				if (($errors = sqlsrv_errors ()) != null)
+				{
+					foreach ($errors as $error)
+					{
+						$message .= $error['message'];
+					}
+				}
+
+				return $message;
 			}
 		}
 
@@ -397,16 +473,20 @@
 			}
 			elseif ($this->dbtype == 'mssql')
 			{
+
 				// preguntamos si ese ususario ya esta registrado en la tabla
 				// $result = mssql_query ($str_query, $this->con);
 				if ($esParam == true)
 				{
-					$stmt = odbc_prepare ($this->con, $str_query);
-					$result = odbc_execute ($stmt, $parametros);
+					// $stmt = odbc_prepare ($this->con, $str_query);
+					// $result = odbc_execute ($stmt, $parametros);
+
+					$result = sqlsrv_query ($this->con, $str_query, $parametros);
 				}
 				else
 				{
-					$result = odbc_exec ($this->con, $str_query);
+					// $result = odbc_exec ($this->con, $str_query);
+					$result = sqlsrv_query ($this->con, $str_query);
 				}
 			}
 
@@ -480,7 +560,7 @@
 				// envio de aviso de error
 				if ($this->emailAvisoErrorSql != "")
 				{
-					@mail ($this->emailAvisoErrorSql, "Error MySQL", "Error: " . $this->error () . "\n\nP&aacute;gina:" . getenv ("REQUEST_URI") . "\n\nIP del visitante:" . getenv ("REMOTE_ADDR") . "\n\nQuery:" . $str_query);
+					@mail ($this->emailAvisoErrorSql, "Error SQL", "Error: " . $this->error () . "\n\nP&aacute;gina:" . getenv ("REQUEST_URI") . "\n\nIP del visitante:" . getenv ("REMOTE_ADDR") . "\n\nQuery:" . $str_query);
 				}
 
 				throw new Exception ($this->error ($result));
@@ -527,12 +607,14 @@
 				if ($limpiarEntidadesHTML)
 				{
 					// return limpiarEntidadesHTML (mssql_fetch_assoc ($result));
-					return limpiarEntidadesHTML (odbc_fetch_array ($result));
+					// return limpiarEntidadesHTML (odbc_fetch_array ($result));
+					return limpiarEntidadesHTML (sqlsrv_fetch_array ($result));
 				}
 				else
 				{
 					// return mssql_fetch_assoc ($result);
-					return odbc_fetch_array ($result);
+					// return odbc_fetch_array ($result);
+					return sqlsrv_fetch_array ($result);
 				}
 			}
 		}
@@ -577,12 +659,14 @@
 				if ($limpiarEntidadesHTML)
 				{
 					// return limpiarEntidadesHTML (mssql_fetch_row ($result));
-					return limpiarEntidadesHTML (odbc_fetch_row ($result));
+					// return limpiarEntidadesHTML (odbc_fetch_row ($result));
+					return limpiarEntidadesHTML (sqlsrv_fetch ($result));
 				}
 				else
 				{
 					// return mssql_fetch_row ($result);
-					return odbc_fetch_row ($result);
+					// return odbc_fetch_row ($result);
+					return sqlsrv_fetch ($result);
 				}
 			}
 		}
@@ -625,12 +709,14 @@
 				if ($limpiarEntidadesHTML)
 				{
 					// return limpiarEntidadesHTML (mssql_fetch_array ($result));
-					return limpiarEntidadesHTML (odbc_fetch_array ($result));
+					// return limpiarEntidadesHTML (odbc_fetch_array ($result));
+					return limpiarEntidadesHTML (sqlsrv_fetch_array ($result));
 				}
 				else
 				{
 					// return mssql_fetch_array ($result);
-					return odbc_fetch_array ($result);
+					// return odbc_fetch_array ($result);
+					return sqlsrv_fetch_array ($result);
 				}
 			}
 		}
@@ -674,10 +760,11 @@
 			{
 				if (is_resource ($result))
 				{
-					while ($results[] = odbc_fetch_array ($result))
+					// while ($results[] = odbc_fetch_array ($result))
+					while ($results[] = sqlsrv_fetch_array ($result))
 					{
 					}
-					odbc_free_result ($rs);
+					// odbc_free_result ($rs);
 					$this->close ();
 
 					if ($limpiarEntidadesHTML)
@@ -686,7 +773,7 @@
 					}
 					else
 					{
-						return mssql_fetch_array ($results);
+						return $results;
 					}
 				}
 				else
@@ -716,7 +803,8 @@
 			elseif ($this->dbtype == 'mssql')
 			{
 				// return mssql_fetch_object ($result);
-				return odbc_fetch_object ($result);
+				// return odbc_fetch_object ($result);
+				return sqlsrv_fetch_object ($result);
 			}
 		}
 
@@ -739,7 +827,8 @@
 			elseif ($this->dbtype == 'mssql')
 			{
 				// return mssql_num_rows ($result);
-				return odbc_num_rows ($result);
+				// return odbc_num_rows ($result);
+				return sqlsrv_num_rows ($result);
 			}
 		}
 
@@ -761,7 +850,8 @@
 			}
 			elseif ($this->dbtype == 'mssql')
 			{
-				return odbc_num_fields ($result);
+				// return odbc_num_fields ($result);
+				return sqlsrv_num_fields ($result);
 			}
 		}
 
@@ -787,7 +877,8 @@
 			elseif ($this->dbtype == 'mssql')
 			{
 				// return mssql_rows_affected ($this->con);
-				return odbc_num_rows ($stid);
+				// return odbc_num_rows ($stid);
+				return sqlsrv_num_rows ($stid);
 			}
 		}
 
@@ -835,7 +926,8 @@
 			elseif ($this->dbtype == 'mssql')
 			{
 				// return mssql_close ($this->con);
-				return odbc_close ($this->con);
+				// return odbc_close ($this->con);
+				return sqlsrv_close ($this->con);
 			}
 		}
 
@@ -1257,7 +1349,8 @@
 			elseif ($this->dbtype == 'mssql')
 			{
 				// return mssql_result ($result, $row, $field);
-				return odbc_result ($result, $field);
+				// return odbc_result ($result, $field);
+				return sqlsrv_get_field ($result, $field);
 			}
 		}
 
@@ -1307,7 +1400,8 @@
 			}
 			elseif ($this->dbtype == 'mssql')
 			{
-				return odbc_commit ($this->con);
+				// return odbc_commit ($this->con);
+				return sqlsrv_commit ($this->con);
 			}
 		}
 
@@ -1336,7 +1430,8 @@
 			}
 			elseif ($this->dbtype == 'mssql')
 			{
-				return odbc_rollback ($this->con);
+				// return odbc_rollback ($this->con);
+				return sqlsrv_rollback ($this->con);
 			}
 		}
 
@@ -1767,6 +1862,286 @@
 			{
 				throw new Exception ('Error al insertar en ' . $tabla . '. No se puedo hacer el insert.', -6);
 			}
+		}
+
+		/**
+		 * Retorna el valor del atributo $debug
+		 *
+		 * @return boolean $debug el dato de la variable.
+		 */
+		public function isDebug()
+		{
+			return $this->debug;
+		}
+
+		/**
+		 * Retorna el valor del atributo $grabarArchivoLogError
+		 *
+		 * @return boolean $grabarArchivoLogError el dato de la variable.
+		 */
+		public function getGrabarArchivoLogError()
+		{
+			return $this->grabarArchivoLogError;
+		}
+
+		/**
+		 * Retorna el valor del atributo $grabarArchivoLogQuery
+		 *
+		 * @return boolean $grabarArchivoLogQuery el dato de la variable.
+		 */
+		public function getGrabarArchivoLogQuery()
+		{
+			return $this->grabarArchivoLogQuery;
+		}
+
+		/**
+		 * Retorna el valor del atributo $mostrarErrores
+		 *
+		 * @return boolean $mostrarErrores el dato de la variable.
+		 */
+		public function getMostrarErrores()
+		{
+			return $this->mostrarErrores;
+		}
+
+		/**
+		 * Retorna el valor del atributo $dieOnError
+		 *
+		 * @return boolean $dieOnError el dato de la variable.
+		 */
+		public function isDieOnError()
+		{
+			return $this->dieOnError;
+		}
+
+		/**
+		 * Retorna el valor del atributo $emailAvisoErrorSql
+		 *
+		 * @return mixed $emailAvisoErrorSql el dato de la variable.
+		 */
+		public function getEmailAvisoErrorSql()
+		{
+			return $this->emailAvisoErrorSql;
+		}
+
+		/**
+		 * Retorna el valor del atributo $dbtype
+		 *
+		 * @return string $dbtype el dato de la variable.
+		 */
+		public function getDbtype()
+		{
+			return $this->dbtype;
+		}
+
+		/**
+		 * Retorna el valor del atributo $dbHost
+		 *
+		 * @return string $dbHost el dato de la variable.
+		 */
+		public function getDbHost()
+		{
+			return $this->dbHost;
+		}
+
+		/**
+		 * Retorna el valor del atributo $dbUser
+		 *
+		 * @return string $dbUser el dato de la variable.
+		 */
+		public function getDbUser()
+		{
+			return $this->dbUser;
+		}
+
+		/**
+		 * Retorna el valor del atributo $dbPass
+		 *
+		 * @return string $dbPass el dato de la variable.
+		 */
+		public function getDbPass()
+		{
+			return $this->dbPass;
+		}
+
+		/**
+		 * Retorna el valor del atributo $dbName
+		 *
+		 * @return string $dbName el dato de la variable.
+		 */
+		public function getDbName()
+		{
+			return $this->dbName;
+		}
+
+		/**
+		 * Retorna el valor del atributo $charset
+		 *
+		 * @return string $charset el dato de la variable.
+		 */
+		public function getCharset()
+		{
+			return $this->charset;
+		}
+
+		/**
+		 * Retorna el valor del atributo $commit
+		 *
+		 * @return boolean $commit el dato de la variable.
+		 */
+		public function isCommit()
+		{
+			return $this->commit;
+		}
+
+		/**
+		 * Setter del parametro $debug de la clase.
+		 *
+		 * @param boolean $debug
+		 *        	dato a cargar en la variable.
+		 */
+		public function setDebug($debug)
+		{
+			$this->debug = $debug;
+		}
+
+		/**
+		 * Setter del parametro $grabarArchivoLogError de la clase.
+		 *
+		 * @param boolean $grabarArchivoLogError
+		 *        	dato a cargar en la variable.
+		 */
+		public function setGrabarArchivoLogError($grabarArchivoLogError)
+		{
+			$this->grabarArchivoLogError = $grabarArchivoLogError;
+		}
+
+		/**
+		 * Setter del parametro $grabarArchivoLogQuery de la clase.
+		 *
+		 * @param boolean $grabarArchivoLogQuery
+		 *        	dato a cargar en la variable.
+		 */
+		public function setGrabarArchivoLogQuery($grabarArchivoLogQuery)
+		{
+			$this->grabarArchivoLogQuery = $grabarArchivoLogQuery;
+		}
+
+		/**
+		 * Setter del parametro $mostrarErrores de la clase.
+		 *
+		 * @param boolean $mostrarErrores
+		 *        	dato a cargar en la variable.
+		 */
+		public function setMostrarErrores($mostrarErrores)
+		{
+			$this->mostrarErrores = $mostrarErrores;
+		}
+
+		/**
+		 * Setter del parametro $dieOnError de la clase.
+		 *
+		 * @param boolean $dieOnError
+		 *        	dato a cargar en la variable.
+		 */
+		public function setDieOnError($dieOnError)
+		{
+			$this->dieOnError = $dieOnError;
+		}
+
+		/**
+		 * Setter del parametro $emailAvisoErrorSql de la clase.
+		 *
+		 * @param mixed $emailAvisoErrorSql
+		 *        	dato a cargar en la variable.
+		 */
+		public function setEmailAvisoErrorSql($emailAvisoErrorSql)
+		{
+			$this->emailAvisoErrorSql = $emailAvisoErrorSql;
+		}
+
+		/**
+		 * Setter del parametro $dbtype de la clase.
+		 *
+		 * @param string $dbtype
+		 *        	dato a cargar en la variable.
+		 */
+		public function setDbtype($dbtype)
+		{
+			if (strtolower ($dbtype) == "mysql" or strtolower ($dbtype) == "oracle" or strtolower ($dbtype) == "mssql")
+			{
+				$this->dbtype = strtolower ($dbtype);
+			}
+			else
+			{
+				throw new Exception ("Tipo de base de datos incorrecata.");
+			}
+		}
+
+		/**
+		 * Setter del parametro $dbHost de la clase.
+		 *
+		 * @param string $dbHost
+		 *        	dato a cargar en la variable.
+		 */
+		public function setDbHost($dbHost)
+		{
+			$this->dbHost = $dbHost;
+		}
+
+		/**
+		 * Setter del parametro $dbUser de la clase.
+		 *
+		 * @param string $dbUser
+		 *        	dato a cargar en la variable.
+		 */
+		public function setDbUser($dbUser)
+		{
+			$this->dbUser = $dbUser;
+		}
+
+		/**
+		 * Setter del parametro $dbPass de la clase.
+		 *
+		 * @param string $dbPass
+		 *        	dato a cargar en la variable.
+		 */
+		public function setDbPass($dbPass)
+		{
+			$this->dbPass = $dbPass;
+		}
+
+		/**
+		 * Setter del parametro $dbName de la clase.
+		 *
+		 * @param string $dbName
+		 *        	dato a cargar en la variable.
+		 */
+		public function setDbName($dbName)
+		{
+			$this->dbName = $dbName;
+		}
+
+		/**
+		 * Setter del parametro $charset de la clase.
+		 *
+		 * @param string $charset
+		 *        	dato a cargar en la variable.
+		 */
+		public function setCharset($charset)
+		{
+			$this->charset = $charset;
+		}
+
+		/**
+		 * Setter del parametro $commit de la clase.
+		 *
+		 * @param boolean $commit
+		 *        	dato a cargar en la variable.
+		 */
+		public function setCommit($commit)
+		{
+			$this->commit = $commit;
 		}
 	}
 	?>
