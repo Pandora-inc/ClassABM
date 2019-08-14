@@ -353,7 +353,7 @@
 		 */
 		public function query($str_query, $esParam = false, $parametros = array())
 		{
-			$str_query = format_query_usar ($str_query);
+			$str_query = $this->format_query_usar ($str_query);
 			/**
 			 * Consulata a la base de datos ya compilada
 			 *
