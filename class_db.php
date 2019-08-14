@@ -242,9 +242,6 @@
 
 				if (!$this->con)
 				{
-					print_r ($this->dbHost);
-					print_r ($connectionInfo);
-					die (print_r (sqlsrv_errors (), true));
 					throw new Exception ('Algo fue mal mientras se conectaba a MSSQL');
 				}
 			}
@@ -354,9 +351,9 @@
 		 *
 		 * @return array
 		 */
-		public function query($str_query, $esParam = false, $parametros = "")
+		public function query($str_query, $esParam = false, $parametros = array())
 		{
-
+			$str_query = format_query_usar ($str_query);
 			/**
 			 * Consulata a la base de datos ya compilada
 			 *
@@ -963,29 +960,67 @@
 
 			$str_query_debug = strtolower ($str_query_debug);
 
-			$str_query_debug = str_replace ("SELECT", "<span style='color:green;font-weight:bold;'>SELECT</span>", strtoupper ($str_query_debug));
-			$str_query_debug = str_replace ("INSERT", "<span style='color:#660000;font-weight:bold;'>INSERT</span>", strtoupper ($str_query_debug));
-			$str_query_debug = str_replace ("UPDATE", "<span style='color:#FF6600;font-weight:bold;'>UPDATE</span>", strtoupper ($str_query_debug));
-			$str_query_debug = str_replace ("REPLACE", "<span style='color:#FF6600;font-weight:bold;'>UPDATE</span>", strtoupper ($str_query_debug));
-			$str_query_debug = str_replace ("DELETE", "<span style='color:#CC0000;font-weight:bold;'>DELETE</span>", strtoupper ($str_query_debug));
-			$str_query_debug = str_replace ("FROM", "<br/><span style='color:green;font-weight:bold;'>FROM</span>", strtoupper ($str_query_debug));
-			$str_query_debug = str_replace ("WHERE", "<br/><span style='color:green;font-weight:bold;'>WHERE</span>", strtoupper ($str_query_debug));
-			$str_query_debug = str_replace ("ORDER BY", "<br/><span style='color:green;font-weight:bold;'>ORDER BY</span>", strtoupper ($str_query_debug));
-			$str_query_debug = str_replace ("GROUP BY", "<br/><span style='color:green;font-weight:bold;'>GROUP BY</span>", strtoupper ($str_query_debug));
-			$str_query_debug = str_replace ("INTO", "<br/><B>INTO</B>", strtoupper ($str_query_debug));
-			$str_query_debug = str_replace ("VALUES", "<br/><B>VALUES</B>", strtoupper ($str_query_debug));
-			$str_query_debug = str_replace (" AND ", "<B> AND </B>", strtoupper ($str_query_debug));
+			$str_query_debug = str_ireplace ("SELECT", "<span style='color:green;font-weight:bold;'>SELECT</span>", $str_query_debug);
+			$str_query_debug = str_ireplace ("INSERT", "<span style='color:#660000;font-weight:bold;'>INSERT</span>", $str_query_debug);
+			$str_query_debug = str_ireplace ("UPDATE", "<span style='color:#FF6600;font-weight:bold;'>UPDATE</span>", $str_query_debug);
+			$str_query_debug = str_ireplace ("REPLACE", "<span style='color:#FF6600;font-weight:bold;'>UPDATE</span>", $str_query_debug);
+			$str_query_debug = str_ireplace ("DELETE", "<span style='color:#CC0000;font-weight:bold;'>DELETE</span>", $str_query_debug);
+			$str_query_debug = str_ireplace ("FROM", "<br/><span style='color:green;font-weight:bold;'>FROM</span>", $str_query_debug);
+			$str_query_debug = str_ireplace ("WHERE", "<br/><span style='color:green;font-weight:bold;'>WHERE</span>", $str_query_debug);
+			$str_query_debug = str_ireplace ("ORDER BY", "<br/><span style='color:green;font-weight:bold;'>ORDER BY</span>", $str_query_debug);
+			$str_query_debug = str_ireplace ("GROUP BY", "<br/><span style='color:green;font-weight:bold;'>GROUP BY</span>", $str_query_debug);
+			$str_query_debug = str_ireplace ("INTO", "<br/><B>INTO</B>", $str_query_debug);
+			$str_query_debug = str_ireplace ("VALUES", "<br/><B>VALUES</B>", $str_query_debug);
+			$str_query_debug = str_ireplace (" AND ", "<B> AND </B>", $str_query_debug);
 
-			$str_query_debug = str_replace (" AS ", "<span style='color:magenta;font-weight:bold;'> AS </span>", strtoupper ($str_query_debug));
-			$str_query_debug = str_replace ("INNER", "<br/><span style='color:magenta;font-weight:bold;'>INNER</span>", strtoupper ($str_query_debug));
-			$str_query_debug = str_replace ("LEFT", "<br/><span style='color:magenta;font-weight:bold;'>LEFT</span>", strtoupper ($str_query_debug));
-			$str_query_debug = str_replace ("RIGHT", "<br/><span style='color:magenta;font-weight:bold;'>RIGHT</span>", strtoupper ($str_query_debug));
-			$str_query_debug = str_replace ("FULL", "<br/><span style='color:magenta;font-weight:bold;'>FULL</span>", strtoupper ($str_query_debug));
-			$str_query_debug = str_replace ("JOIN", "<span style='color:magenta;font-weight:bold;'>JOIN</span>", strtoupper ($str_query_debug));
-			$str_query_debug = str_replace (" ON ", "<span style='color:magenta;font-weight:bold;'> ON </span>", strtoupper ($str_query_debug));
+			$str_query_debug = str_ireplace (" AS ", "<span style='color:magenta;font-weight:bold;'> AS </span>", $str_query_debug);
+			$str_query_debug = str_ireplace ("INNER", "<br/><span style='color:magenta;font-weight:bold;'>INNER</span>", $str_query_debug);
+			$str_query_debug = str_ireplace ("LEFT", "<br/><span style='color:magenta;font-weight:bold;'>LEFT</span>", $str_query_debug);
+			$str_query_debug = str_ireplace ("RIGHT", "<br/><span style='color:magenta;font-weight:bold;'>RIGHT</span>", $str_query_debug);
+			$str_query_debug = str_ireplace ("FULL", "<br/><span style='color:magenta;font-weight:bold;'>FULL</span>", $str_query_debug);
+			$str_query_debug = str_ireplace ("JOIN", "<span style='color:magenta;font-weight:bold;'>JOIN</span>", $str_query_debug);
+			$str_query_debug = str_ireplace (" ON ", "<span style='color:magenta;font-weight:bold;'> ON </span>", $str_query_debug);
 
-			$str_query_debug = str_replace ("TO_CHAR", "<span style='color:pink;font-weight:bold;'>TO_CHAR</span>", strtoupper ($str_query_debug));
-			$str_query_debug = str_replace ("TO_DATE", "<span style='color:pink;font-weight:bold;'>TO_DATE</span>", strtoupper ($str_query_debug));
+			$str_query_debug = str_ireplace ("TO_CHAR", "<span style='color:pink;font-weight:bold;'>TO_CHAR</span>", $str_query_debug);
+			$str_query_debug = str_ireplace ("TO_DATE", "<span style='color:pink;font-weight:bold;'>TO_DATE</span>", $str_query_debug);
+
+			return $str_query_debug;
+		}
+
+		/**
+		 * Formatea una query a utilizar
+		 *
+		 * @param mixed $str_query
+		 *        	La query a tratar
+		 * @return mixed La query formateada
+		 */
+		private function format_query_usar($str_query)
+		{
+			$str_query_debug = strtolower ($str_query);
+
+			$str_query_debug = str_ireplace ("SELECT", "SELECT", $str_query_debug);
+			$str_query_debug = str_ireplace ("INSERT", "INSERT", $str_query_debug);
+			$str_query_debug = str_ireplace ("UPDATE", "UPDATE", $str_query_debug);
+			$str_query_debug = str_ireplace ("REPLACE", "UPDATE", $str_query_debug);
+			$str_query_debug = str_ireplace ("DELETE", "DELETE", $str_query_debug);
+			$str_query_debug = str_ireplace ("FROM", "FROM", $str_query_debug);
+			$str_query_debug = str_ireplace ("WHERE", "WHERE", $str_query_debug);
+			$str_query_debug = str_ireplace ("ORDER BY", "ORDER BY", $str_query_debug);
+			$str_query_debug = str_ireplace ("GROUP BY", "GROUP BY", $str_query_debug);
+			$str_query_debug = str_ireplace ("INTO", "INTO", $str_query_debug);
+			$str_query_debug = str_ireplace ("VALUES", "VALUES", $str_query_debug);
+			$str_query_debug = str_ireplace (" AND ", " AND ", $str_query_debug);
+
+			$str_query_debug = str_ireplace (" AS ", " AS ", $str_query_debug);
+			$str_query_debug = str_ireplace ("INNER", "INNER", $str_query_debug);
+			$str_query_debug = str_ireplace ("LEFT", "LEFT", $str_query_debug);
+			$str_query_debug = str_ireplace ("RIGHT", "RIGHT", $str_query_debug);
+			$str_query_debug = str_ireplace ("FULL", "FULL", $str_query_debug);
+			$str_query_debug = str_ireplace ("JOIN", "JOIN", $str_query_debug);
+			$str_query_debug = str_ireplace (" ON ", " ON ", $str_query_debug);
+
+			$str_query_debug = str_ireplace ("TO_CHAR", "TO_CHAR", $str_query_debug);
+			$str_query_debug = str_ireplace ("TO_DATE", "TO_DATE", $str_query_debug);
 
 			return $str_query_debug;
 		}
