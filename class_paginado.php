@@ -250,28 +250,34 @@ class class_paginado
 		}
 		elseif ($db->getDbtype () == 'mssql')
 		{
+			$ordby = "";
+			$pos = "";
+
 			$registros_por_pagina = $this->registros_por_pagina;
 			$registro = $this->registro;
 
 			$RegistroHasta = $registros_por_pagina + $registro;
 
 			$pos = strpos ($query, "ORDER BY");
-			$ordby = substr ($query, $pos);
-			$query = substr ($query, 0, $pos);
 
-			$porciones = explode (" ", $ordby);
-			for($i = 0; $i < count ($porciones); $i ++)
+			if ($pos !== false)
 			{
-				$pos = strpos ($porciones[$i], ".");
+				$ordby = substr ($query, $pos);
+				$query = substr ($query, 0, $pos);
 
-				if ($pos !== false)
+				$porciones = explode (" ", $ordby);
+				for($i = 0; $i < count ($porciones); $i ++)
 				{
-					$porciones[$i] = "b." . substr ($porciones[$i], $pos);
+					$pos = strpos ($porciones[$i], ".");
+
+					if ($pos !== false)
+					{
+						$porciones[$i] = "b." . substr ($porciones[$i], $pos);
+					}
 				}
+
+				$ordby = implode (" ", $porciones);
 			}
-
-			$ordby = implode (" ", $porciones);
-
 			$query = 'SELECT * FROM(SELECT * ,ROW_NUMBER() OVER (ORDER BY id) AS subrow FROM (' . $query . ') a) b  WHERE   subrow >= ' . $registro . ' and  subrow <= ' . $RegistroHasta . " " . $ordby;
 		}
 
