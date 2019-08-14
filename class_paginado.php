@@ -228,11 +228,11 @@ class class_paginado
 		$this->total_registros = $cantidad[0];
 
 		// Ejecutar el query original con el LIMIT
-		if ($db->dbtype == 'mysql')
+		if ($db->getDbtype () == 'mysql')
 		{
 			$query .= " LIMIT $this->registro, $this->registros_por_pagina";
 		}
-		elseif ($db->dbtype == 'oracle')
+		elseif ($db->getDbtype () == 'oracle')
 		{
 			$registros_por_pagina = $this->registros_por_pagina;
 			$registro = $this->registro;
@@ -248,7 +248,7 @@ class class_paginado
 			WHERE rnum > " . $registro;
 			// WHERE ROWNUM > " . $registro . " AND ROWNUM <= " . $RegistroHasta;
 		}
-		elseif ($db->dbtype == 'mssql')
+		elseif ($db->getDbtype () == 'mssql')
 		{
 			$registros_por_pagina = $this->registros_por_pagina;
 			$registro = $this->registro;

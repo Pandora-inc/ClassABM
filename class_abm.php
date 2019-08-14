@@ -1031,7 +1031,7 @@ class class_abm
 	{
 		global $db;
 
-		if ($db->dbtype == 'mysql')
+		if ($db->getDbtype () == 'mysql')
 		{
 
 			$arrayId = "CONCAT (";
@@ -1049,7 +1049,7 @@ class class_abm
 
 			return $arrayId;
 		}
-		elseif ($db->dbtype == 'oracle')
+		elseif ($db->getDbtype () == 'oracle')
 		{
 
 			$tot = count ($array);
@@ -1076,7 +1076,7 @@ class class_abm
 
 			return $arrayId;
 		}
-		elseif ($db->dbtype == 'mssql')
+		elseif ($db->getDbtype () == 'mssql')
 		{
 			$arrayId = "(";
 
@@ -1112,7 +1112,7 @@ class class_abm
 		// global $db;
 		$camp = "";
 
-		if ($db->dbtype == 'mysql')
+		if ($db->getDbtype () == 'mysql')
 		{
 			foreach ($array as &$valor)
 			{
@@ -1121,7 +1121,7 @@ class class_abm
 
 			return $camp;
 		}
-		elseif ($db->dbtype == 'oracle')
+		elseif ($db->getDbtype () == 'oracle')
 		{
 			$tot = count ($array);
 
@@ -1132,7 +1132,7 @@ class class_abm
 
 			return $camp;
 		}
-		elseif ($db->dbtype == 'mssql')
+		elseif ($db->getDbtype () == 'mssql')
 		{
 
 			foreach ($array as &$valor)

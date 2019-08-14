@@ -1064,7 +1064,7 @@ class class_abm
 	 */
 	public function convertirIdMultiple($array, $tabla)
 	{
-		if ($this->db->dbtype == 'mysql')
+		if ($this->db->getDbtype () == 'mysql')
 		{
 
 			$arrayId = "CONCAT (";
@@ -1082,7 +1082,7 @@ class class_abm
 
 			return $arrayId;
 		}
-		elseif ($this->db->dbtype == 'oracle')
+		elseif ($this->db->getDbtype () == 'oracle')
 		{
 
 			$tot = count ($array);
@@ -1109,7 +1109,7 @@ class class_abm
 
 			return $arrayId;
 		}
-		elseif ($this->db->dbtype == 'mssql')
+		elseif ($this->db->getDbtype () == 'mssql')
 		{
 			$arrayId = "(";
 
@@ -1142,7 +1142,7 @@ class class_abm
 	{
 		$camp = "";
 
-		if ($this->db->dbtype == 'mysql')
+		if ($this->db->getDbtype () == 'mysql')
 		{
 			foreach ($array as &$valor)
 			{
@@ -1151,7 +1151,7 @@ class class_abm
 
 			return $camp;
 		}
-		elseif ($this->db->dbtype == 'oracle')
+		elseif ($this->db->getDbtype () == 'oracle')
 		{
 			// $tot = count ($array);
 
@@ -1162,7 +1162,7 @@ class class_abm
 
 			return $camp;
 		}
-		elseif ($this->db->dbtype == 'mssql')
+		elseif ($this->db->getDbtype () == 'mssql')
 		{
 
 			foreach ($array as &$valor)
@@ -1937,7 +1937,6 @@ class class_abm
 				// {
 				// $camposSelect .= "TO_CHAR(" . $this->tabla . "." . $campo . ", 'RRRR-MM-DD') AS " . $campo;
 				// }
-				// elseif ($this->dbtype == 'mssql')
 				// {
 				// $camposSelect .= "CONVERT(VARCHAR(10), " . $this->tabla . "." . $campo . ", 120) AS " . $campo;
 				// }
