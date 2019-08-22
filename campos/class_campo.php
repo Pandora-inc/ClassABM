@@ -1115,7 +1115,21 @@ class class_campo
 	 */
 	public function getCampoOrder()
 	{
-		return $this->campoOrder;
+		if ($this->campoOrder != "")
+		{
+			return $this->campoOrder;
+		}
+		else
+		{
+			if ($this->joinTable == "" or $this->selectPersonal != "")
+			{
+				return $this->tabla . "." . $this->getCampo ();
+			}
+			else
+			{
+				return $this->getJoinTable () . "." . $this->getCampoTexto ();
+			}
+		}
 	}
 
 	/**
@@ -2093,6 +2107,112 @@ class class_campo
 		{
 			$this->autofocus = "";
 		}
+	}
+
+	/**
+	 * Arma el string del nombre del campo (tabla.campo AS nombrecampo) para agregar en el SELECT
+	 *
+	 * @return string
+	 */
+	public function get_campo_select()
+	{
+		if ($this->isBuscar () == true or $this->isNoListar () == false)
+		{
+			if ($this->existeDato ("joinTable"))
+			{
+				$tablaJoin = $this->prepara_joinTable ($this->getJoinTable ());
+
+				if ($this->isOmitirJoin == false)
+				{
+					if ($this->getSelectPersonal () == true)
+					{
+						return $this->getSelectPersonal () . " AS " . substr ($tablaJoin . "_" . $this->getCampoTexto (), 0, 30);
+					}
+					else
+					{
+						if ($this->getCampoTexto () != "")
+						{
+							return $this->getJoinTable () . "." . $this->getCampoTexto () . " AS " . substr ($tablaJoin . "_" . $this->getCampoTexto (), 0, 30);
+						}
+						else
+						{
+							return $this->getJoinTable () . "." . $this->getCampo () . " AS " . substr ($tablaJoin . "_" . $this->getCampo (), 0, 30);
+						}
+					}
+					// FIXME calculo que habria que armar otra funcion que haga esto
+					// $camposOrder .= "|" . $this->getCampoTexto ();
+				}
+				else
+				{
+					if ($this->getSelectPersonal () == true)
+					{
+						return $this->getSelectPersonal () . " AS " . $this->getCampoTexto ();
+					}
+					else
+					{
+						// FIXME Hay que encontrar un metodo mejor ya que si hay mas de una tabla con el mismo campo y las primeras tres letras del nombre de la tabla iguales tirara que la columna esta definida de forma ambigua.
+
+						$camposSelect = $this->getJoinTable () . "." . $this->getCampo () . " AS " . substr ($tablaJoin, 0, 3) . "_" . $this->getCampo ();
+
+						$this->setCampo (substr ($tablaJoin, 0, 3) . "_" . $this->getCampo ());
+
+						return $camposSelect;
+					}
+				}
+			}
+			else
+			{
+				if ($this->getSelectPersonal () == true)
+				{
+					return $this->getSelectPersonal () . " AS " . $this->getCampo ();
+				}
+				else
+				{
+					return $this->tabla . "." . $this->getCampo ();
+				}
+			}
+		}
+	}
+
+	/**
+	 * Arma el where para la busqueda dentro de ese campo.
+	 *
+	 * @param string $valorABuscar
+	 * @return string
+	 */
+	public function get_where_buscar($valorABuscar)
+	{
+		$camposWhereBuscar = "";
+
+		if ($this->buscarUsarCampo != "")
+		{
+			$camposWhereBuscar .= "UPPER(" . $this->getBuscarUsarCampo () . ")";
+		}
+		else
+		{
+			if ($this->joinTable == "" or $this->selectPersonal != "")
+			{
+				$camposWhereBuscar .= "UPPER(" . $this->tabla . "." . $this->getCampo () . ")";
+			}
+			else
+			{
+				$camposWhereBuscar .= "UPPER(" . $this->getJoinTable . "." . $this->getCampoTexto () . ")";
+			}
+		}
+
+		$camposWhereBuscar .= " ";
+
+		if ($this->getBuscarOperador () != "" and strtolower ($this->getBuscarOperador ()) != 'like')
+		{
+			$camposWhereBuscar .= $this->buscarOperador . " UPPER('" . $valorABuscar . "')";
+		}
+		else
+		{
+			$valorABuscar = str_replace (" ", "%", $valorABuscar);
+			$camposWhereBuscar .= "LIKE UPPER('%" . $valorABuscar . "%')";
+		}
+
+		return $camposWhereBuscar;
 	}
 }
 ?>
