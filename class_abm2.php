@@ -912,6 +912,7 @@ class class_abm
 				  $(\'input.currency\').currencyInput();
 				});
         </script>';
+
 	/**
 	 * Definicion de la funcion que se encarga de abrir el dialod de edicion
 	 *
@@ -3293,7 +3294,6 @@ class class_abm
 	private function generarListado($titulo, $sql = "")
 	{
 		$html = "";
-		$noMostrar = "";
 		$estaBuscando = "";
 
 		$this->estilosBasicos = str_ireplace ('%dirname%', dirname (__FILE__), $this->estilosBasicos);
@@ -3599,16 +3599,6 @@ class class_abm
 				$html .= '<tr class="tablesorter-headerRow"> ';
 				foreach ($this->campo as $campo)
 				{
-
-					if ($campo->isNoMostrar () == true)
-					{
-						$noMostrar = " style='display: none;' ";
-					}
-					else
-					{
-						$noMostrar = " ";
-					}
-
 					if ($campo->isNoListar () == true)
 					{
 						continue;
@@ -3635,7 +3625,7 @@ class class_abm
 
 					if ($campo->getCampo () == "" or $campo->isNoOrdenar () == true)
 					{
-						$html .= "<th " . ($styleTh != "" ? "style='$styleTh'" : "") . $noMostrar . ">" . (($campo->existeDato ("tituloListado")) ? $campo->getTituloListado () : (($campo->existeDato ("titulo")) ? $campo->getTitulo () : $campo->getCampo ())) . "</th> \n";
+						$html .= "<th " . ($styleTh != "" ? "style='$styleTh'" : "") . $campo->get_no_mostrar () . ">" . (($campo->existeDato ("tituloListado")) ? $campo->getTituloListado () : (($campo->existeDato ("titulo")) ? $campo->getTitulo () : $campo->getCampo ())) . "</th> \n";
 					}
 					else
 					{
@@ -3673,18 +3663,18 @@ class class_abm
 						{
 							$linkas = $o->linkOrderBy ($campo->getCampo (), $campoOrder);
 						}
-						// echo "<th " . ($styleTh != "" ? "style='$styleTh'" : "") . " $noMostrar >" . $o->linkOrderBy(((isset($campo->getTituloListado()) and $campo->getTituloListado() != "") ? $campo->getTituloListado() : ($campo->getTitulo() != '' ? $campo->getTitulo() : $campo->getCampo())), $campoOrder) . "</th> \n";
+						// echo "<th " . ($styleTh != "" ? "style='$styleTh'" : "") . " $campo->get_no_mostrar() >" . $o->linkOrderBy(((isset($campo->getTituloListado()) and $campo->getTituloListado() != "") ? $campo->getTituloListado() : ($campo->getTitulo() != '' ? $campo->getTitulo() : $campo->getCampo())), $campoOrder) . "</th> \n";
 
-						$html .= "<th " . ($styleTh != "" ? "style='$styleTh'" : "") . " $noMostrar >" . $linkas . "</th> \n";
+						$html .= "<th " . ($styleTh != "" ? "style='$styleTh'" : "") . " " . $campo->get_no_mostrar () . " >" . $linkas . "</th> \n";
 					}
 				}
 				if ($this->mostrarEditar)
 				{
-					$html .= "<th class='mtituloColEditar' " . $noMostrar . ">" . $this->textoEditarListado . "</th> \n";
+					$html .= "<th class='mtituloColEditar' " . $campo->get_no_mostrar () . ">" . $this->textoEditarListado . "</th> \n";
 				}
 				if ($this->mostrarBorrar)
 				{
-					$html .= "<th class='mtituloColBorrar' " . $noMostrar . ">" . $this->textoBorrarListado . "</th> \n";
+					$html .= "<th class='mtituloColBorrar' " . $campo->get_no_mostrar () . ">" . $this->textoBorrarListado . "</th> \n";
 				}
 				$html .= "</tr> \n";
 			} // fin columnas del encabezado
@@ -3716,13 +3706,26 @@ class class_abm
 
 				foreach ($this->campo as $campo)
 				{
-					if ($campo->isNoMostrar () == true)
+					if (isset ($fila[$campo->getCampo ()]))
 					{
-						$noMostrar = " style='display: none;' ";
+						$campo->setValor ($fila[$campo->getCampo ()]);
 					}
-					else
+					elseif (isset ($fila[$campo->getCampoTexto ()]))
 					{
-						$noMostrar = " ";
+						$campo->setValor ($fila[$campo->getCampoTexto ()]);
+					}
+
+					if ($campo->getTipo () == "bit")
+					{
+						if ($this->textoBitTrue != "SI")
+						{
+							$campo->setTextoBitTrue ($this->textoBitTrue);
+						}
+
+						if ($this->textoBitFalse != "NO")
+						{
+							$campo->setTextoBitFalse ($this->textoBitFalse);
+						}
 					}
 
 					if ($campo->isNoListar () == true)
@@ -3762,51 +3765,61 @@ class class_abm
 						}
 					}
 
-					if ($campo->existeDato ("centrarColumna"))
+					if ($campo->existeDato ("joinTable") and $campo->isOmitirJoin () == false)
 					{
-						$centradoCol = 'align="center"';
-					}
-					else
-					{
-						$centradoCol = '';
-					}
+						$tablaJoin = $campo->getJoinTable ();
+						$tablaJoin = explode (".", $tablaJoin);
+						$tablaJoin = $tablaJoin[count ($tablaJoin) - 1];
 
-					if ($campo->existeDato ("colorearValores") and (is_array ($campo->getColorearValores ())))
-					{
-						if ($campo->existeDato ("joinTable") and $campo->isOmitirJoin () == false)
+						if ($campo->existeDato ("campoTexto"))
 						{
-							$tablaJoin = $campo->getJoinTable ();
-							$tablaJoin = explode (".", $tablaJoin);
-							$tablaJoin = $tablaJoin[count ($tablaJoin) - 1];
-
-							if ($campo->existeDato ("campoTexto"))
-							{
-								$campo->setCampo ($tablaJoin . "_" . $campo->getCampoTexto ());
-							}
-							else
-							{
-								$campo->setCampo ($tablaJoin . "_" . $campo->getCampo ());
-							}
-						}
-						// print_r ($campo->getCampo ());
-						if ($campo->getCampo () != "" and array_key_exists ($fila[$campo->getCampo ()], $campo->getColorearValores ()))
-						{
-							// XXX revisar la implementacion de las funciones que retornan arrays en generarListado()
-							$spanColorear = "<span class='" . ($campo->isColorearConEtiqueta () ? "label" : "") . "' style='" . ($campo->isColorearConEtiqueta () ? "background-" : "") . "color:" . $campo->getColorearValores ()[$fila[$campo->getCampo ()]] . "'>";
-							$spanColorearFin = "</span>";
+							$campo->setCampo ($tablaJoin . "_" . $campo->getCampoTexto ());
 						}
 						else
 						{
-							$spanColorear = "";
-							$spanColorearFin = "";
+							$campo->setCampo ($tablaJoin . "_" . $campo->getCampo ());
 						}
 					}
-					else
-					{
-						$spanColorear = "";
-						$spanColorearFin = "";
-					}
 
+					// if ($campo->existeDato ("colorearValores") and (is_array ($campo->getColorearValores ())))
+					// {
+
+					// // XXX lo que sigue lo lleve mas para arriba porque me parece que aca adentro ni pincha ni corta.
+					// // if ($campo->existeDato ("joinTable") and $campo->isOmitirJoin () == false)
+					// // {
+					// // $tablaJoin = $campo->getJoinTable ();
+					// // $tablaJoin = explode (".", $tablaJoin);
+					// // $tablaJoin = $tablaJoin[count ($tablaJoin) - 1];
+
+					// // if ($campo->existeDato ("campoTexto"))
+					// // {
+					// // $campo->setCampo ($tablaJoin . "_" . $campo->getCampoTexto ());
+					// // }
+					// // else
+					// // {
+					// // $campo->setCampo ($tablaJoin . "_" . $campo->getCampo ());
+					// // }
+					// // }
+					// // print_r ($campo->getCampo ());
+					// if ($campo->getCampo () != "" and array_key_exists ($fila[$campo->getCampo ()], $campo->getColorearValores ()))
+					// {
+					// // XXX revisar la implementacion de las funciones que retornan arrays en generarListado()
+					// $spanColorear = "<span class='" . ($campo->isColorearConEtiqueta () ? "label" : "") . "' style='" . ($campo->isColorearConEtiqueta () ? "background-" : "") . "color:" . $campo->getColorearValores ()[$fila[$campo->getCampo ()]] . "'>";
+					// $spanColorearFin = "</span>";
+					// }
+					// else
+					// {
+					// $spanColorear = "";
+					// $spanColorearFin = "";
+					// }
+					// }
+					// else
+					// {
+					// $spanColorear = "";
+					// $spanColorearFin = "";
+					// }
+
+					// FIXME todo esto y lo que sigue deberia estar dentro de la funcion del campo
 					if ($campo->getCustomEvalListado () != "")
 					{
 						$id = $fila['ID'];
@@ -3867,7 +3880,7 @@ class class_abm
 							}
 						}
 
-						$html .= "<td $centradoCol " . $noMostrar . ">$spanColorear";
+						$html .= "<td $campo->get_centrar_columna() " . $campo->get_no_mostrar () . ">$spanColorear";
 
 						$campo->setCustomPrintListado (str_ireplace ('{id}', $fila['ID'], $campo->getCustomPrintListado ()));
 
@@ -3883,118 +3896,22 @@ class class_abm
 					}
 					else
 					{
-						// FIXME Debe crearse un metodo polimorfico que arme la celda de cada campo como corresponda y remplace lo siguiente
-						if ($campo->getTipo () == "bit")
+						// si es tipo fecha lo formatea
+						if ($campo->getTipo () == "fecha")
 						{
-							if ($fila[$campo->getCampo ()])
+							if ($fila[$campo->getCampo ()] != "" and $fila[$campo->getCampo ()] != "0000-00-00" and $fila[$campo->getCampo ()] != "0000-00-00 00:00:00")
 							{
-								$html .= "<td $centradoCol " . $noMostrar . ">$spanColorear" . (($campo->existeDato ("textoBitTrue")) ? $campo->getTextoBitTrue () : $this->textoBitTrue) . $spanColorearFin . "</td> \n";
-							}
-							else
-							{
-								$html .= "<td $centradoCol " . $noMostrar . ">$spanColorear" . (($campo->existeDato ("textoBitTrue")) ? $campo->getTextoBitFalse () : $this->textoBitFalse) . $spanColorearFin . "</td> \n";
-							}
-						}
-						// si es tipo combo le decimos que muestre el texto en vez del valor
-						elseif ($campo->getTipo () == "combo")
-						{
-							if (isset ($fila[$campo->getCampo ()]))
-							{
-								// XXX verificar acomodar y documentar $campo['datos']
-								$datos = $campo->getDatos ();
-								$html .= "<td $centradoCol " . $noMostrar . ">$spanColorear" . $datos[$fila[$campo->getCampo ()]] . "$spanColorearFin</td> \n";
-							}
-						}
-						elseif ($campo->getTipo () == "moneda")
-						{
-							setlocale (LC_MONETARY, 'es_AR');
-							$html .= "<td style='text-align: right;' " . $noMostrar . ">$spanColorear" . money_format ('%.2n', $fila[$campo->getCampo ()]) . "$spanColorearFin</td> \n";
-						}
-						elseif ($campo->getTipo () == "numero")
-						{
-							if ($fila[$campo->getCampo ()] != "" and $fila[$campo->getCampo ()] > 0)
-							{
-								$html .= "<td style='text-align: right;' " . $noMostrar . ">$spanColorear" . number_format ($fila[$campo->getCampo ()], $campo->getCantidadDecimales (), ',', '.') . "$spanColorearFin</td> \n";
-							}
-							else
-							{
-								$html .= "<td style='text-align: right;' $noMostrar>$spanColorear" . number_format (0, $campo->getCantidadDecimales (), ',', '.') . "$spanColorearFin</td> \n";
-							}
-						}
-						elseif ($campo->getTipo () == "textarea")
-						{
-							if ($campo->isNoLimpiar () == true)
-							{
-								$html .= "<td $centradoCol " . $noMostrar . ">" . substr (($spanColorear . html_entity_decode ($fila[$campo->getCampo ()]) . $spanColorearFin), 0, $campo->getMaxMostrar ()) . "</td> \n";
-							}
-							else
-							{
-								if (isset ($fila[$campo->getCampo ()]))
+								if (strtotime ($fila[$campo->getCampo ()]) !== -1)
 								{
-									$html .= "<td $centradoCol " . $noMostrar . ">" . substr (($spanColorear . $fila[$campo->getCampo ()] . $spanColorearFin), 0, $campo->getMaxMostrar ()) . "</td> \n";
-								}
-								else
-								{
-									$html .= "<td $centradoCol " . $noMostrar . ">" . substr (($spanColorear . $fila[$campo->getCampoTexto ()] . $spanColorearFin), 0, $campo->getMaxMostrar ()) . "</td> \n";
-								}
-							}
-						}
-						elseif ($campo->getTipo () == "upload")
-						{
-							$dato = explode (".", $fila[$campo->getCampo ()]);
-							if (in_array (strtolower (end ($dato)), array (
-									'jpg',
-									'jpeg',
-									'bmp',
-									'png'
-							)))
-							{
-								$otrosImagen = "";
-								$otrosImagen .= " height='" . $campo->getAlto () . "' ";
-								$otrosImagen .= " width='" . $campo->getAncho () . "' ";
+									// FIXME Urgente arreglar el formateo de fecha y que pasa con strtotime -1
 
-								$html .= "<td $centradoCol " . $noMostrar . "><img " . $otrosImagen . " src='" . $campo['directorio'] . "/" . $fila[$campo->getCampo ()] . "'></td> \n";
-							}
-							elseif ($campo->isMostrar () == true)
-							{
-								$html .= "<td $centradoCol " . $noMostrar . ">" . $fila[$campo->getCampo ()] . "</td> \n";
-							}
-						}
-						else
-						{
-							// si es tipo fecha lo formatea
-							if ($campo->getTipo () == "fecha")
-							{
-								if ($fila[$campo->getCampo ()] != "" and $fila[$campo->getCampo ()] != "0000-00-00" and $fila[$campo->getCampo ()] != "0000-00-00 00:00:00")
-								{
-									if (strtotime ($fila[$campo->getCampo ()]) !== -1)
-									{
-										// FIXME Urgente arreglar el formateo de fecha y que pasa con strtotime -1
-
-										// $fila[$campo->getCampo()] = date ($this->formatoFechaListado, strtotime ($fila[$campo->getCampo()]));
-										// $fila[$campo->getCampo()] = date ($this->formatoFechaListado, $fila[$campo->getCampo()]);
-										// $fila[$campo->getCampo()] = $fila[$campo->getCampo()];
-									}
-								}
-							}
-
-							// XXX definir y documentar el atributo noLimpiar
-							if ($campo->isNoLimpiar () == true)
-							{
-								$html .= "<td $centradoCol " . $noMostrar . ">$spanColorear" . html_entity_decode ($fila[$campo->getCampo ()]) . "$spanColorearFin</td> \n";
-							}
-							else
-							{
-								if (isset ($fila[$campo->getCampo ()]))
-								{
-									$html .= "<td $centradoCol " . $noMostrar . ">$spanColorear" . $fila[$campo->getCampo ()] . "$spanColorearFin</td> \n";
-								}
-								else
-								{
-									$html .= "<td $centradoCol " . $noMostrar . ">$spanColorear" . $fila[$campo->getCampoTexto ()] . "$spanColorearFin</td> \n";
+									// $fila[$campo->getCampo()] = date ($this->formatoFechaListado, strtotime ($fila[$campo->getCampo()]));
+									// $fila[$campo->getCampo()] = date ($this->formatoFechaListado, $fila[$campo->getCampo()]);
+									// $fila[$campo->getCampo()] = $fila[$campo->getCampo()];
 								}
 							}
 						}
+						$html .= $campo->get_celda_dato ();
 					}
 				}
 
@@ -4005,16 +3922,16 @@ class class_abm
 					$this->iconoEditar = str_ireplace ('/img/', $this->directorioImagenes, $this->iconoEditar);
 
 					// echo "<td class='celdaEditar'>" . $this->iconoEditar . $fila['ID'] . "</td> \n";
-					// $html .= "<td class='celdaEditar' " . $noMostrar . ">" . sprintf ($this->iconoEditar, $_SERVER['PHP_SELF'] . "?abm_editar=" . $fila['ID'] . $qsamb) . "</td> \n";
-					$html .= "<td class='celdaEditar' " . $noMostrar . ">" . sprintf ($this->iconoEditar, "f_editar( '" . $_SERVER['PHP_SELF'] . "?abm_editar=" . $fila['ID'] . $qsamb . "')") . "</td> \n";
-					// $html .= "<td class='celdaEditar' " . $noMostrar . "><a href='#' title='editar' onclick='f_editar()'>" . $this->iconoEditar . "</a></td> \n";
+					// $html .= "<td class='celdaEditar' " . $campo->get_no_mostrar() . ">" . sprintf ($this->iconoEditar, $_SERVER['PHP_SELF'] . "?abm_editar=" . $fila['ID'] . $qsamb) . "</td> \n";
+					$html .= "<td class='celdaEditar' " . $campo->get_no_mostrar () . ">" . sprintf ($this->iconoEditar, "f_editar( '" . $_SERVER['PHP_SELF'] . "?abm_editar=" . $fila['ID'] . $qsamb . "')") . "</td> \n";
+					// $html .= "<td class='celdaEditar' " . $campo->get_no_mostrar() . "><a href='#' title='editar' onclick='f_editar()'>" . $this->iconoEditar . "</a></td> \n";
 				}
 				if ($this->mostrarBorrar)
 				{
 					$this->iconoBorrar = str_ireplace ('{id}', $fila['ID'], $this->iconoBorrar);
 					$this->iconoBorrar = str_ireplace ('/img/', $this->directorioImagenes, $this->iconoBorrar);
 
-					$html .= "<td class='celdaBorrar' " . $noMostrar . ">" . sprintf ($this->iconoBorrar, "abmBorrar('" . $fila['ID'] . "', this)") . "</td> \n";
+					$html .= "<td class='celdaBorrar' " . $campo->get_no_mostrar () . ">" . sprintf ($this->iconoBorrar, "abmBorrar('" . $fila['ID'] . "', this)") . "</td> \n";
 				}
 				$html .= "</tr> \n";
 			}
@@ -4035,7 +3952,7 @@ class class_abm
 		}
 		else
 		{
-			$html .= "<td colspan='" . (count ($this->campos) + 2) . "' " . $noMostrar . "><div class='noHayRegistros'>" . ($estaBuscando ? $this->textoNoHayRegistrosBuscando : $this->textoNoHayRegistros) . "</div></td>";
+			$html .= "<td colspan='" . (count ($this->campos) + 2) . "' " . $campo->get_no_mostrar () . "><div class='noHayRegistros'>" . ($estaBuscando ? $this->textoNoHayRegistrosBuscando : $this->textoNoHayRegistros) . "</div></td>";
 		}
 
 		$html .= "</table> \n";
@@ -4984,6 +4901,10 @@ class class_abm
 	{
 		$id = $this->limpiarParaSql ($id);
 
+		$parametros = array (
+				$id
+		);
+
 		if (isset ($this->callbackFuncDelete))
 		{
 			call_user_func_array ($this->callbackFuncDelete, array (
@@ -4999,9 +4920,10 @@ class class_abm
 			$this->campoId = substr ($this->campoId, 0, -6);
 		}
 
-		$sql = "DELETE FROM " . $this->tabla . $this->dbLink . " WHERE " . $this->campoId . "='" . $id . "' " . $this->adicionalesWhereDelete;
+		// $sql = "DELETE FROM " . $this->tabla . $this->dbLink . " WHERE " . $this->campoId . "='" . $id . "' " . $this->adicionalesWhereDelete;
+		$sql = "DELETE FROM " . $this->tabla . $this->dbLink . " WHERE " . $this->campoId . " = :id " . $this->adicionalesWhereDelete;
 
-		$this->db->query ($sql);
+		$this->db->query ($sql, true, $parametros);
 
 		return $this->db->errorNro ();
 	}
@@ -5183,8 +5105,6 @@ class class_abm
 
 			$this->campo[$i]->setTabla ($this->tabla);
 		}
-
-		// print_r ($this->campo);
 	}
 
 	/**
@@ -5194,10 +5114,9 @@ class class_abm
 	 *
 	 * @return string
 	 */
-	private function generaWhereBuscar()
+	private function generaWhereBuscar($camposWhereBuscar = "")
 	{
-		$retorno = Array ();
-
+		// $retorno = Array ();
 		if ((isset ($_REQUEST['c_' . $this->campos[$i]['campo']]) and (trim ($_REQUEST['c_' . $this->campos[$i]['campo']]) != '')) or (isset ($_REQUEST['c_busquedaTotal']) and (trim ($_REQUEST['c_busquedaTotal']) != '')))
 		{
 			if (isset ($_REQUEST['c_' . $this->campos[$i]['campo']]))
@@ -5227,7 +5146,7 @@ class class_abm
 				}
 			}
 
-			$estaBuscando = true;
+			// $estaBuscando = true;
 
 			// quita la variable de paginado, ya que estoy buscando y no se aplica
 			// unset($_REQUEST['r']);

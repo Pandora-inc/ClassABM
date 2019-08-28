@@ -1,28 +1,27 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta name="viewport"
-	content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
-<meta charset="utf-8" />
-<title>API Documentation</title>
-<meta name="author" content="" />
-<meta name="description" content="" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
+    <meta charset="utf-8"/>
+    <title>API Documentation</title>
+    <meta name="author" content=""/>
+    <meta name="description" content=""/>
 
-<link href="../css/bootstrap-combined.no-icons.min.css" rel="stylesheet">
-<link href="../css/font-awesome.min.css" rel="stylesheet">
-<link href="../css/prism.css" rel="stylesheet" media="all" />
-<link href="../css/template.css" rel="stylesheet" media="all" />
-
-<!--[if lt IE 9]>
+    <link href="../css/bootstrap-combined.no-icons.min.css" rel="stylesheet">
+    <link href="../css/font-awesome.min.css" rel="stylesheet">
+    <link href="../css/prism.css" rel="stylesheet" media="all"/>
+    <link href="../css/template.css" rel="stylesheet" media="all"/>
+    
+    <!--[if lt IE 9]>
     <script src="../js/html5.js"></script>
     <![endif]-->
-<script src="../js/jquery-1.11.0.min.js"></script>
-<script src="../js/ui/1.10.4/jquery-ui.min.js"></script>
-<script src="../js/bootstrap.min.js"></script>
-<script src="../js/jquery.smooth-scroll.js"></script>
-<script src="../js/prism.min.js"></script>
-<!-- TODO: Add http://jscrollpane.kelvinluck.com/ to style the scrollbars for browsers not using webkit-->
-<script type="text/javascript">
+    <script src="../js/jquery-1.11.0.min.js"></script>
+    <script src="../js/ui/1.10.4/jquery-ui.min.js"></script>
+    <script src="../js/bootstrap.min.js"></script>
+    <script src="../js/jquery.smooth-scroll.js"></script>
+    <script src="../js/prism.min.js"></script>
+    <!-- TODO: Add http://jscrollpane.kelvinluck.com/ to style the scrollbars for browsers not using webkit-->
+    <script type="text/javascript">
     function loadExternalCodeSnippets() {
         Array.prototype.slice.call(document.querySelectorAll('pre[data-src]')).forEach(function (pre) {
             var src = pre.getAttribute('data-src');
@@ -71,1515 +70,1196 @@
     })
 </script>
 
-<link rel="shortcut icon" href="../images/favicon.ico" />
-<link rel="apple-touch-icon" href="../images/apple-touch-icon.png" />
-<link rel="apple-touch-icon" sizes="72x72"
-	href="../images/apple-touch-icon-72x72.png" />
-<link rel="apple-touch-icon" sizes="114x114"
-	href="../images/apple-touch-icon-114x114.png" />
+    <link rel="shortcut icon" href="../images/favicon.ico"/>
+    <link rel="apple-touch-icon" href="../images/apple-touch-icon.png"/>
+    <link rel="apple-touch-icon" sizes="72x72" href="../images/apple-touch-icon-72x72.png"/>
+    <link rel="apple-touch-icon" sizes="114x114" href="../images/apple-touch-icon-114x114.png"/>
 </head>
 <body>
 
-	<div class="navbar navbar-fixed-top">
-		<div class="navbar-inner">
-			<div class="container">
-				<a class="btn btn-navbar" data-toggle="collapse"
-					data-target=".nav-collapse"> <i class="icon-ellipsis-vertical"></i>
-				</a> <a class="brand" href="../index.html">API Documentation</a>
-
-				<div class="nav-collapse">
-					<ul class="nav pull-right">
-						<li class="dropdown" id="charts-menu"><a href="#"
-							class="dropdown-toggle" data-toggle="dropdown"> Charts <b
-								class="caret"></b>
-						</a>
-							<ul class="dropdown-menu">
-								<li><a href="../graphs/class.html"> <i
-										class="icon-list-alt"></i>&#160;Class hierarchy diagram
-								</a></li>
-							</ul></li>
-						<li class="dropdown" id="reports-menu"><a href="#"
-							class="dropdown-toggle" data-toggle="dropdown"> Reports <b
-								class="caret"></b>
-						</a>
-							<ul class="dropdown-menu">
-								<li><a href="../reports/errors.html"> <<<<<<< HEAD
-										<<<<<<< develop <<<<<<< develop <<<<<<< Updated upstream <i
-										class="icon-list-alt"></i>&#160;Errors <span
-										class="label label-info pull-right">98</span> ======= <i
-										class="icon-list-alt"></i>&#160;Errors <span
-										class="label label-info pull-right">139</span> >>>>>>> Stashed
-										changes ======= <i class="icon-list-alt"></i>&#160;Errors <span
-										class="label label-info pull-right">140</span> >>>>>>> F_C-002
-										======= <i class="icon-list-alt"></i>&#160;Errors <span
-										class="label label-info pull-right">139</span> >>>>>>> BS-004
-										======= <i class="icon-list-alt"></i>&#160;Errors <span
-										class="label label-info pull-right">139</span> >>>>>>> ABM-006
-								</a></li>
-								<li><a href="../reports/markers.html"> <i
-										class="icon-list-alt"></i>&#160;Markers <span
-										class="label label-info pull-right">91</span>
-								</a></li>
-								<li><a href="../reports/deprecated.html"> <i
-										class="icon-list-alt"></i>&#160;Deprecated <span
-										class="label label-info pull-right">35</span>
-								</a></li>
-							</ul></li>
-					</ul>
-				</div>
-			</div>
-		</div>
-		<!--<div class="go_to_top">-->
-		<!--<a href="#___" style="color: inherit">Back to top&#160;&#160;<i class="icon-upload icon-white"></i></a>-->
-		<!--</div>-->
-	</div>
-
-	<div id="___" class="container-fluid">
-		<section class="row-fluid">
-			<div class="span2 sidebar">
-				<div class="accordion" style="margin-bottom: 0">
-					<div class="accordion-group">
-						<div class="accordion-heading">
-							<<<<<<< HEAD <<<<<<< develop <<<<<<< develop <<<<<<< Updated
-							upstream <a class="accordion-toggle " data-toggle="collapse"
-								data-target="#namespace-1949620352"></a> <a
-								href="../namespaces/default.html"
-								style="margin-left: 30px; padding-left: 0">\</a>
-						</div>
-						<div id="namespace-1949620352" class="accordion-body collapse in">
-							======= <a class="accordion-toggle " data-toggle="collapse"
-								data-target="#namespace-834614047"></a> <a
-								href="../namespaces/default.html"
-								style="margin-left: 30px; padding-left: 0">\</a>
-						</div>
-						<div id="namespace-834614047" class="accordion-body collapse in">
-							>>>>>>> Stashed changes ======= <a class="accordion-toggle "
-								data-toggle="collapse" data-target="#namespace-1564782566"></a>
-							<a href="../namespaces/default.html"
-								style="margin-left: 30px; padding-left: 0">\</a>
-						</div>
-						<div id="namespace-1564782566" class="accordion-body collapse in">
-							>>>>>>> F_C-002 ======= <a class="accordion-toggle "
-								data-toggle="collapse" data-target="#namespace-834614047"></a> <a
-								href="../namespaces/default.html"
-								style="margin-left: 30px; padding-left: 0">\</a>
-						</div>
-						<div id="namespace-834614047" class="accordion-body collapse in">
-							>>>>>>> BS-004 ======= <a class="accordion-toggle "
-								data-toggle="collapse" data-target="#namespace-834614047"></a> <a
-								href="../namespaces/default.html"
-								style="margin-left: 30px; padding-left: 0">\</a>
-						</div>
-						<div id="namespace-834614047" class="accordion-body collapse in">
-							>>>>>>> ABM-006
-							<div class="accordion-inner">
-
-
-								<ul>
-									<li class="class"><a href="../classes/Campos_bit.html">Campos_bit</a></li>
-									<li class="class"><a href="../classes/Campos_combo.html">Campos_combo</a></li>
-									<li class="class"><a href="../classes/Campos_dbCombo.html">Campos_dbCombo</a></li>
-									<li class="class"><a href="../classes/Campos_fecha.html">Campos_fecha</a></li>
-									<li class="class"><a href="../classes/Campos_moneda.html">Campos_moneda</a></li>
-									<li class="class"><a href="../classes/Campos_numero.html">Campos_numero</a></li>
-									<li class="class"><a
-										href="../classes/Campos_password.html">Campos_password</a></li>
-									<li class="class"><a href="../classes/Campos_rownum.html">Campos_rownum</a></li>
-									<li class="class"><a
-										href="../classes/Campos_textarea.html">Campos_textarea</a></li>
-									<li class="class"><a href="../classes/Campos_texto.html">Campos_texto</a></li>
-									<li class="class"><a href="../classes/Campos_upload.html">Campos_upload</a></li>
-									<li class="class"><a href="../classes/class_abm.html">class_abm</a></li>
-									<li class="class"><a href="../classes/class_abm.html">class_abm</a></li>
-									<li class="class"><a href="../classes/class_campo.html">class_campo</a></li>
-									<li class="class"><a href="../classes/class_db.html">class_db</a></li>
-									<li class="class"><a
-										href="../classes/class_institucion.html">class_institucion</a></li>
-									<li class="class"><a href="../classes/class_orderby.html">class_orderby</a></li>
-									<li class="class"><a href="../classes/class_paginado.html">class_paginado</a></li>
-									<li class="class"><a href="../classes/class_persona.html">class_persona</a></li>
-									<li class="class"><a href="../classes/class_sitio.html">class_sitio</a></li>
-									<li class="class"><a href="../classes/consulta.html">consulta</a></li>
-									<li class="class"><a href="../classes/Fechas.html">Fechas</a></li>
-									<li class="class"><a href="../classes/Funciones.html">Funciones</a></li>
-									<li class="class"><a
-										href="../classes/FuncionesString.html">FuncionesString</a></li>
-									<li class="class"><a href="../classes/validar.html">validar</a></li>
-								</ul>
-							</div>
-						</div>
-					</div>
-				</div>
-
-			</div>
-		</section>
-		<section class="row-fluid">
-			<div class="span10 offset2">
-				<div class="row-fluid">
-					<div class="span8 content class">
-						<nav>
-							<a href="../namespaces/default.html">\</a> <i
-								class="icon-level-up"></i>
-						</nav>
-						<a href="#source-view" role="button" class="pull-right btn"
-							data-toggle="modal"><i class="icon-code"></i></a>
-
-						<h1>
-							<small>\</small>validar
-						</h1>
-						<p>
-							<em>Class para validar datos enviados por un formulario.</em>
-						</p>
-
-
-
-						<section id="summary">
-							<h2>Summary</h2>
-							<section class="row-fluid heading">
-								<section class="span4">
-									<a href="#methods">Methods</a>
-								</section>
-								<section class="span4">
-									<a href="#properties">Properties</a>
-								</section>
-								<section class="span4">
-									<a href="#constants">Constants</a>
-								</section>
-							</section>
-							<section class="row-fluid public">
-								<section class="span4">
-									<a href="../classes/validar.html#method_ocurrieronErrores"
-										class="">ocurrieronErrores()</a><br /> <a
-										href="../classes/validar.html#method_agregarError" class="">agregarError()</a><br />
-									<a href="../classes/validar.html#method_validarCampoForm"
-										class="">validarCampoForm()</a><br /> <a
-										href="../classes/validar.html#method_comparar" class="">comparar()</a><br />
-									<a href="../classes/validar.html#method_rango" class="">rango()</a><br />
-									<a href="../classes/validar.html#method_esAlfa" class="">esAlfa()</a><br />
-									<a href="../classes/validar.html#method_esAlfaNumerico"
-										class="">esAlfaNumerico()</a><br /> <a
-										href="../classes/validar.html#method_esAlfaNumericoAcentos"
-										class="">esAlfaNumericoAcentos()</a><br /> <a
-										href="../classes/validar.html#method_esStrClave" class="">esStrClave()</a><br />
-									<a href="../classes/validar.html#method_esEmail" class="">esEmail()</a><br />
-									<a href="../classes/validar.html#method_esURL" class="">esURL()</a><br />
-								</section>
-								<section class="span4">
-									<a href="../classes/validar.html#property_errores" class="">$errores</a><br />
-									<a href="../classes/validar.html#property_separador" class="">$separador</a><br />
-									<a href="../classes/validar.html#property_textoErroresEnHTML"
-										class="">$textoErroresEnHTML</a><br /> <a
-										href="../classes/validar.html#property_unErrorPorVez" class="">$unErrorPorVez</a><br />
-								</section>
-								<section class="span4">
-									<em>No constants found</em>
-								</section>
-							</section>
-							<section class="row-fluid protected">
-								<section class="span4">
-									<em>No protected methods found</em>
-								</section>
-								<section class="span4">
-									<em>No protected properties found</em>
-								</section>
-								<section class="span4">
-									<em>N/A</em>
-								</section>
-							</section>
-							<section class="row-fluid private">
-								<section class="span4">
-									<a href="../classes/validar.html#method_verificarLargo"
-										class="">verificarLargo()</a><br /> <a
-										href="../classes/validar.html#method_formatearNombreCampo"
-										class="">formatearNombreCampo()</a><br />
-								</section>
-								<section class="span4">
-									<a
-										href="../classes/validar.html#property_txtElCampoNoPuedeEstarVacio"
-										class="">$txtElCampoNoPuedeEstarVacio</a><br /> <a
-										href="../classes/validar.html#property_txtVerifiqueElCampo"
-										class="">$txtVerifiqueElCampo</a><br /> <a
-										href="../classes/validar.html#property_txtElCampoDebeContenerSoloLetras"
-										class="">$txtElCampoDebeContenerSoloLetras</a><br /> <a
-										href="../classes/validar.html#property_txtElCampoDebeSerAlfanumerico"
-										class="">$txtElCampoDebeSerAlfanumerico</a><br /> <a
-										href="../classes/validar.html#property_txtElCampoDebeSerNumerico"
-										class="">$txtElCampoDebeSerNumerico</a><br /> <a
-										href="../classes/validar.html#property_txtElCampoDebeTenerAlMenos"
-										class="">$txtElCampoDebeTenerAlMenos</a><br /> <a
-										href="../classes/validar.html#property_txtElCampoDebeTenerEntreYEntre"
-										class="">$txtElCampoDebeTenerEntreYEntre</a><br /> <a
-										href="../classes/validar.html#property_txtElCampoDebeSerEntreYEntre"
-										class="">$txtElCampoDebeSerEntreYEntre</a><br />
-								</section>
-								<section class="span4">
-									<em>N/A</em>
-								</section>
-							</section>
-						</section>
-					</div>
-					<aside class="span4 detailsbar">
-
-
-						<dl>
-							<dt>File</dt>
-							<dd>
-								<a href="../files/class_validar.html"><div
-										class="path-wrapper">class_validar.php</div></a>
-							</dd>
-							<dt>Package</dt>
-							<dd>
-								<div class="namespace-wrapper">Default</div>
-							</dd>
-							<dt>Class hierarchy</dt>
-							<dd class="hierarchy">
-								<div class="namespace-wrapper">\validar</div>
-							</dd>
-
-
-
-
-
-						</dl>
-						<h2>Tags</h2>
-						<table class="table table-condensed">
-							<tr>
-								<th>name</th>
-								<td>
-									<p>validar</p>
-								</td>
-							</tr>
-							<tr>
-								<th>author</th>
-								<td>
-									<p>iberlot &lt;@&gt; iberlot@usal.edu.ar</p>
-									<p>Andres Carizza</p>
-								</td>
-							</tr>
-							<tr>
-								<th>version</th>
-								<td>
-									<ul>
-										<li>Correcciones de codigo optimizacion y comnetado.</li>
-									</ul>
-
-								</td>
-							</tr>
-							<tr>
-								<th>todo</th>
-								<td>
-									<p>$validador = new validar();
-										$validador-&gt;validarCampoForm(&quot;usuario&quot;,
-										&quot;strClave&quot;, &quot;Verifique el campo Usuario. Debe
-										ser solo letras y numeros (se permite usar ._)&quot;,
-										&quot;Usuario&quot;, 2, 20);
-										$validador-&gt;validarCampoForm(&quot;pass&quot;,
-										&quot;&quot;, &quot;&quot;, &quot;Contrasena&quot;, 4, 20);
-										$validador-&gt;comparar(&quot;pass&quot;, &quot;pass2&quot;,
-										&quot;Las contrasenas no coinciden&quot;);
-										$validador-&gt;validarCampoForm(&quot;email&quot;,
-										&quot;email&quot;);
-										$validador-&gt;validarCampoForm(&quot;nombre&quot;,
-										&quot;&quot;, &quot;&quot;, &quot;&quot;, 1, 50);
-										$validador-&gt;validarCampoForm(&quot;apellido&quot;,
-										&quot;&quot;, &quot;&quot;, &quot;&quot;, 1, 50);
-										$validador-&gt;rango(&quot;edad&quot;, 18, 100);
-										if($_REQUEST[aceptaTerminos]!=&quot;1&quot;)
-										$validador-&gt;agregarError(&quot;Debe aceptar los terminos y
-										condiciones&quot;);</p>
-								</td>
-							</tr>
-						</table>
-					</aside>
-				</div>
-
-
-				<a id="properties" name="properties"></a>
-				<div class="row-fluid">
-					<div class="span8 content class">
-						<h2>Properties</h2>
-					</div>
-					<aside class="span4 detailsbar"></aside>
-				</div>
-
-				<div class="row-fluid">
-					<div class="span8 content class">
-						<a id="property_errores" name="property_errores" class="anchor"></a>
-						<article class="property">
-							<h3 class="public ">$errores</h3>
-							<pre class="signature">$errores : </pre>
-							<p>
-								<em>Descripcion de los errores de validaciï¿½n para
-									imprimir en pantalla</em>
-							</p>
-
-
-							<h4>Type</h4>
-
-						</article>
-					</div>
-					<aside class="span4 detailsbar">
-						<h1>
-							<i class="icon-arrow-down"></i>
-						</h1>
-						<dl>
-						</dl>
-						<h2>Tags</h2>
-						<table class="table table-condensed">
-							<tr>
-								<td colspan="2"><em>None found</em></td>
-							</tr>
-						</table>
-					</aside>
-				</div>
-
-				<div class="row-fluid">
-					<div class="span8 content class">
-						<a id="property_separador" name="property_separador"
-							class="anchor"></a>
-						<article class="property">
-							<h3 class="public ">$separador</h3>
-							<pre class="signature">$separador : </pre>
-							<p>
-								<em>Separador al principio de cada error de la lista que
-									imprime si hay errores (por defecto *)</em>
-							</p>
-
-
-							<h4>Type</h4>
-
-						</article>
-					</div>
-					<aside class="span4 detailsbar">
-						<h1>
-							<i class="icon-arrow-down"></i>
-						</h1>
-						<dl>
-						</dl>
-						<h2>Tags</h2>
-						<table class="table table-condensed">
-							<tr>
-								<td colspan="2"><em>None found</em></td>
-							</tr>
-						</table>
-					</aside>
-				</div>
-
-				<div class="row-fluid">
-					<div class="span8 content class">
-						<a id="property_textoErroresEnHTML"
-							name="property_textoErroresEnHTML" class="anchor"></a>
-						<article class="property">
-							<h3 class="public ">$textoErroresEnHTML</h3>
-							<pre class="signature">$textoErroresEnHTML : </pre>
-							<p>
-								<em>Usar HTML en el texto de salida de los errores, de lo
-									contrario es texto plano</em>
-							</p>
-
-
-							<h4>Type</h4>
-
-						</article>
-					</div>
-					<aside class="span4 detailsbar">
-						<h1>
-							<i class="icon-arrow-down"></i>
-						</h1>
-						<dl>
-						</dl>
-						<h2>Tags</h2>
-						<table class="table table-condensed">
-							<tr>
-								<td colspan="2"><em>None found</em></td>
-							</tr>
-						</table>
-					</aside>
-				</div>
-
-				<div class="row-fluid">
-					<div class="span8 content class">
-						<a id="property_unErrorPorVez" name="property_unErrorPorVez"
-							class="anchor"></a>
-						<article class="property">
-							<h3 class="public ">$unErrorPorVez</h3>
-							<pre class="signature">$unErrorPorVez : </pre>
-							<p>
-								<em>Retorna solo el primer error en vez de mostrar una
-									lista con todos los errores</em>
-							</p>
-
-
-							<h4>Type</h4>
-
-						</article>
-					</div>
-					<aside class="span4 detailsbar">
-						<h1>
-							<i class="icon-arrow-down"></i>
-						</h1>
-						<dl>
-						</dl>
-						<h2>Tags</h2>
-						<table class="table table-condensed">
-							<tr>
-								<td colspan="2"><em>None found</em></td>
-							</tr>
-						</table>
-					</aside>
-				</div>
-
-				<div class="row-fluid">
-					<div class="span8 content class">
-						<a id="property_txtElCampoNoPuedeEstarVacio"
-							name="property_txtElCampoNoPuedeEstarVacio" class="anchor"></a>
-						<article class="property">
-							<h3 class="private ">$txtElCampoNoPuedeEstarVacio</h3>
-							<pre class="signature">$txtElCampoNoPuedeEstarVacio : string</pre>
-							<p>
-								<em>Texto para errores de campo obligatorio vasio</em>
-							</p>
-
-
-							<h4>Type</h4>
-							string
-						</article>
-					</div>
-					<aside class="span4 detailsbar">
-						<h1>
-							<i class="icon-arrow-down"></i>
-						</h1>
-						<dl>
-						</dl>
-						<h2>Tags</h2>
-						<table class="table table-condensed">
-							<tr>
-								<td colspan="2"><em>None found</em></td>
-							</tr>
-						</table>
-					</aside>
-				</div>
-
-				<div class="row-fluid">
-					<div class="span8 content class">
-						<a id="property_txtVerifiqueElCampo"
-							name="property_txtVerifiqueElCampo" class="anchor"></a>
-						<article class="property">
-							<h3 class="private ">$txtVerifiqueElCampo</h3>
-							<pre class="signature">$txtVerifiqueElCampo : string</pre>
-							<p>
-								<em>Texto para errores varios</em>
-							</p>
-
-
-							<h4>Type</h4>
-							string
-						</article>
-					</div>
-					<aside class="span4 detailsbar">
-						<h1>
-							<i class="icon-arrow-down"></i>
-						</h1>
-						<dl>
-						</dl>
-						<h2>Tags</h2>
-						<table class="table table-condensed">
-							<tr>
-								<td colspan="2"><em>None found</em></td>
-							</tr>
-						</table>
-					</aside>
-				</div>
-
-				<div class="row-fluid">
-					<div class="span8 content class">
-						<a id="property_txtElCampoDebeContenerSoloLetras"
-							name="property_txtElCampoDebeContenerSoloLetras" class="anchor"></a>
-						<article class="property">
-							<h3 class="private ">$txtElCampoDebeContenerSoloLetras</h3>
-							<pre class="signature">$txtElCampoDebeContenerSoloLetras : string</pre>
-							<p>
-								<em>Texto para errores de campos de texto que solo pueden
-									contener letras</em>
-							</p>
-
-
-							<h4>Type</h4>
-							string
-						</article>
-					</div>
-					<aside class="span4 detailsbar">
-						<h1>
-							<i class="icon-arrow-down"></i>
-						</h1>
-						<dl>
-						</dl>
-						<h2>Tags</h2>
-						<table class="table table-condensed">
-							<tr>
-								<td colspan="2"><em>None found</em></td>
-							</tr>
-						</table>
-					</aside>
-				</div>
-
-				<div class="row-fluid">
-					<div class="span8 content class">
-						<a id="property_txtElCampoDebeSerAlfanumerico"
-							name="property_txtElCampoDebeSerAlfanumerico" class="anchor"></a>
-						<article class="property">
-							<h3 class="private ">$txtElCampoDebeSerAlfanumerico</h3>
-							<pre class="signature">$txtElCampoDebeSerAlfanumerico : string</pre>
-							<p>
-								<em>Texto para errores de campos de texto que solo pueden
-									ser alfanumericos</em>
-							</p>
-
-
-							<h4>Type</h4>
-							string
-						</article>
-					</div>
-					<aside class="span4 detailsbar">
-						<h1>
-							<i class="icon-arrow-down"></i>
-						</h1>
-						<dl>
-						</dl>
-						<h2>Tags</h2>
-						<table class="table table-condensed">
-							<tr>
-								<td colspan="2"><em>None found</em></td>
-							</tr>
-						</table>
-					</aside>
-				</div>
-
-				<div class="row-fluid">
-					<div class="span8 content class">
-						<a id="property_txtElCampoDebeSerNumerico"
-							name="property_txtElCampoDebeSerNumerico" class="anchor"></a>
-						<article class="property">
-							<h3 class="private ">$txtElCampoDebeSerNumerico</h3>
-							<pre class="signature">$txtElCampoDebeSerNumerico : string</pre>
-							<p>
-								<em>Texto para errores de campos de numericos.</em>
-							</p>
-
-
-							<h4>Type</h4>
-							string
-						</article>
-					</div>
-					<aside class="span4 detailsbar">
-						<h1>
-							<i class="icon-arrow-down"></i>
-						</h1>
-						<dl>
-						</dl>
-						<h2>Tags</h2>
-						<table class="table table-condensed">
-							<tr>
-								<td colspan="2"><em>None found</em></td>
-							</tr>
-						</table>
-					</aside>
-				</div>
-
-				<div class="row-fluid">
-					<div class="span8 content class">
-						<a id="property_txtElCampoDebeTenerAlMenos"
-							name="property_txtElCampoDebeTenerAlMenos" class="anchor"></a>
-						<article class="property">
-							<h3 class="private ">$txtElCampoDebeTenerAlMenos</h3>
-							<pre class="signature">$txtElCampoDebeTenerAlMenos : string</pre>
-							<p>
-								<em>Texto para errores de cantidad minima de caracteres.</em>
-							</p>
-
-
-							<h4>Type</h4>
-							string
-						</article>
-					</div>
-					<aside class="span4 detailsbar">
-						<h1>
-							<i class="icon-arrow-down"></i>
-						</h1>
-						<dl>
-						</dl>
-						<h2>Tags</h2>
-						<table class="table table-condensed">
-							<tr>
-								<td colspan="2"><em>None found</em></td>
-							</tr>
-						</table>
-					</aside>
-				</div>
-
-				<div class="row-fluid">
-					<div class="span8 content class">
-						<a id="property_txtElCampoDebeTenerEntreYEntre"
-							name="property_txtElCampoDebeTenerEntreYEntre" class="anchor"></a>
-						<article class="property">
-							<h3 class="private ">$txtElCampoDebeTenerEntreYEntre</h3>
-							<pre class="signature">$txtElCampoDebeTenerEntreYEntre : string</pre>
-							<p>
-								<em>Texto para errores de valores entre.</em>
-							</p>
-
-
-							<h4>Type</h4>
-							string
-						</article>
-					</div>
-					<aside class="span4 detailsbar">
-						<h1>
-							<i class="icon-arrow-down"></i>
-						</h1>
-						<dl>
-						</dl>
-						<h2>Tags</h2>
-						<table class="table table-condensed">
-							<tr>
-								<td colspan="2"><em>None found</em></td>
-							</tr>
-						</table>
-					</aside>
-				</div>
-
-				<div class="row-fluid">
-					<div class="span8 content class">
-						<a id="property_txtElCampoDebeSerEntreYEntre"
-							name="property_txtElCampoDebeSerEntreYEntre" class="anchor"></a>
-						<article class="property">
-							<h3 class="private ">$txtElCampoDebeSerEntreYEntre</h3>
-							<pre class="signature">$txtElCampoDebeSerEntreYEntre : string</pre>
-							<p>
-								<em>Texto para errores de valores entre.</em>
-							</p>
-
-
-							<h4>Type</h4>
-							string
-						</article>
-					</div>
-					<aside class="span4 detailsbar">
-						<h1>
-							<i class="icon-arrow-down"></i>
-						</h1>
-						<dl>
-						</dl>
-						<h2>Tags</h2>
-						<table class="table table-condensed">
-							<tr>
-								<td colspan="2"><em>None found</em></td>
-							</tr>
-						</table>
-					</aside>
-				</div>
-
-
-				<a id="methods" name="methods"></a>
-				<div class="row-fluid">
-					<div class="span8 content class">
-						<h2>Methods</h2>
-					</div>
-					<aside class="span4 detailsbar"></aside>
-				</div>
-
-				<div class="row-fluid">
-					<div class="span8 content class">
-						<a id="method_ocurrieronErrores" name="method_ocurrieronErrores"
-							class="anchor"></a>
-						<article class="method">
-							<h3 class="public ">ocurrieronErrores()</h3>
-							<a href="#source-view" role="button" class="pull-right btn"
-								data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i
-								class="icon-code"></i></a>
-							<pre class="signature" style="margin-right: 54px;">ocurrieronErrores() : boolean</pre>
-							<p>
-								<em>Retorna true si ocurrieron errores (si algun campo no
-									paso la validacion)</em>
-							</p>
-
-
-
-
-							<h4>Returns</h4>
-							boolean
-
-						</article>
-					</div>
-					<aside class="span4 detailsbar">
-						<h1>
-							<i class="icon-arrow-down"></i>
-						</h1>
-						<dl>
-						</dl>
-						<h2>Tags</h2>
-						<table class="table table-condensed">
-							<tr>
-								<td colspan="2"><em>None found</em></td>
-							</tr>
-						</table>
-					</aside>
-				</div>
-
-				<div class="row-fluid">
-					<div class="span8 content class">
-						<a id="method_agregarError" name="method_agregarError"
-							class="anchor"></a>
-						<article class="method">
-							<h3 class="public ">agregarError()</h3>
-							<a href="#source-view" role="button" class="pull-right btn"
-								data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i
-								class="icon-code"></i></a>
-							<pre class="signature" style="margin-right: 54px;">agregarError(string  <span
-									class="argument">$msgError</span>, string  <span
-									class="argument">$campo = &quot;&quot;</span>, string  <span
-									class="argument">$textoCampo = &quot;&quot;</span>) </pre>
-							<p>
-								<em>Agrega un error en $errores para mostrarlo.</em>
-							</p>
-
-
-							<h4>Parameters</h4>
-							<table class="table table-condensed table-hover">
-								<tr>
-									<td>string</td>
-									<td>$msgError</td>
-									<td></td>
-								</tr>
-								<tr>
-									<td>string</td>
-									<td>$campo</td>
-									<td></td>
-								</tr>
-								<tr>
-									<td>string</td>
-									<td>$textoCampo</td>
-									<td></td>
-								</tr>
-							</table>
-
-
-
-						</article>
-					</div>
-					<aside class="span4 detailsbar">
-						<h1>
-							<i class="icon-arrow-down"></i>
-						</h1>
-						<dl>
-						</dl>
-						<h2>Tags</h2>
-						<table class="table table-condensed">
-							<tr>
-								<td colspan="2"><em>None found</em></td>
-							</tr>
-						</table>
-					</aside>
-				</div>
-
-				<div class="row-fluid">
-					<div class="span8 content class">
-						<a id="method_validarCampoForm" name="method_validarCampoForm"
-							class="anchor"></a>
-						<article class="method">
-							<h3 class="public ">validarCampoForm()</h3>
-							<a href="#source-view" role="button" class="pull-right btn"
-								data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i
-								class="icon-code"></i></a>
-							<pre class="signature" style="margin-right: 54px;">validarCampoForm(String  <span
-									class="argument">$campo</span>, String  <span class="argument">$tipoDeValidacion = &quot;&quot;</span>, String  <span
-									class="argument">$msgError = &quot;&quot;</span>, String  <span
-									class="argument">$textoCampo = &quot;&quot;</span>, Integer  <span
-									class="argument">$minimoLargo</span>, Integer  <span
-									class="argument">$maximoLargo</span>) </pre>
-							<p>
-								<em>Valida un campo de un formulario y si hay error lo
-									agrega al $errores</em>
-							</p>
-
-
-							<h4>Parameters</h4>
-							<table class="table table-condensed table-hover">
-								<tr>
-									<td>String</td>
-									<td>$campo</td>
-									<td><p>Nombre del campo a verificar (debe encontrarse
-											en $_REQUEST)</p></td>
-								</tr>
-								<tr>
-									<td>String</td>
-									<td>$tipoDeValidacion</td>
-									<td><p>Tipo de verificacion a realizar: email, alfa,
-											alfanumerico, strClave, email, url, numero o mandar vacio
-											para verificar que no sea un string vacio</p></td>
-								</tr>
-								<tr>
-									<td>String</td>
-									<td>$msgError</td>
-									<td><p>Mensaje de error que debe mostrar para ese
-											campo</p></td>
-								</tr>
-								<tr>
-									<td>String</td>
-									<td>$textoCampo</td>
-									<td><p>Nombre textual del campo (ej: Tu email)</p></td>
-								</tr>
-								<tr>
-									<td>Integer</td>
-									<td>$minimoLargo</td>
-									<td><p>Minimo de largo para strings</p></td>
-								</tr>
-								<tr>
-									<td>Integer</td>
-									<td>$maximoLargo</td>
-									<td><p>Maximo de largo para strings</p></td>
-								</tr>
-							</table>
-
-
-
-						</article>
-					</div>
-					<aside class="span4 detailsbar">
-						<h1>
-							<i class="icon-arrow-down"></i>
-						</h1>
-						<dl>
-						</dl>
-						<h2>Tags</h2>
-						<table class="table table-condensed">
-							<tr>
-								<td colspan="2"><em>None found</em></td>
-							</tr>
-						</table>
-					</aside>
-				</div>
-
-				<div class="row-fluid">
-					<div class="span8 content class">
-						<a id="method_comparar" name="method_comparar" class="anchor"></a>
-						<article class="method">
-							<h3 class="public ">comparar()</h3>
-							<a href="#source-view" role="button" class="pull-right btn"
-								data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i
-								class="icon-code"></i></a>
-							<pre class="signature" style="margin-right: 54px;">comparar(string  <span
-									class="argument">$value1</span>, string  <span class="argument">$value2</span>, string  <span
-									class="argument">$msgError</span>, boolean  <span
-									class="argument">$caseSensitive = false</span>) </pre>
-							<p>
-								<em>Comparar si dos campos son iguales</em>
-							</p>
-
-
-							<h4>Parameters</h4>
-							<table class="table table-condensed table-hover">
-								<tr>
-									<td>string</td>
-									<td>$value1</td>
-									<td><p>First value to compare</p></td>
-								</tr>
-								<tr>
-									<td>string</td>
-									<td>$value2</td>
-									<td><p>Second value to compare</p></td>
-								</tr>
-								<tr>
-									<td>string</td>
-									<td>$msgError</td>
-									<td><p>Mensaje de error que debe mostrar para ese
-											campo</p></td>
-								</tr>
-								<tr>
-									<td>boolean</td>
-									<td>$caseSensitive</td>
-									<td><p>[Optional] TRUE if compare is case sensitive</p></td>
-								</tr>
-							</table>
-
-
-
-						</article>
-					</div>
-					<aside class="span4 detailsbar">
-						<h1>
-							<i class="icon-arrow-down"></i>
-						</h1>
-						<dl>
-						</dl>
-						<h2>Tags</h2>
-						<table class="table table-condensed">
-							<tr>
-								<td colspan="2"><em>None found</em></td>
-							</tr>
-						</table>
-					</aside>
-				</div>
-
-				<div class="row-fluid">
-					<div class="span8 content class">
-						<a id="method_rango" name="method_rango" class="anchor"></a>
-						<article class="method">
-							<h3 class="public ">rango()</h3>
-							<a href="#source-view" role="button" class="pull-right btn"
-								data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i
-								class="icon-code"></i></a>
-							<pre class="signature" style="margin-right: 54px;">rango(String  <span
-									class="argument">$campo</span>, Integer  <span class="argument">$minimo</span>, Integer  <span
-									class="argument">$maximo</span>, String  <span class="argument">$textoCampo = &quot;&quot;</span>, String  <span
-									class="argument">$msgError = &quot;&quot;</span>) </pre>
-							<p>
-								<em>Verifica que un campo numerico este entre un
-									determinado rango</em>
-							</p>
-
-
-							<h4>Parameters</h4>
-							<table class="table table-condensed table-hover">
-								<tr>
-									<td>String</td>
-									<td>$campo</td>
-									<td><p>Nombre del campo a verificar (debe encontrarse
-											en $_REQUEST)</p></td>
-								</tr>
-								<tr>
-									<td>Integer</td>
-									<td>$minimo</td>
-									<td></td>
-								</tr>
-								<tr>
-									<td>Integer</td>
-									<td>$maximo</td>
-									<td></td>
-								</tr>
-								<tr>
-									<td>String</td>
-									<td>$textoCampo</td>
-									<td><p>Nombre textual del campo (ej: Tu email)</p></td>
-								</tr>
-								<tr>
-									<td>String</td>
-									<td>$msgError</td>
-									<td><p>Mensaje de error que debe mostrar para ese
-											campo</p></td>
-								</tr>
-							</table>
-
-
-
-						</article>
-					</div>
-					<aside class="span4 detailsbar">
-						<h1>
-							<i class="icon-arrow-down"></i>
-						</h1>
-						<dl>
-						</dl>
-						<h2>Tags</h2>
-						<table class="table table-condensed">
-							<tr>
-								<td colspan="2"><em>None found</em></td>
-							</tr>
-						</table>
-					</aside>
-				</div>
-
-				<div class="row-fluid">
-					<div class="span8 content class">
-						<a id="method_esAlfa" name="method_esAlfa" class="anchor"></a>
-						<article class="method">
-							<h3 class="public ">esAlfa()</h3>
-							<a href="#source-view" role="button" class="pull-right btn"
-								data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i
-								class="icon-code"></i></a>
-							<pre class="signature" style="margin-right: 54px;">esAlfa(string  <span
-									class="argument">$value</span>, string  <span class="argument">$allow = &#039;&#039;</span>) : boolean</pre>
-							<p>
-								<em>Determines if a string is alpha only</em>
-							</p>
-
-
-							<h4>Parameters</h4>
-							<table class="table table-condensed table-hover">
-								<tr>
-									<td>string</td>
-									<td>$value</td>
-									<td><p>The value to check for alpha (letters) only</p></td>
-								</tr>
-								<tr>
-									<td>string</td>
-									<td>$allow</td>
-									<td><p>Any additional allowable characters</p></td>
-								</tr>
-							</table>
-
-
-							<h4>Returns</h4>
-							boolean
-
-						</article>
-					</div>
-					<aside class="span4 detailsbar">
-						<h1>
-							<i class="icon-arrow-down"></i>
-						</h1>
-						<span class="label label-info">static</span>
-						<dl>
-						</dl>
-						<h2>Tags</h2>
-						<table class="table table-condensed">
-							<tr>
-								<td colspan="2"><em>None found</em></td>
-							</tr>
-						</table>
-					</aside>
-				</div>
-
-				<div class="row-fluid">
-					<div class="span8 content class">
-						<a id="method_esAlfaNumerico" name="method_esAlfaNumerico"
-							class="anchor"></a>
-						<article class="method">
-							<h3 class="public ">esAlfaNumerico()</h3>
-							<a href="#source-view" role="button" class="pull-right btn"
-								data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i
-								class="icon-code"></i></a>
-							<pre class="signature" style="margin-right: 54px;">esAlfaNumerico(string  <span
-									class="argument">$value</span>) : boolean</pre>
-							<p>
-								<em>Determines if a string is alpha-numeric</em>
-							</p>
-
-
-							<h4>Parameters</h4>
-							<table class="table table-condensed table-hover">
-								<tr>
-									<td>string</td>
-									<td>$value</td>
-									<td><p>The value to check</p></td>
-								</tr>
-							</table>
-
-
-							<h4>Returns</h4>
-							boolean &mdash;
-							<p>TRUE if there are letters and numbers, FALSE if other</p>
-
-						</article>
-					</div>
-					<aside class="span4 detailsbar">
-						<h1>
-							<i class="icon-arrow-down"></i>
-						</h1>
-						<span class="label label-info">static</span>
-						<dl>
-						</dl>
-						<h2>Tags</h2>
-						<table class="table table-condensed">
-							<tr>
-								<td colspan="2"><em>None found</em></td>
-							</tr>
-						</table>
-					</aside>
-				</div>
-
-				<div class="row-fluid">
-					<div class="span8 content class">
-						<a id="method_esAlfaNumericoAcentos"
-							name="method_esAlfaNumericoAcentos" class="anchor"></a>
-						<article class="method">
-							<h3 class="public ">esAlfaNumericoAcentos()</h3>
-							<a href="#source-view" role="button" class="pull-right btn"
-								data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i
-								class="icon-code"></i></a>
-							<pre class="signature" style="margin-right: 54px;">esAlfaNumericoAcentos(string  <span
-									class="argument">$value</span>) : boolean</pre>
-							<p>
-								<em>Determines if a string is alpha-numeric with acentos</em>
-							</p>
-
-
-							<h4>Parameters</h4>
-							<table class="table table-condensed table-hover">
-								<tr>
-									<td>string</td>
-									<td>$value</td>
-									<td><p>The value to check</p></td>
-								</tr>
-							</table>
-
-
-							<h4>Returns</h4>
-							boolean &mdash;
-							<p>TRUE if there are letters and numbers, FALSE if other</p>
-
-						</article>
-					</div>
-					<aside class="span4 detailsbar">
-						<h1>
-							<i class="icon-arrow-down"></i>
-						</h1>
-						<span class="label label-info">static</span>
-						<dl>
-						</dl>
-						<h2>Tags</h2>
-						<table class="table table-condensed">
-							<tr>
-								<td colspan="2"><em>None found</em></td>
-							</tr>
-						</table>
-					</aside>
-				</div>
-
-				<div class="row-fluid">
-					<div class="span8 content class">
-						<a id="method_esStrClave" name="method_esStrClave" class="anchor"></a>
-						<article class="method">
-							<h3 class="public ">esStrClave()</h3>
-							<a href="#source-view" role="button" class="pull-right btn"
-								data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i
-								class="icon-code"></i></a>
-							<pre class="signature" style="margin-right: 54px;">esStrClave(String  <span
-									class="argument">$str</span>) : Boolean</pre>
-							<p>
-								<em>Retorna true si $str es una cadena de caracteres de
-									letras numeros o caracteres - _ .</em>
-							</p>
-							<p>Esta pensada para usar para comprobar nombres de usuario
-								que tengan caracteres validos</p>
-
-							<h4>Parameters</h4>
-							<table class="table table-condensed table-hover">
-								<tr>
-									<td>String</td>
-									<td>$str</td>
-									<td></td>
-								</tr>
-							</table>
-
-
-							<h4>Returns</h4>
-							Boolean
-
-						</article>
-					</div>
-					<aside class="span4 detailsbar">
-						<h1>
-							<i class="icon-arrow-down"></i>
-						</h1>
-						<span class="label label-info">static</span>
-						<dl>
-						</dl>
-						<h2>Tags</h2>
-						<table class="table table-condensed">
-							<tr>
-								<td colspan="2"><em>None found</em></td>
-							</tr>
-						</table>
-					</aside>
-				</div>
-
-				<div class="row-fluid">
-					<div class="span8 content class">
-						<a id="method_esEmail" name="method_esEmail" class="anchor"></a>
-						<article class="method">
-							<h3 class="public ">esEmail()</h3>
-							<a href="#source-view" role="button" class="pull-right btn"
-								data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i
-								class="icon-code"></i></a>
-							<pre class="signature" style="margin-right: 54px;">esEmail(String  <span
-									class="argument">$email</span>, Boolean  <span class="argument">$test_mx = false</span>) </pre>
-							<p>
-								<em>Verifica si un email tiene formato valido y
-									opcionalmente verifica los registros MX del dominio tambien</em>
-							</p>
-
-
-							<h4>Parameters</h4>
-							<table class="table table-condensed table-hover">
-								<tr>
-									<td>String</td>
-									<td>$email</td>
-									<td></td>
-								</tr>
-								<tr>
-									<td>Boolean</td>
-									<td>$test_mx</td>
-									<td><p>Verificar los registros MX del dominio</p></td>
-								</tr>
-							</table>
-
-
-
-						</article>
-					</div>
-					<aside class="span4 detailsbar">
-						<h1>
-							<i class="icon-arrow-down"></i>
-						</h1>
-						<span class="label label-info">static</span>
-						<dl>
-						</dl>
-						<h2>Tags</h2>
-						<table class="table table-condensed">
-							<tr>
-								<th>version</th>
-								<td>0.2
-									<ul>
-										<li>Se corrigio para que utilizara preg_match en vez de
-											eregi.</li>
-									</ul>
-								</td>
-							</tr>
-						</table>
-					</aside>
-				</div>
-
-				<div class="row-fluid">
-					<div class="span8 content class">
-						<a id="method_esURL" name="method_esURL" class="anchor"></a>
-						<article class="method">
-							<h3 class="public ">esURL()</h3>
-							<a href="#source-view" role="button" class="pull-right btn"
-								data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i
-								class="icon-code"></i></a>
-							<pre class="signature" style="margin-right: 54px;">esURL(string  <span
-									class="argument">$value</span>) : boolean</pre>
-							<p>
-								<em>Checks for a valid internet URL</em>
-							</p>
-
-
-							<h4>Parameters</h4>
-							<table class="table table-condensed table-hover">
-								<tr>
-									<td>string</td>
-									<td>$value</td>
-									<td><p>The value to check</p></td>
-								</tr>
-							</table>
-
-
-							<h4>Returns</h4>
-							boolean &mdash;
-							<p>TRUE if the value is a valid URL, FALSE if not</p>
-
-						</article>
-					</div>
-					<aside class="span4 detailsbar">
-						<h1>
-							<i class="icon-arrow-down"></i>
-						</h1>
-						<span class="label label-info">static</span>
-						<dl>
-						</dl>
-						<h2>Tags</h2>
-						<table class="table table-condensed">
-							<tr>
-								<td colspan="2"><em>None found</em></td>
-							</tr>
-						</table>
-					</aside>
-				</div>
-
-				<div class="row-fluid">
-					<div class="span8 content class">
-						<a id="method_verificarLargo" name="method_verificarLargo"
-							class="anchor"></a>
-						<article class="method">
-							<h3 class="private ">verificarLargo()</h3>
-							<a href="#source-view" role="button" class="pull-right btn"
-								data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i
-								class="icon-code"></i></a>
-							<pre class="signature" style="margin-right: 54px;">verificarLargo(string  <span
-									class="argument">$str</span>, integer  <span class="argument">$minimoLargo</span>, integer  <span
-									class="argument">$maximoLargo</span>, string  <span
-									class="argument">$campo</span>, string  <span class="argument">$textoCampo</span>) </pre>
-							<p>
-								<em>Comprueba el largo de un string.</em>
-							</p>
-							<p>Carga un mensaje en $agregarError en caso de que el strin
-								a comprobar sea 0, mayor al maximo o menor al minimo.</p>
-
-							<h4>Parameters</h4>
-							<table class="table table-condensed table-hover">
-								<tr>
-									<td>string</td>
-									<td>$str</td>
-									<td><ul>
-											<li>Valor a comparar</li>
-										</ul></td>
-								</tr>
-								<tr>
-									<td>integer</td>
-									<td>$minimoLargo</td>
-									<td><p>Largo minimo del string, en caso de ser cero no
-											se tiene en cuenta.</p></td>
-								</tr>
-								<tr>
-									<td>integer</td>
-									<td>$maximoLargo</td>
-									<td><p>Largo maximo del string, en caso de ser cero no
-											se tiene en cuenta.</p></td>
-								</tr>
-								<tr>
-									<td>string</td>
-									<td>$campo</td>
-									<td><p>Campo.</p></td>
-								</tr>
-								<tr>
-									<td>string</td>
-									<td>$textoCampo</td>
-									<td><p>Nombre del campo</p></td>
-								</tr>
-							</table>
-
-
-
-						</article>
-					</div>
-					<aside class="span4 detailsbar">
-						<h1>
-							<i class="icon-arrow-down"></i>
-						</h1>
-						<dl>
-						</dl>
-						<h2>Tags</h2>
-						<table class="table table-condensed">
-							<tr>
-								<td colspan="2"><em>None found</em></td>
-							</tr>
-						</table>
-					</aside>
-				</div>
-
-				<div class="row-fluid">
-					<div class="span8 content class">
-						<a id="method_formatearNombreCampo"
-							name="method_formatearNombreCampo" class="anchor"></a>
-						<article class="method">
-							<h3 class="private ">formatearNombreCampo()</h3>
-							<a href="#source-view" role="button" class="pull-right btn"
-								data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i
-								class="icon-code"></i></a>
-							<pre class="signature" style="margin-right: 54px;">formatearNombreCampo(string  <span
-									class="argument">$str</span>, string  <span class="argument">$textoCampo</span>) : string</pre>
-							<p>
-								<em>Devuelve un string formateado en vase al nombre del
-									campo</em>
-							</p>
-
-
-							<h4>Parameters</h4>
-							<table class="table table-condensed table-hover">
-								<tr>
-									<td>string</td>
-									<td>$str</td>
-									<td></td>
-								</tr>
-								<tr>
-									<td>string</td>
-									<td>$textoCampo</td>
-									<td></td>
-								</tr>
-							</table>
-
-
-							<h4>Returns</h4>
-							string
-
-						</article>
-					</div>
-					<aside class="span4 detailsbar">
-						<h1>
-							<i class="icon-arrow-down"></i>
-						</h1>
-						<dl>
-						</dl>
-						<h2>Tags</h2>
-						<table class="table table-condensed">
-							<tr>
-								<td colspan="2"><em>None found</em></td>
-							</tr>
-						</table>
-					</aside>
-				</div>
-
-			</div>
-		</section>
-
-		<div id="source-view" class="modal hide fade" tabindex="-1"
-			role="dialog" aria-labelledby="source-view-label" aria-hidden="true">
-			<div class="modal-header">
-				<button type="button" class="close" data-dismiss="modal"
-					aria-hidden="true">×</button>
-				<h3 id="source-view-label">class_validar.php</h3>
-			</div>
-			<div class="modal-body">
-				<pre data-src="../files/class_validar.php.txt"
-					class="language-php line-numbers"></pre>
-			</div>
-		</div>
-
-		<footer class="row-fluid">
-			<section class="span10 offset2">
-				<section class="row-fluid">
-					<section class="span10 offset1">
-						<section class="row-fluid footer-sections">
-							<section class="span4">
-								<h1>
-									<i class="icon-code"></i>
-								</h1>
-								<div>
-									<ul>
-									</ul>
-								</div>
-							</section>
-							<section class="span4">
-								<h1>
-									<i class="icon-bar-chart"></i>
-								</h1>
-								<div>
-									<ul>
-										<li><a href="../graphs/class.html">Class Hierarchy
-												Diagram</a></li>
-									</ul>
-								</div>
-							</section>
-							<section class="span4">
-								<h1>
-									<i class="icon-pushpin"></i>
-								</h1>
-								<div>
-									<ul>
-										<li><a href="../reports/errors.html">Errors</a></li>
-										<li><a href="../reports/markers.html">Markers</a></li>
-									</ul>
-								</div>
-							</section>
-						</section>
-					</section>
-				</section>
-				<section class="row-fluid">
-					<section class="span10 offset1">
-						<hr />
-						Documentation is powered by <a href="http://www.phpdoc.org/">phpDocumentor
-						</a> and authored <<<<<<< HEAD <<<<<<< develop <<<<<<< develop <<<<<<<
-						Updated upstream on September 24th, 2018 at 11:10. ======= on
-						December 7th, 2018 at 13:16. >>>>>>> Stashed changes ======= on
-						December 7th, 2018 at 12:38. >>>>>>> F_C-002 ======= on December
-						7th, 2018 at 13:16. >>>>>>> BS-004 ======= on December 7th, 2018
-						at 13:16. >>>>>>> ABM-006
-					</section>
-				</section>
-			</section>
-		</footer>
-	</div>
+<div class="navbar navbar-fixed-top">
+    <div class="navbar-inner">
+        <div class="container">
+            <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                <i class="icon-ellipsis-vertical"></i>
+            </a>
+            <a class="brand" href="../index.html">API Documentation</a>
+
+            <div class="nav-collapse">
+                <ul class="nav pull-right">
+                                        <li class="dropdown" id="charts-menu">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            Charts <b class="caret"></b>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a href="../graphs/class.html">
+                                    <i class="icon-list-alt"></i>&#160;Class hierarchy diagram
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="dropdown" id="reports-menu">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            Reports <b class="caret"></b>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a href="../reports/errors.html">
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        <i class="icon-list-alt"></i>&#160;Errors <span class="label label-info pull-right">260</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="../reports/markers.html">
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        <i class="icon-list-alt"></i>&#160;Markers <span class="label label-info pull-right">84</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="../reports/deprecated.html">
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    <i class="icon-list-alt"></i>&#160;Deprecated <span class="label label-info pull-right">34</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!--<div class="go_to_top">-->
+    <!--<a href="#___" style="color: inherit">Back to top&#160;&#160;<i class="icon-upload icon-white"></i></a>-->
+    <!--</div>-->
+</div>
+
+<div id="___" class="container-fluid">
+        <section class="row-fluid">
+        <div class="span2 sidebar">
+                                <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle " data-toggle="collapse" data-target="#namespace-1875777321"></a>
+                                <a href="../namespaces/default.html" style="margin-left: 30px; padding-left: 0">\</a>
+            </div>
+            <div id="namespace-1875777321" class="accordion-body collapse in">
+                <div class="accordion-inner">
+
+                    
+                    <ul>
+                                                                                                    <li class="class"><a href="../classes/Campos_bit.html">Campos_bit</a></li>
+                                                    <li class="class"><a href="../classes/Campos_combo.html">Campos_combo</a></li>
+                                                    <li class="class"><a href="../classes/Campos_dbCombo.html">Campos_dbCombo</a></li>
+                                                    <li class="class"><a href="../classes/Campos_fecha.html">Campos_fecha</a></li>
+                                                    <li class="class"><a href="../classes/Campos_moneda.html">Campos_moneda</a></li>
+                                                    <li class="class"><a href="../classes/Campos_numero.html">Campos_numero</a></li>
+                                                    <li class="class"><a href="../classes/Campos_password.html">Campos_password</a></li>
+                                                    <li class="class"><a href="../classes/Campos_rownum.html">Campos_rownum</a></li>
+                                                    <li class="class"><a href="../classes/Campos_textarea.html">Campos_textarea</a></li>
+                                                    <li class="class"><a href="../classes/Campos_texto.html">Campos_texto</a></li>
+                                                    <li class="class"><a href="../classes/Campos_upload.html">Campos_upload</a></li>
+                                                    <li class="class"><a href="../classes/class_abm.html">class_abm</a></li>
+                                                    <li class="class"><a href="../classes/class_abm.html">class_abm</a></li>
+                                                    <li class="class"><a href="../classes/class_campo.html">class_campo</a></li>
+                                                    <li class="class"><a href="../classes/class_db.html">class_db</a></li>
+                                                    <li class="class"><a href="../classes/class_orderby.html">class_orderby</a></li>
+                                                    <li class="class"><a href="../classes/class_paginado.html">class_paginado</a></li>
+                                                    <li class="class"><a href="../classes/consulta.html">consulta</a></li>
+                                                    <li class="class"><a href="../classes/Fechas.html">Fechas</a></li>
+                                                    <li class="class"><a href="../classes/files.html">files</a></li>
+                                                    <li class="class"><a href="../classes/Funciones.html">Funciones</a></li>
+                                                    <li class="class"><a href="../classes/FuncionesString.html">FuncionesString</a></li>
+                                                    <li class="class"><a href="../classes/Session.html">Session</a></li>
+                                                    <li class="class"><a href="../classes/Sitios.html">Sitios</a></li>
+                                                    <li class="class"><a href="../classes/validar.html">validar</a></li>
+                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+        </div>
+    </section>
+    <section class="row-fluid">
+        <div class="span10 offset2">
+            <div class="row-fluid">
+                <div class="span8 content class">
+                    <nav>
+                                                <a href="../namespaces/default.html">\</a> <i class="icon-level-up"></i>
+                                            </nav>
+                    <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal"><i class="icon-code"></i></a>
+
+                    <h1><small>\</small>validar</h1>
+                    <p><em>Class para validar datos enviados por un formulario.</em></p>
+                    
+                    
+                                        
+                    <section id="summary">
+                        <h2>Summary</h2>
+                        <section class="row-fluid heading">
+                            <section class="span4">
+                                <a href="#methods">Methods</a>
+                            </section>
+                            <section class="span4">
+                                <a href="#properties">Properties</a>
+                            </section>
+                            <section class="span4">
+                                <a href="#constants">Constants</a>
+                            </section>
+                        </section>
+                        <section class="row-fluid public">
+                            <section class="span4">
+                                                                    <a href="../classes/validar.html#method_ocurrieronErrores" class="">ocurrieronErrores()</a><br />
+                                                                    <a href="../classes/validar.html#method_agregarError" class="">agregarError()</a><br />
+                                                                    <a href="../classes/validar.html#method_validarCampoForm" class="">validarCampoForm()</a><br />
+                                                                    <a href="../classes/validar.html#method_comparar" class="">comparar()</a><br />
+                                                                    <a href="../classes/validar.html#method_rango" class="">rango()</a><br />
+                                                                    <a href="../classes/validar.html#method_esAlfa" class="">esAlfa()</a><br />
+                                                                    <a href="../classes/validar.html#method_esAlfaNumerico" class="">esAlfaNumerico()</a><br />
+                                                                    <a href="../classes/validar.html#method_esAlfaNumericoAcentos" class="">esAlfaNumericoAcentos()</a><br />
+                                                                    <a href="../classes/validar.html#method_esStrClave" class="">esStrClave()</a><br />
+                                                                    <a href="../classes/validar.html#method_esEmail" class="">esEmail()</a><br />
+                                                                    <a href="../classes/validar.html#method_esURL" class="">esURL()</a><br />
+                                                            </section>
+                            <section class="span4">
+                                                                    <a href="../classes/validar.html#property_errores" class="">$errores</a><br />
+                                                                    <a href="../classes/validar.html#property_separador" class="">$separador</a><br />
+                                                                    <a href="../classes/validar.html#property_textoErroresEnHTML" class="">$textoErroresEnHTML</a><br />
+                                                                    <a href="../classes/validar.html#property_unErrorPorVez" class="">$unErrorPorVez</a><br />
+                                                            </section>
+                            <section class="span4">
+                                                                    <em>No constants found</em>
+                                                            </section>
+                        </section>
+                        <section class="row-fluid protected">
+                            <section class="span4">
+                                                                    <em>No protected methods found</em>
+                                                            </section>
+                            <section class="span4">
+                                                                    <em>No protected properties found</em>
+                                                            </section>
+                            <section class="span4">
+                                <em>N/A</em>
+                            </section>
+                        </section>
+                        <section class="row-fluid private">
+                            <section class="span4">
+                                                                    <a href="../classes/validar.html#method_verificarLargo" class="">verificarLargo()</a><br />
+                                                                    <a href="../classes/validar.html#method_formatearNombreCampo" class="">formatearNombreCampo()</a><br />
+                                                            </section>
+                            <section class="span4">
+                                                                    <a href="../classes/validar.html#property_txtElCampoNoPuedeEstarVacio" class="">$txtElCampoNoPuedeEstarVacio</a><br />
+                                                                    <a href="../classes/validar.html#property_txtVerifiqueElCampo" class="">$txtVerifiqueElCampo</a><br />
+                                                                    <a href="../classes/validar.html#property_txtElCampoDebeContenerSoloLetras" class="">$txtElCampoDebeContenerSoloLetras</a><br />
+                                                                    <a href="../classes/validar.html#property_txtElCampoDebeSerAlfanumerico" class="">$txtElCampoDebeSerAlfanumerico</a><br />
+                                                                    <a href="../classes/validar.html#property_txtElCampoDebeSerNumerico" class="">$txtElCampoDebeSerNumerico</a><br />
+                                                                    <a href="../classes/validar.html#property_txtElCampoDebeTenerAlMenos" class="">$txtElCampoDebeTenerAlMenos</a><br />
+                                                                    <a href="../classes/validar.html#property_txtElCampoDebeTenerEntreYEntre" class="">$txtElCampoDebeTenerEntreYEntre</a><br />
+                                                                    <a href="../classes/validar.html#property_txtElCampoDebeSerEntreYEntre" class="">$txtElCampoDebeSerEntreYEntre</a><br />
+                                                            </section>
+                            <section class="span4">
+                                <em>N/A</em>
+                            </section>
+                        </section>
+                    </section>
+                </div>
+                <aside class="span4 detailsbar">
+                                        
+                    
+                    <dl>
+                        <dt>File</dt>
+                            <dd><a href="../files/class_validar.html"><div class="path-wrapper">class_validar.php</div></a></dd>
+                                                <dt>Package</dt>
+                            <dd><div class="namespace-wrapper">Default</div></dd>
+                                                <dt>Class hierarchy</dt>
+                            <dd class="hierarchy">
+                                                                                                                                                                    <div class="namespace-wrapper">\validar</div>
+                            </dd>
+
+                        
+                        
+                        
+                        
+                                                                        </dl>
+                    <h2>Tags</h2>
+                    <table class="table table-condensed">
+                                            <tr>
+                            <th>
+                                name
+                            </th>
+                            <td>
+                                                                    <p>validar</p>
+                                                            </td>
+                        </tr>
+                                            <tr>
+                            <th>
+                                author
+                            </th>
+                            <td>
+                                                                    <p>iberlot &lt;@&gt; iberlot@usal.edu.ar</p>
+                                                                    <p>Andres Carizza</p>
+                                                            </td>
+                        </tr>
+                                            <tr>
+                            <th>
+                                version
+                            </th>
+                            <td>
+                                                                    <ul>
+<li>Correcciones de codigo optimizacion y comnetado.</li>
+</ul>
+                                                                    
+                                                            </td>
+                        </tr>
+                                            <tr>
+                            <th>
+                                todo
+                            </th>
+                            <td>
+                                                                    <p>$validador = new validar();
+$validador-&gt;validarCampoForm(&quot;usuario&quot;, &quot;strClave&quot;, &quot;Verifique el campo Usuario. Debe ser solo letras y numeros (se permite usar ._)&quot;, &quot;Usuario&quot;, 2, 20);
+$validador-&gt;validarCampoForm(&quot;pass&quot;, &quot;&quot;, &quot;&quot;, &quot;Contrasena&quot;, 4, 20);
+$validador-&gt;comparar(&quot;pass&quot;, &quot;pass2&quot;, &quot;Las contrasenas no coinciden&quot;);
+$validador-&gt;validarCampoForm(&quot;email&quot;, &quot;email&quot;);
+$validador-&gt;validarCampoForm(&quot;nombre&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, 1, 50);
+$validador-&gt;validarCampoForm(&quot;apellido&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, 1, 50);
+$validador-&gt;rango(&quot;edad&quot;, 18, 100);
+if($_REQUEST[aceptaTerminos]!=&quot;1&quot;) $validador-&gt;agregarError(&quot;Debe aceptar los terminos y condiciones&quot;);</p>
+                                                            </td>
+                        </tr>
+                                        </table>
+                </aside>
+            </div>
+
+                        
+                                    <a id="properties" name="properties"></a>
+            <div class="row-fluid">
+                <div class="span8 content class">
+                    <h2>Properties</h2>
+                </div>
+                <aside class="span4 detailsbar"></aside>
+            </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property_errores" name="property_errores" class="anchor"></a>
+            <article class="property">
+                <h3 class="public ">$errores</h3>
+                <pre class="signature">$errores : </pre>
+                <p><em>Descripcion de los errores de validaci�n para imprimir en pantalla</em></p>
+                
+
+                                <h4>Type</h4>
+                
+                                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property_separador" name="property_separador" class="anchor"></a>
+            <article class="property">
+                <h3 class="public ">$separador</h3>
+                <pre class="signature">$separador : </pre>
+                <p><em>Separador al principio de cada error de la lista que imprime si hay errores (por defecto *)</em></p>
+                
+
+                                <h4>Type</h4>
+                
+                                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property_textoErroresEnHTML" name="property_textoErroresEnHTML" class="anchor"></a>
+            <article class="property">
+                <h3 class="public ">$textoErroresEnHTML</h3>
+                <pre class="signature">$textoErroresEnHTML : </pre>
+                <p><em>Usar HTML en el texto de salida de los errores, de lo contrario es texto plano</em></p>
+                
+
+                                <h4>Type</h4>
+                
+                                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property_unErrorPorVez" name="property_unErrorPorVez" class="anchor"></a>
+            <article class="property">
+                <h3 class="public ">$unErrorPorVez</h3>
+                <pre class="signature">$unErrorPorVez : </pre>
+                <p><em>Retorna solo el primer error en vez de mostrar una lista con todos los errores</em></p>
+                
+
+                                <h4>Type</h4>
+                
+                                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property_txtElCampoNoPuedeEstarVacio" name="property_txtElCampoNoPuedeEstarVacio" class="anchor"></a>
+            <article class="property">
+                <h3 class="private ">$txtElCampoNoPuedeEstarVacio</h3>
+                <pre class="signature">$txtElCampoNoPuedeEstarVacio : string</pre>
+                <p><em>Texto para errores de campo obligatorio vasio</em></p>
+                
+
+                                <h4>Type</h4>
+                string
+                                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property_txtVerifiqueElCampo" name="property_txtVerifiqueElCampo" class="anchor"></a>
+            <article class="property">
+                <h3 class="private ">$txtVerifiqueElCampo</h3>
+                <pre class="signature">$txtVerifiqueElCampo : string</pre>
+                <p><em>Texto para errores varios</em></p>
+                
+
+                                <h4>Type</h4>
+                string
+                                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property_txtElCampoDebeContenerSoloLetras" name="property_txtElCampoDebeContenerSoloLetras" class="anchor"></a>
+            <article class="property">
+                <h3 class="private ">$txtElCampoDebeContenerSoloLetras</h3>
+                <pre class="signature">$txtElCampoDebeContenerSoloLetras : string</pre>
+                <p><em>Texto para errores de campos de texto que solo pueden contener letras</em></p>
+                
+
+                                <h4>Type</h4>
+                string
+                                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property_txtElCampoDebeSerAlfanumerico" name="property_txtElCampoDebeSerAlfanumerico" class="anchor"></a>
+            <article class="property">
+                <h3 class="private ">$txtElCampoDebeSerAlfanumerico</h3>
+                <pre class="signature">$txtElCampoDebeSerAlfanumerico : string</pre>
+                <p><em>Texto para errores de campos de texto que solo pueden ser alfanumericos</em></p>
+                
+
+                                <h4>Type</h4>
+                string
+                                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property_txtElCampoDebeSerNumerico" name="property_txtElCampoDebeSerNumerico" class="anchor"></a>
+            <article class="property">
+                <h3 class="private ">$txtElCampoDebeSerNumerico</h3>
+                <pre class="signature">$txtElCampoDebeSerNumerico : string</pre>
+                <p><em>Texto para errores de campos de numericos.</em></p>
+                
+
+                                <h4>Type</h4>
+                string
+                                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property_txtElCampoDebeTenerAlMenos" name="property_txtElCampoDebeTenerAlMenos" class="anchor"></a>
+            <article class="property">
+                <h3 class="private ">$txtElCampoDebeTenerAlMenos</h3>
+                <pre class="signature">$txtElCampoDebeTenerAlMenos : string</pre>
+                <p><em>Texto para errores de cantidad minima de caracteres.</em></p>
+                
+
+                                <h4>Type</h4>
+                string
+                                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property_txtElCampoDebeTenerEntreYEntre" name="property_txtElCampoDebeTenerEntreYEntre" class="anchor"></a>
+            <article class="property">
+                <h3 class="private ">$txtElCampoDebeTenerEntreYEntre</h3>
+                <pre class="signature">$txtElCampoDebeTenerEntreYEntre : string</pre>
+                <p><em>Texto para errores de valores entre.</em></p>
+                
+
+                                <h4>Type</h4>
+                string
+                                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property_txtElCampoDebeSerEntreYEntre" name="property_txtElCampoDebeSerEntreYEntre" class="anchor"></a>
+            <article class="property">
+                <h3 class="private ">$txtElCampoDebeSerEntreYEntre</h3>
+                <pre class="signature">$txtElCampoDebeSerEntreYEntre : string</pre>
+                <p><em>Texto para errores de valores entre.</em></p>
+                
+
+                                <h4>Type</h4>
+                string
+                                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                            
+                                    <a id="methods" name="methods"></a>
+            <div class="row-fluid">
+                <div class="span8 content class"><h2>Methods</h2></div>
+                <aside class="span4 detailsbar"></aside>
+            </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_ocurrieronErrores" name="method_ocurrieronErrores" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">ocurrieronErrores()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">ocurrieronErrores() : boolean</pre>
+                <p><em>Retorna true si ocurrieron errores (si algun campo no paso la validacion)</em></p>
+                
+
+                
+                
+                                    <h4>Returns</h4>
+                    boolean
+                                    				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_agregarError" name="method_agregarError" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">agregarError()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">agregarError(string  <span class="argument">$msgError</span>, string  <span class="argument">$campo = &quot;&quot;</span>, string  <span class="argument">$textoCampo = &quot;&quot;</span>) </pre>
+                <p><em>Agrega un error en $errores para mostrarlo.</em></p>
+                
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>string</td>
+                                <td>$msgError </td>
+                                <td></td>
+                            </tr>
+                                                    <tr>
+                                <td>string</td>
+                                <td>$campo </td>
+                                <td></td>
+                            </tr>
+                                                    <tr>
+                                <td>string</td>
+                                <td>$textoCampo </td>
+                                <td></td>
+                            </tr>
+                                            </table>
+                
+                
+                				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_validarCampoForm" name="method_validarCampoForm" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">validarCampoForm()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">validarCampoForm(String  <span class="argument">$campo</span>, String  <span class="argument">$tipoDeValidacion = &quot;&quot;</span>, String  <span class="argument">$msgError = &quot;&quot;</span>, String  <span class="argument">$textoCampo = &quot;&quot;</span>, Integer  <span class="argument">$minimoLargo</span>, Integer  <span class="argument">$maximoLargo</span>) </pre>
+                <p><em>Valida un campo de un formulario y si hay error lo agrega al $errores</em></p>
+                
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>String</td>
+                                <td>$campo </td>
+                                <td><p>Nombre del campo a verificar (debe encontrarse en $_REQUEST)</p></td>
+                            </tr>
+                                                    <tr>
+                                <td>String</td>
+                                <td>$tipoDeValidacion </td>
+                                <td><p>Tipo de verificacion a realizar: email, alfa, alfanumerico, strClave, email, url, numero o mandar vacio para verificar que no sea un string vacio</p></td>
+                            </tr>
+                                                    <tr>
+                                <td>String</td>
+                                <td>$msgError </td>
+                                <td><p>Mensaje de error que debe mostrar para ese campo</p></td>
+                            </tr>
+                                                    <tr>
+                                <td>String</td>
+                                <td>$textoCampo </td>
+                                <td><p>Nombre textual del campo (ej: Tu email)</p></td>
+                            </tr>
+                                                    <tr>
+                                <td>Integer</td>
+                                <td>$minimoLargo </td>
+                                <td><p>Minimo de largo para strings</p></td>
+                            </tr>
+                                                    <tr>
+                                <td>Integer</td>
+                                <td>$maximoLargo </td>
+                                <td><p>Maximo de largo para strings</p></td>
+                            </tr>
+                                            </table>
+                
+                
+                				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_comparar" name="method_comparar" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">comparar()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">comparar(string  <span class="argument">$value1</span>, string  <span class="argument">$value2</span>, string  <span class="argument">$msgError</span>, boolean  <span class="argument">$caseSensitive = false</span>) </pre>
+                <p><em>Comparar si dos campos son iguales</em></p>
+                
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>string</td>
+                                <td>$value1 </td>
+                                <td><p>First value to compare</p></td>
+                            </tr>
+                                                    <tr>
+                                <td>string</td>
+                                <td>$value2 </td>
+                                <td><p>Second value to compare</p></td>
+                            </tr>
+                                                    <tr>
+                                <td>string</td>
+                                <td>$msgError </td>
+                                <td><p>Mensaje de error que debe mostrar para ese campo</p></td>
+                            </tr>
+                                                    <tr>
+                                <td>boolean</td>
+                                <td>$caseSensitive </td>
+                                <td><p>[Optional] TRUE if compare is case sensitive</p></td>
+                            </tr>
+                                            </table>
+                
+                
+                				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_rango" name="method_rango" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">rango()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">rango(String  <span class="argument">$campo</span>, Integer  <span class="argument">$minimo</span>, Integer  <span class="argument">$maximo</span>, String  <span class="argument">$textoCampo = &quot;&quot;</span>, String  <span class="argument">$msgError = &quot;&quot;</span>) </pre>
+                <p><em>Verifica que un campo numerico este entre un determinado rango</em></p>
+                
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>String</td>
+                                <td>$campo </td>
+                                <td><p>Nombre del campo a verificar (debe encontrarse en $_REQUEST)</p></td>
+                            </tr>
+                                                    <tr>
+                                <td>Integer</td>
+                                <td>$minimo </td>
+                                <td></td>
+                            </tr>
+                                                    <tr>
+                                <td>Integer</td>
+                                <td>$maximo </td>
+                                <td></td>
+                            </tr>
+                                                    <tr>
+                                <td>String</td>
+                                <td>$textoCampo </td>
+                                <td><p>Nombre textual del campo (ej: Tu email)</p></td>
+                            </tr>
+                                                    <tr>
+                                <td>String</td>
+                                <td>$msgError </td>
+                                <td><p>Mensaje de error que debe mostrar para ese campo</p></td>
+                            </tr>
+                                            </table>
+                
+                
+                				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_esAlfa" name="method_esAlfa" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">esAlfa()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">esAlfa(string  <span class="argument">$value</span>, string  <span class="argument">$allow = &#039;&#039;</span>) : boolean</pre>
+                <p><em>Determines if a string is alpha only</em></p>
+                
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>string</td>
+                                <td>$value </td>
+                                <td><p>The value to check for alpha (letters) only</p></td>
+                            </tr>
+                                                    <tr>
+                                <td>string</td>
+                                <td>$allow </td>
+                                <td><p>Any additional allowable characters</p></td>
+                            </tr>
+                                            </table>
+                
+                
+                                    <h4>Returns</h4>
+                    boolean
+                                    				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                            <span class="label label-info">static</span>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_esAlfaNumerico" name="method_esAlfaNumerico" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">esAlfaNumerico()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">esAlfaNumerico(string  <span class="argument">$value</span>) : boolean</pre>
+                <p><em>Determines if a string is alpha-numeric</em></p>
+                
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>string</td>
+                                <td>$value </td>
+                                <td><p>The value to check</p></td>
+                            </tr>
+                                            </table>
+                
+                
+                                    <h4>Returns</h4>
+                    boolean
+                                            &mdash; <p>TRUE if there are letters and numbers, FALSE if other</p>
+                                    				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                            <span class="label label-info">static</span>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_esAlfaNumericoAcentos" name="method_esAlfaNumericoAcentos" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">esAlfaNumericoAcentos()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">esAlfaNumericoAcentos(string  <span class="argument">$value</span>) : boolean</pre>
+                <p><em>Determines if a string is alpha-numeric with acentos</em></p>
+                
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>string</td>
+                                <td>$value </td>
+                                <td><p>The value to check</p></td>
+                            </tr>
+                                            </table>
+                
+                
+                                    <h4>Returns</h4>
+                    boolean
+                                            &mdash; <p>TRUE if there are letters and numbers, FALSE if other</p>
+                                    				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                            <span class="label label-info">static</span>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_esStrClave" name="method_esStrClave" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">esStrClave()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">esStrClave(String  <span class="argument">$str</span>) : Boolean</pre>
+                <p><em>Retorna true si $str es una cadena de caracteres de letras numeros o caracteres - _ .</em></p>
+                <p>Esta pensada para usar para comprobar nombres de usuario que tengan caracteres validos</p>
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>String</td>
+                                <td>$str </td>
+                                <td></td>
+                            </tr>
+                                            </table>
+                
+                
+                                    <h4>Returns</h4>
+                    Boolean
+                                    				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                            <span class="label label-info">static</span>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_esEmail" name="method_esEmail" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">esEmail()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">esEmail(String  <span class="argument">$email</span>, Boolean  <span class="argument">$test_mx = false</span>) </pre>
+                <p><em>Verifica si un email tiene formato valido y opcionalmente verifica los registros MX del dominio tambien</em></p>
+                
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>String</td>
+                                <td>$email </td>
+                                <td></td>
+                            </tr>
+                                                    <tr>
+                                <td>Boolean</td>
+                                <td>$test_mx </td>
+                                <td><p>Verificar los registros MX del dominio</p></td>
+                            </tr>
+                                            </table>
+                
+                
+                				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                            <span class="label label-info">static</span>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            version
+                        </th>
+                        <td>
+                                                            0.2                                <ul>
+<li>Se corrigio para que utilizara preg_match en vez de eregi.</li>
+</ul>
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_esURL" name="method_esURL" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">esURL()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">esURL(string  <span class="argument">$value</span>) : boolean</pre>
+                <p><em>Checks for a valid internet URL</em></p>
+                
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>string</td>
+                                <td>$value </td>
+                                <td><p>The value to check</p></td>
+                            </tr>
+                                            </table>
+                
+                
+                                    <h4>Returns</h4>
+                    boolean
+                                            &mdash; <p>TRUE if the value is a valid URL, FALSE if not</p>
+                                    				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                            <span class="label label-info">static</span>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_verificarLargo" name="method_verificarLargo" class="anchor"></a>
+            <article class="method">
+                <h3 class="private ">verificarLargo()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">verificarLargo(string  <span class="argument">$str</span>, integer  <span class="argument">$minimoLargo</span>, integer  <span class="argument">$maximoLargo</span>, string  <span class="argument">$campo</span>, string  <span class="argument">$textoCampo</span>) </pre>
+                <p><em>Comprueba el largo de un string.</em></p>
+                <p>Carga un mensaje en $agregarError en caso de que el strin a comprobar sea 0, mayor al maximo o menor al minimo.</p>
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>string</td>
+                                <td>$str </td>
+                                <td><ul>
+<li>Valor a comparar</li>
+</ul></td>
+                            </tr>
+                                                    <tr>
+                                <td>integer</td>
+                                <td>$minimoLargo </td>
+                                <td><p>Largo minimo del string, en caso de ser cero no se tiene en cuenta.</p></td>
+                            </tr>
+                                                    <tr>
+                                <td>integer</td>
+                                <td>$maximoLargo </td>
+                                <td><p>Largo maximo del string, en caso de ser cero no se tiene en cuenta.</p></td>
+                            </tr>
+                                                    <tr>
+                                <td>string</td>
+                                <td>$campo </td>
+                                <td><p>Campo.</p></td>
+                            </tr>
+                                                    <tr>
+                                <td>string</td>
+                                <td>$textoCampo </td>
+                                <td><p>Nombre del campo</p></td>
+                            </tr>
+                                            </table>
+                
+                
+                				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_formatearNombreCampo" name="method_formatearNombreCampo" class="anchor"></a>
+            <article class="method">
+                <h3 class="private ">formatearNombreCampo()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">formatearNombreCampo(string  <span class="argument">$str</span>, string  <span class="argument">$textoCampo</span>) : string</pre>
+                <p><em>Devuelve un string formateado en vase al nombre del campo</em></p>
+                
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>string</td>
+                                <td>$str </td>
+                                <td></td>
+                            </tr>
+                                                    <tr>
+                                <td>string</td>
+                                <td>$textoCampo </td>
+                                <td></td>
+                            </tr>
+                                            </table>
+                
+                
+                                    <h4>Returns</h4>
+                    string
+                                    				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    </div>
+    </section>
+
+    <div id="source-view" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="source-view-label" aria-hidden="true">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            <h3 id="source-view-label">class_validar.php</h3>
+        </div>
+        <div class="modal-body">
+            <pre data-src="../files/class_validar.php.txt" class="language-php line-numbers"></pre>
+        </div>
+    </div>
+
+    <footer class="row-fluid">
+        <section class="span10 offset2">
+            <section class="row-fluid">
+                <section class="span10 offset1">
+                    <section class="row-fluid footer-sections">
+                        <section class="span4">
+                                                        <h1><i class="icon-code"></i></h1>
+                            <div>
+                                <ul>
+                                                                    </ul>
+                            </div>
+                        </section>
+                        <section class="span4">
+                                                        <h1><i class="icon-bar-chart"></i></h1>
+                            <div>
+                                <ul>
+                                    <li><a href="../graphs/class.html">Class Hierarchy Diagram</a></li>
+                                </ul>
+                            </div>
+                        </section>
+                        <section class="span4">
+                                                        <h1><i class="icon-pushpin"></i></h1>
+                            <div>
+                                <ul>
+                                    <li><a href="../reports/errors.html">Errors</a></li>
+                                    <li><a href="../reports/markers.html">Markers</a></li>
+                                </ul>
+                            </div>
+                        </section>
+                    </section>
+                </section>
+            </section>
+            <section class="row-fluid">
+                <section class="span10 offset1">
+                    <hr />
+                    Documentation is powered by <a href="http://www.phpdoc.org/">phpDocumentor </a> and authored
+                    on August 22nd, 2019 at 13:14.
+                </section>
+            </section>
+        </section>
+    </footer>
+</div>
 
 </body>
 </html>

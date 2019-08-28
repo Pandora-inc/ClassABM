@@ -40,7 +40,7 @@ function limpiarEntidadesHTML($param, $sitio)
 }
 
 /**
- * Comprueba que la direccion de mail no tenga caracteres extraños.
+ * Comprueba que la direccion de mail no tenga caracteres extraï¿½os.
  *
  * @param string $str
  *        	- email a verificar
@@ -75,7 +75,7 @@ function limpiarParaSql($param, $db)
 
 /**
  * Reemplaza todos los acentos por sus equivalentes sin ellos.
- * Ademas elimina cualquier caracter extraño en el string.
+ * Ademas elimina cualquier caracter extraï¿½o en el string.
  *
  * @param string $string
  *        	-
@@ -88,15 +88,15 @@ function sanear_string($string)
 	$string = trim ($string);
 
 	$string = str_replace (array (
-			'á',
-			'à',
-			'ä',
-			'â',
-			'ª',
-			'Á',
-			'À',
-			'Â',
-			'Ä'
+			'ï¿½',
+			'ï¿½',
+			'ï¿½',
+			'ï¿½',
+			'ï¿½',
+			'ï¿½',
+			'ï¿½',
+			'ï¿½',
+			'ï¿½'
 	), array (
 			'a',
 			'a',
@@ -110,14 +110,14 @@ function sanear_string($string)
 	), $string);
 
 	$string = str_replace (array (
-			'é',
-			'è',
-			'ë',
-			'ê',
-			'É',
-			'È',
-			'Ê',
-			'Ë'
+			'ï¿½',
+			'ï¿½',
+			'ï¿½',
+			'ï¿½',
+			'ï¿½',
+			'ï¿½',
+			'ï¿½',
+			'ï¿½'
 	), array (
 			'e',
 			'e',
@@ -130,14 +130,14 @@ function sanear_string($string)
 	), $string);
 
 	$string = str_replace (array (
-			'í',
-			'ì',
-			'ï',
-			'î',
-			'Í',
-			'Ì',
-			'Ï',
-			'Î'
+			'ï¿½',
+			'ï¿½',
+			'ï¿½',
+			'ï¿½',
+			'ï¿½',
+			'ï¿½',
+			'ï¿½',
+			'ï¿½'
 	), array (
 			'i',
 			'i',
@@ -150,14 +150,14 @@ function sanear_string($string)
 	), $string);
 
 	$string = str_replace (array (
-			'ó',
-			'ò',
-			'ö',
-			'ô',
-			'Ó',
-			'Ò',
-			'Ö',
-			'Ô'
+			'ï¿½',
+			'ï¿½',
+			'ï¿½',
+			'ï¿½',
+			'ï¿½',
+			'ï¿½',
+			'ï¿½',
+			'ï¿½'
 	), array (
 			'o',
 			'o',
@@ -170,14 +170,14 @@ function sanear_string($string)
 	), $string);
 
 	$string = str_replace (array (
-			'ú',
-			'ù',
-			'ü',
-			'û',
-			'Ú',
-			'Ù',
-			'Û',
-			'Ü'
+			'ï¿½',
+			'ï¿½',
+			'ï¿½',
+			'ï¿½',
+			'ï¿½',
+			'ï¿½',
+			'ï¿½',
+			'ï¿½'
 	), array (
 			'u',
 			'u',
@@ -190,10 +190,10 @@ function sanear_string($string)
 	), $string);
 
 	$string = str_replace (array (
-			'ñ',
-			'Ñ',
-			'ç',
-			'Ç'
+			'ï¿½',
+			'ï¿½',
+			'ï¿½',
+			'ï¿½'
 	), array (
 			'n',
 			'N',
@@ -201,11 +201,11 @@ function sanear_string($string)
 			'C'
 	), $string);
 
-	// Esta parte se encarga de eliminar cualquier caracter extraño
+	// Esta parte se encarga de eliminar cualquier caracter extraï¿½o
 	$string = str_replace (array (
 			"\\",
-			"¨",
-			"º",
+			"ï¿½",
+			"ï¿½",
 			"-",
 			"~",
 			"#",
@@ -213,7 +213,7 @@ function sanear_string($string)
 			"|",
 			"!",
 			"\"",
-			"·",
+			"ï¿½",
 			"$",
 			"%",
 			"&",
@@ -222,8 +222,8 @@ function sanear_string($string)
 			")",
 			"?",
 			"'",
-			"¡",
-			"¿",
+			"ï¿½",
+			"ï¿½",
 			"[",
 			"^",
 			"<code>",
@@ -231,15 +231,15 @@ function sanear_string($string)
 			"+",
 			"}",
 			"{",
-			"¨",
-			"´",
+			"ï¿½",
+			"ï¿½",
 			">",
 			"< ",
 			";",
 			",",
 			":",
 			".",
-			"¥"
+			"ï¿½"
 	), '', $string);
 
 	return $string;
@@ -256,8 +256,7 @@ function sanear_string($string)
  */
 function convertir_especiales_html($str)
 {
-	global $GLOBALS;
-
+	// global $GLOBALS;
 	if (!isset ($GLOBALS["carateres_latinos"]))
 	{
 		$todas = get_html_translation_table (HTML_ENTITIES, ENT_NOQUOTES);
@@ -282,8 +281,8 @@ function limpiarString($texto)
 }
 
 /**
- * Función para sanear los valores recibidos del formulario.
- * Evita la inyección de SQL. Elimina cualquier caracter no numerico.
+ * Funciï¿½n para sanear los valores recibidos del formulario.
+ * Evita la inyecciï¿½n de SQL. Elimina cualquier caracter no numerico.
  *
  * @param string $str
  * @return int

@@ -1,4 +1,5 @@
 <?php
+require_once 'class_db.php';
 
 /**
  * Class para el paginado de registros.
@@ -150,6 +151,13 @@ class class_paginado
 	private $desde_reg;
 	private $hasta_reg;
 
+	// /**
+	// * Objeto de coneccion a la base de datos
+	// *
+	// * @var class_db
+	// */
+	// // private $db = new class_db($host, $user, $pass, $db);
+
 	/**
 	 * Ejecuta el query de mysql (que no debe tener LIMIT) que cuenta el total de registros
 	 * y el que retorna solo los registros que corresponden a la pagina actual.
@@ -272,7 +280,7 @@ class class_paginado
 
 					if ($pos !== false)
 					{
-						$porciones[$i] = "b." . substr ($porciones[$i], $pos);
+						$porciones[$i] = "b" . substr ($porciones[$i], $pos);
 					}
 				}
 

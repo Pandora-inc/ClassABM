@@ -44,6 +44,19 @@ class Campos_rownum extends class_campo
 			parent::__construct ();
 		}
 	}
+
+	/**
+	 * Arma el string del nombre del campo (tabla.campo AS nombrecampo) para agregar en el SELECT
+	 *
+	 * @return string
+	 */
+	public function get_campo_select()
+	{
+		if ($this->isBuscar () == true or $this->isNoListar () == false)
+		{
+			return $this->getCampo ();
+		}
+	}
 }
 
-
+?>
