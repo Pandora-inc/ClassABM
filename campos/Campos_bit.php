@@ -234,6 +234,60 @@ class Campos_bit extends class_campo
 			return "<td " . $this->get_centrar_columna () . " " . $this->get_no_mostrar () . ">" . $this->get_spanColorear () . " " . $this->getTextoBitFalse () . " " . ($this->get_spanColorear () != "" ? "</span>" : "") . "</td> \n";
 		}
 	}
+
+	public function generar_elemento_form_update()
+	{
+		$imprForm = "<select name='" . $this->getCampo () . "' id='" . $this->getCampo () . "' $this->autofocusAttr class='input-select $this->getAtrRequerido ()' $this->getAtrDisabled() " . $this->establecerHint () . " " . $this->getAdicionalInput () . " > \n";
+
+		if ($this->isOrdenInversoBit () != "")
+		{
+			if (!$this->getValor ())
+			{
+				$sel = "selected='selected'";
+			}
+			else
+			{
+				$sel = "";
+			}
+			$imprForm .= "<option value='0' " . $sel . ">" . ($this->textoBitFalse != "" ? $this->textoBitFalse : $this->textoBitFalse) . "</option> \n";
+
+			if ($this->getValor ())
+			{
+				$sel = "selected='selected'";
+			}
+			else
+			{
+				$sel = "";
+			}
+			$imprForm .= "<option value='1' " . $sel . ">" . ($this->getTextoBitTrue () != "" ? $this->getTextoBitTrue () : $this->textoBitTrue) . "</option> \n";
+		}
+		else
+		{
+
+			if ($this->getValor ())
+			{
+				$sel = "selected='selected'";
+			}
+			else
+			{
+				$sel = "";
+			}
+			$imprForm .= "<option value='1' " . $sel . ">" . (($this->getTextoBitTrue () != "") ? $this->getTextoBitTrue () : $this->textoBitTrue) . "</option> \n";
+
+			if (!$this->getValor ())
+			{
+				$sel = "selected='selected'";
+			}
+			else
+			{
+				$sel = "";
+			}
+			$imprForm .= "<option value='0' " . $sel . ">" . (($this->getTextoBitFalse () != "") ? $this->getTextoBitFalse () : $this->textoBitFalse) . "</option> \n";
+		}
+
+		$imprForm .= "</select> \n";
+		return $imprForm;
+	}
 }
 
 ?>

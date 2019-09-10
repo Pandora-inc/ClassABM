@@ -43,6 +43,8 @@ class Campos_rownum extends class_campo
 		{
 			parent::__construct ();
 		}
+
+		// $this->set_
 	}
 
 	/**

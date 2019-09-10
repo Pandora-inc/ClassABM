@@ -2052,9 +2052,9 @@ class class_campo
 	 */
 	public function establecerMaxLeng()
 	{
-		if ($campo->existeDato ('maxLen') and $campo->getMaxLen () > 0)
+		if ($this->getMaxLen () > 0)
 		{
-			return " maxlength='" . $this->maxLen . "' ";
+			return " maxlength='" . $this->getMaxLen () . "' ";
 		}
 		else
 		{
@@ -2069,7 +2069,7 @@ class class_campo
 	 */
 	public function establecerHint()
 	{
-		if ($campo->existeDato ('hint'))
+		if ($this->existeDato ('hint'))
 		{
 			return "title='" . $this->hint . "' ";
 		}
@@ -2099,9 +2099,9 @@ class class_campo
 		{
 			$this->autofocusAttr = "autofocus='autofocus'";
 		}
-		elseif ($autofocusAttr == false)
+		elseif ($autofocus == false)
 		{
-			$this->autofocus = "";
+			$this->autofocusAttr = "";
 		}
 	}
 
@@ -2299,6 +2299,35 @@ class class_campo
 		{
 			return "<td " . $this->get_centrar_columna () . " " . $this->get_no_mostrar () . ">" . $this->get_spanColorear () . " " . $this->getValor () . " " . ($this->get_spanColorear () != "" ? "</span>" : "") . "</td> \n";
 		}
+	}
+
+	public function getAtrRequerido()
+	{
+		if ($this->isRequerido () == true)
+		{
+			return " validate[required] required ";
+		}
+		else
+		{
+			return "";
+		}
+	}
+
+	public function getAtrDisabled()
+	{
+		if ($this->isRequerido () == true)
+		{
+			return " readonly='readonly' disabled='disabled' ";
+		}
+		else
+		{
+			return "";
+		}
+	}
+
+	public function generar_elemento_form_update()
+	{
+		return "<input type='text' class='input-text " . $this->getAtrRequerido () . " name='" . $this->getCampo () . "' id='" . $this->getCampo () . "' " . $this->autofocusAttr . " " . $this->getAtrDisabled () . " value='" . $this->getValor () . "' " . $this->establecerMaxLeng () . " " . $this->establecerHint () . " " . $this->getAdicionalInput () . "/> \n";
 	}
 }
 ?>

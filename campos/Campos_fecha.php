@@ -271,5 +271,26 @@ class Campos_fecha extends class_campo
 
 		return $camposWhereBuscar;
 	}
+
+	public function generar_elemento_form_update()
+	{
+		if (strlen ($this->getValor ()) > 10)
+		{
+			$this->setValor (substr ($this->getValor (), 0, 10)); // sacar hora:min:seg
+		}
+		if ($this->getValor () == '0000-00-00')
+		{
+			$this->setValor ("");
+		}
+
+		$jsTmp = str_replace ('%IDCAMPO%', $this->getCampo (), $this->jsIniciadorCamposFecha);
+		$jsTmp = str_replace ('%VALOR%', $this->getValor (), $jsTmp);
+
+		$imprForm = $jsTmp;
+		$imprForm .= "<input type='text' style='position:absolute' name='" . $this->getCampo () . "' id='" . $this->getCampo () . "' value='" . ($this->getValor () != "" ? $this->getValor () : ($this->getValorPredefinido () != "" ? $this->getValorPredefinido () : " ")) . "'/> \n";
+		$imprForm .= "<input type='text' style='position:relative;top:0px;left;0px'  " . $this->autofocusAttr . " name='display_" . $this->getCampo () . "' id='display_" . $this->getCampo () . "' class='input-fecha " . $this->getAtrRequerido () . "' " . $this->getAtrDisabled () . " " . $this->establecerHint () . " " . $this->getAdicionalInput () . "readonly='readonly'/> \n";
+
+		return $imprForm;
+	}
 }
 ?>

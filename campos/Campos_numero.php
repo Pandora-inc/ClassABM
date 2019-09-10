@@ -153,6 +153,11 @@ class Campos_numero extends class_campo
 			return "<td " . $this->get_centrar_columna () . " " . $this->get_no_mostrar () . ">" . $this->get_spanColorear () . " " . number_format (0, $this->getCantidadDecimales (), ',', '.') . " " . ($this->get_spanColorear () != "" ? "</span>" : "") . "</td> \n";
 		}
 	}
+
+	public function generar_elemento_form_update()
+	{
+		return "<input type='number' class='input-text " . $this->getAtrRequerido () . " step='0.01' min='0.01' max='250000000.00' name='" . $this->getCampo () . "' id='" . $this->getCampo () . "' " . $this->autofocusAttr . " " . $this->getAtrDisabled () . " value='" . $this->getValor () . "' " . $this->establecerMaxLeng () . " " . $this->establecerHint () . " " . $this->getAdicionalInput () . "/> \n";
+	}
 }
 
 ?>

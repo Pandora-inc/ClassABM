@@ -660,13 +660,13 @@
 				{
 					// return limpiarEntidadesHTML (mssql_fetch_row ($result));
 					// return limpiarEntidadesHTML (odbc_fetch_row ($result));
-					return limpiarEntidadesHTML (sqlsrv_fetch ($result));
+					return limpiarEntidadesHTML (sqlsrv_fetch_array ($result));
 				}
 				else
 				{
 					// return mssql_fetch_row ($result);
 					// return odbc_fetch_row ($result);
-					return sqlsrv_fetch ($result);
+					return sqlsrv_fetch_array ($result);
 				}
 			}
 		}

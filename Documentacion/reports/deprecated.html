@@ -59,7 +59,7 @@
                         <ul class="dropdown-menu">
                             <li>
                                 <a href="../reports/errors.html">
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        <i class="icon-list-alt"></i>&#160;Errors <span class="label label-info pull-right">260</span>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        <i class="icon-list-alt"></i>&#160;Errors <span class="label label-info pull-right">262</span>
                                 </a>
                             </li>
                             <li>
@@ -89,10 +89,10 @@
         <div class="span2 sidebar">
             <ul class="side-nav nav nav-list">
                 <li class="nav-header">Navigation</li>
-                                                            <li><a href="#class_sitio.php"><i class="icon-file"></i> class_sitio.php</a></li>
+                                                            <li><a href="#class_fechas.php"><i class="icon-file"></i> class_fechas.php</a></li>
+                                                                                                                                                                                                                    <li><a href="#class_sitio.php"><i class="icon-file"></i> class_sitio.php</a></li>
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     <li><a href="#comun.php"><i class="icon-file"></i> comun.php</a></li>
-                                                                                                                                                                                                                                                                            <li><a href="#class_fechas.php"><i class="icon-file"></i> class_fechas.php</a></li>
-                                                                                                                                                                                    </ul>
+                                                                                                                                                                                                                                            </ul>
         </div>
 
         <div class="span10 offset2">
@@ -102,7 +102,37 @@
             </ul>
 
             <div id="marker-accordion">
-                                                                            <a name="class_sitio.php" id="class_sitio.php"></a>
+                                                                            <a name="class_fechas.php" id="class_fechas.php"></a>
+                    <h3>
+                        <i class="icon-file"></i>
+                        class_fechas.php
+                        <small style="float: right;padding-right: 10px;">1</small>
+                    </h3>
+                    <div>
+                        <table class="table markers table-bordered">
+                            <tr>
+                                <th>Element</th>
+                                <th>Line</th>
+                                <th>Description</th>
+                            </tr>
+                                                                                <tr>
+                                    <td>\Fechas::invertirFecha()</td>
+                                    <td>109</td>
+                                    <td>- Conviene utilizar formatear_fecha_Oracle.</td>
+                                </tr>
+                                                                                                                                                <tr>
+                                    <td>\Fechas::fechaCorrecta()</td>
+                                    <td>251</td>
+                                    <td>conviene usar checkdate directamente.</td>
+                                </tr>
+                                                                                                                                                <tr>
+                                    <td>\Fechas::calcularMminutosExcedentes()</td>
+                                    <td>275</td>
+                                    <td>Por su mayor presicion se recomienda la utilizacion de difHoras.</td>
+                                </tr>
+                                                                                                                                </table>
+                    </div>
+                                        <a name="class_sitio.php" id="class_sitio.php"></a>
                     <h3>
                         <i class="icon-file"></i>
                         class_sitio.php
@@ -285,36 +315,6 @@
                                     <td>70</td>
                                     <td>- Esta funcion es remplazada por real_escape_string de la clase db.</td>
                                 </tr>
-                                                                                                                                </table>
-                    </div>
-                                        <a name="class_fechas.php" id="class_fechas.php"></a>
-                    <h3>
-                        <i class="icon-file"></i>
-                        class_fechas.php
-                        <small style="float: right;padding-right: 10px;">1</small>
-                    </h3>
-                    <div>
-                        <table class="table markers table-bordered">
-                            <tr>
-                                <th>Element</th>
-                                <th>Line</th>
-                                <th>Description</th>
-                            </tr>
-                                                                                <tr>
-                                    <td>\Fechas::invertirFecha()</td>
-                                    <td>109</td>
-                                    <td>- Conviene utilizar formatear_fecha_Oracle.</td>
-                                </tr>
-                                                                                                                                                <tr>
-                                    <td>\Fechas::fechaCorrecta()</td>
-                                    <td>251</td>
-                                    <td>conviene usar checkdate directamente.</td>
-                                </tr>
-                                                                                                                                                <tr>
-                                    <td>\Fechas::calcularMminutosExcedentes()</td>
-                                    <td>275</td>
-                                    <td>Por su mayor presicion se recomienda la utilizacion de difHoras.</td>
-                                </tr>
                                                                                     </table>
                 </div>
             </div>
@@ -357,7 +357,7 @@
                 <section class="span10 offset1">
                     <hr />
                     Documentation is powered by <a href="http://www.phpdoc.org/">phpDocumentor </a> and authored
-                    on August 22nd, 2019 at 13:14.
+                    on August 30th, 2019 at 15:33.
                 </section>
             </section>
         </section>

@@ -57,6 +57,23 @@ class Campos_rownum extends class_campo
 			return $this->getCampo ();
 		}
 	}
+
+	/**
+	 * Retorna el valor de campoOrder
+	 *
+	 * @return string
+	 */
+	public function getCampoOrder()
+	{
+		if ($this->campoOrder != "")
+		{
+			return $this->campoOrder;
+		}
+		else
+		{
+			return $this->getCampo ();
+		}
+	}
 }
 
 ?>

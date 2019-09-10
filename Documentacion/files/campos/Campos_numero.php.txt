@@ -25,9 +25,9 @@ require_once 'class_campo.php';
  * @author iberlot <@> iberlot@usal.edu.ar
  * @since 6 dic. 2018
  * @name Campos_numero.php
- *      
+ *
  * @version 0.1 version inicial del archivo.
- *         
+ *
  */
 class Campos_numero extends class_campo
 {
@@ -37,7 +37,7 @@ class Campos_numero extends class_campo
 	 * Derine el numero de valores despues de la coma.
 	 *
 	 * @todo Por defecto su valor es 2.
-	 *      
+	 *
 	 * @name cantidadDecimales
 	 * @var integer
 	 */
@@ -85,7 +85,7 @@ class Campos_numero extends class_campo
 	 *        	Objeto de coneccion a la base.
 	 * @param String $busqueda
 	 *        	variable donde se registran los parametros de busqueda. es pasada por referencia con lo que se puede utilizar incluso fuera de la funcion.
-	 *        	
+	 *
 	 * @return string
 	 *
 	 * {@inheritdoc}
@@ -118,6 +118,40 @@ class Campos_numero extends class_campo
 		$retorno .= "<input type='number' class='input-text $requerido currency' step='0.01' min='0.01' max='250000000.00'  name='c_" . $this->campo . "' value='" . $valor . "' /> \n";
 
 		return $retorno;
+	}
+
+	/**
+	 * Comprueba que este habilitado el centrado de la columna y en caso de estarlo retorna la etiqueta para realizarlo.
+	 *
+	 * @return string
+	 */
+	public function get_centrar_columna()
+	{
+		if ($this->isCentrarColumna () == true)
+		{
+			return ' align="center" ';
+		}
+		else
+		{
+			return " style='text-align: right;' ";
+		}
+	}
+
+	/**
+	 * Arma un Td con el dato de valor del campo
+	 *
+	 * @return string
+	 */
+	public function get_celda_dato()
+	{
+		if ($this->getValor () != "" and $this->getValor () > 0)
+		{
+			return "<td " . $this->get_centrar_columna () . " " . $this->get_no_mostrar () . ">" . $this->get_spanColorear () . " " . number_format ($this->getValor (), $this->getCantidadDecimales (), ',', '.') . " " . ($this->get_spanColorear () != "" ? "</span>" : "") . "</td> \n";
+		}
+		else
+		{
+			return "<td " . $this->get_centrar_columna () . " " . $this->get_no_mostrar () . ">" . $this->get_spanColorear () . " " . number_format (0, $this->getCantidadDecimales (), ',', '.') . " " . ($this->get_spanColorear () != "" ? "</span>" : "") . "</td> \n";
+		}
 	}
 }
 

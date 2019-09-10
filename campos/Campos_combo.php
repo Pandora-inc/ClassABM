@@ -210,6 +210,31 @@ class Campos_combo extends class_campo
 			return "<td " . $this->get_centrar_columna () . " " . $this->get_no_mostrar () . ">" . $this->get_spanColorear () . " " . $this->getDatos ($this->getValor ()) . " " . ($this->get_spanColorear () != "" ? "</span>" : "") . "</td> \n";
 		}
 	}
+
+	public function generar_elemento_form_update()
+	{
+		$imprForm = "<select name='" . $this->getCampo () . "' id='" . $this->getCampo () . "' $this->autofocusAttr class='input-select $this->getAtrRequerido () ' $this->getAtrDisabled() " . $this->establecerHint () . " " . $this->getAdicionalInput () . "> \n";
+
+		if ($this->isIncluirOpcionVacia ())
+		{
+			$imprForm .= "<option value=''></option> \n";
+		}
+
+		foreach ($this->getDatos () as $valor => $texto)
+		{
+			if ($this->getValor () == Funciones::limpiarEntidadesHTML ($valor))
+			{
+				$sel = "selected='selected'";
+			}
+			else
+			{
+				$sel = "";
+			}
+			$imprForm .= "<option value='$valor' " . $sel . ">$texto</option> \n";
+		}
+		$imprForm .= "</select> \n";
+		return $imprForm;
+	}
 }
 
 ?>
