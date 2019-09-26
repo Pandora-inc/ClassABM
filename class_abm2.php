@@ -1252,7 +1252,7 @@ class class_abm
 		// foreach ($this->campos as $campo)
 		foreach ($this->campo as $campo)
 		{
-			if (isset ($campo->getHint ()) and ($campo->getHint () != ""))
+			if ($campo->getHint () != "")
 			{
 				echo $this->jsHints;
 				break;
