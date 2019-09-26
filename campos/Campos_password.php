@@ -20,7 +20,7 @@ require_once 'class_campo.php';
 /**
  *
  * @author iberlot
- *        
+ *
  */
 class Campos_password extends class_campo
 {
@@ -41,6 +41,11 @@ class Campos_password extends class_campo
 		{
 			parent::__construct ();
 		}
+	}
+
+	public function generar_elemento_form_update()
+	{
+		return "<input type='password' class='input-text " . $this->getAtrRequerido () . " name='" . $this->getCampo () . "' id='" . $this->getCampo () . "' " . $this->autofocusAttr . " " . $this->getAtrDisabled () . " value='" . $this->getValor () . "' " . $this->establecerMaxLeng () . " " . $this->establecerHint () . " " . $this->getAdicionalInput () . "/> \n";
 	}
 }
 

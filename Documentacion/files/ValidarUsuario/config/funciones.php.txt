@@ -49,7 +49,7 @@ function usuario($cadena)
  *        	ano del requerimiento del que se quiere saber el referente
  * @param int $reque
  *        	Numero del requerimiento del que se quiere saber el referente
- *
+ *        	
  * @return string $final Texto que se encuentra entre parentesis extraido para su uso
  */
 function usrRefernt($anio, $reque)
@@ -81,7 +81,7 @@ function usrRefernt($anio, $reque)
  *        	Numero del documento
  * @param string $tipoDoc
  *        	Tipo de documento
- *
+ *        	
  * @return array $personaNombre, $persona['CUENTA'], $EmailPersona con los diferentes datos
  */
 function datosPersona($nroDoc, $tipoDoc)
@@ -225,7 +225,7 @@ function diferenciaDias($fecha2, $fecha1)
  *        	El mes entre 1 y 12 inclusive.
  * @param int $a
  *        	El ano entre 1 y 32767 inclusive.
- *
+ *        	
  * @return bool puede ser 0 o 1 dependiendo si la fecha es correcta o no
  */
 function fechaCorrecta($d, $m, $a)
@@ -871,7 +871,7 @@ function mantenimiento()
  *        	El mes entre 1 y 12 inclusive.
  * @param int $a
  *        	El a�o entre 1 y 32767 inclusive.
- *
+ *        	
  * @return bool puede ser 0 o 1 dependiendo si la fecha es correcta o no
  */
 function datosDerivado($derivado)
