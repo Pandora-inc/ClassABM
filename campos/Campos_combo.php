@@ -213,7 +213,7 @@ class Campos_combo extends class_campo
 
 	public function generar_elemento_form_update()
 	{
-		$imprForm = "<select name='" . $this->getCampo () . "' id='" . $this->getCampo () . "' $this->autofocusAttr class='input-select $this->getAtrRequerido () ' $this->getAtrDisabled() " . $this->establecerHint () . " " . $this->getAdicionalInput () . "> \n";
+		$imprForm = "<select name='" . $this->getCampo () . "' id='" . $this->getCampo () . "' " . $this->autofocusAttr . " class='input-select " . $this->getAtrRequerido () . "' " . $this->getAtrDisabled () . " " . $this->establecerHint () . " " . $this->getAdicionalInput () . "> \n";
 
 		if ($this->isIncluirOpcionVacia ())
 		{

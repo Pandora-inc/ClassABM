@@ -2990,6 +2990,8 @@ class class_abm
 		while ($fila = $db->fetch_array ($result))
 		{
 			// print_r("<Br />*******************<Br />");
+
+			$fila = array_change_key_case ($fila, CASE_LOWER);
 			$fila = $this->limpiarEntidadesHTML ($fila);
 			$i ++;
 
@@ -3038,7 +3040,7 @@ class class_abm
 					 * echo "|-";
 					 */
 					extract ($GLOBALS);
-					$id = $fila['ID'];
+					$id = $fila['id'];
 
 					if (isset ($campo['campo']) and $campo['campo'] != "")
 					{
@@ -3862,7 +3864,7 @@ class class_abm
 
 		if (isset ($busqueda))
 		{
-			$paginado->sumarBusqueda = $busqueda;
+			$paginado->setSumarBusqueda ($busqueda);
 		}
 		// fin formulario de busqueda
 
@@ -4457,7 +4459,8 @@ class class_abm
 				break;
 
 			case "exportar" :
-				$this->exportar_verificar ($camposWhereBuscar);
+				// $this->exportar_verificar ($camposWhereBuscar);
+				$this->exportar_verificar ($db);
 				break;
 
 			default :
@@ -5268,9 +5271,11 @@ class class_abm
 	 *
 	 * @param string $camposWhereBuscar
 	 */
-	public function exportar_verificar($camposWhereBuscar = "")
+	public function exportar_verificar($db)
+	// public function exportar_verificar($camposWhereBuscar = "")
 	{
 		$estado = $this->getEstadoActual ();
+
 		if ($estado == "exportar" and $this->mostrarListado)
 		{
 			$this->exportar ($_GET['abm_exportar'], $db, $_GET['buscar']);

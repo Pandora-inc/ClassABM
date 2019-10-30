@@ -2301,7 +2301,7 @@ class class_campo
 		}
 	}
 
-	public function getAtrRequerido()
+	protected function getAtrRequerido()
 	{
 		if ($this->isRequerido () == true)
 		{
@@ -2313,7 +2313,7 @@ class class_campo
 		}
 	}
 
-	public function getAtrDisabled()
+	protected function getAtrDisabled()
 	{
 		if ($this->isRequerido () == true)
 		{

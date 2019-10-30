@@ -918,26 +918,63 @@ class class_abm
 	 *
 	 * @var string
 	 */
-	private $jsUpdateForm = '<script type="text/javascript">
-	function f_editar(direccion)
-	{
-		$.ajax({
-			url: direccion,
-			type: "POST",
-			data:"",
-			dataType: \'text\',
-			success: function(tablaPerson)
-			{
-				vex.dialog.open(
-				{
-					message: \'\',
-  					input: [tablaPerson].join(\'\')
-				})
-			}
-		});
-	}
-	</script>';
+	// private $jsUpdateForm = '<script type="text/javascript">
+	// function f_editar(direccion)
+	// {
+	// $.ajax({
+	// url: direccion,
+	// type: "POST",
+	// data:"",
+	// dataType: \'text\',
+	// success: function(tablaPerson)
+	// {
+	// vex.dialog.open(
+	// {
+	// message: \'\',
+	// input: [tablaPerson].join(\'\')
+	// })
+	// }
+	// });
+	// }
+	// </script>';
+	// url: "verEnvios.php",
+	// data: {'do':'show', 'doc': tipo+nro,'fac':facultad,'sede':sede, 'carr':carrera},
 
+	// $.ajax({
+	// type: "POST",
+	// url: direccion,
+	// data: datos,
+	// success: function (data) {
+	// vex.dialog.open({
+	// message: "Haga clic en aceptar para confirmar la modificacion en la cuenta corriente del alumno.",
+	// input: [data].join(),
+	// buttons: []
+	// });
+
+	// }
+	// })
+	private $jsUpdateForm = '<script type="text/javascript">
+	function f_editar(direccion){
+	$.ajax({
+	url: direccion,
+	type: "POST",
+	dataType: "html",
+	success: function (data) {
+		vex.dialog.confirm({
+		    message: \'Hola\',
+            input: [data] .join(\'\'),
+		    callback: function (value) {
+		        if (value) {
+		            console.log(\'Successfully destroyed the planet.\')
+		        } else {
+		            console.log(\'Chicken.\')
+		        }
+		    }
+		})
+		}
+	})
+}
+		</script>';
 	/**
 	 * Establece si los formularios del abm se separaran en solapas o no
 	 *
@@ -1008,7 +1045,12 @@ class class_abm
 	 *
 	 * @var string
 	 */
-	public $estilosBasicos = "<link rel='stylesheet' href='%dirname%/font-awesome/css/font-awesome.min.css'><link rel='stylesheet' type='text/css' href='%dirname%/cssABM/abm.css' />";
+	public $estilosBasicos = "<link rel='stylesheet' href='%dirname%/font-awesome/css/font-awesome.min.css'><link rel='stylesheet' type='text/css' href='%dirname%/cssABM/abm.css' />
+<script src='%dirname%/jsABM/vex.combined.min.js'></script>
+<script>vex.defaultOptions.className = 'vex-theme-os'</script>
+<link rel='stylesheet' href='%dirname%/cssABM/css-vex/vex.css' />
+<link rel='stylesheet' href='%dirname%/cssABM/css-vex/vex-theme-os.css' />
+";
 
 	/**
 	 * Array de objetos campo
@@ -2005,6 +2047,19 @@ class class_abm
 			{
 				$html .= $this->jsHints;
 				break;
+			}
+		}
+
+		foreach ($this->campo as $campo)
+		{
+
+			if (isset ($fila[$campo->getCampo ()]))
+			{
+				$campo->setValor ($fila[$campo->getCampo ()]);
+			}
+			elseif (isset ($fila[$campo->getCampoTexto ()]))
+			{
+				$campo->setValor ($fila[$campo->getCampoTexto ()]);
 			}
 		}
 
@@ -3007,6 +3062,7 @@ class class_abm
 	private function generarListado($titulo, $sql = "")
 	{
 		$html = "";
+
 		$estaBuscando = "";
 
 		$this->estilosBasicos = str_ireplace ('%dirname%', dirname (__FILE__), $this->estilosBasicos);
