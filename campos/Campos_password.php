@@ -20,7 +20,7 @@ require_once 'class_campo.php';
 /**
  *
  * @author iberlot
- *        
+ *
  */
 class Campos_password extends class_campo
 {
@@ -41,6 +41,7 @@ class Campos_password extends class_campo
 		{
 			parent::__construct ();
 		}
+		$this->setTipo ('password');
 	}
 
 	public function generar_elemento_form_update(): string

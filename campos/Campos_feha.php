@@ -30,7 +30,7 @@ require_once 'class_campo.php';
 /**
  *
  * @author iberlot
- *        
+ *
  */
 class Campos_fecha extends class_campo
 {
@@ -71,6 +71,7 @@ class Campos_fecha extends class_campo
 		{
 			parent::__construct ();
 		}
+		$this->setTipo ('fecha');
 	}
 
 	/**
@@ -79,7 +80,7 @@ class Campos_fecha extends class_campo
 	 *        	Objeto de coneccion a la base.
 	 * @param String $busqueda
 	 *        	variable donde se registran los parametros de busqueda. es pasada por referencia con lo que se puede utilizar incluso fuera de la funcion.
-	 *        	
+	 *
 	 * @return string
 	 */
 	public function campoFormBuscar($db, &$busqueda)

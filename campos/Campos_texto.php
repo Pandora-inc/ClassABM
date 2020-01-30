@@ -6,7 +6,7 @@ require_once 'class_campo.php';
 /**
  *
  * @author iberlot
- *        
+ *
  */
 class Campos_texto extends class_campo
 {
@@ -27,6 +27,7 @@ class Campos_texto extends class_campo
 		{
 			parent::__construct ();
 		}
+		$this->setTipo ('texto');
 	}
 
 	public function __toString(): string

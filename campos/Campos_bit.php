@@ -76,6 +76,7 @@ class Campos_bit extends class_campo
 		{
 			parent::__construct ();
 		}
+		$this->setTipo ('bit');
 	}
 
 	/**

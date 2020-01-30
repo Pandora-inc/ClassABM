@@ -1800,12 +1800,25 @@ class class_campo
 	/**
 	 * Comprueba y setea el valor de joinCondition
 	 *
+	 * Valores posibles
+	 * (INNER) JOIN: Returns records that have matching values in both tables
+	 * LEFT (OUTER) JOIN: Returns all records from the left table, and the matched records from the right table
+	 * RIGHT (OUTER) JOIN: Returns all records from the right table, and the matched records from the left table
+	 * FULL (OUTER) JOIN: Returns all records when there is a match in either left or right table
+	 *
 	 * @access public
 	 * @param string $joinCondition
 	 */
 	public function setJoinCondition(string $joinCondition)
 	{
-		$this->joinCondition = $joinCondition;
+		if (strtoupper ($joinCondition) == "INNER" or strtoupper ($joinCondition) == "LEFT" or strtoupper ($joinCondition) == "RIGHT" or strtoupper ($joinCondition) == "FULL")
+		{
+			$this->joinCondition = $joinCondition;
+		}
+		else
+		{
+			throw new Exception ("Condicion del join erronea.");
+		}
 	}
 
 	/**

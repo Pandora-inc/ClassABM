@@ -20,7 +20,7 @@ require_once 'class_campo.php';
 /**
  *
  * @author iberlot
- *        
+ *
  */
 class Campos_moneda extends class_campo
 {
@@ -30,7 +30,7 @@ class Campos_moneda extends class_campo
 	 * Derine el numero de valores despues de la coma.
 	 *
 	 * @todo Por defecto su valor es 2.
-	 *      
+	 *
 	 * @name cantidadDecimales
 	 * @var integer
 	 */
@@ -60,6 +60,7 @@ class Campos_moneda extends class_campo
 		{
 			parent::__construct ();
 		}
+		$this->setTipo ('moneda');
 	}
 
 	/**
@@ -84,7 +85,7 @@ class Campos_moneda extends class_campo
 	 *
 	 * @param String $busqueda
 	 *        	variable donde se registran los parametros de busqueda. es pasada por referencia con lo que se puede utilizar incluso fuera de la funcion.
-	 *        	
+	 *
 	 * @return string
 	 *
 	 * {@inheritdoc}

@@ -81,6 +81,7 @@ class Campos_upload extends class_campo
 		{
 			parent::__construct ();
 		}
+		$this->setTipo ('upload');
 	}
 
 	/**

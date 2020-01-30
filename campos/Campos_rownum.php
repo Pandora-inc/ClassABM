@@ -20,7 +20,7 @@ require_once 'class_campo.php';
 /**
  *
  * @author iberlot
- *        
+ *
  */
 class Campos_rownum extends class_campo
 {
@@ -47,7 +47,7 @@ class Campos_rownum extends class_campo
 			parent::__construct ();
 		}
 
-		// $this->set_
+		$this->setTipo ('rownum');
 	}
 
 	/**

@@ -2615,7 +2615,7 @@ class class_abm
 		// contar el total de campos que tienen el parametro "exportar"
 		$totalCamposExportar = 0;
 
-		for($i = 0; $i < count ($this->campos); $i++)
+		for($i = 0; $i < count ($this->campo); $i++)
 		{
 			if (!isset ($this->campos[$i]['exportar']) or $this->campos[$i]['exportar'] != true)
 			{
@@ -2626,7 +2626,7 @@ class class_abm
 
 		// FIXME WTF con essto
 		// Por cada campo...
-		for($i = 0; $i < count ($this->campos); $i++)
+		for($i = 0; $i < count ($this->campo); $i++)
 		{
 
 			if ($campo->existeDato ('exportar') != true)
@@ -2997,7 +2997,7 @@ class class_abm
 		// XXX Hay que convertirlo en una funcion que retorne el string del formulario
 		if (($this->mostrarListado) and $this->busquedaTotal == false)
 		{
-			$formBuscar = "<tr class='mbuscar'><th colspan='" . (count ($this->campos) + 2) . "'> \n";
+			$formBuscar = "<tr class='mbuscar'><th colspan='" . (count ($this->campo) + 2) . "'> \n";
 			$formBuscar .= "<fieldset><legend>$this->textoTituloFormularioBuscar</legend> \n";
 			$formBuscar .= "<form method='POST' action='$this->formAction?$qsamb' id='formularioBusquedaAbm'> \n";
 
@@ -3059,7 +3059,7 @@ class class_abm
 		}
 		elseif ($this->busquedaTotal == true)
 		{
-			$formBuscar = "<tr class='mbuscar'><th colspan='" . (count ($this->campos) + 2) . "'> \n";
+			$formBuscar = "<tr class='mbuscar'><th colspan='" . (count ($this->campo) + 2) . "'> \n";
 			$formBuscar .= "<fieldset><legend>$this->textoTituloFormularioBuscar</legend> \n";
 			$formBuscar .= "<form method='POST' action='$this->formAction?$qsamb' id='formularioBusquedaAbm'> \n";
 			$formBuscar .= "<div>\n";
@@ -3365,7 +3365,7 @@ class class_abm
 
 		// titulo, botones, form buscar
 		$html .= "<thead> \n";
-		$html .= "<tr><th colspan='" . (count ($this->campos) + 2) . "'> \n";
+		$html .= "<tr><th colspan='" . (count ($this->campo) + 2) . "'> \n";
 		$html .= "<div class='mtitulo'>$titulo</div>";
 		$html .= "<div class='mbotonera'> \n";
 		$html .= $this->agregarABotoneraListado;
@@ -3518,7 +3518,7 @@ class class_abm
 
 			$html .= "<tfoot> \n";
 			$html .= "<tr> \n";
-			$html .= "<th colspan='" . (count ($this->campos) + 2) . "'>";
+			$html .= "<th colspan='" . (count ($this->campo) + 2) . "'>";
 
 			if (!$this->mostrarTotalRegistros)
 			{
@@ -3532,7 +3532,7 @@ class class_abm
 		}
 		else
 		{
-			$html .= "<td colspan='" . (count ($this->campos) + 2) . "' " . $campo->get_no_mostrar () . "><div class='noHayRegistros'>" . ($estaBuscando ? $this->textoNoHayRegistrosBuscando : $this->textoNoHayRegistros) . "</div></td>";
+			$html .= "<td colspan='" . (count ($this->campo) + 2) . "' " . $campo->get_no_mostrar () . "><div class='noHayRegistros'>" . ($estaBuscando ? $this->textoNoHayRegistrosBuscando : $this->textoNoHayRegistros) . "</div></td>";
 		}
 
 		$html .= "</table> \n";
@@ -3860,8 +3860,14 @@ class class_abm
 	 */
 	public function generarAbm($sql = "", $titulo)
 	{
-		// en caso de que no se pase el parametro de conexion a la base
-		$this->cargar_campos ($this->campos);
+		if (!empty ($this->campos))
+		{
+			$this->cargar_campos ($this->campos);
+		}
+		elseif (empty ($this->campo))
+		{
+			throw new Exception ("No paso ningun campo con el que trabajar.");
+		}
 
 		$estado = $this->getEstadoActual ();
 
@@ -4947,6 +4953,9 @@ class class_abm
 	 */
 	private function cargar_campos($campos)
 	{
+		print_r ("<br>||");
+		print_r ($campos);
+		print_r ("||<br>");
 		foreach ($campos as $camp)
 		{
 			if (!$camp['tipo'])
@@ -5097,6 +5106,12 @@ class class_abm
 		return $camposWhereBuscar;
 	}
 
+	/*
+	 * **********************************************************************************
+	 * GETTERS AND SETTERS
+	 * **********************************************************************************
+	 */
+
 	/**
 	 * Retorna el valor del atributo $campoIdEsEditable
 	 *
@@ -5112,7 +5127,7 @@ class class_abm
 	 *
 	 * @return boolean $mostrarEditar el dato de la variable.
 	 */
-	public function getMostrarEditar()
+	public function isMostrarEditar()
 	{
 		return $this->mostrarEditar;
 	}
@@ -5122,7 +5137,7 @@ class class_abm
 	 *
 	 * @return boolean $mostrarNuevo el dato de la variable.
 	 */
-	public function getMostrarNuevo()
+	public function isMostrarNuevo()
 	{
 		return $this->mostrarNuevo;
 	}
@@ -5132,7 +5147,7 @@ class class_abm
 	 *
 	 * @return boolean $mostrarBorrar el dato de la variable.
 	 */
-	public function getMostrarBorrar()
+	public function isMostrarBorrar()
 	{
 		return $this->mostrarBorrar;
 	}
@@ -5142,7 +5157,7 @@ class class_abm
 	 *
 	 * @return boolean $mostrarListado el dato de la variable.
 	 */
-	public function getMostrarListado()
+	public function isMostrarListado()
 	{
 		return $this->mostrarListado;
 	}
@@ -5153,7 +5168,7 @@ class class_abm
 	 * @param boolean $campoIdEsEditable
 	 *        	dato a cargar en la variable.
 	 */
-	public function setCampoIdEsEditable($campoIdEsEditable)
+	public function setCampoIdEsEditable(bool $campoIdEsEditable)
 	{
 		$this->campoIdEsEditable = $campoIdEsEditable;
 	}
@@ -5164,7 +5179,7 @@ class class_abm
 	 * @param boolean $mostrarEditar
 	 *        	dato a cargar en la variable.
 	 */
-	public function setMostrarEditar($mostrarEditar)
+	public function setMostrarEditar(bool $mostrarEditar)
 	{
 		$this->mostrarEditar = $mostrarEditar;
 	}
@@ -5175,7 +5190,7 @@ class class_abm
 	 * @param boolean $mostrarNuevo
 	 *        	dato a cargar en la variable.
 	 */
-	public function setMostrarNuevo($mostrarNuevo)
+	public function setMostrarNuevo(bool $mostrarNuevo)
 	{
 		$this->mostrarNuevo = $mostrarNuevo;
 	}
@@ -5186,7 +5201,7 @@ class class_abm
 	 * @param boolean $mostrarBorrar
 	 *        	dato a cargar en la variable.
 	 */
-	public function setMostrarBorrar($mostrarBorrar)
+	public function setMostrarBorrar(bool $mostrarBorrar)
 	{
 		$this->mostrarBorrar = $mostrarBorrar;
 	}
@@ -5197,7 +5212,7 @@ class class_abm
 	 * @param boolean $mostrarListado
 	 *        	dato a cargar en la variable.
 	 */
-	public function setMostrarListado($mostrarListado)
+	public function setMostrarListado(bool $mostrarListado)
 	{
 		$this->mostrarListado = $mostrarListado;
 	}
@@ -5228,39 +5243,9 @@ class class_abm
 	 *
 	 * @return mixed $adicionalesSelect el dato de la variable.
 	 */
-	public function getAdicionalesSelect()
+	public function getAdicionalesSelect(): string
 	{
 		return $this->adicionalesSelect;
-	}
-
-	/**
-	 * Retorna el valor del atributo $campos
-	 *
-	 * @return mixed $campos el dato de la variable.
-	 */
-	public function getCampos()
-	{
-		return $this->campos;
-	}
-
-	/**
-	 * Retorna el valor del atributo $textoBitTrue
-	 *
-	 * @return string $textoBitTrue el dato de la variable.
-	 */
-	public function getTextoBitTrue()
-	{
-		return $this->textoBitTrue;
-	}
-
-	/**
-	 * Retorna el valor del atributo $textoBitFalse
-	 *
-	 * @return string $textoBitFalse el dato de la variable.
-	 */
-	public function getTextoBitFalse()
-	{
-		return $this->textoBitFalse;
 	}
 
 	/**
@@ -5293,6 +5278,16 @@ class class_abm
 	}
 
 	/**
+	 * Retorna el valor del atributo $textoBitTrue
+	 *
+	 * @return string $textoBitTrue el dato de la variable.
+	 */
+	public function getTextoBitTrue(): string
+	{
+		return $this->textoBitTrue;
+	}
+
+	/**
 	 * Setter del parametro $textoBitTrue de la clase.
 	 *
 	 * @param string $textoBitTrue
@@ -5304,6 +5299,16 @@ class class_abm
 	}
 
 	/**
+	 * Retorna el valor del atributo $textoBitFalse
+	 *
+	 * @return string $textoBitFalse el dato de la variable.
+	 */
+	public function getTextoBitFalse(): string
+	{
+		return $this->textoBitFalse;
+	}
+
+	/**
 	 * Setter del parametro $textoBitFalse de la clase.
 	 *
 	 * @param string $textoBitFalse
@@ -5312,6 +5317,27 @@ class class_abm
 	public function setTextoBitFalse(string $textoBitFalse)
 	{
 		$this->textoBitFalse = $textoBitFalse;
+	}
+
+	/**
+	 * Retorna el valor del atributo $orderByPorDefecto
+	 *
+	 * @return string $orderByPorDefecto el dato de la variable.
+	 */
+	public function getOrderByPorDefecto(): string
+	{
+		return $this->orderByPorDefecto;
+	}
+
+	/**
+	 * Setter del parametro $orderByPorDefecto de la clase.
+	 *
+	 * @param string $orderByPorDefecto
+	 *        	dato a cargar en la variable.
+	 */
+	public function setOrderByPorDefecto(string $orderByPorDefecto)
+	{
+		$this->orderByPorDefecto = $orderByPorDefecto;
 	}
 
 	/**
@@ -5335,7 +5361,12 @@ class class_abm
 		$this->campoId = $campoId;
 	}
 
-	public function addCampoId($campoId)
+	/**
+	 * Agrega un item al array de campos ID
+	 *
+	 * @param string $campoId
+	 */
+	public function addCampoId(string $campoId)
 	{
 		if (!isset ($this->campoId))
 		{
@@ -5343,6 +5374,286 @@ class class_abm
 		}
 
 		$this->campoId[] = $campoId;
+	}
+
+	/**
+	 * Retorna el valor del atributo $tabla
+	 *
+	 * @return string $tabla el dato de la variable.
+	 */
+	public function getTabla(): string
+	{
+		return $this->tabla;
+	}
+
+	/**
+	 * Setter del parametro $tabla de la clase.
+	 *
+	 * @param string $tabla
+	 *        	dato a cargar en la variable.
+	 */
+	public function setTabla(string $tabla)
+	{
+		$this->tabla = $tabla;
+	}
+
+	/**
+	 * Retorna el valor del atributo $registros_por_pagina
+	 *
+	 * @return int $registros_por_pagina el dato de la variable.
+	 */
+	public function getRegistros_por_pagina(): int
+	{
+		return $this->registros_por_pagina;
+	}
+
+	/**
+	 * Setter del parametro $registros_por_pagina de la clase.
+	 *
+	 * @param int $registros_por_pagina
+	 *        	dato a cargar en la variable.
+	 */
+	public function setRegistros_por_pagina(int $registros_por_pagina)
+	{
+		$this->registros_por_pagina = $registros_por_pagina;
+	}
+
+	/**
+	 * Retorna el valor del atributo $redireccionarDespuesInsert
+	 *
+	 * @return string $redireccionarDespuesInsert el dato de la variable.
+	 */
+	public function getRedireccionarDespuesInsert(): string
+	{
+		return $this->redireccionarDespuesInsert;
+	}
+
+	/**
+	 * Setter del parametro $redireccionarDespuesInsert de la clase.
+	 *
+	 * @param string $redireccionarDespuesInsert
+	 *        	dato a cargar en la variable.
+	 */
+	public function setRedireccionarDespuesInsert(string $redireccionarDespuesInsert)
+	{
+		$this->redireccionarDespuesInsert = $redireccionarDespuesInsert;
+	}
+
+	/**
+	 * Retorna el valor del atributo $redireccionarDespuesUpdate
+	 *
+	 * @return string $redireccionarDespuesUpdate el dato de la variable.
+	 */
+	public function getRedireccionarDespuesUpdate(): string
+	{
+		return $this->redireccionarDespuesUpdate;
+	}
+
+	/**
+	 * Setter del parametro $redireccionarDespuesUpdate de la clase.
+	 *
+	 * @param string $redireccionarDespuesUpdate
+	 *        	dato a cargar en la variable.
+	 */
+	public function setRedireccionarDespuesUpdate(string $redireccionarDespuesUpdate)
+	{
+		$this->redireccionarDespuesUpdate = $redireccionarDespuesUpdate;
+	}
+
+	/**
+	 * Retorna el valor del atributo $redireccionarDespuesDelete
+	 *
+	 * @return string $redireccionarDespuesDelete el dato de la variable.
+	 */
+	public function getRedireccionarDespuesDelete(): string
+	{
+		return $this->redireccionarDespuesDelete;
+	}
+
+	/**
+	 * Setter del parametro $redireccionarDespuesDelete de la clase.
+	 *
+	 * @param string $redireccionarDespuesDelete
+	 *        	dato a cargar en la variable.
+	 */
+	public function setRedireccionarDespuesDelete(string $redireccionarDespuesDelete)
+	{
+		$this->redireccionarDespuesDelete = $redireccionarDespuesDelete;
+	}
+
+	/**
+	 * Retorna el valor del atributo $customJoin
+	 *
+	 * @return string $customJoin el dato de la variable.
+	 */
+	public function getCustomJoin(): string
+	{
+		return $this->customJoin;
+	}
+
+	/**
+	 * Setter del parametro $customJoin de la clase.
+	 *
+	 * @param string $customJoin
+	 *        	dato a cargar en la variable.
+	 */
+	public function setCustomJoin(string $customJoin)
+	{
+		$this->customJoin = $customJoin;
+	}
+
+	/**
+	 * Retorna el valor del atributo $adicionalesWhereDelete
+	 *
+	 * @return string $adicionalesWhereDelete el dato de la variable.
+	 */
+	public function getAdicionalesWhereDelete(): string
+	{
+		return $this->adicionalesWhereDelete;
+	}
+
+	/**
+	 * Setter del parametro $adicionalesWhereDelete de la clase.
+	 *
+	 * @param mixed $adicionalesWhereDelete
+	 *        	dato a cargar en la variable.
+	 */
+	public function setAdicionalesWhereDelete(string $adicionalesWhereDelete)
+	{
+		$this->adicionalesWhereDelete = $adicionalesWhereDelete;
+	}
+
+	/**
+	 * Setter del parametro $adicionalesWhereDelete de la clase.
+	 *
+	 * @param string $adicionalesWhereDelete
+	 *        	dato a cargar en la variable.
+	 */
+	public function addAdicionalesWhereDelete(string $adicionalesWhereDelete)
+	{
+		if (strpos (substr ($adicionalesWhereDelete, 0, 7), "AND ") === false)
+		{
+			$this->adicionalesWhereDelete .= " AND " . $adicionalesWhereDelete;
+		}
+		else
+		{
+			$this->adicionalesWhereDelete .= " " . $adicionalesWhereDelete;
+		}
+	}
+
+	/**
+	 * Setter del parametro $campos de la clase.
+	 *
+	 * @param mixed $campos
+	 *        	dato a cargar en la variable.
+	 */
+	public function setCampos($campos)
+	{
+		$this->campos = $campos;
+	}
+
+	/**
+	 * Retorna el valor del atributo $campos
+	 *
+	 * @return mixed $campos el dato de la variable.
+	 */
+	public function getCampos()
+	{
+		return $this->campos;
+	}
+
+	/**
+	 * El ultimo campo cargado en el array
+	 *
+	 * @return mixed $campos el dato de la variable.
+	 */
+	public function getUltimoCampo()
+	{
+		return $this->campo[Funciones::endKey ($this->campo)];
+	}
+
+	/**
+	 *
+	 * @param array $campo
+	 */
+	public function addCampos(array $campo)
+	{
+		$this->campos[] = $campos;
+	}
+
+	public function addNuevoCampos($tipo = "")
+	{
+	}
+
+	/**
+	 * Crea un nuevo elemento en el array de campos vasado en el tipo pasado y retorna el id en el array.
+	 *
+	 * @param string $tipo
+	 * @return int
+	 */
+	public function crearCampoTipo($tipo = "")
+	{
+		if (!$tipo)
+		{
+			$tipo = "texto";
+		}
+
+		switch (strtolower ($tipo))
+		{
+			// case "" :
+			case "texto" :
+				$this->campo[] = new Campos_texto ();
+				$i = Funciones::endKey ($this->campo);
+				break;
+
+			case "bit" :
+				$this->campo[] = new Campos_bit ();
+				$i = Funciones::endKey ($this->campo);
+				break;
+
+			case "combo" :
+				$this->campo[] = new Campos_combo ();
+				$i = Funciones::endKey ($this->campo);
+				break;
+
+			case "dbcombo" :
+				$this->campo[] = new Campos_dbCombo (array (), $this->db);
+				$i = Funciones::endKey ($this->campo);
+				break;
+
+			case "password" :
+				$this->campo[] = new Campos_password ();
+				$i = Funciones::endKey ($this->campo);
+				break;
+
+			case "upload" :
+				$this->campo[] = new Campos_upload ();
+				$i = Funciones::endKey ($this->campo);
+				break;
+
+			case "moneda" :
+				$this->campo[] = new Campos_moneda ();
+				$i = Funciones::endKey ($this->campo);
+				break;
+
+			case "numero" :
+				$this->campo[] = new Campos_numero ();
+				$i = Funciones::endKey ($this->campo);
+				break;
+
+			case "rownum" :
+				$this->campo[] = new Campos_rownum ();
+				$i = Funciones::endKey ($this->campo);
+				break;
+
+			case "fecha" :
+				$this->campo[] = new Campos_fecha ("", $this->db);
+				$i = Funciones::endKey ($this->campo);
+				break;
+		}
+		$this->campo[$i]->setTabla ($this->getTabla ());
+
+		return $i;
 	}
 }
 ?>

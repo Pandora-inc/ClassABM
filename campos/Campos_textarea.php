@@ -72,6 +72,7 @@ class Campos_textarea extends class_campo
 		{
 			parent::__construct ();
 		}
+		$this->setTipo ('textarea');
 	}
 
 	/**

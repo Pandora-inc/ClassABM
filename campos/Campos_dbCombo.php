@@ -93,6 +93,7 @@ class Campos_dbCombo extends class_campo
 		{
 			parent::__construct ();
 		}
+		$this->setTipo ('dbcombo');
 	}
 
 	/**

@@ -20,7 +20,7 @@ require_once 'class_campo.php';
 /**
  *
  * @author iberlot
- *        
+ *
  */
 class Campos_combo extends class_campo
 {
@@ -29,7 +29,7 @@ class Campos_combo extends class_campo
 	 * Datos para el tipo de campo "combo".
 	 *
 	 * @example Array("key" => "value"...)
-	 *         
+	 *
 	 * @name datos
 	 * @var array
 	 */
@@ -95,6 +95,7 @@ class Campos_combo extends class_campo
 		{
 			$this->setDatos ($array['datos']);
 		}
+		$this->setTipo ('combo');
 	}
 
 	/**
@@ -185,6 +186,24 @@ class Campos_combo extends class_campo
 		else
 		{
 			throw new Exception ("El valor " . $this->getValor () . " no existe entre los posibles datos.");
+		}
+	}
+
+	/**
+	 * Agrega un valor al array de datos.
+	 *
+	 * @param string $index
+	 * @param string $datos
+	 */
+	public function addDatos($index = "", $dato)
+	{
+		if ($index == "")
+		{
+			$this->datos[] = $dato;
+		}
+		else
+		{
+			$this->datos[$index] = $dato;
 		}
 	}
 
