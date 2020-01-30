@@ -26,17 +26,17 @@ require_once 'class_campo.php';
  *
  * @author iberlot <@> ivanberlot@gmail.com
  * @since 16 Nov. 2018
- *       
+ *
  */
 class Campos_textarea extends class_campo
 {
-	/**
-	 * Establece si hay que limpiar o no las entidades html del campo.
-	 * Esto es util para lo que es textos formatesados.
-	 *
-	 * @var boolean
-	 */
-	protected $noLimpiar = false;
+	// /**
+	// * Establece si hay que limpiar o no las entidades html del campo.
+	// * Esto es util para lo que es textos formatesados.
+	// *
+	// * @var boolean
+	// */
+	// protected $noLimpiar = false;
 
 	/**
 	 * Maximo de caracteres que mostrara por pantalla.
@@ -137,23 +137,23 @@ class Campos_textarea extends class_campo
 		}
 	}
 
-	/**
-	 *
-	 * @return boolean
-	 */
-	public function isNoLimpiar()
-	{
-		return $this->noLimpiar;
-	}
+	// /**
+	// *
+	// * @return boolean
+	// */
+	// public function isNoLimpiar()
+	// {
+	// return $this->noLimpiar;
+	// }
 
-	/**
-	 *
-	 * @param boolean $noLimpiar
-	 */
-	public function setNoLimpiar($noLimpiar)
-	{
-		$this->noLimpiar = $noLimpiar;
-	}
+	// /**
+	// *
+	// * @param boolean $noLimpiar
+	// */
+	// public function setNoLimpiar($noLimpiar)
+	// {
+	// $this->noLimpiar = $noLimpiar;
+	// }
 }
 
 ?>

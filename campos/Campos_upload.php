@@ -59,13 +59,6 @@ class Campos_upload extends class_campo
 	);
 
 	/**
-	 * Directorio donde se guardaran los archivos subidos.
-	 *
-	 * @var string
-	 */
-	protected $directorio = "";
-
-	/**
 	 * Habilita la carga del archivo sin la extencion correspondiente.
 	 *
 	 * @var bool
