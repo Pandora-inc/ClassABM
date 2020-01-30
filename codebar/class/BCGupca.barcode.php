@@ -189,7 +189,7 @@ class BCGupca extends BCGBarcode1D
 
 		// Checking if all chars are allowed
 		$c = strlen ($this->text);
-		for($i = 0; $i < $c; $i ++)
+		for($i = 0; $i < $c; $i++)
 		{
 			if (array_search ($this->text[$i], $this->keys) === false)
 			{
@@ -217,14 +217,14 @@ class BCGupca extends BCGBarcode1D
 				// Draw Second Code
 				$this->drawChar ($im, $this->findCode ($temp_text[1]), false);
 				// Draw Manufacturer Code
-				for($i = 0; $i < 5; $i ++)
+				for($i = 0; $i < 5; $i++)
 				{
 					$this->drawChar ($im, self::inverse ($this->findCode ($temp_text[$i + 2]), $this->codeParity[$temp_text[0]][$i]), false);
 				}
 				// Draw Center Guard Bar
 				$this->drawChar ($im, '00000', false);
 				// Draw Product Code
-				for($i = 7; $i < 13; $i ++)
+				for($i = 7; $i < 13; $i++)
 				{
 					$this->drawChar ($im, $this->findCode ($temp_text[$i]), true);
 				}
@@ -272,7 +272,7 @@ class BCGupca extends BCGBarcode1D
 		$odd = true;
 		$this->checksumValue = 0;
 		$c = strlen ($this->text);
-		for($i = $c; $i > 0; $i --)
+		for($i = $c; $i > 0; $i--)
 		{
 			if ($odd === true)
 			{

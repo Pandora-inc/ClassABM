@@ -6,7 +6,7 @@ require_once 'class_campo.php';
 /**
  *
  * @author iberlot
- *
+ *        
  */
 class Campos_texto extends class_campo
 {
@@ -17,7 +17,7 @@ class Campos_texto extends class_campo
 	 *
 	 * @param array $array
 	 */
-	public function __construct($array = array())
+	public function __construct(array $array = array())
 	{
 		if (isset ($array) and !empty ($array))
 		{
@@ -29,9 +29,14 @@ class Campos_texto extends class_campo
 		}
 	}
 
-	public function generar_elemento_form_update()
+	public function __toString(): string
 	{
-		return "<input type='text' name='" . $this->campo . "' id='" . $this->campo . "' " . $this->autofocus . " class='input-text " . $requerido . "' $disabled value='" . $this->campoValor . "' " . $campo->establecerMaxLeng () . " " . (($campo->getCampo () == $this->campoId and !$this->campoIdEsEditable) ? "readonly='readonly' disabled='disabled'" : "") . " " . $campo->establecerHint () . " " . ($this->existeDato ('adicionalInput') ? $this->getAdicionalInput () : "") . "/> \n";
+		return "Campo: " . $this->campo . " valor: " . $this->getValor ();
+	}
+
+	public function generar_elemento_form_update(): string
+	{
+		return "<input type='text' name='" . $this->campo . "' id='" . $this->campo . "' " . $this->autofocus . " class='input-text " . $this->getAtrRequerido () . "' " . $this->getAtrDisabled () . " value='" . $this->getValor () . "' " . $this->establecerMaxLeng () . " " . $this->establecerHint () . " " . $this->getAdicionalInput () . "/> \n";
 	}
 }
 

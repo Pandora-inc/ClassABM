@@ -69,7 +69,7 @@ class BCGcode11 extends BCGBarcode1D
 
 		// Checking if all chars are allowed
 		$c = strlen ($this->text);
-		for($i = 0; $i < $c; $i ++)
+		for($i = 0; $i < $c; $i++)
 		{
 			if (array_search ($this->text[$i], $this->keys) === false)
 			{
@@ -82,14 +82,14 @@ class BCGcode11 extends BCGBarcode1D
 			// Starting Code
 			$this->drawChar ($im, '001100', true);
 			// Chars
-			for($i = 0; $i < $c; $i ++)
+			for($i = 0; $i < $c; $i++)
 			{
 				$this->drawChar ($im, $this->findCode ($this->text[$i]), true);
 			}
 			// Checksum
 			$this->calculateChecksum ();
 			$c = count ($this->checksumValue);
-			for($i = 0; $i < $c; $i ++)
+			for($i = 0; $i < $c; $i++)
 			{
 				$this->drawChar ($im, $this->code[$this->checksumValue[$i]], true);
 			}
@@ -110,7 +110,7 @@ class BCGcode11 extends BCGBarcode1D
 
 		$w = 0;
 		$c = strlen ($this->text);
-		for($i = 0; $i < $c; $i ++)
+		for($i = 0; $i < $c; $i++)
 		{
 			$index = $this->findIndex ($this->text[$i]);
 			if ($index !== false)
@@ -155,7 +155,7 @@ class BCGcode11 extends BCGBarcode1D
 		);
 		$temp_text = $this->text;
 		$this->checksumValue = array ();
-		for($z = 0; $z < 2; $z ++)
+		for($z = 0; $z < 2; $z++)
 		{
 			$c = strlen ($temp_text);
 			// We don't display the K CheckSum if the original text had a length less than 10
@@ -164,7 +164,7 @@ class BCGcode11 extends BCGBarcode1D
 				break;
 			}
 			$checksum = 0;
-			for($i = $c, $j = 0; $i > 0; $i --, $j ++)
+			for($i = $c, $j = 0; $i > 0; $i--, $j++)
 			{
 				$multiplier = $i % $sequence_multiplier[$z];
 				if ($multiplier === 0)
@@ -191,7 +191,7 @@ class BCGcode11 extends BCGBarcode1D
 		{
 			$ret = '';
 			$c = count ($this->checksumValue);
-			for($i = 0; $i < $c; $i ++)
+			for($i = 0; $i < $c; $i++)
 			{
 				$ret .= $this->keys[$this->checksumValue[$i]];
 			}

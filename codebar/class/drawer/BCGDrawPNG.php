@@ -134,7 +134,7 @@ class BCGDrawPNG extends BCGDraw
 
 			$found = -1;
 			$c = count ($chunks);
-			for($i = 0; $i < $c; $i ++)
+			for($i = 0; $i < $c; $i++)
 			{
 				// We already have a pHYs
 				if ($chunks[$i]['chunk'] === 'pHYs')
@@ -163,7 +163,7 @@ class BCGDrawPNG extends BCGDraw
 					));
 
 					// Push the data
-					for($i = 2; $i < $c; $i ++)
+					for($i = 2; $i < $c; $i++)
 					{
 						$chunks[$i]['offset'] += 21;
 					}
@@ -201,10 +201,10 @@ class BCGDrawPNG extends BCGDraw
 
 	private static function make_crc_table()
 	{
-		for($n = 0; $n < 256; $n ++)
+		for($n = 0; $n < 256; $n++)
 		{
 			$c = $n;
-			for($k = 0; $k < 8; $k ++)
+			for($k = 0; $k < 8; $k++)
 			{
 				if (($c & 1) == 1)
 				{
@@ -244,7 +244,7 @@ class BCGDrawPNG extends BCGDraw
 			self::make_crc_table ();
 		}
 
-		for($n = 0; $n < $len; $n ++)
+		for($n = 0; $n < $len; $n++)
 		{
 			$c = self::$crc_table[($c ^ ord ($buf[$n])) & 0xff] ^ (self::SHR ($c, 8));
 		}

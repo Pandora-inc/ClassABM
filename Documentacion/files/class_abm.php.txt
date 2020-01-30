@@ -93,6 +93,15 @@
  * 'customEvalListado' => 'echo "<td align=\"center\">"; if($valor=="admin"){echo "Si";}else{echo "No";}; echo "</td>";'
  * ),
  * array(
+ * 'campo' => "IdProveedor",
+ * 'tipo' => "texto",
+ * 'campoValor' => "Cuit",
+ * 'campoTexto' => "Calle",
+ * 'joinTable' => "Proveedor",
+ * 'joinCondition' => "Inner",
+ * 'titulo' => "Calle"
+ * )
+ * array(
  * 'campo' => "paisId",
  * 'tipo' => "dbCombo",
  * "sqlQuery" => "SELECT * FROM paises ORDER BY pais",
@@ -1022,7 +1031,7 @@ class class_abm
 	{
 		global $db;
 
-		if ($db->dbtype == 'mysql')
+		if ($db->getDbtype () == 'mysql')
 		{
 
 			$arrayId = "CONCAT (";
@@ -1040,7 +1049,7 @@ class class_abm
 
 			return $arrayId;
 		}
-		elseif ($db->dbtype == 'oracle')
+		elseif ($db->getDbtype () == 'oracle')
 		{
 
 			$tot = count ($array);
@@ -1067,7 +1076,7 @@ class class_abm
 
 			return $arrayId;
 		}
-		elseif ($db->dbtype == 'mssql')
+		elseif ($db->getDbtype () == 'mssql')
 		{
 			$arrayId = "(";
 
@@ -1103,7 +1112,7 @@ class class_abm
 		// global $db;
 		$camp = "";
 
-		if ($db->dbtype == 'mysql')
+		if ($db->getDbtype () == 'mysql')
 		{
 			foreach ($array as &$valor)
 			{
@@ -1112,7 +1121,7 @@ class class_abm
 
 			return $camp;
 		}
-		elseif ($db->dbtype == 'oracle')
+		elseif ($db->getDbtype () == 'oracle')
 		{
 			$tot = count ($array);
 
@@ -1123,7 +1132,7 @@ class class_abm
 
 			return $camp;
 		}
-		elseif ($db->dbtype == 'mssql')
+		elseif ($db->getDbtype () == 'mssql')
 		{
 
 			foreach ($array as &$valor)
@@ -1251,7 +1260,7 @@ class class_abm
 
 		if ($this->formularioSolapa == true)
 		{
-			for($e = 1; $e <= $this->cantidadSolapa; $e++)
+			for($e = 1; $e <= $this->cantidadSolapa; $e ++)
 			{
 				echo "<input id='tab-" . $e . "' type='radio' name='radio-set' class='tab-selector-" . $e . " folio' />";
 				echo "<label for='tab-" . $e . "' class='tab-label-" . $e . " folio'>" . $this->tituloSolapa[$e - 1] . "</label>";
@@ -1281,7 +1290,7 @@ class class_abm
 							continue;
 						}
 
-						$i++;
+						$i ++;
 
 						if ($i == 1 and $this->autofocus)
 						{
@@ -1385,11 +1394,11 @@ class class_abm
 
 											if (isset ($campo['textoMayuscula']) and ($campo['textoMayuscula'] == true))
 											{
-												$combobit .= substr ($fila[$campo['campoTexto']], 0, 50);
+												$combobit .= substr ($fila[strtolower ($campo['campoTexto'])], 0, 50);
 											}
 											else
 											{
-												$combobit .= ucwords (strtolower (substr ($fila[$campo['campoTexto']], 0, 50)));
+												$combobit .= ucwords (strtolower (substr ($fila[strtolower ($campo['campoTexto'])], 0, 50)));
 											}
 
 											$imprForm .= "<option value='" . $fila[$campo['campoValor']] . "' $sel>" . $combobit . "</option> \n";
@@ -1487,7 +1496,7 @@ class class_abm
 										$jsTmp = str_replace ('%VALOR%', $valor, $jsTmp);
 
 										$imprForm .= $jsTmp;
-										$imprForm .= "<input type='text' style='position:absolute' name='" . $campo['campo'] . "' id='" . $campo['campo'] . "' value='" . ($fila[$campo['campo']] != "" ? $fila[$campo['campo']] : $campo['valorPredefinido']) . "'/> \n";
+										$imprForm .= "<input type='text' style='position:absolute' name='" . $campo['campo'] . "' id='" . $campo['campo'] . "' value='" . ($fila[strtolower ($campo['campo'])] != "" ? $fila[strtolower ($campo['campo'])] : $campo['valorPredefinido']) . "'/> \n";
 										$imprForm .= "<input type='text' style='position:relative;top:0px;left;0px' $autofocusAttr name='display_" . $campo['campo'] . "' id='display_" . $campo['campo'] . "' class='input-fecha $requerido' $disabled $campo[adicionalInput] " . ((isset ($campo['hint']) and $campo['hint'] != "") ? 'title="' . $campo['hint'] . '"' : "") . " readonly='readonly'/> \n";
 										break;
 
@@ -1539,7 +1548,7 @@ class class_abm
 					continue;
 				}
 
-				$i++;
+				$i ++;
 
 				if ($i == 1 and $this->autofocus)
 				{
@@ -1649,15 +1658,15 @@ class class_abm
 
 									if (isset ($campo['textoMayuscula']) and ($campo['textoMayuscula'] == true))
 									{
-										$combobit .= substr ($fila[$campo['campoTexto']], 0, 50);
+										$combobit .= substr ($fila[strtolower ($campo['campoTexto'])], 0, 50);
 									}
 									else
 									{
-										$combobit .= ucwords (strtolower (substr ($fila[$campo['campoTexto']], 0, 50)));
+										$combobit .= ucwords (strtolower (substr ($fila[strtolower ($campo['campoTexto'])], 0, 50)));
 									}
 
 									$imprForm .= "<option value='" . $fila[$campo['campoValor']] . "' $sel>" . $combobit . "</option> \n";
-									// $imprForm .= "<option value='" . $fila[$campo['campoValor']] . "' $sel>" . $fila[$campo['campoTexto']] . "</option> \n";
+									// $imprForm .= "<option value='" . $fila[$campo['campoValor']] . "' $sel>" . $fila[strtolower($campo['campoTexto'])] . "</option> \n";
 								}
 								$imprForm .= "</select> \n";
 
@@ -1752,7 +1761,7 @@ class class_abm
 								$jsTmp = str_replace ('%VALOR%', $valor, $jsTmp);
 
 								$imprForm .= $jsTmp;
-								// $imprForm .= "<input type='text' style='position:absolute' name='" . $campo['campo'] . "' id='" . $campo['campo'] . "' value='" . ($fila[$campo['campo']] != "" ? $fila[$campo['campo']] : $campo['valorPredefinido']) . "'/> \n";
+								// $imprForm .= "<input type='text' style='position:absolute' name='" . $campo['campo'] . "' id='" . $campo['campo'] . "' value='" . ($fila[strtolower($campo['campo'])] != "" ? $fila[strtolower($campo['campo'])] : $campo['valorPredefinido']) . "'/> \n";
 								$imprForm .= "<input type='text' style='position:absolute' name='" . $campo['campo'] . "' id='" . $campo['campo'] . "' value='" . (isset ($_POST[$campo['campo']]) and $_POST[$campo['campo']] != "" ? $_POST[$campo['campo']] : $campo['valorPredefinido']) . "'/> \n";
 								$imprForm .= "<input type='text' style='position:relative;top:0px;left;0px' " . $autofocusAttr . " name='display_" . $campo['campo'] . "' id='display_" . $campo['campo'] . "' class='input-fecha " . $requerido . "'  " . (isset ($campo['adicionalInput']) ? $campo['adicionalInput'] : "") . (isset ($disabled) and $disabled != "" ? $disabled : "") . " " . (isset ($campo['hint']) and $campo['hint'] != "" ? 'title="' . $campo['hint'] . '"' : "") . " readonly='readonly'/> \n";
 								break;
@@ -1830,7 +1839,7 @@ class class_abm
 		$joinSql = "";
 
 		// por cada campo...
-		for($i = 0; $i < count ($this->campos); $i++)
+		for($i = 0; $i < count ($this->campos); $i ++)
 		{
 
 			if ($this->campos[$i]['campo'] == "")
@@ -2071,7 +2080,7 @@ class class_abm
 
 		if ($this->formularioSolapa == true)
 		{
-			for($e = 1; $e <= $this->cantidadSolapa; $e++)
+			for($e = 1; $e <= $this->cantidadSolapa; $e ++)
 			{
 				echo "<input id='tab-" . $e . "' type='radio' name='radio-set' class='tab-selector-" . $e . " folio' />";
 				echo "<label for='tab-" . $e . "' class='tab-label-" . $e . " folio'>" . $this->tituloSolapa[$e - 1] . "</label>";
@@ -2103,7 +2112,7 @@ class class_abm
 							continue;
 						}
 
-						$i++;
+						$i ++;
 
 						if ($i == 1 and $this->autofocus)
 						{
@@ -2156,30 +2165,30 @@ class class_abm
 							{
 								if (($this->campos[$i]['customCompare'] != "") and ($campo['campo'] == $this->campos[$i]['customCompareValor']))
 								{
-									$customCompareValor = $fila[$campo['campo']];
+									$customCompareValor = $fila[strtolower ($campo['campo'])];
 									// $customCompareValor = $fila[$campo['customCompareValor']];
 								}
 
 								switch ($campo['tipo'])
 								{
 									case "texto" :
-										$imprForm .= "<input type='text' name='" . $campo['campo'] . "' id='" . $campo['campo'] . "' $autofocusAttr class='input-text $requerido' $disabled value='" . $fila[$campo['campo']] . "' " . ((isset ($campo['maxLen']) and $campo['maxLen'] > 0) ? "maxlength='" . $campo['maxLen'] . "'" : "") . " " . (($campo['campo'] == $this->campoId and !$this->campoIdEsEditable) ? "readonly='readonly' disabled='disabled'" : "") . " " . ((isset ($campo['hint']) and $campo['hint'] != "") ? 'title="' . $campo['hint'] . '"' : "") . " " . (isset ($campo['adicionalInput']) ? $campo['adicionalInput'] : "") . "/> \n";
+										$imprForm .= "<input type='text' name='" . $campo['campo'] . "' id='" . $campo['campo'] . "' $autofocusAttr class='input-text $requerido' $disabled value='" . $fila[strtolower ($campo['campo'])] . "' " . ((isset ($campo['maxLen']) and $campo['maxLen'] > 0) ? "maxlength='" . $campo['maxLen'] . "'" : "") . " " . (($campo['campo'] == $this->campoId and !$this->campoIdEsEditable) ? "readonly='readonly' disabled='disabled'" : "") . " " . ((isset ($campo['hint']) and $campo['hint'] != "") ? 'title="' . $campo['hint'] . '"' : "") . " " . (isset ($campo['adicionalInput']) ? $campo['adicionalInput'] : "") . "/> \n";
 										break;
 
 									case "moneda" :
-										$imprForm .= "<input type='number' class='input-text $requerido currency' step='0.01' min='0.01' max='250000000.00'  name='" . $campo['campo'] . "' id='" . $campo['campo'] . "' $autofocusAttr $disabled value='" . $fila[$campo['campo']] . "' " . ((isset ($campo['maxLen']) and $campo['maxLen'] > 0) ? "maxlength='" . $campo['maxLen'] . "'" : "") . " " . (($campo['campo'] == $this->campoId and !$this->campoIdEsEditable) ? "readonly='readonly' disabled='disabled'" : "") . " " . ((isset ($campo['hint']) and $campo['hint'] != "") ? 'title="' . $campo['hint'] . '"' : "") . " " . (isset ($campo['adicionalInput']) ? $campo['adicionalInput'] : "") . "/> \n";
+										$imprForm .= "<input type='number' class='input-text $requerido currency' step='0.01' min='0.01' max='250000000.00'  name='" . $campo['campo'] . "' id='" . $campo['campo'] . "' $autofocusAttr $disabled value='" . $fila[strtolower ($campo['campo'])] . "' " . ((isset ($campo['maxLen']) and $campo['maxLen'] > 0) ? "maxlength='" . $campo['maxLen'] . "'" : "") . " " . (($campo['campo'] == $this->campoId and !$this->campoIdEsEditable) ? "readonly='readonly' disabled='disabled'" : "") . " " . ((isset ($campo['hint']) and $campo['hint'] != "") ? 'title="' . $campo['hint'] . '"' : "") . " " . (isset ($campo['adicionalInput']) ? $campo['adicionalInput'] : "") . "/> \n";
 										break;
 
 									case "numero" :
-										$imprForm .= "<input type='number' class='input-text $requerido currency' step='0.01' min='0.01' max='250000000.00'  name='" . $campo['campo'] . "' id='" . $campo['campo'] . "' $autofocusAttr $disabled value='" . $fila[$campo['campo']] . "' " . ((isset ($campo['maxLen']) and $campo['maxLen'] > 0) ? "maxlength='" . $campo['maxLen'] . "'" : "") . " " . (($campo['campo'] == $this->campoId and !$this->campoIdEsEditable) ? "readonly='readonly' disabled='disabled'" : "") . " " . ((isset ($campo['hint']) and $campo['hint'] != "") ? 'title="' . $campo['hint'] . '"' : "") . " " . (isset ($campo['adicionalInput']) ? $campo['adicionalInput'] : "") . "/> \n";
+										$imprForm .= "<input type='number' class='input-text $requerido currency' step='0.01' min='0.01' max='250000000.00'  name='" . $campo['campo'] . "' id='" . $campo['campo'] . "' $autofocusAttr $disabled value='" . $fila[strtolower ($campo['campo'])] . "' " . ((isset ($campo['maxLen']) and $campo['maxLen'] > 0) ? "maxlength='" . $campo['maxLen'] . "'" : "") . " " . (($campo['campo'] == $this->campoId and !$this->campoIdEsEditable) ? "readonly='readonly' disabled='disabled'" : "") . " " . ((isset ($campo['hint']) and $campo['hint'] != "") ? 'title="' . $campo['hint'] . '"' : "") . " " . (isset ($campo['adicionalInput']) ? $campo['adicionalInput'] : "") . "/> \n";
 										break;
 
 									case "password" :
-										$imprForm .= "<input type='password' name='" . $campo['campo'] . "' id='" . $campo['campo'] . "' $autofocusAttr class='input-text $requerido' $disabled value='" . $fila[$campo['campo']] . "' " . ((isset ($campo['maxLen']) and $campo['maxLen'] > 0) ? "maxlength='" . $campo['maxLen'] . "'" : "") . " " . (($campo['campo'] == $this->campoId and !$this->campoIdEsEditable) ? "readonly='readonly' disabled='disabled'" : "") . " " . ((isset ($campo['hint']) and $campo['hint'] != "") ? 'title="' . $campo['hint'] . '"' : "") . " " . (isset ($campo['adicionalInput']) ? $campo['adicionalInput'] : "") . "/> \n";
+										$imprForm .= "<input type='password' name='" . $campo['campo'] . "' id='" . $campo['campo'] . "' $autofocusAttr class='input-text $requerido' $disabled value='" . $fila[strtolower ($campo['campo'])] . "' " . ((isset ($campo['maxLen']) and $campo['maxLen'] > 0) ? "maxlength='" . $campo['maxLen'] . "'" : "") . " " . (($campo['campo'] == $this->campoId and !$this->campoIdEsEditable) ? "readonly='readonly' disabled='disabled'" : "") . " " . ((isset ($campo['hint']) and $campo['hint'] != "") ? 'title="' . $campo['hint'] . '"' : "") . " " . (isset ($campo['adicionalInput']) ? $campo['adicionalInput'] : "") . "/> \n";
 										break;
 
 									case "textarea" :
-										$imprForm .= "<textarea name='" . $campo['campo'] . "' id='" . $campo['campo'] . "' $autofocusAttr $disabled class='input-textarea $requerido' " . ((isset ($campo['maxLen']) and $campo['maxLen'] > 0) ? "maxlength='" . $campo['maxLen'] . "'" : "") . " " . ((isset ($campo['hint']) and $campo['hint'] != "") ? 'title="' . $campo['hint'] . '"' : "") . " $campo[adicionalInput]>" . $fila[$campo['campo']] . "</textarea>\n";
+										$imprForm .= "<textarea name='" . $campo['campo'] . "' id='" . $campo['campo'] . "' $autofocusAttr $disabled class='input-textarea $requerido' " . ((isset ($campo['maxLen']) and $campo['maxLen'] > 0) ? "maxlength='" . $campo['maxLen'] . "'" : "") . " " . ((isset ($campo['hint']) and $campo['hint'] != "") ? 'title="' . $campo['hint'] . '"' : "") . " $campo[adicionalInput]>" . $fila[strtolower ($campo['campo'])] . "</textarea>\n";
 										break;
 
 									case "dbCombo" :
@@ -2206,7 +2215,7 @@ class class_abm
 										while ($filaCombo = $db->fetch_array ($resultCombo))
 										{
 											// $filaCombo = $this->limpiarEntidadesHTML ($filaCombo);
-											if ($filaCombo[$campo['campoValor']] == $fila[$campo['campo']])
+											if ($filaCombo[$campo['campoValor']] == $fila[strtolower ($campo['campo'])])
 											{
 												$selected = "selected";
 											}
@@ -2248,7 +2257,7 @@ class class_abm
 
 										foreach ($campo['datos'] as $valor => $texto)
 										{
-											if ($fila[$campo['campo']] == $this->limpiarEntidadesHTML ($valor))
+											if ($fila[strtolower ($campo['campo'])] == $this->limpiarEntidadesHTML ($valor))
 											{
 												$sel = "selected='selected'";
 											}
@@ -2266,7 +2275,7 @@ class class_abm
 
 										if ($campo['ordenInversoBit'])
 										{
-											if (!$fila[$campo['campo']])
+											if (!$fila[strtolower ($campo['campo'])])
 											{
 												$sel = "selected='selected'";
 											}
@@ -2276,7 +2285,7 @@ class class_abm
 											}
 											$imprForm .= "<option value='0' $sel>" . ($campo['textoBitFalse'] != "" ? $campo['textoBitFalse'] : $this->textoBitFalse) . "</option> \n";
 
-											if ($fila[$campo['campo']])
+											if ($fila[strtolower ($campo['campo'])])
 											{
 												$sel = "selected='selected'";
 											}
@@ -2289,7 +2298,7 @@ class class_abm
 										else
 										{
 
-											if ($fila[$campo['campo']])
+											if ($fila[strtolower ($campo['campo'])])
 											{
 												$sel = "selected='selected'";
 											}
@@ -2299,7 +2308,7 @@ class class_abm
 											}
 											$imprForm .= "<option value='1' $sel>" . ($campo['textoBitTrue'] != "" ? $campo['textoBitTrue'] : $this->textoBitTrue) . "</option> \n";
 
-											if (!$fila[$campo['campo']])
+											if (!$fila[strtolower ($campo['campo'])])
 											{
 												$sel = "selected='selected'";
 											}
@@ -2314,7 +2323,7 @@ class class_abm
 										break;
 
 									case "fecha" :
-										$valor = $fila[$campo['campo']];
+										$valor = $fila[strtolower ($campo['campo'])];
 										if (strlen ($valor) > 10)
 										{
 											$valor = substr ($valor, 0, 10); // sacar hora:min:seg
@@ -2327,7 +2336,7 @@ class class_abm
 										$jsTmp = str_replace ('%VALOR%', $valor, $jsTmp);
 
 										$imprForm .= $jsTmp;
-										$imprForm .= "<input type='text' style='position:absolute' name='" . $campo['campo'] . "' id='" . $campo['campo'] . "' value='" . ($fila[$campo['campo']] != "" ? $fila[$campo['campo']] : $campo['valorPredefinido']) . "'/> \n";
+										$imprForm .= "<input type='text' style='position:absolute' name='" . $campo['campo'] . "' id='" . $campo['campo'] . "' value='" . ($fila[strtolower ($campo['campo'])] != "" ? $fila[strtolower ($campo['campo'])] : $campo['valorPredefinido']) . "'/> \n";
 										$imprForm .= "<input type='text' style='position:relative;top:0px;left;0px'  $autofocusAttr name='display_" . $campo['campo'] . "' id='display_" . $campo['campo'] . "' class='input-fecha $requerido' $disabled " . ((isset ($campo['hint']) and $campo['hint'] != "") ? 'title="' . $campo['hint'] . '"' : "") . " $campo[adicionalInput] readonly='readonly'/> \n";
 										break;
 
@@ -2362,7 +2371,7 @@ class class_abm
 				$imprForm = "";
 			}
 
-			$imprForm .= "<div class='content mabm'>";
+			// $imprForm .= "<div class='content'>";
 			$imprForm .= "<section>\n";
 			$imprForm .= "<div id='form'>\n";
 
@@ -2385,7 +2394,7 @@ class class_abm
 					continue;
 				}
 
-				$i++;
+				$i ++;
 
 				if ($i == 1 and $this->autofocus)
 				{
@@ -2438,30 +2447,30 @@ class class_abm
 					{
 						if ((isset ($this->campos[$i]['customCompare']) and $this->campos[$i]['customCompare'] != "") and ($campo['campo'] == $this->campos[$i]['customCompareValor']))
 						{
-							// $customCompareValor = $fila[$campo['campo']];
+							// $customCompareValor = $fila[strtolower($campo['campo'])];
 							$customCompareValor = $fila[$campo['customCompareValor']];
 						}
 
 						switch ($campo['tipo'])
 						{
 							case "texto" :
-								$imprForm .= "<input type='text' name='" . $campo['campo'] . "' id='" . $campo['campo'] . "' $autofocusAttr class='input-text $requerido' $disabled value='" . $fila[$campo['campo']] . "' " . ((isset ($campo['maxLen']) and $campo['maxLen'] > 0) ? "maxlength='" . $campo['maxLen'] . "'" : "") . " " . (($campo['campo'] == $this->campoId and !$this->campoIdEsEditable) ? "readonly='readonly' disabled='disabled'" : "") . " " . ((isset ($campo['hint']) and $campo['hint'] != "") ? 'title="' . $campo['hint'] . '"' : "") . " " . (isset ($campo['adicionalInput']) ? $campo['adicionalInput'] : "") . "/> \n";
+								$imprForm .= "<input type='text' name='" . $campo['campo'] . "' id='" . $campo['campo'] . "' $autofocusAttr class='input-text $requerido' $disabled value='" . $fila[strtolower ($campo['campo'])] . "' " . ((isset ($campo['maxLen']) and $campo['maxLen'] > 0) ? "maxlength='" . $campo['maxLen'] . "'" : "") . " " . (($campo['campo'] == $this->campoId and !$this->campoIdEsEditable) ? "readonly='readonly' disabled='disabled'" : "") . " " . ((isset ($campo['hint']) and $campo['hint'] != "") ? 'title="' . $campo['hint'] . '"' : "") . " " . (isset ($campo['adicionalInput']) ? $campo['adicionalInput'] : "") . "/> \n";
 								break;
 
 							case "moneda" :
-								$imprForm .= "<input type='number' class='input-text $requerido currency' step='0.01' min='0.01' max='250000000.00'  name='" . $campo['campo'] . "' id='" . $campo['campo'] . "' $autofocusAttr $disabled value='" . $fila[$campo['campo']] . "' " . ((isset ($campo['maxLen']) and $campo['maxLen'] > 0) ? "maxlength='" . $campo['maxLen'] . "'" : "") . " " . (($campo['campo'] == $this->campoId and !$this->campoIdEsEditable) ? "readonly='readonly' disabled='disabled'" : "") . " " . ((isset ($campo['hint']) and $campo['hint'] != "") ? 'title="' . $campo['hint'] . '"' : "") . " " . (isset ($campo['adicionalInput']) ? $campo['adicionalInput'] : "") . "/> \n";
+								$imprForm .= "<input type='number' class='input-text $requerido currency' step='0.01' min='0.01' max='250000000.00'  name='" . $campo['campo'] . "' id='" . $campo['campo'] . "' $autofocusAttr $disabled value='" . $fila[strtolower ($campo['campo'])] . "' " . ((isset ($campo['maxLen']) and $campo['maxLen'] > 0) ? "maxlength='" . $campo['maxLen'] . "'" : "") . " " . (($campo['campo'] == $this->campoId and !$this->campoIdEsEditable) ? "readonly='readonly' disabled='disabled'" : "") . " " . ((isset ($campo['hint']) and $campo['hint'] != "") ? 'title="' . $campo['hint'] . '"' : "") . " " . (isset ($campo['adicionalInput']) ? $campo['adicionalInput'] : "") . "/> \n";
 								break;
 
 							case "numero" :
-								$imprForm .= "<input type='number' class='input-text $requerido currency' step='0.01' min='0.01' max='250000000.00'  name='" . $campo['campo'] . "' id='" . $campo['campo'] . "' $autofocusAttr $disabled value='" . $fila[$campo['campo']] . "' " . ((isset ($campo['maxLen']) and $campo['maxLen'] > 0) ? "maxlength='" . $campo['maxLen'] . "'" : "") . " " . (($campo['campo'] == $this->campoId and !$this->campoIdEsEditable) ? "readonly='readonly' disabled='disabled'" : "") . " " . ((isset ($campo['hint']) and $campo['hint'] != "") ? 'title="' . $campo['hint'] . '"' : "") . " " . (isset ($campo['adicionalInput']) ? $campo['adicionalInput'] : "") . "/> \n";
+								$imprForm .= "<input type='number' class='input-text $requerido currency' step='0.01' min='0.01' max='250000000.00'  name='" . $campo['campo'] . "' id='" . $campo['campo'] . "' $autofocusAttr $disabled value='" . $fila[strtolower ($campo['campo'])] . "' " . ((isset ($campo['maxLen']) and $campo['maxLen'] > 0) ? "maxlength='" . $campo['maxLen'] . "'" : "") . " " . (($campo['campo'] == $this->campoId and !$this->campoIdEsEditable) ? "readonly='readonly' disabled='disabled'" : "") . " " . ((isset ($campo['hint']) and $campo['hint'] != "") ? 'title="' . $campo['hint'] . '"' : "") . " " . (isset ($campo['adicionalInput']) ? $campo['adicionalInput'] : "") . "/> \n";
 								break;
 
 							case "password" :
-								$imprForm .= "<input type='password' name='" . $campo['campo'] . "' id='" . $campo['campo'] . "' $autofocusAttr class='input-text $requerido' $disabled value='" . $fila[$campo['campo']] . "' " . ((isset ($campo['maxLen']) and $campo['maxLen'] > 0) ? "maxlength='" . $campo['maxLen'] . "'" : "") . " " . (($campo['campo'] == $this->campoId and !$this->campoIdEsEditable) ? "readonly='readonly' disabled='disabled'" : "") . " " . ((isset ($campo['hint']) and $campo['hint'] != "") ? 'title="' . $campo['hint'] . '"' : "") . " " . (isset ($campo['adicionalInput']) ? $campo['adicionalInput'] : "") . "/> \n";
+								$imprForm .= "<input type='password' name='" . $campo['campo'] . "' id='" . $campo['campo'] . "' $autofocusAttr class='input-text $requerido' $disabled value='" . $fila[strtolower ($campo['campo'])] . "' " . ((isset ($campo['maxLen']) and $campo['maxLen'] > 0) ? "maxlength='" . $campo['maxLen'] . "'" : "") . " " . (($campo['campo'] == $this->campoId and !$this->campoIdEsEditable) ? "readonly='readonly' disabled='disabled'" : "") . " " . ((isset ($campo['hint']) and $campo['hint'] != "") ? 'title="' . $campo['hint'] . '"' : "") . " " . (isset ($campo['adicionalInput']) ? $campo['adicionalInput'] : "") . "/> \n";
 								break;
 
 							case "textarea" :
-								$imprForm .= "<textarea name='" . $campo['campo'] . "' id='" . $campo['campo'] . "' $autofocusAttr $disabled class='input-textarea $requerido' " . ((isset ($campo['maxLen']) and $campo['maxLen'] > 0) ? "maxlength='" . $campo['maxLen'] . "'" : "") . " " . ((isset ($campo['hint']) and $campo['hint'] != "") ? 'title="' . $campo['hint'] . '"' : "") . " " . (isset ($campo['adicionalInput']) ? $campo['adicionalInput'] : "") . ">" . $fila[$campo['campo']] . "</textarea>\n";
+								$imprForm .= "<textarea name='" . $campo['campo'] . "' id='" . $campo['campo'] . "' $autofocusAttr $disabled class='input-textarea $requerido' " . ((isset ($campo['maxLen']) and $campo['maxLen'] > 0) ? "maxlength='" . $campo['maxLen'] . "'" : "") . " " . ((isset ($campo['hint']) and $campo['hint'] != "") ? 'title="' . $campo['hint'] . '"' : "") . " " . (isset ($campo['adicionalInput']) ? $campo['adicionalInput'] : "") . ">" . $fila[strtolower ($campo['campo'])] . "</textarea>\n";
 								break;
 
 							case "dbCombo" :
@@ -2497,7 +2506,7 @@ class class_abm
 								{
 									// $filaCombo = $this->limpiarEntidadesHTML ($filaCombo);
 
-									if ($filaCombo[$campo['campoValor']] == $fila[$campo['campo']])
+									if ($filaCombo[$campo['campoValor']] == $fila[strtolower ($campo['campo'])])
 									{
 										$selected = "selected";
 									}
@@ -2562,7 +2571,7 @@ class class_abm
 								{
 									$filaCombo = $this->limpiarEntidadesHTML ($filaCombo);
 
-									if ($filaCombo[$campo['campoValor']] == $fila[$campo['campo']])
+									if ($filaCombo[$campo['campoValor']] == $fila[strtolower ($campo['campo'])])
 									{
 										// exit();
 										$selected = "selected";
@@ -2589,7 +2598,7 @@ class class_abm
 
 								foreach ($campo['datos'] as $valor => $texto)
 								{
-									if ($fila[$campo['campo']] == $this->limpiarEntidadesHTML ($valor))
+									if ($fila[strtolower ($campo['campo'])] == $this->limpiarEntidadesHTML ($valor))
 									{
 										$sel = "selected='selected'";
 									}
@@ -2608,7 +2617,7 @@ class class_abm
 
 								if (isset ($campo['ordenInversoBit']) and $campo['ordenInversoBit'] != "")
 								{
-									if (!$fila[$campo['campo']])
+									if (!$fila[strtolower ($campo['campo'])])
 									{
 										$sel = "selected='selected'";
 									}
@@ -2618,7 +2627,7 @@ class class_abm
 									}
 									$imprForm .= "<option value='0' " . $sel . ">" . ($campo[textoBitFalse] != "" ? $campo[textoBitFalse] : $this->textoBitFalse) . "</option> \n";
 
-									if ($fila[$campo['campo']])
+									if ($fila[strtolower ($campo['campo'])])
 									{
 										$sel = "selected='selected'";
 									}
@@ -2631,7 +2640,7 @@ class class_abm
 								else
 								{
 
-									if ($fila[$campo['campo']])
+									if ($fila[strtolower ($campo['campo'])])
 									{
 										$sel = "selected='selected'";
 									}
@@ -2641,7 +2650,7 @@ class class_abm
 									}
 									$imprForm .= "<option value='1' " . $sel . ">" . ((isset ($campo['textoBitTrue']) and $campo['textoBitTrue'] != "") ? $campo['textoBitTrue'] : $this->textoBitTrue) . "</option> \n";
 
-									if (!$fila[$campo['campo']])
+									if (!$fila[strtolower ($campo['campo'])])
 									{
 										$sel = "selected='selected'";
 									}
@@ -2656,7 +2665,7 @@ class class_abm
 								break;
 
 							case "fecha" :
-								$valor = $fila[$campo['campo']];
+								$valor = $fila[strtolower ($campo['campo'])];
 								if (strlen ($valor) > 10)
 								{
 									$valor = substr ($valor, 0, 10); // sacar hora:min:seg
@@ -2669,7 +2678,7 @@ class class_abm
 								$jsTmp = str_replace ('%VALOR%', $valor, $jsTmp);
 
 								$imprForm .= $jsTmp;
-								$imprForm .= "<input type='text' style='position:absolute' name='" . $campo['campo'] . "' id='" . $campo['campo'] . "' value='" . ($fila[$campo['campo']] != "" ? $fila[$campo['campo']] : (isset ($campo['valorPredefinido']) ? $campo['valorPredefinido'] : " ")) . "'/> \n";
+								$imprForm .= "<input type='text' style='position:absolute' name='" . $campo['campo'] . "' id='" . $campo['campo'] . "' value='" . ($fila[strtolower ($campo['campo'])] != "" ? $fila[strtolower ($campo['campo'])] : (isset ($campo['valorPredefinido']) ? $campo['valorPredefinido'] : " ")) . "'/> \n";
 								$imprForm .= "<input type='text' style='position:relative;top:0px;left;0px'  " . $autofocusAttr . " name='display_" . $campo['campo'] . "' id='display_" . $campo['campo'] . "' class='input-fecha " . $requerido . "' " . $disabled . " " . ((isset ($campo['hint']) and $campo['hint'] != "") ? 'title="' . $campo['hint'] . '"' : "") . " " . (isset ($campo['adicionalInput']) ? $campo['adicionalInput'] : "") . "readonly='readonly'/> \n";
 								break;
 
@@ -2772,17 +2781,17 @@ class class_abm
 		// contar el total de campos que tienen el parametro "exportar"
 		$totalCamposExportar = 0;
 
-		for($i = 0; $i < count ($this->campos); $i++)
+		for($i = 0; $i < count ($this->campos); $i ++)
 		{
 			if (!isset ($this->campos[$i]['exportar']) or $this->campos[$i]['exportar'] != true)
 			{
 				continue;
 			}
-			$totalCamposExportar++;
+			$totalCamposExportar ++;
 		}
 
 		// Por cada campo...
-		for($i = 0; $i < count ($this->campos); $i++)
+		for($i = 0; $i < count ($this->campos); $i ++)
 		{
 			if (!isset ($this->campos[$i]['exportar']) or $this->campos[$i]['exportar'] != true)
 			{
@@ -2982,7 +2991,7 @@ class class_abm
 		{
 			// print_r("<Br />*******************<Br />");
 			$fila = $this->limpiarEntidadesHTML ($fila);
-			$i++;
+			$i ++;
 
 			if (strtolower ($formato) == 'excel')
 			{
@@ -2996,7 +3005,7 @@ class class_abm
 			$c = 0;
 			foreach ($this->campos as $campo)
 			{
-				$c++;
+				$c ++;
 				if (!isset ($campo['exportar']) or $campo['exportar'] != true)
 				{
 					continue;
@@ -3033,7 +3042,7 @@ class class_abm
 
 					if (isset ($campo['campo']) and $campo['campo'] != "")
 					{
-						$valor = $fila[$campo['campo']];
+						$valor = $fila[strtolower ($campo['campo'])];
 					}
 
 					if (isset ($campo['parametroUsr']))
@@ -3046,7 +3055,7 @@ class class_abm
 
 				elseif ($campo['tipo'] == "bit")
 				{
-					if ($fila[$campo['campo']])
+					if ($fila[strtolower ($campo['campo'])])
 					{
 						echo ($campo['textoBitTrue'] != '' ? $campo['textoBitTrue'] : $this->textoBitTrue);
 					}
@@ -3061,11 +3070,11 @@ class class_abm
 					// si es tipo fecha lo formatea
 					if ($campo['tipo'] == "fecha")
 					{
-						if ($fila[$campo['campo']] != "" and $fila[$campo['campo']] != "0000-00-00" and $fila[$campo['campo']] != "0000-00-00 00:00:00")
+						if ($fila[strtolower ($campo['campo'])] != "" and $fila[strtolower ($campo['campo'])] != "0000-00-00" and $fila[strtolower ($campo['campo'])] != "0000-00-00 00:00:00")
 						{
-							if (strtotime ($fila[$campo['campo']]) !== -1)
+							if (strtotime ($fila[strtolower ($campo['campo'])]) !== -1)
 							{
-								$fila[$campo['campo']] = date ($this->formatoFechaListado, strtotime ($fila[$campo['campo']]));
+								$fila[strtolower ($campo['campo'])] = date ($this->formatoFechaListado, strtotime ($fila[strtolower ($campo['campo'])]));
 							}
 						}
 					}
@@ -3074,17 +3083,17 @@ class class_abm
 						// setlocale(LC_MONETARY, 'es_AR');
 						// $fila [$campo ['campo']] = money_format('%.2n', $fila [$campo ['campo']]);
 						// number_format($número, 2, ',', ' ');
-						$fila[$campo['campo']] = number_format ($fila[$campo['campo']], 2, ',', '.');
+						$fila[strtolower ($campo['campo'])] = number_format ($fila[strtolower ($campo['campo'])], 2, ',', '.');
 					}
 					elseif ($campo['tipo'] == "numero")
 					{
 						// setlocale(LC_MONETARY, 'es_AR');
 						// $fila [$campo ['campo']] = money_format('%.2n', $fila [$campo ['campo']]);
 						// number_format($número, 2, ',', ' ');
-						$fila[$campo['campo']] = number_format ($fila[$campo['campo']], $campo['cantidadDecimales'], ',', '.');
+						$fila[strtolower ($campo['campo'])] = number_format ($fila[strtolower ($campo['campo'])], $campo['cantidadDecimales'], ',', '.');
 					}
 
-					$str = $fila[$campo['campo']];
+					$str = $fila[strtolower ($campo['campo'])];
 
 					// si es formato csv...
 					if (strtolower ($formato) == 'csv')
@@ -3163,16 +3172,13 @@ class class_abm
 		$agregarFormBuscar = false;
 
 		// por cada campo...
-		for($i = 0; $i < count ($this->campos); $i++)
+		for($i = 0; $i < count ($this->campos); $i ++)
 		{
 			if ((!isset ($this->campos[$i]['campo'])) or $this->campos[$i]['campo'] == "")
 			{
 				continue;
 			}
-			// if ($this->campos[$i]['tipo'] == "upload")
-			// {
-			// continue;
-			// }
+
 			if (isset ($this->campos[$i]['noListar']) and $this->campos[$i]['noListar'] == true)
 			{
 				continue;
@@ -3182,6 +3188,14 @@ class class_abm
 			{
 				$mostrarExportar = true;
 			}
+
+			if (!isset ($camposWhereBuscar))
+			{
+				$camposWhereBuscar = "";
+			}
+			$camposWhereBuscar = $this->generaWhereBuscar ($db, $camposWhereBuscar, $this->campos[$i]);
+
+			$estaBuscando = true;
 
 			// para la class de ordenar por columnas
 			if (((!isset ($this->campos[$i]['noListar'])) or $this->campos[$i]['noListar'] == false) and ((!isset ($this->campos[$i]['noOrdenar']) or $this->campos[$i]['noOrdenar'] == false)))
@@ -3221,8 +3235,14 @@ class class_abm
 						}
 						else
 						{
-							// $camposOrder .= $this->campos[$i]['joinTable'] . "." . $this->campos[$i]['campo'];
-							$camposOrder .= $this->campos[$i]['joinTable'] . "." . $this->campos[$i]['campoTexto'];
+							if (isset ($this->campos[$i]['campoTexto']) and $this->campos[$i]['campoTexto'] != "")
+							{
+								$camposOrder .= $this->campos[$i]['joinTable'] . "." . $this->campos[$i]['campoTexto'];
+							}
+							else
+							{
+								$camposOrder .= $this->campos[$i]['joinTable'] . "." . $this->campos[$i]['joinTable'] . "_" . $this->campos[$i]['campo'];
+							}
 						}
 					}
 				}
@@ -3231,18 +3251,17 @@ class class_abm
 			// campos para el select
 			if ((!isset ($this->campos[$i]['noListar']) or ($this->campos[$i]['noListar'] == false)) or (isset ($this->campos[$i]['buscar']) and ($this->campos[$i]['buscar'] == true)))
 			{
+				if (isset ($camposSelect) and $camposSelect != "")
+				{
+					$camposSelect .= ", ";
+				}
+				else
+				{
+					$camposSelect = "";
+				}
 
 				if ((isset ($this->campos[$i]['joinTable']) and $this->campos[$i]['joinTable'] != '') and ((!isset ($this->campos[$i]['omitirJoin'])) or $this->campos[$i]['omitirJoin'] == false))
 				{
-					if (isset ($camposSelect) and $camposSelect != "")
-					{
-						$camposSelect .= ", ";
-					}
-					else
-					{
-						$camposSelect = "";
-					}
-
 					$tablaJoin = $this->campos[$i]['joinTable'];
 
 					$tablaJoin = explode (".", $tablaJoin);
@@ -3255,17 +3274,13 @@ class class_abm
 					else
 					{
 						$camposSelect .= $this->campos[$i]['joinTable'] . "." . $this->campos[$i]['campoTexto'] . " AS " . substr ($tablaJoin . "_" . $this->campos[$i]['campoTexto'], 0, 30);
+						// $this->campos[$i]['campoTexto'] = substr ($tablaJoin . "_" . $this->campos[$i]['campoTexto'], 0, 30);
 					}
 
 					$camposOrder .= "|" . $this->campos[$i]['campoTexto'];
 				}
 				elseif ((isset ($this->campos[$i]['joinTable']) and $this->campos[$i]['joinTable'] != '') and ($this->campos[$i]['omitirJoin'] == true))
 				{
-					if ($camposSelect != "")
-					{
-						$camposSelect .= ", ";
-					}
-
 					$tablaJoin = $this->campos[$i]['joinTable'];
 
 					$tablaJoin = explode (".", $tablaJoin);
@@ -3275,22 +3290,21 @@ class class_abm
 					{
 						$camposSelect .= $this->campos[$i]['selectPersonal'] . " AS " . $this->campos[$i]['campoTexto'];
 					}
+					elseif ($this->campos[$i]['tipo'] == 'fecha')
+					{
+						$camposSelect .= $db->toChar ($this->tabla . "." . $this->campos[$i]['campo'], substr ($tablaJoin, 0, 3) . "_" . $this->campos[$i]['campo'], "dd/mm/YYYY");
+						$this->campos[$i]['campo'] = substr ($tablaJoin, 0, 3) . "_" . $this->campos[$i]['campo'];
+					}
 					else
 					{
-						$camposSelect .= $this->campos[$i]['joinTable'] . "." . $this->campos[$i]['campo'];
+						// FIXME Hay que encontrar un metodo mejor ya que si hay mas de una tabla con el mismo campo y las primeras tres letras del nombre de la tabla iguales tirara que la columna esta definida de forma ambigua.
+
+						$camposSelect .= $this->campos[$i]['joinTable'] . "." . $this->campos[$i]['campo'] . " AS " . substr ($tablaJoin, 0, 3) . "_" . $this->campos[$i]['campo'];
+						$this->campos[$i]['campo'] = substr ($tablaJoin, 0, 3) . "_" . $this->campos[$i]['campo'];
 					}
 				}
 				else
 				{
-					if (isset ($camposSelect) and ($camposSelect != ""))
-					{
-						$camposSelect .= ", ";
-					}
-					else
-					{
-						$camposSelect = "";
-					}
-
 					if ($this->campos[$i]['tipo'] == 'rownum')
 					{
 						$camposSelect .= $this->campos[$i]['campo'];
@@ -3303,6 +3317,11 @@ class class_abm
 					{
 						$camposSelect .= $this->tabla . "." . $this->campos[$i]['campo'];
 					}
+
+					if (isset ($this->campos[$i]['selectPersonal']) and $this->campos[$i]['selectPersonal'] != "")
+					{
+						$camposSelect .= "(" . $this->campos[$i]['selectPersonal'] . ") AS " . $this->campos[$i]['campoTexto'];
+					}
 				}
 			}
 
@@ -3311,78 +3330,6 @@ class class_abm
 			{
 				$agregarFormBuscar = true;
 				// }
-
-				if ((isset ($_REQUEST['c_' . $this->campos[$i]['campo']]) and (trim ($_REQUEST['c_' . $this->campos[$i]['campo']]) != '')) or (isset ($_REQUEST['c_busquedaTotal']) and (trim ($_REQUEST['c_busquedaTotal']) != '')))
-				{
-					if (isset ($_REQUEST['c_' . $this->campos[$i]['campo']]))
-					{
-						$valorABuscar = $this->limpiarParaSql ($_REQUEST['c_' . $this->campos[$i]['campo']], $db);
-
-						if (isset ($camposWhereBuscar))
-						{
-							$camposWhereBuscar .= " AND ";
-						}
-						else
-						{
-							$camposWhereBuscar = " ";
-						}
-					}
-					elseif (isset ($_REQUEST['c_busquedaTotal']))
-					{
-						$valorABuscar = $this->limpiarParaSql ($_REQUEST['c_busquedaTotal'], $db);
-
-						if (isset ($camposWhereBuscar))
-						{
-							$camposWhereBuscar .= " OR ";
-						}
-						else
-						{
-							$camposWhereBuscar = " ";
-						}
-					}
-
-					$estaBuscando = true;
-
-					// quita la variable de paginado, ya que estoy buscando y no se aplica
-					// unset($_REQUEST['r']);
-					// unset($_POST['r']);
-					// unset($_GET['r']);
-
-					if (isset ($this->campos[$i]['buscarUsarCampo']) and ($this->campos[$i]['buscarUsarCampo'] != ""))
-					{
-						$camposWhereBuscar .= "UPPER(" . $this->campos[$i]['buscarUsarCampo'] . ")";
-					}
-					else
-					{
-						if ($this->campos[$i]['tipo'] == 'fecha')
-						{
-							// $camposWhereBuscar .= $db->toChar ($this->tabla . "." . $this->campos[$i]['campo'], "", "DD/MM/YYYY");
-							$camposWhereBuscar .= $db->toChar ($this->tabla . "." . $this->campos[$i]['campo'], "", $this->formatoFechaListado);
-							// $camposWhereBuscar .= "TO_CHAR(" . $this->tabla . "." . $this->campos[$i]['campo'] . ", 'DD/MM/YYYY')";
-							// $camposWhereBuscar .= "TO_CHAR(" . $this->tabla . "." . $this->campos[$i]['campo'] . ", 'YYYY-MM-DD')"; // @iberlot 2016/10/18 se cambia para que funcionen los nuevos parametros de busqueda
-
-							$valorABuscar = str_replace ("/", "%", $valorABuscar);
-							$valorABuscar = str_replace ("-", "%", $valorABuscar);
-							$valorABuscar = str_replace (" ", "%", $valorABuscar);
-						}
-						else
-						{
-							$camposWhereBuscar .= "UPPER(" . $this->tabla . "." . $this->campos[$i]['campo'] . ")";
-						}
-					}
-
-					$camposWhereBuscar .= " ";
-
-					if (isset ($this->campos[$i]['buscarOperador']) and (($this->campos[$i]['buscarOperador'] != '')) and strtolower ($this->campos[$i]['buscarOperador']) != 'like')
-					{
-						$camposWhereBuscar .= $this->campos[$i]['buscarOperador'] . " UPPER('" . $valorABuscar . "')";
-					}
-					else
-					{
-						$valorABuscar = str_replace (" ", "%", $valorABuscar);
-						$camposWhereBuscar .= "LIKE UPPER('%" . $valorABuscar . "%')";
-					}
-				}
 			}
 			// tablas para sql join
 			if ((isset ($this->campos[$i]['joinTable']) and $this->campos[$i]['joinTable'] != '') and ((!isset ($this->campos[$i]['omitirJoin'])) or $this->campos[$i]['omitirJoin'] == false))
@@ -3450,7 +3397,7 @@ class class_abm
 			$joinSql = "";
 		}
 
-		if (!isset ($camposWhereBuscar))
+		if (!isset ($camposWhereBuscar) or $camposWhereBuscar == "")
 		{
 			$camposWhereBuscar = "1=1";
 		}
@@ -3598,6 +3545,7 @@ class class_abm
 		echo "</th></tr> \n";
 
 		// formulario de busqueda
+		// XXX Hay que convertirlo en una funcion que retorne el string del formulario
 		if ((isset ($agregarFormBuscar) and $this->mostrarListado) and $this->busquedaTotal == false)
 		{
 			echo "<tr class='mbuscar'><th colspan='" . (count ($this->campos) + 2) . "'> \n";
@@ -3642,7 +3590,7 @@ class class_abm
 					$campo['adicionalInput'] = "";
 				}
 
-				$iColumna++;
+				$iColumna ++;
 				echo "<div>\n";
 				// echo "<label>" . ($campo ['tituloBuscar'] != "" ? $campo ['tituloBuscar'] : ($campo ['tituloListado'] != "" ? $campo ['tituloListado'] : ($campo ['titulo'] != '' ? $campo ['titulo'] : $campo ['campo']))) . "</label>";
 				echo "<label>" . (((isset ($campo['tituloBuscar']) and ($campo['tituloBuscar'] != "")) ? $campo['tituloBuscar'] : (isset ($campo['tituloListado']) and ($campo['tituloListado'] != "")) ? $campo['tituloListado'] : ($campo['titulo'] != '' ? $campo['titulo'] : $campo['campo']))) . "</label>";
@@ -3963,7 +3911,7 @@ class class_abm
 
 					if ($campo['campo'] == "" or isset ($campo['noOrdenar']))
 					{
-						echo "<th " . ($styleTh != "" ? "style='$styleTh'" : "") . $noMostrar . ">" . ((isset ($campo['tituloListado']) and $campo['tituloListado'] != "") ? $campo['tituloListado'] : ($campo['titulo'] != '' ? $campo['titulo'] : $campo['campo'])) . "</th> \n";
+						$linkas = ((isset ($campo['tituloListado']) and $campo['tituloListado'] != "") ? $campo['tituloListado'] : ($campo['titulo'] != '' ? $campo['titulo'] : $campo['campo']));
 					}
 					else
 					{
@@ -3981,7 +3929,6 @@ class class_abm
 							if ((isset ($campo['joinTable']) and $campo['joinTable'] != '') and (@$campo['omitirJoin'] == false))
 							{
 								$campoOrder = $campo['campoTexto'];
-								// $campoOrder = $campo['joinTable'] . '.' . $campo['campoTexto'];
 							}
 							elseif ((isset ($campo['joinTable']) and $campo['joinTable'] != '') and ($campo['omitirJoin'] == true))
 							{
@@ -4007,9 +3954,8 @@ class class_abm
 							$linkas = $o->linkOrderBy ($campo['campo'], $campoOrder);
 						}
 						// echo "<th " . ($styleTh != "" ? "style='$styleTh'" : "") . " $noMostrar >" . $o->linkOrderBy(((isset($campo['tituloListado']) and $campo['tituloListado'] != "") ? $campo['tituloListado'] : ($campo['titulo'] != '' ? $campo['titulo'] : $campo['campo'])), $campoOrder) . "</th> \n";
-
-						echo "<th " . ($styleTh != "" ? "style='$styleTh'" : "") . " $noMostrar >" . $linkas . "</th> \n";
 					}
+					echo "<th " . ($styleTh != "" ? "style='$styleTh'" : "") . " " . $noMostrar . " title='" . (isset ($campo['tituloMouseOver']) ? $campo['tituloMouseOver'] : $campo['campo']) . "'>" . $linkas . "</th> \n";
 				}
 				if ($this->mostrarEditar)
 				{
@@ -4026,13 +3972,24 @@ class class_abm
 			$i = 0;
 			while ($fila = $db->fetch_array ($result))
 			{
+				$fila = array_change_key_case ($fila, CASE_LOWER);
+
+				if (key_exists ("ID", $fila) and !key_exists ("id", $fila))
+				{
+					$fila['id'] = $fila['ID'];
+				}
+				elseif (key_exists ("id", $fila) and !key_exists ("ID", $fila))
+				{
+					$fila['ID'] = $fila['id'];
+				}
+
 				if (!isset ($rallado))
 				{
 					$rallado = "";
 				}
 				$fila = $this->limpiarEntidadesHTML ($fila);
 
-				$i++;
+				$i ++;
 				$rallado = !$rallado;
 
 				echo "<tr class='rallado$rallado' ";
@@ -4099,9 +4056,9 @@ class class_abm
 					if ((isset ($campo['colorearValores'])) and (is_array ($campo['colorearValores'])))
 					{
 						$arrayValoresColores = $campo['colorearValores'];
-						if (array_key_exists ($fila[$campo['campo']], $arrayValoresColores))
+						if (array_key_exists ($fila[strtolower ($campo['campo'])], $arrayValoresColores))
 						{
-							$spanColorear = "<span class='" . ($campo['colorearConEtiqueta'] ? "label" : "") . "' style='" . ($campo['colorearConEtiqueta'] ? "background-" : "") . "color:" . $arrayValoresColores[$fila[$campo['campo']]] . "'>";
+							$spanColorear = "<span class='" . ($campo['colorearConEtiqueta'] ? "label" : "") . "' style='" . ($campo['colorearConEtiqueta'] ? "background-" : "") . "color:" . $arrayValoresColores[$fila[strtolower ($campo['campo'])]] . "'>";
 							$spanColorearFin = "</span>";
 						}
 					}
@@ -4128,7 +4085,7 @@ class class_abm
 
 						if (isset ($campo['campo']) and $campo['campo'] != "")
 						{
-							$valor = $fila[$campo['campo']];
+							$valor = $fila[strtolower ($campo['campo'])];
 						}
 
 						if (isset ($campo['parametroUsr']))
@@ -4159,7 +4116,7 @@ class class_abm
 
 							$cant = count ($campo['incluirCampo']);
 
-							for($j = 0; $j < $cant; $j++)
+							for($j = 0; $j < $cant; $j ++)
 							{
 								$campo['customPrintListado'] = str_ireplace ("{" . trim ($campo['incluirCampo'][$j]) . "}", $fila[trim ($campo['incluirCampo'][$j])], $campo['customPrintListado']);
 							}
@@ -4169,9 +4126,9 @@ class class_abm
 
 						$campo['customPrintListado'] = str_ireplace ('{id}', $fila['ID'], $campo['customPrintListado']);
 
-						if (isset ($fila[$campo['campo']]))
+						if (isset ($fila[strtolower ($campo['campo'])]))
 						{
-							echo sprintf ($campo['customPrintListado'], $fila[$campo['campo']]);
+							echo sprintf ($campo['customPrintListado'], $fila[strtolower ($campo['campo'])]);
 						}
 						else
 						{
@@ -4183,7 +4140,7 @@ class class_abm
 					{
 						if ($campo['tipo'] == "bit")
 						{
-							if ($fila[$campo['campo']])
+							if ($fila[strtolower ($campo['campo'])])
 							{
 								echo "<td $centradoCol " . $noMostrar . ">$spanColorear" . ((isset ($campo['textoBitTrue']) and $campo['textoBitTrue'] != '') ? $campo['textoBitTrue'] : $this->textoBitTrue) . "$spanColorearFin</td> \n";
 							}
@@ -4195,21 +4152,21 @@ class class_abm
 						// si es tipo combo le decimos que muestre el texto en vez del valor
 						elseif ($campo['tipo'] == "combo")
 						{
-							if ($fila[$campo['campo']])
+							if ($fila[strtolower ($campo['campo'])])
 							{
-								echo "<td $centradoCol " . $noMostrar . ">$spanColorear" . $campo['datos'][$fila[$campo['campo']]] . "$spanColorearFin</td> \n";
+								echo "<td $centradoCol " . $noMostrar . ">$spanColorear" . $campo['datos'][$fila[strtolower ($campo['campo'])]] . "$spanColorearFin</td> \n";
 							}
 						}
 						elseif ($campo['tipo'] == "moneda")
 						{
 							setlocale (LC_MONETARY, 'es_AR');
-							echo "<td style='text-align: right;' " . $noMostrar . ">$spanColorear" . money_format ('%.2n', $fila[$campo['campo']]) . "$spanColorearFin</td> \n";
+							echo "<td style='text-align: right;' " . $noMostrar . ">$spanColorear" . money_format ('%.2n', $fila[strtolower ($campo['campo'])]) . "$spanColorearFin</td> \n";
 						}
 						elseif ($campo['tipo'] == "numero")
 						{
-							if ($fila[$campo['campo']] != "" and $fila[$campo['campo']] > 0)
+							if ($fila[strtolower ($campo['campo'])] != "" and $fila[strtolower ($campo['campo'])] > 0)
 							{
-								echo "<td style='text-align: right;' " . $noMostrar . ">$spanColorear" . number_format ($fila[$campo['campo']], $campo['cantidadDecimales'], ',', '.') . "$spanColorearFin</td> \n";
+								echo "<td style='text-align: right;' " . $noMostrar . ">$spanColorear" . number_format ($fila[strtolower ($campo['campo'])], $campo['cantidadDecimales'], ',', '.') . "$spanColorearFin</td> \n";
 							}
 							else
 							{
@@ -4220,23 +4177,23 @@ class class_abm
 						{
 							if (isset ($campo['noLimpiar']) and $campo['noLimpiar'] == true)
 							{
-								echo "<td $centradoCol " . $noMostrar . ">" . substr (($spanColorear . html_entity_decode ($fila[$campo['campo']]) . $spanColorearFin), 0, $campo['tmostrar']) . "</td> \n";
+								echo "<td $centradoCol " . $noMostrar . ">" . substr (($spanColorear . html_entity_decode ($fila[strtolower ($campo['campo'])]) . $spanColorearFin), 0, $campo['tmostrar']) . "</td> \n";
 							}
 							else
 							{
-								if (isset ($fila[$campo['campo']]))
+								if (isset ($fila[strtolower ($campo['campo'])]))
 								{
-									echo "<td $centradoCol " . $noMostrar . ">" . substr (($spanColorear . $fila[$campo['campo']] . $spanColorearFin), 0, $campo['tmostrar']) . "</td> \n";
+									echo "<td $centradoCol " . $noMostrar . ">" . substr (($spanColorear . $fila[strtolower ($campo['campo'])] . $spanColorearFin), 0, $campo['tmostrar']) . "</td> \n";
 								}
 								else
 								{
-									echo "<td $centradoCol " . $noMostrar . ">" . substr (($spanColorear . $fila[$campo['campoTexto']] . $spanColorearFin), 0, $campo['tmostrar']) . "</td> \n";
+									echo "<td $centradoCol " . $noMostrar . ">" . substr (($spanColorear . $fila[strtolower ($campo['campoTexto'])] . $spanColorearFin), 0, $campo['tmostrar']) . "</td> \n";
 								}
 							}
 						}
 						elseif ($campo['tipo'] == "upload")
 						{
-							$dato = explode (".", $fila[$campo['campo']]);
+							$dato = explode (".", $fila[strtolower ($campo['campo'])]);
 							if (in_array (strtolower (end ($dato)), array (
 									'jpg',
 									'jpeg',
@@ -4248,11 +4205,11 @@ class class_abm
 								$otrosImagen .= " height='" . $campo['alto'] . "' ";
 								$otrosImagen .= " width='" . $campo['ancho'] . "' ";
 
-								echo "<td $centradoCol " . $noMostrar . "><img " . $otrosImagen . " src='" . $campo['directorio'] . "/" . $fila[$campo['campo']] . "'></td> \n";
+								echo "<td $centradoCol " . $noMostrar . "><img " . $otrosImagen . " src='" . $campo['directorio'] . "/" . $fila[strtolower ($campo['campo'])] . "'></td> \n";
 							}
 							elseif ($campo['mostrar'] == true)
 							{
-								echo "<td $centradoCol " . $noMostrar . ">" . $fila[$campo['campo']] . "</td> \n";
+								echo "<td $centradoCol " . $noMostrar . ">" . $fila[strtolower ($campo['campo'])] . "</td> \n";
 							}
 						}
 						else
@@ -4260,32 +4217,40 @@ class class_abm
 							// si es tipo fecha lo formatea
 							if ($campo['tipo'] == "fecha")
 							{
-								if ($fila[$campo['campo']] != "" and $fila[$campo['campo']] != "0000-00-00" and $fila[$campo['campo']] != "0000-00-00 00:00:00")
+								if ($fila[strtolower ($campo['campo'])] != "" and $fila[strtolower ($campo['campo'])] != "0000-00-00" and $fila[strtolower ($campo['campo'])] != "0000-00-00 00:00:00")
 								{
-									if (strtotime ($fila[$campo['campo']]) !== -1)
-									{
-										// FIXME Urgente arreglar
+									// if (strtotime ($fila[strtolower($campo['campo'])]) !== -1)
+									// {
+									// FIXME Urgente arreglar
 
-										// $fila[$campo['campo']] = date ($this->formatoFechaListado, strtotime ($fila[$campo['campo']]));
-										// $fila[$campo['campo']] = date ($this->formatoFechaListado, $fila[$campo['campo']]);
-										$fila[$campo['campo']] = $fila[$campo['campo']];
-									}
+									// $fila[strtolower($campo['campo'])] = date ($this->formatoFechaListado, strtotime ($fila[strtolower($campo['campo'])]));
+									// $fila[strtolower($campo['campo'])] = date ($this->formatoFechaListado, $fila[strtolower($campo['campo'])]);
+									// $fila[strtolower($campo['campo'])] = $fila[strtolower($campo['campo'])];
+									// }
 								}
 							}
 
 							if (isset ($campo['noLimpiar']) and $campo['noLimpiar'] == true)
 							{
-								echo "<td $centradoCol " . $noMostrar . ">$spanColorear" . html_entity_decode ($fila[$campo['campo']]) . "$spanColorearFin</td> \n";
+								echo "<td $centradoCol " . $noMostrar . ">$spanColorear" . html_entity_decode ($fila[strtolower ($campo['campo'])]) . "$spanColorearFin</td> \n";
 							}
 							else
 							{
-								if (isset ($fila[$campo['campo']]))
+
+								if (isset ($campo['noLimpiar']) and $campo['noLimpiar'] == true)
 								{
-									echo "<td $centradoCol " . $noMostrar . ">$spanColorear" . $fila[$campo['campo']] . "$spanColorearFin</td> \n";
+									echo "<td $centradoCol " . $noMostrar . ">$spanColorear" . html_entity_decode ($fila[strtolower ($campo['campo'])]) . "$spanColorearFin</td> \n";
 								}
 								else
 								{
-									echo "<td $centradoCol " . $noMostrar . ">$spanColorear" . $fila[$campo['campoTexto']] . "$spanColorearFin</td> \n";
+									if (isset ($fila[strtolower ($campo['campo'])]))
+									{
+										echo "<td $centradoCol " . $noMostrar . ">$spanColorear" . $fila[strtolower ($campo['campo'])] . "$spanColorearFin</td> \n";
+									}
+									else
+									{
+										echo "<td $centradoCol " . $noMostrar . ">$spanColorear" . $fila[strtolower ($campo['campoTexto'])] . "$spanColorearFin</td> \n";
+									}
 								}
 							}
 						}
@@ -5443,6 +5408,116 @@ class class_abm
 			echo "<HTML><HEAD><META HTTP-EQUIV=\"Refresh\" CONTENT=\"0; URL=$url\"></HEAD></HTML>";
 			exit ();
 		}
+	}
+
+	/**
+	 * Funcion que arma los parametros del where de la consulta en caso de estar realizando una busqueda
+	 *
+	 * @todo En la version 2 de esta clase esto va a estar en las clases referiadas a los campos.
+	 *
+	 * @param object $db
+	 *        	Conectos a la base de datos
+	 * @param String $camposWhereBuscar
+	 *        	Variable a la que se le vana a sumar los resultados.
+	 * @param array $campo
+	 *        	Array con la informacion del campo.
+	 * @return string
+	 */
+	private function generaWhereBuscar($db, $camposWhereBuscar, $campo)
+	{
+		if ((isset ($_REQUEST['c_' . $campo['campo']]) and (trim ($_REQUEST['c_' . $campo['campo']]) != '')) or (isset ($_REQUEST['c_busquedaTotal']) and (trim ($_REQUEST['c_busquedaTotal']) != '')))
+		{
+			if (isset ($_REQUEST['c_' . $campo['campo']]))
+			{
+				$valorABuscar = $this->limpiarParaSql ($_REQUEST['c_' . $campo['campo']], $db);
+
+				if (isset ($camposWhereBuscar) and $camposWhereBuscar != "")
+				{
+					$camposWhereBuscar .= " AND ";
+				}
+				else
+				{
+					$camposWhereBuscar = " ";
+				}
+			}
+			elseif (isset ($_REQUEST['c_busquedaTotal']))
+			{
+				$valorABuscar = $this->limpiarParaSql ($_REQUEST['c_busquedaTotal'], $db);
+
+				if (isset ($camposWhereBuscar) and $camposWhereBuscar != "")
+				{
+					$camposWhereBuscar .= " OR ";
+				}
+				else
+				{
+					$camposWhereBuscar = " ";
+				}
+			}
+
+			if (isset ($campo['buscarUsarCampo']) and ($campo['buscarUsarCampo'] != ""))
+			{
+				$camposWhereBuscar .= "UPPER(" . $campo['buscarUsarCampo'] . ")";
+			}
+			else
+			{
+				$campoUsar = $campo['campo'];
+
+				if ((isset ($campo['joinTable']) and $campo['joinTable'] != '') and ($campo['omitirJoin'] == true))
+				{
+					$tablaJoin = $campo['joinTable'];
+
+					$tablaJoin = explode (".", $tablaJoin);
+					$tablaJoin = $tablaJoin[count ($tablaJoin) - 1];
+
+					if (!isset ($campo['selectPersonal']) or $campo['selectPersonal'] == false)
+					{
+						$campoUsar == str_replace (substr ($tablaJoin, 0, 3) . "_", "", $campo['campo']);
+					}
+
+					$tabla = $tablaJoin;
+				}
+				else
+				{
+
+					$tabla = $this->tabla;
+				}
+
+				if ($campo['tipo'] == 'fecha')
+				{
+					$camposWhereBuscar .= $db->toChar ($tabla . "." . $campoUsar, "", $this->formatoFechaListado);
+
+					$valorABuscar = str_replace ("/", "%", $valorABuscar);
+					$valorABuscar = str_replace ("-", "%", $valorABuscar);
+					$valorABuscar = str_replace (" ", "%", $valorABuscar);
+				}
+				else
+				{
+					if (strtoupper ($campoUsar) == "ROWNUM")
+					{
+
+						$camposWhereBuscar .= "UPPER(" . $campoUsar . ")";
+					}
+					else
+					{
+						$camposWhereBuscar .= "UPPER(" . $tabla . "." . $campoUsar . ")";
+					}
+				}
+			}
+
+			$camposWhereBuscar .= " ";
+
+			if (isset ($campo['buscarOperador']) and (($campo['buscarOperador'] != '')) and strtolower ($campo['buscarOperador']) != 'like')
+			{
+				$camposWhereBuscar .= $campo['buscarOperador'] . " UPPER('" . $valorABuscar . "')";
+			}
+			else
+			{
+				$valorABuscar = str_replace (" ", "%", $valorABuscar);
+				$camposWhereBuscar .= "LIKE UPPER('%" . $valorABuscar . "%')";
+			}
+		}
+
+		return $camposWhereBuscar;
 	}
 }
 ?>

@@ -3,7 +3,7 @@ define ('IN_CB', true);
 include ('header.php');
 
 $vals = array ();
-for($i = 0; $i <= 127; $i ++)
+for($i = 0; $i <= 127; $i++)
 {
 	$vals[] = '%' . sprintf ('%02X', $i);
 }
@@ -168,7 +168,7 @@ $table->setText ($n + 1, 1, $text2display);
 $table->setText ($n + 2, 0, 'Keys');
 $text2display = '';
 $c = count ($keys);
-for($i = 0; $i < $c; $i ++)
+for($i = 0; $i < $c; $i++)
 {
 	$text2display .= '<input type="button" value="' . htmlentities ($keys[$i]) . '" style="width:37px;padding:0px;" onclick="newkey(this.form,unescape(\'' . $vals[$i] . '\'))" /> ';
 }
@@ -323,7 +323,7 @@ if ($identifiersPost != '')
 	$identifiersContentPost = $identifiersPost[1];
 	$c = count ($identifiersIdPost);
 
-	for($i = 0; $i < $c; $i ++)
+	for($i = 0; $i < $c; $i++)
 	{
 		$text2display .= '<div id="identifier_' . $i . '" style="height:25px; position:relative; margin-top:2px;">';
 		$text2display .= '<input type="text" name="textTemp[0][]" value="' . $identifiersIdPost[$i] . '" style="width:40px;" /> - <input type="text" name="textTemp[1][]" style="width:295px;" value="' . $identifiersContentPost[$i] . '" /><a href="javascript:removeIdentifier(' . $i . ');"><img src="delete.png" alt="" style="border:0px; margin-left:5px; margin-top:5px;" /></a>';

@@ -155,7 +155,7 @@ class BCGcode39 extends BCGBarcode1D
 
 		// Checking if all chars are allowed
 		$c = strlen ($this->text);
-		for($i = 0; $i < $c; $i ++)
+		for($i = 0; $i < $c; $i++)
 		{
 			if (array_search ($this->text[$i], $this->keys) === false)
 			{
@@ -176,7 +176,7 @@ class BCGcode39 extends BCGBarcode1D
 				// Starting *
 				$this->drawChar ($im, $this->code[$this->starting], true);
 				// Chars
-				for($i = 0; $i < $c; $i ++)
+				for($i = 0; $i < $c; $i++)
 				{
 					$this->drawChar ($im, $this->findCode ($this->text[$i]), true);
 				}
@@ -223,7 +223,7 @@ class BCGcode39 extends BCGBarcode1D
 	{
 		$this->checksumValue = 0;
 		$c = strlen ($this->text);
-		for($i = 0; $i < $c; $i ++)
+		for($i = 0; $i < $c; $i++)
 		{
 			$this->checksumValue += $this->findIndex ($this->text[$i]);
 		}

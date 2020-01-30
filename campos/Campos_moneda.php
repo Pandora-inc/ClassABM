@@ -50,7 +50,7 @@ class Campos_moneda extends class_campo
 	 *
 	 * @param array $array
 	 */
-	public function __construct($array = array())
+	public function __construct(array $array = array())
 	{
 		if (isset ($array) and !empty ($array))
 		{
@@ -66,7 +66,7 @@ class Campos_moneda extends class_campo
 	 *
 	 * @return number
 	 */
-	public function getCantidadDecimales()
+	public function getCantidadDecimales(): int
 	{
 		return $this->cantidadDecimales;
 	}
@@ -82,8 +82,6 @@ class Campos_moneda extends class_campo
 
 	/**
 	 *
-	 * @param object $db
-	 *        	Objeto de coneccion a la base.
 	 * @param String $busqueda
 	 *        	variable donde se registran los parametros de busqueda. es pasada por referencia con lo que se puede utilizar incluso fuera de la funcion.
 	 *        	
@@ -92,7 +90,7 @@ class Campos_moneda extends class_campo
 	 * {@inheritdoc}
 	 * @see class_campo::campoFormBuscar()
 	 */
-	public function campoFormBuscar($db, &$busqueda)
+	public function campoFormBuscar(&$busqueda): string
 	{
 		$retorno = "";
 
@@ -133,6 +131,44 @@ class Campos_moneda extends class_campo
 		{
 			setlocale (LC_MONETARY, 'es_AR');
 			return money_format ('%.2n', $this->getDato ());
+		}
+	}
+
+	/**
+	 * Comprueba que este habilitado el centrado de la columna y en caso de estarlo retorna la etiqueta para realizarlo.
+	 *
+	 * @return string
+	 */
+	public function get_centrar_columna(): string
+	{
+		if ($this->isCentrarColumna () == true)
+		{
+			return ' align="center" ';
+		}
+		else
+		{
+			return " style='text-align: right;' ";
+		}
+	}
+
+	/**
+	 * Arma un Td con el dato de valor del campo
+	 *
+	 * @return string
+	 */
+	public function get_celda_dato(): string
+	{
+		setlocale (LC_MONETARY, 'es_AR');
+
+		// FIXME el formato deberia ser algo asi '%.$this->getCantidadDecimales ()n' ya que si no se omite el uso de dicho parametro.
+
+		if ($this->getValor () != "" and $this->getValor () > 0)
+		{
+			return "<td " . $this->get_centrar_columna () . " " . $this->get_no_mostrar () . ">" . $this->get_spanColorear () . " " . money_format ('%.2n', $this->getValor ()) . " " . ($this->get_spanColorear () != "" ? "</span>" : "") . "</td> \n";
+		}
+		else
+		{
+			return "<td " . $this->get_centrar_columna () . " " . $this->get_no_mostrar () . ">" . $this->get_spanColorear () . " " . money_format ('%.2n', 0) . " " . ($this->get_spanColorear () != "" ? "</span>" : "") . "</td> \n";
 		}
 	}
 }

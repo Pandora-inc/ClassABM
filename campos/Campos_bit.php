@@ -20,7 +20,7 @@ require_once 'class_campo.php';
 /**
  *
  * @author iberlot
- *        
+ *
  */
 class Campos_bit extends class_campo
 {
@@ -61,6 +61,16 @@ class Campos_bit extends class_campo
 		if (isset ($array) and !empty ($array))
 		{
 			parent::__construct ($array);
+
+			if (array_key_exists ("textoBitTrue", $array))
+			{
+				$this->setTextoBitTrue ($array['textoBitTrue']);
+			}
+
+			if (array_key_exists ("textoBitFalse", $array))
+			{
+				$this->setTextoBitFalse ($array['textoBitFalse']);
+			}
 		}
 		else
 		{
@@ -131,14 +141,12 @@ class Campos_bit extends class_campo
 	/**
 	 * Sobrecarga del metodo retornand cun campo select
 	 *
-	 * @param object $db
-	 *        	Objeto de coneccion a la base.
 	 * @param String $busqueda
 	 *        	variable donde se registran los parametros de busqueda. es pasada por referencia con lo que se puede utilizar incluso fuera de la funcion.
 	 * {@inheritdoc}
 	 * @see class_campo::campoFormBuscar()
 	 */
-	public function campoFormBuscar($db, &$busqueda)
+	public function campoFormBuscar(&$busqueda): string
 	{
 		$retorno = "";
 		$retorno .= "<select name='c_" . $this->campo . "' id='c_" . $this->campo . "' class='input-select'> \n";
@@ -206,6 +214,77 @@ class Campos_bit extends class_campo
 		$retorno .= "</select> \n";
 
 		return $retorno;
+	}
+
+	/**
+	 * Arma un Td con el dato de valor del campo
+	 *
+	 * @return string
+	 */
+	public function get_celda_dato(): string
+	{
+		if ($this->getValor () == true)
+		{
+			return "<td " . $this->get_centrar_columna () . " " . $this->get_no_mostrar () . ">" . $this->get_spanColorear () . " " . $this->getTextoBitTrue () . " " . ($this->get_spanColorear () != "" ? "</span>" : "") . "</td> \n";
+		}
+		else
+		{
+			return "<td " . $this->get_centrar_columna () . " " . $this->get_no_mostrar () . ">" . $this->get_spanColorear () . " " . $this->getTextoBitFalse () . " " . ($this->get_spanColorear () != "" ? "</span>" : "") . "</td> \n";
+		}
+	}
+
+	public function generar_elemento_form_update(): string
+	{
+		$imprForm = "<select name='" . $this->getCampo () . "' id='" . $this->getCampo () . "' " . $this->autofocusAttr . " class='input-select " . $this->getAtrRequerido () . "' " . $this->getAtrDisabled () . " " . $this->establecerHint () . " " . $this->getAdicionalInput () . " > \n";
+
+		if ($this->isOrdenInversoBit () != "")
+		{
+			if (!$this->getValor ())
+			{
+				$sel = "selected='selected'";
+			}
+			else
+			{
+				$sel = "";
+			}
+			$imprForm .= "<option value='0' " . $sel . ">" . ($this->textoBitFalse != "" ? $this->textoBitFalse : $this->textoBitFalse) . "</option> \n";
+
+			if ($this->getValor ())
+			{
+				$sel = "selected='selected'";
+			}
+			else
+			{
+				$sel = "";
+			}
+			$imprForm .= "<option value='1' " . $sel . ">" . ($this->getTextoBitTrue () != "" ? $this->getTextoBitTrue () : $this->textoBitTrue) . "</option> \n";
+		}
+		else
+		{
+
+			if ($this->getValor ())
+			{
+				$sel = "selected='selected'";
+			}
+			else
+			{
+				$sel = "";
+			}
+			$imprForm .= "<option value='1' " . $sel . ">" . (($this->getTextoBitTrue () != "") ? $this->getTextoBitTrue () : $this->textoBitTrue) . "</option> \n";
+
+			if (!$this->getValor ())
+			{
+				$sel = "selected='selected'";
+			}
+			else
+			{
+				$sel = "";
+			}
+			$imprForm .= "<option value='0' " . $sel . ">" . (($this->getTextoBitFalse () != "") ? $this->getTextoBitFalse () : $this->textoBitFalse) . "</option> \n";
+		}
+
+		$imprForm .= "</select> \n";
+		return $imprForm;
 	}
 
 	/**

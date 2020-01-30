@@ -80,7 +80,7 @@ class BCGcode128 extends BCGBarcode1D
 
 		/* CODE 128 A */
 		$this->keysA = ' !"#$%&\'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_';
-		for($i = 0; $i < 32; $i ++)
+		for($i = 0; $i < 32; $i++)
 		{
 			$this->keysA .= chr ($i);
 		}
@@ -379,7 +379,7 @@ class BCGcode128 extends BCGBarcode1D
 			}
 			else
 			{
-				for($i = 0; $i < $c; $i ++)
+				for($i = 0; $i < $c; $i++)
 				{
 					$this->drawChar ($im, $this->data[$i], true);
 				}
@@ -421,7 +421,7 @@ class BCGcode128 extends BCGBarcode1D
 		// Modulated 103
 		$this->checksumValue = $this->indcheck[0];
 		$c = count ($this->indcheck);
-		for($i = 1; $i < $c; $i ++)
+		for($i = 1; $i < $c; $i++)
 		{
 			$this->checksumValue += $this->indcheck[$i] * $i;
 		}
@@ -808,14 +808,14 @@ class BCGcode128 extends BCGBarcode1D
 
 		$x = 0;
 		$xLen = strlen ($text);
-		for($x = 0; $x < $xLen; $x ++)
+		for($x = 0; $x < $xLen; $x++)
 		{
 			$input = $text[$x];
 
 			// 1.
-			for($i = 0; $i < 3; $i ++)
+			for($i = 0; $i < 3; $i++)
 			{
-				for($j = 0; $j < 3; $j ++)
+				for($j = 0; $j < 3; $j++)
 				{
 					if (($curLen[$i] + $latLen[$i][$j]) < $curLen[$j])
 					{
@@ -850,7 +850,7 @@ class BCGcode128 extends BCGBarcode1D
 				{
 					// We simply skip a tilde
 					$posArray[] = 1;
-					$x ++;
+					$x++;
 				}
 				elseif (substr ($tildeData, 0, 2) === '~F')
 				{
@@ -887,14 +887,14 @@ class BCGcode128 extends BCGBarcode1D
 			}
 
 			$c = count ($posArray);
-			for($i = 0; $i < $c; $i ++)
+			for($i = 0; $i < $c; $i++)
 			{
 				if (($curLen[$posArray[$i]] + $charSiz[$posArray[$i]]) < $nxtLen[$posArray[$i]])
 				{
 					$nxtLen[$posArray[$i]] = $curLen[$posArray[$i]] + $charSiz[$posArray[$i]];
 					$nxtSeq[$posArray[$i]] = $curSeq[$posArray[$i]] . '.';
 				}
-				for($j = 0; $j < 2; $j ++)
+				for($j = 0; $j < 2; $j++)
 				{
 					if ($j === $posArray[$i])
 						continue;
@@ -914,7 +914,7 @@ class BCGcode128 extends BCGBarcode1D
 
 			if ($flag)
 			{
-				for($i = 0; $i < 5; $i ++)
+				for($i = 0; $i < 5; $i++)
 				{
 					if (isset ($nxtSeq[$i]))
 					{
@@ -924,7 +924,7 @@ class BCGcode128 extends BCGBarcode1D
 			}
 
 			// 4.
-			for($i = 0; $i < 3; $i ++)
+			for($i = 0; $i < 3; $i++)
 			{
 				$curLen[$i] = $nxtLen[$i];
 				if (isset ($nxtSeq[$i]))
@@ -937,7 +937,7 @@ class BCGcode128 extends BCGBarcode1D
 		// Every curLen under $e are possible but we take the smallest !
 		$m = $e;
 		$k = -1;
-		for($i = 0; $i < 3; $i ++)
+		for($i = 0; $i < 3; $i++)
 		{
 			if ($curLen[$i] < $m)
 			{
@@ -997,7 +997,7 @@ class BCGcode128 extends BCGBarcode1D
 		$data[] = $this->code[103 + $currentEncoding];
 
 		$temporaryEncoding = -1;
-		for($i = 0, $counter = 0; $i < $c; $i ++)
+		for($i = 0, $counter = 0; $i < $c; $i++)
 		{
 			$input = $seq[$i];
 			$inputI = intval ($input);
@@ -1061,7 +1061,7 @@ class BCGcode128 extends BCGBarcode1D
 			{
 				// Not supposed
 			}
-			$i ++;
+			$i++;
 		}
 		else
 		{
@@ -1071,8 +1071,8 @@ class BCGcode128 extends BCGBarcode1D
 				$code = (int) substr ($text, $counter, 2);
 				$indcheck[] = $code;
 				$data[] = $this->code[$code];
-				$counter ++;
-				$i ++;
+				$counter++;
+				$i++;
 			}
 			else
 			{
@@ -1082,7 +1082,7 @@ class BCGcode128 extends BCGBarcode1D
 				$data[] = $this->code[$pos];
 			}
 		}
-		$counter ++;
+		$counter++;
 	}
 
 	/**

@@ -3,7 +3,7 @@ define ('IN_CB', true);
 include ('header.php');
 
 $vals = array ();
-for($i = 0; $i <= 127; $i ++)
+for($i = 0; $i <= 127; $i++)
 {
 	$vals[] = '%' . sprintf ('%02X', $i);
 }
@@ -147,7 +147,7 @@ $table->setText ($n, 0, '<font color="#ffffff"><b>Specifics Configs</b></font>')
 $table->setText ($n + 1, 0, 'Keys');
 $text2display = '';
 $c = count ($keys);
-for($i = 0; $i < $c; $i ++)
+for($i = 0; $i < $c; $i++)
 {
 	$text2display .= '<input type="button" value="' . htmlentities ($keys[$i]) . '" style="width:37px;padding:0px;" onclick="newkey(this.form,unescape(\'' . $vals[$i] . '\'))" /> ';
 }

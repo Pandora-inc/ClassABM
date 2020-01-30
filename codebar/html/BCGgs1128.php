@@ -131,7 +131,7 @@ foreach ($identifiers as $key => $value)
 registerImageKey ('code', 'BCGgs1128');
 
 $vals = array ();
-for($i = 0; $i <= 127; $i ++)
+for($i = 0; $i <= 127; $i++)
 {
 	$vals[] = '%' . sprintf ('%02X', $i);
 }

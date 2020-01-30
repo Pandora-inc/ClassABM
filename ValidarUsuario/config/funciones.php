@@ -798,12 +798,12 @@ function calcularDigitoVerificador($str)
 	// Adjudicaci�n del digito - (Ponderador 9713).
 	// 1. Cada digito de los componentes a verificar deber� multiplicarse por:
 
-	for($i = 0; $i < strlen ($str); $i ++)
+	for($i = 0; $i < strlen ($str); $i++)
 	{
 
 		// 2. Se efectuara la suma de los productos parciales del punto 1).
 		$digito += ($str[$i] * $digito_array[$indice_array]);
-		$indice_array ++;
+		$indice_array++;
 		if ($indice_array >= strlen ($digito_array))
 		{
 			$indice_array = 0;
