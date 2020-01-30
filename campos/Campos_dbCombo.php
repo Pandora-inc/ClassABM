@@ -14,6 +14,8 @@
  *
  */
 require_once 'class_campo.php';
+require_once '/web/html/classes/class_db.php';
+require_once '/web/html/classes/class_sitio.php';
 
 // require_once '../funciones.php';
 
@@ -32,6 +34,13 @@ class Campos_dbCombo extends class_campo
 	 * @var string
 	 */
 	private $sqlQuery = '';
+
+	/**
+	 * Objeto de coneccion a la base de datos.
+	 *
+	 * @var class_db
+	 */
+	private $db;
 
 	/**
 	 * Para los tipo "combo" o "dbCombo", si esta en True incluye <option value=''></option>
@@ -57,11 +66,40 @@ class Campos_dbCombo extends class_campo
 	 */
 	protected $textoMayuscula = true;
 
+	public function __construct(array $array = array(), $db = null)
+	{
+		if (!isset ($db) or empty ($db) or $db == null)
+		{
+			if (!$this->db = Sitios::openConnection ())
+			{
+				global $db;
+
+				if (isset ($db) and !empty ($db) and $db != null)
+				{
+					$this->db = $db;
+				}
+			}
+		}
+		else
+		{
+			$this->db = $db;
+		}
+
+		if (isset ($array) and !empty ($array))
+		{
+			parent::__construct ($array);
+		}
+		else
+		{
+			parent::__construct ();
+		}
+	}
+
 	/**
 	 *
 	 * @return boolean el dato de la variable $incluirOpcionVacia
 	 */
-	public function isIncluirOpcionVacia()
+	public function isIncluirOpcionVacia(): bool
 	{
 		return $this->incluirOpcionVacia;
 	}
@@ -70,7 +108,7 @@ class Campos_dbCombo extends class_campo
 	 *
 	 * @return boolean el dato de la variable $mostrarValor
 	 */
-	public function isMostrarValor()
+	public function isMostrarValor(): bool
 	{
 		return $this->mostrarValor;
 	}
@@ -79,7 +117,7 @@ class Campos_dbCombo extends class_campo
 	 *
 	 * @return boolean el dato de la variable $textoMayuscula
 	 */
-	public function isTextoMayuscula()
+	public function isTextoMayuscula(): bool
 	{
 		return $this->textoMayuscula;
 	}
@@ -112,22 +150,6 @@ class Campos_dbCombo extends class_campo
 	public function setTextoMayuscula($textoMayuscula)
 	{
 		$this->textoMayuscula = $textoMayuscula;
-	}
-
-	/**
-	 *
-	 * @param array $array
-	 */
-	public function __construct($array = array())
-	{
-		if (isset ($array) and !empty ($array))
-		{
-			parent::__construct ($array);
-		}
-		else
-		{
-			parent::__construct ();
-		}
 	}
 
 	/**
@@ -167,16 +189,16 @@ class Campos_dbCombo extends class_campo
 		$this->sqlQuery = $sqlQuery;
 	}
 
-	public function campoFormBuscar($db, &$busqueda)
+	public function campoFormBuscar(&$busqueda): string
 	{
 		$retorno = "";
 
 		$retorno .= "<select name='c_" . $this->campo . "' id='c_" . $this->campo . "' class='input-select'> \n";
 		$retorno .= "<option value=''></option> \n";
 
-		$resultdbCombo = $db->query ($this->sqlQuery);
+		$resultdbCombo = $this->db->query ($this->sqlQuery);
 
-		while ($filadbCombo = $db->fetch_array ($resultdbCombo))
+		while ($filadbCombo = $this->db->fetch_array ($resultdbCombo))
 		{
 			if ((isset ($_REQUEST['c_' . $this->campo]) and $_REQUEST['c_' . $this->campo] == $filadbCombo[$this->campoValor]))
 			{
@@ -216,17 +238,17 @@ class Campos_dbCombo extends class_campo
 		return $retorno;
 	}
 
-	public function generar_elemento_form_update()
+	public function generar_elemento_form_update(): string
 	{
 		$imprForm = "<select name='" . $this->getCampo () . "' id='" . $this->getCampo () . "' " . $this->autofocusAttr . " class='input-select " . $this->getAtrRequerido () . "' " . $this->getAtrDisabled () . " " . $this->getAdicionalInput () . "> \n";
-		if ($campo->isIncluirOpcionVacia ())
+		if ($this->isIncluirOpcionVacia ())
 		{
 			$imprForm .= "<option value=''></option> \n";
 		}
 
-		if ($campo->tieneSqlQuery () == true)
+		if ($this->tieneSqlQuery () == true)
 		{
-			$sqlQuery = $campo->getSqlQuery ();
+			$sqlQuery = $this->getSqlQuery ();
 		}
 		else
 		{
@@ -250,8 +272,9 @@ class Campos_dbCombo extends class_campo
 		while ($filaCombo = $this->db->fetch_array ($resultCombo))
 		{
 			// $filaCombo = Funciones::limpiarEntidadesHTML ($filaCombo);
+			$filaCombo = array_merge (array_change_key_case ($filaCombo, CASE_UPPER), array_change_key_case ($filaCombo, CASE_LOWER));
 
-			if ($filaCombo[$this->getCampoValor ()] == $this->getValor ())
+			if ($filaCombo[strtoupper ($this->getCampoValor ())] == $this->getValor ())
 			{
 				$selected = "selected";
 			}
@@ -264,7 +287,7 @@ class Campos_dbCombo extends class_campo
 
 			if ($this->isMostrarValor () == true)
 			{
-				$combobit .= ' (' . $filaCombo[$this->getCampoValor ()] . ') ';
+				$combobit .= ' (' . $filaCombo[strtoupper ($this->getCampoValor ())] . ') ';
 			}
 
 			if ($this->isTextoMayuscula () == true)
@@ -276,7 +299,7 @@ class Campos_dbCombo extends class_campo
 				$combobit .= ucwords (strtolower (substr ($filaCombo[$this->getCampoTexto ()], 0, 50)));
 			}
 
-			$imprForm .= "<option value='" . $filaCombo[$this->getCampoValor ()] . "' $selected>" . $combobit . "</option> \n";
+			$imprForm .= "<option value='" . $filaCombo[strtoupper ($this->getCampoValor ())] . "' $selected>" . $combobit . "</option> \n";
 		}
 		$imprForm .= "</select> \n";
 

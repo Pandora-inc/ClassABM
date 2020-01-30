@@ -1,903 +1,989 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
-    <meta charset="utf-8"/>
-    <title>     &raquo; Markers
-</title>
-    <meta name="author" content=""/>
-    <meta name="description" content=""/>
+<meta name="viewport"
+	content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+<meta charset="utf-8" />
+<title>&raquo; Markers</title>
+<meta name="author" content="" />
+<meta name="description" content="" />
 
-    <link href="../css/bootstrap-combined.no-icons.min.css" rel="stylesheet">
-    <link href="../css/font-awesome.min.css" rel="stylesheet">
-    <link href="../css/prism.css" rel="stylesheet" media="all"/>
-    <link href="../css/template.css" rel="stylesheet" media="all"/>
-    
-    <!--[if lt IE 9]>
+<link href="../css/bootstrap-combined.no-icons.min.css" rel="stylesheet">
+<link href="../css/font-awesome.min.css" rel="stylesheet">
+<link href="../css/prism.css" rel="stylesheet" media="all" />
+<link href="../css/template.css" rel="stylesheet" media="all" />
+
+<!--[if lt IE 9]>
     <script src="../js/html5.js"></script>
     <![endif]-->
-    <script src="../js/jquery-1.11.0.min.js"></script>
-    <script src="../js/ui/1.10.4/jquery-ui.min.js"></script>
-    <script src="../js/bootstrap.min.js"></script>
-    <script src="../js/jquery.smooth-scroll.js"></script>
-    <script src="../js/prism.min.js"></script>
-    <!-- TODO: Add http://jscrollpane.kelvinluck.com/ to style the scrollbars for browsers not using webkit-->
-    
-    <link rel="shortcut icon" href="../images/favicon.ico"/>
-    <link rel="apple-touch-icon" href="../images/apple-touch-icon.png"/>
-    <link rel="apple-touch-icon" sizes="72x72" href="../images/apple-touch-icon-72x72.png"/>
-    <link rel="apple-touch-icon" sizes="114x114" href="../images/apple-touch-icon-114x114.png"/>
+<script src="../js/jquery-1.11.0.min.js"></script>
+<script src="../js/ui/1.10.4/jquery-ui.min.js"></script>
+<script src="../js/bootstrap.min.js"></script>
+<script src="../js/jquery.smooth-scroll.js"></script>
+<script src="../js/prism.min.js"></script>
+<!-- TODO: Add http://jscrollpane.kelvinluck.com/ to style the scrollbars for browsers not using webkit-->
+
+<link rel="shortcut icon" href="../images/favicon.ico" />
+<link rel="apple-touch-icon" href="../images/apple-touch-icon.png" />
+<link rel="apple-touch-icon" sizes="72x72"
+	href="../images/apple-touch-icon-72x72.png" />
+<link rel="apple-touch-icon" sizes="114x114"
+	href="../images/apple-touch-icon-114x114.png" />
 </head>
 <body>
 
-<div class="navbar navbar-fixed-top">
-    <div class="navbar-inner">
-        <div class="container">
-            <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-                <i class="icon-ellipsis-vertical"></i>
-            </a>
-            <a class="brand" href="../index.html">API Documentation</a>
+	<div class="navbar navbar-fixed-top">
+		<div class="navbar-inner">
+			<div class="container">
+				<a class="btn btn-navbar" data-toggle="collapse"
+					data-target=".nav-collapse"> <i class="icon-ellipsis-vertical"></i>
+				</a> <a class="brand" href="../index.html">API Documentation</a>
 
-            <div class="nav-collapse">
-                <ul class="nav pull-right">
-                                        <li class="dropdown" id="charts-menu">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                            Charts <b class="caret"></b>
-                        </a>
-                        <ul class="dropdown-menu">
-                            <li>
-                                <a href="../graphs/class.html">
-                                    <i class="icon-list-alt"></i>&#160;Class hierarchy diagram
-                                </a>
-                            </li>
-                        </ul>
-                    </li>
-                    <li class="dropdown" id="reports-menu">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                            Reports <b class="caret"></b>
-                        </a>
-                        <ul class="dropdown-menu">
-                            <li>
-                                <a href="../reports/errors.html">
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        <i class="icon-list-alt"></i>&#160;Errors <span class="label label-info pull-right">262</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="../reports/markers.html">
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        <i class="icon-list-alt"></i>&#160;Markers <span class="label label-info pull-right">84</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="../reports/deprecated.html">
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    <i class="icon-list-alt"></i>&#160;Deprecated <span class="label label-info pull-right">34</span>
-                                </a>
-                            </li>
-                        </ul>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </div>
-    <!--<div class="go_to_top">-->
-    <!--<a href="#___" style="color: inherit">Back to top&#160;&#160;<i class="icon-upload icon-white"></i></a>-->
-    <!--</div>-->
-</div>
+				<div class="nav-collapse">
+					<ul class="nav pull-right">
+						<li class="dropdown" id="charts-menu"><a href="#"
+							class="dropdown-toggle" data-toggle="dropdown"> Charts <b
+								class="caret"></b>
+						</a>
+							<ul class="dropdown-menu">
+								<li><a href="../graphs/class.html"> <i
+										class="icon-list-alt"></i>&#160;Class hierarchy diagram
+								</a></li>
+							</ul></li>
+						<li class="dropdown" id="reports-menu"><a href="#"
+							class="dropdown-toggle" data-toggle="dropdown"> Reports <b
+								class="caret"></b>
+						</a>
+							<ul class="dropdown-menu">
+								<li><a href="../reports/errors.html"> <i
+										class="icon-list-alt"></i>&#160;Errors <span
+										class="label label-info pull-right">262</span>
+								</a></li>
+								<li><a href="../reports/markers.html"> <i
+										class="icon-list-alt"></i>&#160;Markers <span
+										class="label label-info pull-right">84</span>
+								</a></li>
+								<li><a href="../reports/deprecated.html"> <i
+										class="icon-list-alt"></i>&#160;Deprecated <span
+										class="label label-info pull-right">34</span>
+								</a></li>
+							</ul></li>
+					</ul>
+				</div>
+			</div>
+		</div>
+		<!--<div class="go_to_top">-->
+		<!--<a href="#___" style="color: inherit">Back to top&#160;&#160;<i class="icon-upload icon-white"></i></a>-->
+		<!--</div>-->
+	</div>
 
-<div id="___" class="container-fluid">
-        <section class="row-fluid">
-        <div class="span2 sidebar">
-            <ul class="side-nav nav nav-list">
-                <li class="nav-header">Navigation</li>
-                                                                        <li><a href="#class_fechas.php"><i class="icon-file"></i> class_fechas.php</a></li>
-                                                                                                <li><a href="#class_abm.php"><i class="icon-file"></i> class_abm.php</a></li>
-                                                                                                <li><a href="#class_validar.php"><i class="icon-file"></i> class_validar.php</a></li>
-                                                                                                <li><a href="#class_sitio.php"><i class="icon-file"></i> class_sitio.php</a></li>
-                                                                                                                                                                                                                                                                                                                                                                                                                                                <li><a href="#ValidarUsuario/config/funciones.php"><i class="icon-file"></i> ValidarUsuario/config/funciones.php</a></li>
-                                                                                                                                                                                                                                                                                                                                <li><a href="#comun.php"><i class="icon-file"></i> comun.php</a></li>
-                                                                                                                                                        <li><a href="#funciones_string.php"><i class="icon-file"></i> funciones_string.php</a></li>
-                                                                                                <li><a href="#class_abm2.php"><i class="icon-file"></i> class_abm2.php</a></li>
-                                                                                                <li><a href="#class_db.php"><i class="icon-file"></i> class_db.php</a></li>
-                                                                                                <li><a href="#campos/Campos_numero.php"><i class="icon-file"></i> campos/Campos_numero.php</a></li>
-                                                                                                <li><a href="#campos/Campos_bit.php"><i class="icon-file"></i> campos/Campos_bit.php</a></li>
-                                                                                                <li><a href="#campos/Campos_rownum.php"><i class="icon-file"></i> campos/Campos_rownum.php</a></li>
-                                                                                                <li><a href="#campos/Campos_moneda.php"><i class="icon-file"></i> campos/Campos_moneda.php</a></li>
-                                                                                                <li><a href="#campos/Campos_fecha.php"><i class="icon-file"></i> campos/Campos_fecha.php</a></li>
-                                                                                                                                                        <li><a href="#campos/Campos_combo.php"><i class="icon-file"></i> campos/Campos_combo.php</a></li>
-                                                                                                <li><a href="#campos/class_campo.php"><i class="icon-file"></i> campos/class_campo.php</a></li>
-                                                                                                                                                        <li><a href="#campos/Campos_dbCombo.php"><i class="icon-file"></i> campos/Campos_dbCombo.php</a></li>
-                                                                                                                                                                                                                                                                                                                                <li><a href="#class_Session.php"><i class="icon-file"></i> class_Session.php</a></li>
-                                                                                                                                                                                    </ul>
-        </div>
+	<div id="___" class="container-fluid">
+		<section class="row-fluid">
+			<div class="span2 sidebar">
+				<ul class="side-nav nav nav-list">
+					<li class="nav-header">Navigation</li>
+					<li><a href="#class_fechas.php"><i class="icon-file"></i>
+							class_fechas.php</a></li>
+					<li><a href="#class_abm.php"><i class="icon-file"></i>
+							class_abm.php</a></li>
+					<li><a href="#class_validar.php"><i class="icon-file"></i>
+							class_validar.php</a></li>
+					<li><a href="#class_sitio.php"><i class="icon-file"></i>
+							class_sitio.php</a></li>
+					<li><a href="#ValidarUsuario/config/funciones.php"><i
+							class="icon-file"></i> ValidarUsuario/config/funciones.php</a></li>
+					<li><a href="#comun.php"><i class="icon-file"></i>
+							comun.php</a></li>
+					<li><a href="#funciones_string.php"><i class="icon-file"></i>
+							funciones_string.php</a></li>
+					<li><a href="#class_abm2.php"><i class="icon-file"></i>
+							class_abm2.php</a></li>
+					<li><a href="#class_db.php"><i class="icon-file"></i>
+							class_db.php</a></li>
+					<li><a href="#campos/Campos_numero.php"><i
+							class="icon-file"></i> campos/Campos_numero.php</a></li>
+					<li><a href="#campos/Campos_bit.php"><i class="icon-file"></i>
+							campos/Campos_bit.php</a></li>
+					<li><a href="#campos/Campos_rownum.php"><i
+							class="icon-file"></i> campos/Campos_rownum.php</a></li>
+					<li><a href="#campos/Campos_moneda.php"><i
+							class="icon-file"></i> campos/Campos_moneda.php</a></li>
+					<li><a href="#campos/Campos_fecha.php"><i
+							class="icon-file"></i> campos/Campos_fecha.php</a></li>
+					<li><a href="#campos/Campos_combo.php"><i
+							class="icon-file"></i> campos/Campos_combo.php</a></li>
+					<li><a href="#campos/class_campo.php"><i class="icon-file"></i>
+							campos/class_campo.php</a></li>
+					<li><a href="#campos/Campos_dbCombo.php"><i
+							class="icon-file"></i> campos/Campos_dbCombo.php</a></li>
+					<li><a href="#class_Session.php"><i class="icon-file"></i>
+							class_Session.php</a></li>
+				</ul>
+			</div>
 
-        <div class="span10 offset2">
+			<div class="span10 offset2">
 
-            <ul class="breadcrumb">
-                <li><a href="../"><i class="icon-map-marker"></i></a><span class="divider">\</span></li>
-                <li>Markers</li>
-            </ul>
+				<ul class="breadcrumb">
+					<li><a href="../"><i class="icon-map-marker"></i></a><span
+						class="divider">\</span></li>
+					<li>Markers</li>
+				</ul>
 
-            
-            <div id="marker-accordion">
-                                                            <div class="package-contents">
-                            <a name="class_fechas.php" id="class_fechas.php"></a>
-                            <h3>
-                            <i class="icon-file"></i>
-                                class_fechas.php
-                                <small style="float: right;padding-right: 10px;">2</small>
-                            </h3>
-                            <div>
-                                <table class="table markers table-bordered">
-                                    <tr>
-                                        <th>Type</th>
-                                        <th>Line</th>
-                                        <th>Description</th>
-                                    </tr>
-                                                                            <tr>
-                                            <td>FIXME</td>
-                                            <td>340</td>
-                                            <td>estas dos funciones hay que revisarlas porque no paresen correctas.</td>
-                                        </tr>
-                                                                            <tr>
-                                            <td>TODO</td>
-                                            <td>27</td>
-                                            <td>21 nov. 2018</td>
-                                        </tr>
-                                                                    </table>
-                            </div>
-                        </div>
-                                                                                <div class="package-contents">
-                            <a name="class_abm.php" id="class_abm.php"></a>
-                            <h3>
-                            <i class="icon-file"></i>
-                                class_abm.php
-                                <small style="float: right;padding-right: 10px;">23</small>
-                            </h3>
-                            <div>
-                                <table class="table markers table-bordered">
-                                    <tr>
-                                        <th>Type</th>
-                                        <th>Line</th>
-                                        <th>Description</th>
-                                    </tr>
-                                                                            <tr>
-                                            <td>FIXME</td>
-                                            <td>192</td>
-                                            <td>- Cuando se realiza una busqueda hay que recetear el paginado.</td>
-                                        </tr>
-                                                                            <tr>
-                                            <td>FIXME</td>
-                                            <td>194</td>
-                                            <td>- Hay que modificar el sistema de consulta del paginado para que sea mas eficiente.</td>
-                                        </tr>
-                                                                            <tr>
-                                            <td>FIXME</td>
-                                            <td>1242</td>
-                                            <td>El jslinksSelectConBusqueda habria que mostrarlo solo cuando haya un select que lo uso</td>
-                                        </tr>
-                                                                            <tr>
-                                            <td>FIXME</td>
-                                            <td>1987</td>
-                                            <td>Revisar exactamente.</td>
-                                        </tr>
-                                                                            <tr>
-                                            <td>FIXME</td>
-                                            <td>2056</td>
-                                            <td>El jslinksSelectConBusqueda habria que mostrarlo solo cuando haya un select que lo uso</td>
-                                        </tr>
-                                                                            <tr>
-                                            <td>FIXME</td>
-                                            <td>2881</td>
-                                            <td>Revisar exactamente.</td>
-                                        </tr>
-                                                                            <tr>
-                                            <td>FIXME</td>
-                                            <td>3300</td>
-                                            <td>Hay que encontrar un metodo mejor ya que si hay mas de una tabla con el mismo campo y las primeras tres letras del nombre de la tabla iguales tirara que la columna esta definida de forma ambigua.</td>
-                                        </tr>
-                                                                            <tr>
-                                            <td>FIXME</td>
-                                            <td>3367</td>
-                                            <td>Esto es un parche temporal y requiere que se arragle con urgencia</td>
-                                        </tr>
-                                                                            <tr>
-                                            <td>FIXME</td>
-                                            <td>3380</td>
-                                            <td>Revisar exactamente.</td>
-                                        </tr>
-                                                                            <tr>
-                                            <td>FIXME</td>
-                                            <td>3622</td>
-                                            <td>- esto es un parche para poder paginar sin perder la busqueda pero hay que corregirlo para mejorarlo</td>
-                                        </tr>
-                                                                            <tr>
-                                            <td>FIXME</td>
-                                            <td>3664</td>
-                                            <td>- esto es un parche para poder paginar sin perder la busqueda pero hay que corregirlo para mejorarlo</td>
-                                        </tr>
-                                                                            <tr>
-                                            <td>TODO</td>
-                                            <td>3682</td>
-                                            <td>- esto no es un error pero es poco performante y genera codigo duplicado hay que corregirlo.</td>
-                                        </tr>
-                                                                            <tr>
-                                            <td>FIXME</td>
-                                            <td>3687</td>
-                                            <td>- esto es un parche para poder paginar sin perder la busqueda pero hay que corregirlo para mejorarlo</td>
-                                        </tr>
-                                                                            <tr>
-                                            <td>FIXME</td>
-                                            <td>3700</td>
-                                            <td>- esto es un parche para poder paginar sin perder la busqueda pero hay que corregirlo para mejorarlo</td>
-                                        </tr>
-                                                                            <tr>
-                                            <td>FIXME</td>
-                                            <td>3716</td>
-                                            <td>- esto es un parche para poder paginar sin perder la busqueda pero hay que corregirlo para mejorarlo</td>
-                                        </tr>
-                                                                            <tr>
-                                            <td>FIXME</td>
-                                            <td>3729</td>
-                                            <td>- esto es un parche para poder paginar sin perder la busqueda pero hay que corregirlo para mejorarlo</td>
-                                        </tr>
-                                                                            <tr>
-                                            <td>FIXME</td>
-                                            <td>3747</td>
-                                            <td>- esto es un parche para poder paginar sin perder la busqueda pero hay que corregirlo para mejorarlo</td>
-                                        </tr>
-                                                                            <tr>
-                                            <td>FIXME</td>
-                                            <td>3772</td>
-                                            <td>- esto es un parche para poder paginar sin perder la busqueda pero hay que corregirlo para mejorarlo</td>
-                                        </tr>
-                                                                            <tr>
-                                            <td>FIXME</td>
-                                            <td>3788</td>
-                                            <td>- esto es un parche para poder paginar sin perder la busqueda pero hay que corregirlo para mejorarlo</td>
-                                        </tr>
-                                                                            <tr>
-                                            <td>FIXME</td>
-                                            <td>3803</td>
-                                            <td>- esto es un parche para poder paginar sin perder la busqueda pero hay que corregirlo para mejorarlo</td>
-                                        </tr>
-                                                                            <tr>
-                                            <td>FIXME</td>
-                                            <td>3841</td>
-                                            <td>- esto es un parche para poder paginar sin perder la busqueda pero hay que corregirlo para mejorarlo</td>
-                                        </tr>
-                                                                            <tr>
-                                            <td>FIXME</td>
-                                            <td>4224</td>
-                                            <td>Urgente arreglar</td>
-                                        </tr>
-                                                                            <tr>
-                                            <td>FIXME</td>
-                                            <td>4260</td>
-                                            <td>- Deberia dar la opcion a una comprovacion individual sobre si mostrar o no el editar por cada fila.</td>
-                                        </tr>
-                                                                    </table>
-                            </div>
-                        </div>
-                                                                                <div class="package-contents">
-                            <a name="class_validar.php" id="class_validar.php"></a>
-                            <h3>
-                            <i class="icon-file"></i>
-                                class_validar.php
-                                <small style="float: right;padding-right: 10px;">4</small>
-                            </h3>
-                            <div>
-                                <table class="table markers table-bordered">
-                                    <tr>
-                                        <th>Type</th>
-                                        <th>Line</th>
-                                        <th>Description</th>
-                                    </tr>
-                                                                            <tr>
-                                            <td>FIXME</td>
-                                            <td>144</td>
-                                            <td>- Hay que revisar el funcionamiento de eesta funcion para asegurarse que es correcta y mejorar los comentarios para que sean mas explicativos.</td>
-                                        </tr>
-                                                                            <tr>
-                                            <td>FIXME</td>
-                                            <td>355</td>
-                                            <td>- No creo que esta funion este funcionando correctamente. Hay que revisarla.</td>
-                                        </tr>
-                                                                            <tr>
-                                            <td>FIXME</td>
-                                            <td>356</td>
-                                            <td>- Hay que devolver una excepcion en caso de error.</td>
-                                        </tr>
-                                                                            <tr>
-                                            <td>TODO</td>
-                                            <td>40</td>
-                                            <td>$validador = new validar();
-      $validador-&gt;validarCampoForm(&quot;usuario&quot;, &quot;strClave&quot;, &quot;Verifique el campo Usuario. Debe ser solo letras y numeros (se permite usar ._)&quot;, &quot;Usuario&quot;, 2, 20);
-      $validador-&gt;validarCampoForm(&quot;pass&quot;, &quot;&quot;, &quot;&quot;, &quot;Contrasena&quot;, 4, 20);
-      $validador-&gt;comparar(&quot;pass&quot;, &quot;pass2&quot;, &quot;Las contrasenas no coinciden&quot;);
-      $validador-&gt;validarCampoForm(&quot;email&quot;, &quot;email&quot;);
-      $validador-&gt;validarCampoForm(&quot;nombre&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, 1, 50);
-      $validador-&gt;validarCampoForm(&quot;apellido&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, 1, 50);
-      $validador-&gt;rango(&quot;edad&quot;, 18, 100);
-      if($_REQUEST[aceptaTerminos]!=&quot;1&quot;) $validador-&gt;agregarError(&quot;Debe aceptar los terminos y condiciones&quot;);</td>
-                                        </tr>
-                                                                    </table>
-                            </div>
-                        </div>
-                                                                                <div class="package-contents">
-                            <a name="class_sitio.php" id="class_sitio.php"></a>
-                            <h3>
-                            <i class="icon-file"></i>
-                                class_sitio.php
-                                <small style="float: right;padding-right: 10px;">5</small>
-                            </h3>
-                            <div>
-                                <table class="table markers table-bordered">
-                                    <tr>
-                                        <th>Type</th>
-                                        <th>Line</th>
-                                        <th>Description</th>
-                                    </tr>
-                                                                            <tr>
-                                            <td>FIXME</td>
-                                            <td>971</td>
-                                            <td>hy que revisarlo porque creo que esto no es correcto</td>
-                                        </tr>
-                                                                            <tr>
-                                            <td>FIXME</td>
-                                            <td>1163</td>
-                                            <td>como se actualizo el ereg remplase hay que comprobar que funcione correctamente esta funcion</td>
-                                        </tr>
-                                                                            <tr>
-                                            <td>FIXME</td>
-                                            <td>1689</td>
-                                            <td>Hay que probar la funcion para verificar su correcto funcionamiento</td>
-                                        </tr>
-                                                                            <tr>
-                                            <td>FIXME</td>
-                                            <td>1723</td>
-                                            <td>Hay que probar la funcion para verificar su correcto funcionamiento</td>
-                                        </tr>
-                                                                            <tr>
-                                            <td>TODO</td>
-                                            <td>467</td>
-                                            <td>esta funcion usa la propiedad de la clase &#039;carateres_latinos&#039; si no llegara a estar definida lo hace.</td>
-                                        </tr>
-                                                                    </table>
-                            </div>
-                        </div>
-                                                                                                                                                                                                                                                                                                        <div class="package-contents">
-                            <a name="ValidarUsuario/config/funciones.php" id="ValidarUsuario/config/funciones.php"></a>
-                            <h3>
-                            <i class="icon-file"></i>
-                                ValidarUsuario/config/funciones.php
-                                <small style="float: right;padding-right: 10px;">1</small>
-                            </h3>
-                            <div>
-                                <table class="table markers table-bordered">
-                                    <tr>
-                                        <th>Type</th>
-                                        <th>Line</th>
-                                        <th>Description</th>
-                                    </tr>
-                                                                            <tr>
-                                            <td>FIXME</td>
-                                            <td>268</td>
-                                            <td>Hay que revisar y corregir toda la funcion</td>
-                                        </tr>
-                                                                    </table>
-                            </div>
-                        </div>
-                                                                                                                                                                                                                                <div class="package-contents">
-                            <a name="comun.php" id="comun.php"></a>
-                            <h3>
-                            <i class="icon-file"></i>
-                                comun.php
-                                <small style="float: right;padding-right: 10px;">1</small>
-                            </h3>
-                            <div>
-                                <table class="table markers table-bordered">
-                                    <tr>
-                                        <th>Type</th>
-                                        <th>Line</th>
-                                        <th>Description</th>
-                                    </tr>
-                                                                            <tr>
-                                            <td>FIXME</td>
-                                            <td>667</td>
-                                            <td>estas dos funciones hay que revisarlas porque no paresen correctas.</td>
-                                        </tr>
-                                                                    </table>
-                            </div>
-                        </div>
-                                                                                                                    <div class="package-contents">
-                            <a name="funciones_string.php" id="funciones_string.php"></a>
-                            <h3>
-                            <i class="icon-file"></i>
-                                funciones_string.php
-                                <small style="float: right;padding-right: 10px;">1</small>
-                            </h3>
-                            <div>
-                                <table class="table markers table-bordered">
-                                    <tr>
-                                        <th>Type</th>
-                                        <th>Line</th>
-                                        <th>Description</th>
-                                    </tr>
-                                                                            <tr>
-                                            <td>TODO</td>
-                                            <td>902</td>
-                                            <td>esta funcion usa la propiedad de la clase &#039;carateres_latinos&#039; si no llegara a estar definida lo hace.</td>
-                                        </tr>
-                                                                    </table>
-                            </div>
-                        </div>
-                                                                                <div class="package-contents">
-                            <a name="class_abm2.php" id="class_abm2.php"></a>
-                            <h3>
-                            <i class="icon-file"></i>
-                                class_abm2.php
-                                <small style="float: right;padding-right: 10px;">21</small>
-                            </h3>
-                            <div>
-                                <table class="table markers table-bordered">
-                                    <tr>
-                                        <th>Type</th>
-                                        <th>Line</th>
-                                        <th>Description</th>
-                                    </tr>
-                                                                            <tr>
-                                            <td>FIXME</td>
-                                            <td>196</td>
-                                            <td>- Cuando se realiza una busqueda hay que recetear el paginado.</td>
-                                        </tr>
-                                                                            <tr>
-                                            <td>FIXME</td>
-                                            <td>198</td>
-                                            <td>- Hay que modificar el sistema de consulta del paginado para que sea mas eficiente.</td>
-                                        </tr>
-                                                                            <tr>
-                                            <td>FIXME</td>
-                                            <td>1286</td>
-                                            <td>El jslinksSelectConBusqueda habria que mostrarlo solo cuando haya un select que lo uso</td>
-                                        </tr>
-                                                                            <tr>
-                                            <td>FIXME</td>
-                                            <td>1996</td>
-                                            <td>Revisar exactamente.</td>
-                                        </tr>
-                                                                            <tr>
-                                            <td>FIXME</td>
-                                            <td>2064</td>
-                                            <td>El jslinksSelectConBusqueda habria que mostrarlo solo cuando haya un select que lo uso</td>
-                                        </tr>
-                                                                            <tr>
-                                            <td>FIXME</td>
-                                            <td>2462</td>
-                                            <td>Revisar y corregir esto (creo que no esta implementado)</td>
-                                        </tr>
-                                                                            <tr>
-                                            <td>FIXME</td>
-                                            <td>2509</td>
-                                            <td>comprobar e implementar customCompare</td>
-                                        </tr>
-                                                                            <tr>
-                                            <td>FIXME</td>
-                                            <td>2566</td>
-                                            <td>comprobar limitarTamanio mensaje where where incluirValor campoPadre</td>
-                                        </tr>
-                                                                            <tr>
-                                            <td>FIXME</td>
-                                            <td>2583</td>
-                                            <td>Comprobar customOrder y su implementacion</td>
-                                        </tr>
-                                                                            <tr>
-                                            <td>FIXME</td>
-                                            <td>2706</td>
-                                            <td>hint??? comprobar</td>
-                                        </tr>
-                                                                            <tr>
-                                            <td>FIXME</td>
-                                            <td>2814</td>
-                                            <td>WTF con essto</td>
-                                        </tr>
-                                                                            <tr>
-                                            <td>FIXME</td>
-                                            <td>2903</td>
-                                            <td>Revisar exactamente.</td>
-                                        </tr>
-                                                                            <tr>
-                                            <td>FIXME</td>
-                                            <td>3037</td>
-                                            <td>campoOrder???</td>
-                                        </tr>
-                                                                            <tr>
-                                            <td>FIXME</td>
-                                            <td>3260</td>
-                                            <td>- esto es un parche para poder paginar sin perder la busqueda pero hay que corregirlo para mejorarlo</td>
-                                        </tr>
-                                                                            <tr>
-                                            <td>FIXME</td>
-                                            <td>3407</td>
-                                            <td>Esto es un parche temporal y requiere que se arragle con urgencia</td>
-                                        </tr>
-                                                                            <tr>
-                                            <td>FIXME</td>
-                                            <td>3419</td>
-                                            <td>Revisar exactamente.</td>
-                                        </tr>
-                                                                            <tr>
-                                            <td>FIXME</td>
-                                            <td>3822</td>
-                                            <td>todo esto y lo que sigue deberia estar dentro de la funcion del campo</td>
-                                        </tr>
-                                                                            <tr>
-                                            <td>FIXME</td>
-                                            <td>3906</td>
-                                            <td>Urgente arreglar el formateo de fecha y que pasa con strtotime -1</td>
-                                        </tr>
-                                                                            <tr>
-                                            <td>FIXME</td>
-                                            <td>3918</td>
-                                            <td>- Deberia dar la opcion a una comprovacion individual sobre si mostrar o no el editar por cada fila.</td>
-                                        </tr>
-                                                                            <tr>
-                                            <td>FIXME</td>
-                                            <td>3974</td>
-                                            <td>esto debe retornarse y no mostrarse por pantalla</td>
-                                        </tr>
-                                                                            <tr>
-                                            <td>TODO</td>
-                                            <td>3294</td>
-                                            <td>NOTA: Esta funcion solamente genera el listado, se necesita usar la funcion generarAbm() para que funcione el ABM.</td>
-                                        </tr>
-                                                                    </table>
-                            </div>
-                        </div>
-                                                                                <div class="package-contents">
-                            <a name="class_db.php" id="class_db.php"></a>
-                            <h3>
-                            <i class="icon-file"></i>
-                                class_db.php
-                                <small style="float: right;padding-right: 10px;">1</small>
-                            </h3>
-                            <div>
-                                <table class="table markers table-bordered">
-                                    <tr>
-                                        <th>Type</th>
-                                        <th>Line</th>
-                                        <th>Description</th>
-                                    </tr>
-                                                                            <tr>
-                                            <td>FIXME</td>
-                                            <td>391</td>
-                                            <td>- hasta que se encuentre otra solucion se va a usar un case y se va a hacer manual</td>
-                                        </tr>
-                                                                    </table>
-                            </div>
-                        </div>
-                                                                                <div class="package-contents">
-                            <a name="campos/Campos_numero.php" id="campos/Campos_numero.php"></a>
-                            <h3>
-                            <i class="icon-file"></i>
-                                campos/Campos_numero.php
-                                <small style="float: right;padding-right: 10px;">2</small>
-                            </h3>
-                            <div>
-                                <table class="table markers table-bordered">
-                                    <tr>
-                                        <th>Type</th>
-                                        <th>Line</th>
-                                        <th>Description</th>
-                                    </tr>
-                                                                            <tr>
-                                            <td>FIXME</td>
-                                            <td>111</td>
-                                            <td>- esto es un parche para poder paginar sin perder la busqueda pero hay que corregirlo para mejorarlo</td>
-                                        </tr>
-                                                                            <tr>
-                                            <td>TODO</td>
-                                            <td>44</td>
-                                            <td>Por defecto su valor es 2.</td>
-                                        </tr>
-                                                                    </table>
-                            </div>
-                        </div>
-                                                                                <div class="package-contents">
-                            <a name="campos/Campos_bit.php" id="campos/Campos_bit.php"></a>
-                            <h3>
-                            <i class="icon-file"></i>
-                                campos/Campos_bit.php
-                                <small style="float: right;padding-right: 10px;">5</small>
-                            </h3>
-                            <div>
-                                <table class="table markers table-bordered">
-                                    <tr>
-                                        <th>Type</th>
-                                        <th>Line</th>
-                                        <th>Description</th>
-                                    </tr>
-                                                                            <tr>
-                                            <td>TODO</td>
-                                            <td>159</td>
-                                            <td>- esto no es un error pero es poco performante y genera codigo duplicado hay que corregirlo.</td>
-                                        </tr>
-                                                                            <tr>
-                                            <td>FIXME</td>
-                                            <td>164</td>
-                                            <td>- esto es un parche para poder paginar sin perder la busqueda pero hay que corregirlo para mejorarlo</td>
-                                        </tr>
-                                                                            <tr>
-                                            <td>FIXME</td>
-                                            <td>177</td>
-                                            <td>- esto es un parche para poder paginar sin perder la busqueda pero hay que corregirlo para mejorarlo</td>
-                                        </tr>
-                                                                            <tr>
-                                            <td>FIXME</td>
-                                            <td>193</td>
-                                            <td>- esto es un parche para poder paginar sin perder la busqueda pero hay que corregirlo para mejorarlo</td>
-                                        </tr>
-                                                                            <tr>
-                                            <td>FIXME</td>
-                                            <td>206</td>
-                                            <td>- esto es un parche para poder paginar sin perder la busqueda pero hay que corregirlo para mejorarlo</td>
-                                        </tr>
-                                                                    </table>
-                            </div>
-                        </div>
-                                                                                <div class="package-contents">
-                            <a name="campos/Campos_rownum.php" id="campos/Campos_rownum.php"></a>
-                            <h3>
-                            <i class="icon-file"></i>
-                                campos/Campos_rownum.php
-                                <small style="float: right;padding-right: 10px;">1</small>
-                            </h3>
-                            <div>
-                                <table class="table markers table-bordered">
-                                    <tr>
-                                        <th>Type</th>
-                                        <th>Line</th>
-                                        <th>Description</th>
-                                    </tr>
-                                                                            <tr>
-                                            <td>TODO</td>
-                                            <td>28</td>
-                                            <td>- Insert your code here</td>
-                                        </tr>
-                                                                    </table>
-                            </div>
-                        </div>
-                                                                                <div class="package-contents">
-                            <a name="campos/Campos_moneda.php" id="campos/Campos_moneda.php"></a>
-                            <h3>
-                            <i class="icon-file"></i>
-                                campos/Campos_moneda.php
-                                <small style="float: right;padding-right: 10px;">3</small>
-                            </h3>
-                            <div>
-                                <table class="table markers table-bordered">
-                                    <tr>
-                                        <th>Type</th>
-                                        <th>Line</th>
-                                        <th>Description</th>
-                                    </tr>
-                                                                            <tr>
-                                            <td>FIXME</td>
-                                            <td>104</td>
-                                            <td>- esto es un parche para poder paginar sin perder la busqueda pero hay que corregirlo para mejorarlo</td>
-                                        </tr>
-                                                                            <tr>
-                                            <td>FIXME</td>
-                                            <td>143</td>
-                                            <td>el formato deberia ser algo asi &#039;%.$this-&gt;getCantidadDecimales ()n&#039; ya que si no se omite el uso de dicho parametro.</td>
-                                        </tr>
-                                                                            <tr>
-                                            <td>TODO</td>
-                                            <td>37</td>
-                                            <td>Por defecto su valor es 2.</td>
-                                        </tr>
-                                                                    </table>
-                            </div>
-                        </div>
-                                                                                <div class="package-contents">
-                            <a name="campos/Campos_fecha.php" id="campos/Campos_fecha.php"></a>
-                            <h3>
-                            <i class="icon-file"></i>
-                                campos/Campos_fecha.php
-                                <small style="float: right;padding-right: 10px;">3</small>
-                            </h3>
-                            <div>
-                                <table class="table markers table-bordered">
-                                    <tr>
-                                        <th>Type</th>
-                                        <th>Line</th>
-                                        <th>Description</th>
-                                    </tr>
-                                                                            <tr>
-                                            <td>FIXME</td>
-                                            <td>121</td>
-                                            <td>- esto es un parche para poder paginar sin perder la busqueda pero hay que corregirlo para mejorarlo</td>
-                                        </tr>
-                                                                            <tr>
-                                            <td>FIXME</td>
-                                            <td>173</td>
-                                            <td>calculo que habria que armar otra funcion que haga esto</td>
-                                        </tr>
-                                                                            <tr>
-                                            <td>FIXME</td>
-                                            <td>184</td>
-                                            <td>Hay que encontrar un metodo mejor ya que si hay mas de una tabla con el mismo campo y las primeras tres letras del nombre de la tabla iguales tirara que la columna esta definida de forma ambigua.</td>
-                                        </tr>
-                                                                    </table>
-                            </div>
-                        </div>
-                                                                                                                    <div class="package-contents">
-                            <a name="campos/Campos_combo.php" id="campos/Campos_combo.php"></a>
-                            <h3>
-                            <i class="icon-file"></i>
-                                campos/Campos_combo.php
-                                <small style="float: right;padding-right: 10px;">1</small>
-                            </h3>
-                            <div>
-                                <table class="table markers table-bordered">
-                                    <tr>
-                                        <th>Type</th>
-                                        <th>Line</th>
-                                        <th>Description</th>
-                                    </tr>
-                                                                            <tr>
-                                            <td>FIXME</td>
-                                            <td>183</td>
-                                            <td>- esto es un parche para poder paginar sin perder la busqueda pero hay que corregirlo para mejorarlo</td>
-                                        </tr>
-                                                                    </table>
-                            </div>
-                        </div>
-                                                                                <div class="package-contents">
-                            <a name="campos/class_campo.php" id="campos/class_campo.php"></a>
-                            <h3>
-                            <i class="icon-file"></i>
-                                campos/class_campo.php
-                                <small style="float: right;padding-right: 10px;">8</small>
-                            </h3>
-                            <div>
-                                <table class="table markers table-bordered">
-                                    <tr>
-                                        <th>Type</th>
-                                        <th>Line</th>
-                                        <th>Description</th>
-                                    </tr>
-                                                                            <tr>
-                                            <td>FIXME</td>
-                                            <td>2024</td>
-                                            <td>- esto es un parche para poder paginar sin perder la busqueda pero hay que corregirlo para mejorarlo</td>
-                                        </tr>
-                                                                            <tr>
-                                            <td>FIXME</td>
-                                            <td>2159</td>
-                                            <td>calculo que habria que armar otra funcion que haga esto</td>
-                                        </tr>
-                                                                            <tr>
-                                            <td>FIXME</td>
-                                            <td>2170</td>
-                                            <td>Hay que encontrar un metodo mejor ya que si hay mas de una tabla con el mismo campo y las primeras tres letras del nombre de la tabla iguales tirara que la columna esta definida de forma ambigua.</td>
-                                        </tr>
-                                                                            <tr>
-                                            <td>TODO</td>
-                                            <td>225</td>
-                                            <td>Obligatorio para el tipo de campo dbCombo.</td>
-                                        </tr>
-                                                                            <tr>
-                                            <td>TODO</td>
-                                            <td>235</td>
-                                            <td>Obligatorio para el tipo de campo dbCombo.</td>
-                                        </tr>
-                                                                            <tr>
-                                            <td>TODO</td>
-                                            <td>245</td>
-                                            <td>Obligatorio para el tipo de campo dbCombo.</td>
-                                        </tr>
-                                                                            <tr>
-                                            <td>TODO</td>
-                                            <td>268</td>
-                                            <td>El valor por defecto es INNER.</td>
-                                        </tr>
-                                                                            <tr>
-                                            <td>TODO</td>
-                                            <td>450</td>
-                                            <td>NOTA: el buscador funciona verificando variables de $_REQUEST con los nombres de los campos con prefijo &quot;c_&quot;. Si se quisiera hacer un formulario de busqueda independiente sin usar el de la class se puede hacer usando los mismos nombres de los campos, o sea con el prefijo &quot;c_&quot;.)</td>
-                                        </tr>
-                                                                    </table>
-                            </div>
-                        </div>
-                                                                                                                    <div class="package-contents">
-                            <a name="campos/Campos_dbCombo.php" id="campos/Campos_dbCombo.php"></a>
-                            <h3>
-                            <i class="icon-file"></i>
-                                campos/Campos_dbCombo.php
-                                <small style="float: right;padding-right: 10px;">1</small>
-                            </h3>
-                            <div>
-                                <table class="table markers table-bordered">
-                                    <tr>
-                                        <th>Type</th>
-                                        <th>Line</th>
-                                        <th>Description</th>
-                                    </tr>
-                                                                            <tr>
-                                            <td>FIXME</td>
-                                            <td>185</td>
-                                            <td>- esto es un parche para poder paginar sin perder la busqueda pero hay que corregirlo para mejorarlo</td>
-                                        </tr>
-                                                                    </table>
-                            </div>
-                        </div>
-                                                                                                                                                                                                                                <div class="package-contents">
-                            <a name="class_Session.php" id="class_Session.php"></a>
-                            <h3>
-                            <i class="icon-file"></i>
-                                class_Session.php
-                                <small style="float: right;padding-right: 10px;">1</small>
-                            </h3>
-                            <div>
-                                <table class="table markers table-bordered">
-                                    <tr>
-                                        <th>Type</th>
-                                        <th>Line</th>
-                                        <th>Description</th>
-                                    </tr>
-                                                                            <tr>
-                                            <td>TODO</td>
-                                            <td>12</td>
-                                            <td>FechaC 06/03/2019 - Lenguaje PHP</td>
-                                        </tr>
-                                                                    </table>
-                            </div>
-                        </div>
-                                                                                                                        </div>
-        </div>
-    </section>
 
-    <footer class="row-fluid">
-        <section class="span10 offset2">
-            <section class="row-fluid">
-                <section class="span10 offset1">
-                    <section class="row-fluid footer-sections">
-                        <section class="span4">
-                                                        <h1><i class="icon-code"></i></h1>
-                            <div>
-                                <ul>
-                                                                    </ul>
-                            </div>
-                        </section>
-                        <section class="span4">
-                                                        <h1><i class="icon-bar-chart"></i></h1>
-                            <div>
-                                <ul>
-                                    <li><a href="../graphs/class.html">Class Hierarchy Diagram</a></li>
-                                </ul>
-                            </div>
-                        </section>
-                        <section class="span4">
-                                                        <h1><i class="icon-pushpin"></i></h1>
-                            <div>
-                                <ul>
-                                    <li><a href="../reports/errors.html">Errors</a></li>
-                                    <li><a href="../reports/markers.html">Markers</a></li>
-                                </ul>
-                            </div>
-                        </section>
-                    </section>
-                </section>
-            </section>
-            <section class="row-fluid">
-                <section class="span10 offset1">
-                    <hr />
-                    Documentation is powered by <a href="http://www.phpdoc.org/">phpDocumentor </a> and authored
-                    on August 30th, 2019 at 15:33.
-                </section>
-            </section>
-        </section>
-    </footer>
-</div>
+				<div id="marker-accordion">
+					<div class="package-contents">
+						<a name="class_fechas.php" id="class_fechas.php"></a>
+						<h3>
+							<i class="icon-file"></i> class_fechas.php <small
+								style="float: right; padding-right: 10px;">2</small>
+						</h3>
+						<div>
+							<table class="table markers table-bordered">
+								<tr>
+									<th>Type</th>
+									<th>Line</th>
+									<th>Description</th>
+								</tr>
+								<tr>
+									<td>FIXME</td>
+									<td>340</td>
+									<td>estas dos funciones hay que revisarlas porque no
+										paresen correctas.</td>
+								</tr>
+								<tr>
+									<td>TODO</td>
+									<td>27</td>
+									<td>21 nov. 2018</td>
+								</tr>
+							</table>
+						</div>
+					</div>
+					<div class="package-contents">
+						<a name="class_abm.php" id="class_abm.php"></a>
+						<h3>
+							<i class="icon-file"></i> class_abm.php <small
+								style="float: right; padding-right: 10px;">23</small>
+						</h3>
+						<div>
+							<table class="table markers table-bordered">
+								<tr>
+									<th>Type</th>
+									<th>Line</th>
+									<th>Description</th>
+								</tr>
+								<tr>
+									<td>FIXME</td>
+									<td>192</td>
+									<td>- Cuando se realiza una busqueda hay que recetear el
+										paginado.</td>
+								</tr>
+								<tr>
+									<td>FIXME</td>
+									<td>194</td>
+									<td>- Hay que modificar el sistema de consulta del
+										paginado para que sea mas eficiente.</td>
+								</tr>
+								<tr>
+									<td>FIXME</td>
+									<td>1242</td>
+									<td>El jslinksSelectConBusqueda habria que mostrarlo solo
+										cuando haya un select que lo uso</td>
+								</tr>
+								<tr>
+									<td>FIXME</td>
+									<td>1987</td>
+									<td>Revisar exactamente.</td>
+								</tr>
+								<tr>
+									<td>FIXME</td>
+									<td>2056</td>
+									<td>El jslinksSelectConBusqueda habria que mostrarlo solo
+										cuando haya un select que lo uso</td>
+								</tr>
+								<tr>
+									<td>FIXME</td>
+									<td>2881</td>
+									<td>Revisar exactamente.</td>
+								</tr>
+								<tr>
+									<td>FIXME</td>
+									<td>3300</td>
+									<td>Hay que encontrar un metodo mejor ya que si hay mas de
+										una tabla con el mismo campo y las primeras tres letras del
+										nombre de la tabla iguales tirara que la columna esta definida
+										de forma ambigua.</td>
+								</tr>
+								<tr>
+									<td>FIXME</td>
+									<td>3367</td>
+									<td>Esto es un parche temporal y requiere que se arragle
+										con urgencia</td>
+								</tr>
+								<tr>
+									<td>FIXME</td>
+									<td>3380</td>
+									<td>Revisar exactamente.</td>
+								</tr>
+								<tr>
+									<td>FIXME</td>
+									<td>3622</td>
+									<td>- esto es un parche para poder paginar sin perder la
+										busqueda pero hay que corregirlo para mejorarlo</td>
+								</tr>
+								<tr>
+									<td>FIXME</td>
+									<td>3664</td>
+									<td>- esto es un parche para poder paginar sin perder la
+										busqueda pero hay que corregirlo para mejorarlo</td>
+								</tr>
+								<tr>
+									<td>TODO</td>
+									<td>3682</td>
+									<td>- esto no es un error pero es poco performante y
+										genera codigo duplicado hay que corregirlo.</td>
+								</tr>
+								<tr>
+									<td>FIXME</td>
+									<td>3687</td>
+									<td>- esto es un parche para poder paginar sin perder la
+										busqueda pero hay que corregirlo para mejorarlo</td>
+								</tr>
+								<tr>
+									<td>FIXME</td>
+									<td>3700</td>
+									<td>- esto es un parche para poder paginar sin perder la
+										busqueda pero hay que corregirlo para mejorarlo</td>
+								</tr>
+								<tr>
+									<td>FIXME</td>
+									<td>3716</td>
+									<td>- esto es un parche para poder paginar sin perder la
+										busqueda pero hay que corregirlo para mejorarlo</td>
+								</tr>
+								<tr>
+									<td>FIXME</td>
+									<td>3729</td>
+									<td>- esto es un parche para poder paginar sin perder la
+										busqueda pero hay que corregirlo para mejorarlo</td>
+								</tr>
+								<tr>
+									<td>FIXME</td>
+									<td>3747</td>
+									<td>- esto es un parche para poder paginar sin perder la
+										busqueda pero hay que corregirlo para mejorarlo</td>
+								</tr>
+								<tr>
+									<td>FIXME</td>
+									<td>3772</td>
+									<td>- esto es un parche para poder paginar sin perder la
+										busqueda pero hay que corregirlo para mejorarlo</td>
+								</tr>
+								<tr>
+									<td>FIXME</td>
+									<td>3788</td>
+									<td>- esto es un parche para poder paginar sin perder la
+										busqueda pero hay que corregirlo para mejorarlo</td>
+								</tr>
+								<tr>
+									<td>FIXME</td>
+									<td>3803</td>
+									<td>- esto es un parche para poder paginar sin perder la
+										busqueda pero hay que corregirlo para mejorarlo</td>
+								</tr>
+								<tr>
+									<td>FIXME</td>
+									<td>3841</td>
+									<td>- esto es un parche para poder paginar sin perder la
+										busqueda pero hay que corregirlo para mejorarlo</td>
+								</tr>
+								<tr>
+									<td>FIXME</td>
+									<td>4224</td>
+									<td>Urgente arreglar</td>
+								</tr>
+								<tr>
+									<td>FIXME</td>
+									<td>4260</td>
+									<td>- Deberia dar la opcion a una comprovacion individual
+										sobre si mostrar o no el editar por cada fila.</td>
+								</tr>
+							</table>
+						</div>
+					</div>
+					<div class="package-contents">
+						<a name="class_validar.php" id="class_validar.php"></a>
+						<h3>
+							<i class="icon-file"></i> class_validar.php <small
+								style="float: right; padding-right: 10px;">4</small>
+						</h3>
+						<div>
+							<table class="table markers table-bordered">
+								<tr>
+									<th>Type</th>
+									<th>Line</th>
+									<th>Description</th>
+								</tr>
+								<tr>
+									<td>FIXME</td>
+									<td>144</td>
+									<td>- Hay que revisar el funcionamiento de eesta funcion
+										para asegurarse que es correcta y mejorar los comentarios para
+										que sean mas explicativos.</td>
+								</tr>
+								<tr>
+									<td>FIXME</td>
+									<td>355</td>
+									<td>- No creo que esta funion este funcionando
+										correctamente. Hay que revisarla.</td>
+								</tr>
+								<tr>
+									<td>FIXME</td>
+									<td>356</td>
+									<td>- Hay que devolver una excepcion en caso de error.</td>
+								</tr>
+								<tr>
+									<td>TODO</td>
+									<td>40</td>
+									<td>$validador = new validar();
+										$validador-&gt;validarCampoForm(&quot;usuario&quot;,
+										&quot;strClave&quot;, &quot;Verifique el campo Usuario. Debe
+										ser solo letras y numeros (se permite usar ._)&quot;,
+										&quot;Usuario&quot;, 2, 20);
+										$validador-&gt;validarCampoForm(&quot;pass&quot;,
+										&quot;&quot;, &quot;&quot;, &quot;Contrasena&quot;, 4, 20);
+										$validador-&gt;comparar(&quot;pass&quot;, &quot;pass2&quot;,
+										&quot;Las contrasenas no coinciden&quot;);
+										$validador-&gt;validarCampoForm(&quot;email&quot;,
+										&quot;email&quot;);
+										$validador-&gt;validarCampoForm(&quot;nombre&quot;,
+										&quot;&quot;, &quot;&quot;, &quot;&quot;, 1, 50);
+										$validador-&gt;validarCampoForm(&quot;apellido&quot;,
+										&quot;&quot;, &quot;&quot;, &quot;&quot;, 1, 50);
+										$validador-&gt;rango(&quot;edad&quot;, 18, 100);
+										if($_REQUEST[aceptaTerminos]!=&quot;1&quot;)
+										$validador-&gt;agregarError(&quot;Debe aceptar los terminos y
+										condiciones&quot;);</td>
+								</tr>
+							</table>
+						</div>
+					</div>
+					<div class="package-contents">
+						<a name="class_sitio.php" id="class_sitio.php"></a>
+						<h3>
+							<i class="icon-file"></i> class_sitio.php <small
+								style="float: right; padding-right: 10px;">5</small>
+						</h3>
+						<div>
+							<table class="table markers table-bordered">
+								<tr>
+									<th>Type</th>
+									<th>Line</th>
+									<th>Description</th>
+								</tr>
+								<tr>
+									<td>FIXME</td>
+									<td>971</td>
+									<td>hy que revisarlo porque creo que esto no es correcto</td>
+								</tr>
+								<tr>
+									<td>FIXME</td>
+									<td>1163</td>
+									<td>como se actualizo el ereg remplase hay que comprobar
+										que funcione correctamente esta funcion</td>
+								</tr>
+								<tr>
+									<td>FIXME</td>
+									<td>1689</td>
+									<td>Hay que probar la funcion para verificar su correcto
+										funcionamiento</td>
+								</tr>
+								<tr>
+									<td>FIXME</td>
+									<td>1723</td>
+									<td>Hay que probar la funcion para verificar su correcto
+										funcionamiento</td>
+								</tr>
+								<tr>
+									<td>TODO</td>
+									<td>467</td>
+									<td>esta funcion usa la propiedad de la clase
+										&#039;carateres_latinos&#039; si no llegara a estar definida
+										lo hace.</td>
+								</tr>
+							</table>
+						</div>
+					</div>
+					<div class="package-contents">
+						<a name="ValidarUsuario/config/funciones.php"
+							id="ValidarUsuario/config/funciones.php"></a>
+						<h3>
+							<i class="icon-file"></i> ValidarUsuario/config/funciones.php <small
+								style="float: right; padding-right: 10px;">1</small>
+						</h3>
+						<div>
+							<table class="table markers table-bordered">
+								<tr>
+									<th>Type</th>
+									<th>Line</th>
+									<th>Description</th>
+								</tr>
+								<tr>
+									<td>FIXME</td>
+									<td>268</td>
+									<td>Hay que revisar y corregir toda la funcion</td>
+								</tr>
+							</table>
+						</div>
+					</div>
+					<div class="package-contents">
+						<a name="comun.php" id="comun.php"></a>
+						<h3>
+							<i class="icon-file"></i> comun.php <small
+								style="float: right; padding-right: 10px;">1</small>
+						</h3>
+						<div>
+							<table class="table markers table-bordered">
+								<tr>
+									<th>Type</th>
+									<th>Line</th>
+									<th>Description</th>
+								</tr>
+								<tr>
+									<td>FIXME</td>
+									<td>667</td>
+									<td>estas dos funciones hay que revisarlas porque no
+										paresen correctas.</td>
+								</tr>
+							</table>
+						</div>
+					</div>
+					<div class="package-contents">
+						<a name="funciones_string.php" id="funciones_string.php"></a>
+						<h3>
+							<i class="icon-file"></i> funciones_string.php <small
+								style="float: right; padding-right: 10px;">1</small>
+						</h3>
+						<div>
+							<table class="table markers table-bordered">
+								<tr>
+									<th>Type</th>
+									<th>Line</th>
+									<th>Description</th>
+								</tr>
+								<tr>
+									<td>TODO</td>
+									<td>902</td>
+									<td>esta funcion usa la propiedad de la clase
+										&#039;carateres_latinos&#039; si no llegara a estar definida
+										lo hace.</td>
+								</tr>
+							</table>
+						</div>
+					</div>
+					<div class="package-contents">
+						<a name="class_abm2.php" id="class_abm2.php"></a>
+						<h3>
+							<i class="icon-file"></i> class_abm2.php <small
+								style="float: right; padding-right: 10px;">21</small>
+						</h3>
+						<div>
+							<table class="table markers table-bordered">
+								<tr>
+									<th>Type</th>
+									<th>Line</th>
+									<th>Description</th>
+								</tr>
+								<tr>
+									<td>FIXME</td>
+									<td>196</td>
+									<td>- Cuando se realiza una busqueda hay que recetear el
+										paginado.</td>
+								</tr>
+								<tr>
+									<td>FIXME</td>
+									<td>198</td>
+									<td>- Hay que modificar el sistema de consulta del
+										paginado para que sea mas eficiente.</td>
+								</tr>
+								<tr>
+									<td>FIXME</td>
+									<td>1286</td>
+									<td>El jslinksSelectConBusqueda habria que mostrarlo solo
+										cuando haya un select que lo uso</td>
+								</tr>
+								<tr>
+									<td>FIXME</td>
+									<td>1996</td>
+									<td>Revisar exactamente.</td>
+								</tr>
+								<tr>
+									<td>FIXME</td>
+									<td>2064</td>
+									<td>El jslinksSelectConBusqueda habria que mostrarlo solo
+										cuando haya un select que lo uso</td>
+								</tr>
+								<tr>
+									<td>FIXME</td>
+									<td>2462</td>
+									<td>Revisar y corregir esto (creo que no esta
+										implementado)</td>
+								</tr>
+								<tr>
+									<td>FIXME</td>
+									<td>2509</td>
+									<td>comprobar e implementar customCompare</td>
+								</tr>
+								<tr>
+									<td>FIXME</td>
+									<td>2566</td>
+									<td>comprobar limitarTamanio mensaje where where
+										incluirValor campoPadre</td>
+								</tr>
+								<tr>
+									<td>FIXME</td>
+									<td>2583</td>
+									<td>Comprobar customOrder y su implementacion</td>
+								</tr>
+								<tr>
+									<td>FIXME</td>
+									<td>2706</td>
+									<td>hint??? comprobar</td>
+								</tr>
+								<tr>
+									<td>FIXME</td>
+									<td>2814</td>
+									<td>WTF con essto</td>
+								</tr>
+								<tr>
+									<td>FIXME</td>
+									<td>2903</td>
+									<td>Revisar exactamente.</td>
+								</tr>
+								<tr>
+									<td>FIXME</td>
+									<td>3037</td>
+									<td>campoOrder???</td>
+								</tr>
+								<tr>
+									<td>FIXME</td>
+									<td>3260</td>
+									<td>- esto es un parche para poder paginar sin perder la
+										busqueda pero hay que corregirlo para mejorarlo</td>
+								</tr>
+								<tr>
+									<td>FIXME</td>
+									<td>3407</td>
+									<td>Esto es un parche temporal y requiere que se arragle
+										con urgencia</td>
+								</tr>
+								<tr>
+									<td>FIXME</td>
+									<td>3419</td>
+									<td>Revisar exactamente.</td>
+								</tr>
+								<tr>
+									<td>FIXME</td>
+									<td>3822</td>
+									<td>todo esto y lo que sigue deberia estar dentro de la
+										funcion del campo</td>
+								</tr>
+								<tr>
+									<td>FIXME</td>
+									<td>3906</td>
+									<td>Urgente arreglar el formateo de fecha y que pasa con
+										strtotime -1</td>
+								</tr>
+								<tr>
+									<td>FIXME</td>
+									<td>3918</td>
+									<td>- Deberia dar la opcion a una comprovacion individual
+										sobre si mostrar o no el editar por cada fila.</td>
+								</tr>
+								<tr>
+									<td>FIXME</td>
+									<td>3974</td>
+									<td>esto debe retornarse y no mostrarse por pantalla</td>
+								</tr>
+								<tr>
+									<td>TODO</td>
+									<td>3294</td>
+									<td>NOTA: Esta funcion solamente genera el listado, se
+										necesita usar la funcion generarAbm() para que funcione el
+										ABM.</td>
+								</tr>
+							</table>
+						</div>
+					</div>
+					<div class="package-contents">
+						<a name="class_db.php" id="class_db.php"></a>
+						<h3>
+							<i class="icon-file"></i> class_db.php <small
+								style="float: right; padding-right: 10px;">1</small>
+						</h3>
+						<div>
+							<table class="table markers table-bordered">
+								<tr>
+									<th>Type</th>
+									<th>Line</th>
+									<th>Description</th>
+								</tr>
+								<tr>
+									<td>FIXME</td>
+									<td>391</td>
+									<td>- hasta que se encuentre otra solucion se va a usar un
+										case y se va a hacer manual</td>
+								</tr>
+							</table>
+						</div>
+					</div>
+					<div class="package-contents">
+						<a name="campos/Campos_numero.php" id="campos/Campos_numero.php"></a>
+						<h3>
+							<i class="icon-file"></i> campos/Campos_numero.php <small
+								style="float: right; padding-right: 10px;">2</small>
+						</h3>
+						<div>
+							<table class="table markers table-bordered">
+								<tr>
+									<th>Type</th>
+									<th>Line</th>
+									<th>Description</th>
+								</tr>
+								<tr>
+									<td>FIXME</td>
+									<td>111</td>
+									<td>- esto es un parche para poder paginar sin perder la
+										busqueda pero hay que corregirlo para mejorarlo</td>
+								</tr>
+								<tr>
+									<td>TODO</td>
+									<td>44</td>
+									<td>Por defecto su valor es 2.</td>
+								</tr>
+							</table>
+						</div>
+					</div>
+					<div class="package-contents">
+						<a name="campos/Campos_bit.php" id="campos/Campos_bit.php"></a>
+						<h3>
+							<i class="icon-file"></i> campos/Campos_bit.php <small
+								style="float: right; padding-right: 10px;">5</small>
+						</h3>
+						<div>
+							<table class="table markers table-bordered">
+								<tr>
+									<th>Type</th>
+									<th>Line</th>
+									<th>Description</th>
+								</tr>
+								<tr>
+									<td>TODO</td>
+									<td>159</td>
+									<td>- esto no es un error pero es poco performante y
+										genera codigo duplicado hay que corregirlo.</td>
+								</tr>
+								<tr>
+									<td>FIXME</td>
+									<td>164</td>
+									<td>- esto es un parche para poder paginar sin perder la
+										busqueda pero hay que corregirlo para mejorarlo</td>
+								</tr>
+								<tr>
+									<td>FIXME</td>
+									<td>177</td>
+									<td>- esto es un parche para poder paginar sin perder la
+										busqueda pero hay que corregirlo para mejorarlo</td>
+								</tr>
+								<tr>
+									<td>FIXME</td>
+									<td>193</td>
+									<td>- esto es un parche para poder paginar sin perder la
+										busqueda pero hay que corregirlo para mejorarlo</td>
+								</tr>
+								<tr>
+									<td>FIXME</td>
+									<td>206</td>
+									<td>- esto es un parche para poder paginar sin perder la
+										busqueda pero hay que corregirlo para mejorarlo</td>
+								</tr>
+							</table>
+						</div>
+					</div>
+					<div class="package-contents">
+						<a name="campos/Campos_rownum.php" id="campos/Campos_rownum.php"></a>
+						<h3>
+							<i class="icon-file"></i> campos/Campos_rownum.php <small
+								style="float: right; padding-right: 10px;">1</small>
+						</h3>
+						<div>
+							<table class="table markers table-bordered">
+								<tr>
+									<th>Type</th>
+									<th>Line</th>
+									<th>Description</th>
+								</tr>
+								<tr>
+									<td>TODO</td>
+									<td>28</td>
+									<td>- Insert your code here</td>
+								</tr>
+							</table>
+						</div>
+					</div>
+					<div class="package-contents">
+						<a name="campos/Campos_moneda.php" id="campos/Campos_moneda.php"></a>
+						<h3>
+							<i class="icon-file"></i> campos/Campos_moneda.php <small
+								style="float: right; padding-right: 10px;">3</small>
+						</h3>
+						<div>
+							<table class="table markers table-bordered">
+								<tr>
+									<th>Type</th>
+									<th>Line</th>
+									<th>Description</th>
+								</tr>
+								<tr>
+									<td>FIXME</td>
+									<td>104</td>
+									<td>- esto es un parche para poder paginar sin perder la
+										busqueda pero hay que corregirlo para mejorarlo</td>
+								</tr>
+								<tr>
+									<td>FIXME</td>
+									<td>143</td>
+									<td>el formato deberia ser algo asi
+										&#039;%.$this-&gt;getCantidadDecimales ()n&#039; ya que si no
+										se omite el uso de dicho parametro.</td>
+								</tr>
+								<tr>
+									<td>TODO</td>
+									<td>37</td>
+									<td>Por defecto su valor es 2.</td>
+								</tr>
+							</table>
+						</div>
+					</div>
+					<div class="package-contents">
+						<a name="campos/Campos_fecha.php" id="campos/Campos_fecha.php"></a>
+						<h3>
+							<i class="icon-file"></i> campos/Campos_fecha.php <small
+								style="float: right; padding-right: 10px;">3</small>
+						</h3>
+						<div>
+							<table class="table markers table-bordered">
+								<tr>
+									<th>Type</th>
+									<th>Line</th>
+									<th>Description</th>
+								</tr>
+								<tr>
+									<td>FIXME</td>
+									<td>121</td>
+									<td>- esto es un parche para poder paginar sin perder la
+										busqueda pero hay que corregirlo para mejorarlo</td>
+								</tr>
+								<tr>
+									<td>FIXME</td>
+									<td>173</td>
+									<td>calculo que habria que armar otra funcion que haga
+										esto</td>
+								</tr>
+								<tr>
+									<td>FIXME</td>
+									<td>184</td>
+									<td>Hay que encontrar un metodo mejor ya que si hay mas de
+										una tabla con el mismo campo y las primeras tres letras del
+										nombre de la tabla iguales tirara que la columna esta definida
+										de forma ambigua.</td>
+								</tr>
+							</table>
+						</div>
+					</div>
+					<div class="package-contents">
+						<a name="campos/Campos_combo.php" id="campos/Campos_combo.php"></a>
+						<h3>
+							<i class="icon-file"></i> campos/Campos_combo.php <small
+								style="float: right; padding-right: 10px;">1</small>
+						</h3>
+						<div>
+							<table class="table markers table-bordered">
+								<tr>
+									<th>Type</th>
+									<th>Line</th>
+									<th>Description</th>
+								</tr>
+								<tr>
+									<td>FIXME</td>
+									<td>183</td>
+									<td>- esto es un parche para poder paginar sin perder la
+										busqueda pero hay que corregirlo para mejorarlo</td>
+								</tr>
+							</table>
+						</div>
+					</div>
+					<div class="package-contents">
+						<a name="campos/class_campo.php" id="campos/class_campo.php"></a>
+						<h3>
+							<i class="icon-file"></i> campos/class_campo.php <small
+								style="float: right; padding-right: 10px;">8</small>
+						</h3>
+						<div>
+							<table class="table markers table-bordered">
+								<tr>
+									<th>Type</th>
+									<th>Line</th>
+									<th>Description</th>
+								</tr>
+								<tr>
+									<td>FIXME</td>
+									<td>2024</td>
+									<td>- esto es un parche para poder paginar sin perder la
+										busqueda pero hay que corregirlo para mejorarlo</td>
+								</tr>
+								<tr>
+									<td>FIXME</td>
+									<td>2159</td>
+									<td>calculo que habria que armar otra funcion que haga
+										esto</td>
+								</tr>
+								<tr>
+									<td>FIXME</td>
+									<td>2170</td>
+									<td>Hay que encontrar un metodo mejor ya que si hay mas de
+										una tabla con el mismo campo y las primeras tres letras del
+										nombre de la tabla iguales tirara que la columna esta definida
+										de forma ambigua.</td>
+								</tr>
+								<tr>
+									<td>TODO</td>
+									<td>225</td>
+									<td>Obligatorio para el tipo de campo dbCombo.</td>
+								</tr>
+								<tr>
+									<td>TODO</td>
+									<td>235</td>
+									<td>Obligatorio para el tipo de campo dbCombo.</td>
+								</tr>
+								<tr>
+									<td>TODO</td>
+									<td>245</td>
+									<td>Obligatorio para el tipo de campo dbCombo.</td>
+								</tr>
+								<tr>
+									<td>TODO</td>
+									<td>268</td>
+									<td>El valor por defecto es INNER.</td>
+								</tr>
+								<tr>
+									<td>TODO</td>
+									<td>450</td>
+									<td>NOTA: el buscador funciona verificando variables de
+										$_REQUEST con los nombres de los campos con prefijo
+										&quot;c_&quot;. Si se quisiera hacer un formulario de busqueda
+										independiente sin usar el de la class se puede hacer usando
+										los mismos nombres de los campos, o sea con el prefijo
+										&quot;c_&quot;.)</td>
+								</tr>
+							</table>
+						</div>
+					</div>
+					<div class="package-contents">
+						<a name="campos/Campos_dbCombo.php" id="campos/Campos_dbCombo.php"></a>
+						<h3>
+							<i class="icon-file"></i> campos/Campos_dbCombo.php <small
+								style="float: right; padding-right: 10px;">1</small>
+						</h3>
+						<div>
+							<table class="table markers table-bordered">
+								<tr>
+									<th>Type</th>
+									<th>Line</th>
+									<th>Description</th>
+								</tr>
+								<tr>
+									<td>FIXME</td>
+									<td>185</td>
+									<td>- esto es un parche para poder paginar sin perder la
+										busqueda pero hay que corregirlo para mejorarlo</td>
+								</tr>
+							</table>
+						</div>
+					</div>
+					<div class="package-contents">
+						<a name="class_Session.php" id="class_Session.php"></a>
+						<h3>
+							<i class="icon-file"></i> class_Session.php <small
+								style="float: right; padding-right: 10px;">1</small>
+						</h3>
+						<div>
+							<table class="table markers table-bordered">
+								<tr>
+									<th>Type</th>
+									<th>Line</th>
+									<th>Description</th>
+								</tr>
+								<tr>
+									<td>TODO</td>
+									<td>12</td>
+									<td>FechaC 06/03/2019 - Lenguaje PHP</td>
+								</tr>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<footer class="row-fluid">
+			<section class="span10 offset2">
+				<section class="row-fluid">
+					<section class="span10 offset1">
+						<section class="row-fluid footer-sections">
+							<section class="span4">
+								<h1>
+									<i class="icon-code"></i>
+								</h1>
+								<div>
+									<ul>
+									</ul>
+								</div>
+							</section>
+							<section class="span4">
+								<h1>
+									<i class="icon-bar-chart"></i>
+								</h1>
+								<div>
+									<ul>
+										<li><a href="../graphs/class.html">Class Hierarchy
+												Diagram</a></li>
+									</ul>
+								</div>
+							</section>
+							<section class="span4">
+								<h1>
+									<i class="icon-pushpin"></i>
+								</h1>
+								<div>
+									<ul>
+										<li><a href="../reports/errors.html">Errors</a></li>
+										<li><a href="../reports/markers.html">Markers</a></li>
+									</ul>
+								</div>
+							</section>
+						</section>
+					</section>
+				</section>
+				<section class="row-fluid">
+					<section class="span10 offset1">
+						<hr />
+						Documentation is powered by <a href="http://www.phpdoc.org/">phpDocumentor
+						</a> and authored on August 30th, 2019 at 15:33.
+					</section>
+				</section>
+			</section>
+		</footer>
+	</div>
 
 </body>
 </html>

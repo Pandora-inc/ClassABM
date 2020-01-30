@@ -25,7 +25,7 @@
  * @author Andres Carizza
  * @version 2.0 - Correcciones de codigo optimizacion y comnetado.
  * @version 1.9
- *
+ *         
  * @todo $validador = new validar();
  *       $validador->validarCampoForm("usuario", "strClave", "Verifique el campo Usuario. Debe ser solo letras y numeros (se permite usar ._)", "Usuario", 2, 20);
  *       $validador->validarCampoForm("pass", "", "", "Contrasena", 4, 20);
@@ -35,7 +35,7 @@
  *       $validador->validarCampoForm("apellido", "", "", "", 1, 50);
  *       $validador->rango("edad", 18, 100);
  *       if($_REQUEST[aceptaTerminos]!="1") $validador->agregarError("Debe aceptar los terminos y condiciones");
- *
+ *      
  */
 class validar
 {
@@ -558,7 +558,7 @@ class validar
 				"M"
 		);
 
-		for($i = 0; $i < strlen ($str); $i ++)
+		for($i = 0; $i < strlen ($str); $i++)
 		{
 			if (!in_array (substr ($str, $i, 1), $caracteres))
 			{
@@ -572,7 +572,7 @@ class validar
 	 * Verifica si un email tiene formato valido y opcionalmente verifica los registros MX del dominio tambien
 	 *
 	 * @version 0.2 - Se corrigio para que utilizara preg_match en vez de eregi.
-	 *
+	 *         
 	 * @param String $email
 	 * @param Boolean $test_mx
 	 *        	Verificar los registros MX del dominio

@@ -141,14 +141,12 @@ class Campos_bit extends class_campo
 	/**
 	 * Sobrecarga del metodo retornand cun campo select
 	 *
-	 * @param object $db
-	 *        	Objeto de coneccion a la base.
 	 * @param String $busqueda
 	 *        	variable donde se registran los parametros de busqueda. es pasada por referencia con lo que se puede utilizar incluso fuera de la funcion.
 	 * {@inheritdoc}
 	 * @see class_campo::campoFormBuscar()
 	 */
-	public function campoFormBuscar($db, &$busqueda)
+	public function campoFormBuscar(&$busqueda): string
 	{
 		$retorno = "";
 		$retorno .= "<select name='c_" . $this->campo . "' id='c_" . $this->campo . "' class='input-select'> \n";
@@ -223,7 +221,7 @@ class Campos_bit extends class_campo
 	 *
 	 * @return string
 	 */
-	public function get_celda_dato()
+	public function get_celda_dato(): string
 	{
 		if ($this->getValor () == true)
 		{
@@ -235,9 +233,9 @@ class Campos_bit extends class_campo
 		}
 	}
 
-	public function generar_elemento_form_update()
+	public function generar_elemento_form_update(): string
 	{
-		$imprForm = "<select name='" . $this->getCampo () . "' id='" . $this->getCampo () . "' $this->autofocusAttr class='input-select $this->getAtrRequerido ()' $this->getAtrDisabled() " . $this->establecerHint () . " " . $this->getAdicionalInput () . " > \n";
+		$imprForm = "<select name='" . $this->getCampo () . "' id='" . $this->getCampo () . "' " . $this->autofocusAttr . " class='input-select " . $this->getAtrRequerido () . "' " . $this->getAtrDisabled () . " " . $this->establecerHint () . " " . $this->getAdicionalInput () . " > \n";
 
 		if ($this->isOrdenInversoBit () != "")
 		{

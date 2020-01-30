@@ -96,7 +96,7 @@ class BCGcodabar extends BCGBarcode1D
 
 		// Checking if all chars are allowed
 		$c = strlen ($this->text);
-		for($i = 0; $i < $c; $i ++)
+		for($i = 0; $i < $c; $i++)
 		{
 			if (array_search ($this->text[$i], $this->keys) === false)
 			{
@@ -121,7 +121,7 @@ class BCGcodabar extends BCGBarcode1D
 			}
 			if ($error_stop === false)
 			{
-				for($i = 0; $i < $c; $i ++)
+				for($i = 0; $i < $c; $i++)
 				{
 					$this->drawChar ($im, $this->findCode ($this->text[$i]), true);
 				}
@@ -141,7 +141,7 @@ class BCGcodabar extends BCGBarcode1D
 
 		$w = 0;
 		$c = strlen ($this->text);
-		for($i = 0; $i < $c; $i ++)
+		for($i = 0; $i < $c; $i++)
 		{
 			$index = $this->findIndex ($this->text[$i]);
 			if ($index !== false)

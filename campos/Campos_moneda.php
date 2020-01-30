@@ -20,7 +20,7 @@ require_once 'class_campo.php';
 /**
  *
  * @author iberlot
- *
+ *        
  */
 class Campos_moneda extends class_campo
 {
@@ -30,7 +30,7 @@ class Campos_moneda extends class_campo
 	 * Derine el numero de valores despues de la coma.
 	 *
 	 * @todo Por defecto su valor es 2.
-	 *
+	 *      
 	 * @name cantidadDecimales
 	 * @var integer
 	 */
@@ -42,7 +42,7 @@ class Campos_moneda extends class_campo
 	 *
 	 * @param array $array
 	 */
-	public function __construct($array = array())
+	public function __construct(array $array = array())
 	{
 		if (isset ($array) and !empty ($array))
 		{
@@ -58,7 +58,7 @@ class Campos_moneda extends class_campo
 	 *
 	 * @return number
 	 */
-	public function getCantidadDecimales()
+	public function getCantidadDecimales(): int
 	{
 		return $this->cantidadDecimales;
 	}
@@ -74,17 +74,15 @@ class Campos_moneda extends class_campo
 
 	/**
 	 *
-	 * @param object $db
-	 *        	Objeto de coneccion a la base.
 	 * @param String $busqueda
 	 *        	variable donde se registran los parametros de busqueda. es pasada por referencia con lo que se puede utilizar incluso fuera de la funcion.
-	 *
+	 *        	
 	 * @return string
 	 *
 	 * {@inheritdoc}
 	 * @see class_campo::campoFormBuscar()
 	 */
-	public function campoFormBuscar($db, &$busqueda)
+	public function campoFormBuscar(&$busqueda): string
 	{
 		$retorno = "";
 
@@ -119,7 +117,7 @@ class Campos_moneda extends class_campo
 	 *
 	 * @return string
 	 */
-	public function get_centrar_columna()
+	public function get_centrar_columna(): string
 	{
 		if ($this->isCentrarColumna () == true)
 		{
@@ -136,7 +134,7 @@ class Campos_moneda extends class_campo
 	 *
 	 * @return string
 	 */
-	public function get_celda_dato()
+	public function get_celda_dato(): string
 	{
 		setlocale (LC_MONETARY, 'es_AR');
 

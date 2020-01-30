@@ -20,7 +20,7 @@ require_once 'class_campo.php';
 /**
  *
  * @author iberlot
- *
+ *        
  */
 class Campos_combo extends class_campo
 {
@@ -29,7 +29,7 @@ class Campos_combo extends class_campo
 	 * Datos para el tipo de campo "combo".
 	 *
 	 * @example Array("key" => "value"...)
-	 *
+	 *         
 	 * @name datos
 	 * @var array
 	 */
@@ -38,7 +38,7 @@ class Campos_combo extends class_campo
 	/**
 	 * Para los tipo "combo" o "dbCombo", si esta en True incluye <option value=''></option>
 	 *
-	 * @name incluirOpcionVacia =
+	 * @name incluirOpcionVacia
 	 * @var boolean
 	 */
 	protected $incluirOpcionVacia = true;
@@ -59,11 +59,49 @@ class Campos_combo extends class_campo
 	 */
 	protected $textoMayuscula = true;
 
+	public function __toString(): string
+	{
+		$retorno = "Campo: " . $this->campo;
+		$retorno .= " Valor: " . $this->getValor ();
+
+		if (is_array ($this->getDatos ($this->getValor ())))
+		{
+			$retorno .= " Dato: " . implode ("-", $this->getDatos ($this->getValor ()));
+		}
+		else
+		{
+			$retorno .= " Dato: " . $this->getDatos ($this->getValor ());
+		}
+
+		return $retorno;
+	}
+
+	/**
+	 *
+	 * @param array $array
+	 */
+	public function __construct($array = array())
+	{
+		if (isset ($array) and !empty ($array))
+		{
+			parent::__construct ($array);
+		}
+		else
+		{
+			parent::__construct ();
+		}
+
+		if (array_key_exists ('datos', $array))
+		{
+			$this->setDatos ($array['datos']);
+		}
+	}
+
 	/**
 	 *
 	 * @return boolean el dato de la variable $incluirOpcionVacia
 	 */
-	public function isIncluirOpcionVacia()
+	public function isIncluirOpcionVacia(): bool
 	{
 		return $this->incluirOpcionVacia;
 	}
@@ -72,7 +110,7 @@ class Campos_combo extends class_campo
 	 *
 	 * @return boolean el dato de la variable $mostrarValor
 	 */
-	public function isMostrarValor()
+	public function isMostrarValor(): bool
 	{
 		return $this->mostrarValor;
 	}
@@ -81,7 +119,7 @@ class Campos_combo extends class_campo
 	 *
 	 * @return boolean el dato de la variable $textoMayuscula
 	 */
-	public function isTextoMayuscula()
+	public function isTextoMayuscula(): bool
 	{
 		return $this->textoMayuscula;
 	}
@@ -117,27 +155,6 @@ class Campos_combo extends class_campo
 	}
 
 	/**
-	 *
-	 * @param array $array
-	 */
-	public function __construct($array = array())
-	{
-		if (isset ($array) and !empty ($array))
-		{
-			parent::__construct ($array);
-		}
-		else
-		{
-			parent::__construct ();
-		}
-
-		if (array_key_exists ('datos', $array))
-		{
-			$this->setDatos ($array['datos']);
-		}
-	}
-
-	/**
 	 * Comprueba y setea el valor de datos
 	 *
 	 * @param array $datos
@@ -168,7 +185,7 @@ class Campos_combo extends class_campo
 		}
 	}
 
-	public function campoFormBuscar($db, &$busqueda)
+	public function campoFormBuscar(&$busqueda): string
 	{
 		$retorno = "";
 
@@ -199,7 +216,7 @@ class Campos_combo extends class_campo
 	 *
 	 * @return string
 	 */
-	public function get_celda_dato()
+	public function get_celda_dato(): string
 	{
 		if ($this->isNoLimpiar () == true)
 		{
@@ -211,7 +228,7 @@ class Campos_combo extends class_campo
 		}
 	}
 
-	public function generar_elemento_form_update()
+	public function generar_elemento_form_update(): string
 	{
 		$imprForm = "<select name='" . $this->getCampo () . "' id='" . $this->getCampo () . "' " . $this->autofocusAttr . " class='input-select " . $this->getAtrRequerido () . "' " . $this->getAtrDisabled () . " " . $this->establecerHint () . " " . $this->getAdicionalInput () . "> \n";
 

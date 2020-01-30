@@ -45,39 +45,39 @@
 	 * @author iberlot
 	 * @example $db = new class_db ($dbSever, $dbUser, $dbPass, $dbBase);
 	 *          $db->connect ();
-	 *
+	 *         
 	 *          $db->dieOnError = true;
 	 *          $db->mostrarErrores = true;
 	 *          $db->debug = true;
-	 *
+	 *         
 	 *          $sql = "SELECT * FROM tabla WHERE 1 = 1 AND pepinos = :peps" ;
-	 *
+	 *         
 	 *          $parametros = "";
 	 *          $parametros[] = $pepinos;
-	 *
+	 *         
 	 *          $result = $db->query ($sql, $esParam = true, $parametros);
-	 *
+	 *         
 	 *          while ($rst = $db->fetch_array ($result))
 	 *          {
 	 *          echo $rst['CAMPO_1'];
 	 *          echo $rst['CAMPO_2'];
 	 *          }
-	 *
-	 *
+	 *         
+	 *         
 	 *          $sql = "INSERT INTO tabla (id ,pepinos) VALUES (:id, :peps)";
-	 *
+	 *         
 	 *          $parametros = "";
 	 *          $parametros[] = $ID;
 	 *          $parametros[] = $pepinos;
-	 *
+	 *         
 	 *          $db->query ($sql, $esParam = true, $parametros);
-	 *
+	 *         
 	 *          // use function class_db\fetch_array;
 	 *          // use function class_db\fetch_assoc;
 	 *          // use function class_db\num_rows;
 	 *          // use function class_db\query;
 	 *          // use function mysqli\real_escape_string;
-	 *
+	 *         
 	 */
 	class class_db
 	{
@@ -252,7 +252,7 @@
 		 *
 		 * @param object $result
 		 *        	- Si el objeto del que lebanter el error no es el defoult.
-		 *
+		 *        	
 		 * @return string Con el codigo del error
 		 */
 		public function errorNro($result = "")
@@ -295,7 +295,7 @@
 		 *
 		 * @param object $result
 		 *        	- Si el objeto del que lebanter el error no es el defoult.
-		 *
+		 *        	
 		 * @return string Con el texto del error
 		 */
 		public function error($result = "")
@@ -341,14 +341,14 @@
 		 * con el simbolo dos puntos ( : ) dentro de la consulta, por lo menos dentro de las consultas parametrizadas.
 		 *
 		 * @version 1.0.2 Se corrigio la funcion para que se pudieran usar consultas parametrizadas en mysql.
-		 *
+		 *         
 		 * @param string $str_query
 		 *        	codigo de la query a ejecutar
 		 * @param bool $esParam
 		 *        	Define si la consulta va a ser parametrizada o no. (por defecto false)
 		 * @param array $parametros
 		 *        	Array con los parametros a pasar.
-		 *
+		 *        	
 		 * @return array
 		 */
 		public function query($str_query, $esParam = false, $parametros = array())
@@ -372,7 +372,7 @@
 
 					$para = explode (':', $str_query);
 
-					for($i = 0; $i < $cantidad; $i ++)
+					for($i = 0; $i < $cantidad; $i++)
 					{
 						$e = $i + 1;
 
@@ -446,7 +446,7 @@
 
 					$para = explode (':', $str_query);
 
-					for($i = 0; $i < $cantidad; $i ++)
+					for($i = 0; $i < $cantidad; $i++)
 					{
 						$e = $i + 1;
 
@@ -628,7 +628,7 @@
 		 * @param bool $limpiarEntidadesHTML
 		 *        	true/false
 		 * @return array - Obtiene una fila de datos del conjunto de resultados y la devuelve como un array enumerado, donde cada columna es almacenada en un �ndice del array comenzando por 0 (cero). Cada llamada subsiguiente a esta funci�n devolver� la siguiente fila del conjunto de resultados, o NULL si no hay m�s filas.
-		 *
+		 *        
 		 */
 		public function fetch_row($result, $limpiarEntidadesHTML = false)
 		{
@@ -784,6 +784,38 @@
 		}
 
 		/**
+		 * Retorna un array organizado donde agrupa los elemento juntos.
+		 *
+		 * @param mixed $array
+		 * @return array[]
+		 */
+		public function reacomodarFetchAll($array)
+		{
+			if (!is_array ($array))
+			{
+				throw new Exception ("El dato a pasar debe ser un array,");
+			}
+			$retorno = array ();
+
+			foreach ($array as $key => $value)
+			{
+				$i = 0;
+				foreach ($value as $key2 => $value2)
+				{
+					if (!is_array ($retorno[$i]))
+					{
+						$retorno[$i] = array ();
+					}
+
+					$retorno[$i][$key] = $value2;
+					$i++;
+				}
+			}
+
+			return $retorno;
+		}
+
+		/**
 		 * Devuelve el fetch_object de una consulta dada
 		 *
 		 * @param mixed $result
@@ -860,9 +892,9 @@
 		 *
 		 * @param mixed $stid
 		 *        	Obligatorio para oracle es la consulta sobre la que se trabaja.$this
-		 *
+		 *        	
 		 * @return mixed la cantidad de filas afectadas
-		 *
+		 *        
 		 */
 		public function affected_rows($stid = "")
 		{
@@ -972,6 +1004,9 @@
 			$str_query_debug = str_ireplace ("INTO", "<br/><B>INTO</B>", $str_query_debug);
 			$str_query_debug = str_ireplace ("VALUES", "<br/><B>VALUES</B>", $str_query_debug);
 			$str_query_debug = str_ireplace (" AND ", "<B> AND </B>", $str_query_debug);
+			$str_query_debug = str_ireplace (" OR ", "<B> OR </B>", $str_query_debug);
+			$str_query_debug = str_ireplace (" IS ", "<B> IS </B>", $str_query_debug);
+			$str_query_debug = str_ireplace (" NULL ", "<B> NULL </B>", $str_query_debug);
 
 			$str_query_debug = str_ireplace (" AS ", "<span style='color:magenta;font-weight:bold;'> AS </span>", $str_query_debug);
 			$str_query_debug = str_ireplace ("INNER", "<br/><span style='color:magenta;font-weight:bold;'>INNER</span>", $str_query_debug);
@@ -1119,9 +1154,9 @@
 		 * @param int $nivel
 		 *        	No enviar (es unicamente para recursividad)
 		 * @return array Formato: array("nivel" => X, "dato" => X, "id" => X, "padreId" => X);
-		 *
+		 *        
 		 *         Un codigo de ejemplo para hacer un arbol de categorias con links:
-		 *
+		 *        
 		 *         for ($i=0; $i<count($arbol); $i++){
 		 *         echo str_repeat("&nbsp;&nbsp;&nbsp;", $arbol[$i][nivel])."<a href='admin_categorias.php?c=".$arbol[$i][id]."'>".$arbol[$i][dato]."</a><br/>";
 		 *         }
@@ -1343,7 +1378,7 @@
 
 				$para = explode (':', $str_query);
 
-				for($i = 0; $i < $cantidad; $i ++)
+				for($i = 0; $i < $cantidad; $i++)
 				{
 					$e = $i + 1;
 
@@ -1360,7 +1395,7 @@
 			{
 				$cantidad = substr_count ($str_query, '?');
 
-				for($i = 0; $i < $cantidad; $i ++)
+				for($i = 0; $i < $cantidad; $i++)
 				{
 					echo "-- ?" . $i . " = " . $parametros[$i] . "<Br />";
 				}
@@ -1479,7 +1514,7 @@
 		 *
 		 * @author iberlot <@> iberlot@usal.edu.ar
 		 * @name toChar
-		 *
+		 *      
 		 * @param string $campo
 		 *        	- Nombre del campo del que se extrae la fecha
 		 * @param string $nombre
@@ -1536,7 +1571,7 @@
 		 *
 		 * @author iberlot <@> iberlot@usal.edu.ar
 		 * @name toDate
-		 *
+		 *      
 		 * @param string $valor
 		 *        	- Dato a convertir en fecha
 		 * @param string $mascara
@@ -1574,7 +1609,7 @@
 					$mascara = "RRRR-MM-DD";
 				}
 
-				$retorno = "TO_CHAR('" . $valor . "', '" . $mascara . "') ";
+				$retorno = "TO_DATE('" . $valor . "', '" . $mascara . "') ";
 			}
 			elseif ($this->dbtype == 'mssql')
 			{
@@ -1663,7 +1698,7 @@
 		 *        	- Array de parametros, se pasa por parametro y se borra antes de usar.
 		 * @param String[] $where
 		 *        	- Los valores del array van a ser el valor a usar en el where y los indices el nombre del campo.
-		 *
+		 *        	
 		 * @return string - Retorna el string de la consulta de modificacion preparada, adicionalmente el array parametros queda cargado con los parametros a utilizar.
 		 */
 		public function prepararConsultaUpdate($array, $tabla, &$parametros, $where)
@@ -1733,7 +1768,7 @@
 		 *        	- Los valores del array van a ser el valor a usar en el where y los indices el nombre del campo.
 		 * @param String[] $array
 		 *        	- Los valores del array van a ser el valor a modificar en la tabla y los indices el nombre del campo.
-		 *
+		 *        	
 		 * @return string - Retorna el string de la consulta de Select preparada, adicionalmente el array parametros queda cargado con los parametros a utilizar.
 		 */
 		public function prepararConsultaSelect($tabla, &$parametros, $where = "1=1", $array = "*")
@@ -1794,7 +1829,7 @@
 		 *        	- Los valores del array van a ser el valor a usar en el where y los indices el nombre del campo.
 		 * @param String[] $campos
 		 *        	- Array con los campos que se quieren buscar.
-		 *
+		 *        	
 		 * @throws Exception - Retorno de errores.
 		 * @return boolean true en caso de estar todo OK o el error en caso de que no.
 		 */
@@ -1825,7 +1860,7 @@
 		 *        	- Los valores del array van a ser el valor a usar en el where y los indices el nombre del campo.
 		 * @param String[] $campos
 		 *        	- Array con los campos que se quieren buscar.
-		 *
+		 *        	
 		 * @throws Exception - Retorno de errores.
 		 * @return boolean true en caso de estar todo OK o el error en caso de que no.
 		 */
@@ -1856,7 +1891,7 @@
 		 *        	- Nombre de la tabla donde se va a realizar el Update.
 		 * @param String $where
 		 *        	- Los valores del array van a ser el valor a usar en el where y los indices el nombre del campo.
-		 *
+		 *        	
 		 * @throws Exception - Retorno de errores.
 		 * @return boolean true en caso de estar todo OK o el error en caso de que no.
 		 */

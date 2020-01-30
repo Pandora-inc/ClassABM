@@ -25,9 +25,9 @@ require_once 'class_campo.php';
  * @author iberlot <@> iberlot@usal.edu.ar
  * @since 6 dic. 2018
  * @name Campos_numero.php
- *
+ *      
  * @version 0.1 version inicial del archivo.
- *
+ *         
  */
 class Campos_numero extends class_campo
 {
@@ -37,11 +37,19 @@ class Campos_numero extends class_campo
 	 * Derine el numero de valores despues de la coma.
 	 *
 	 * @todo Por defecto su valor es 2.
-	 *
+	 *      
 	 * @name cantidadDecimales
 	 * @var integer
 	 */
 	protected $cantidadDecimales = 2;
+
+	public function __toString(): string
+	{
+		$retorno = "Campo: " . $this->campo;
+		$retorno .= " Valor: " . $this->getValor ();
+
+		return $retorno;
+	}
 
 	/**
 	 * Constructor de la clase.
@@ -49,7 +57,7 @@ class Campos_numero extends class_campo
 	 *
 	 * @param array $array
 	 */
-	public function __construct($array = array())
+	public function __construct(array $array = array())
 	{
 		if (isset ($array) and !empty ($array))
 		{
@@ -65,7 +73,7 @@ class Campos_numero extends class_campo
 	 *
 	 * @return number
 	 */
-	public function getCantidadDecimales()
+	public function getCantidadDecimales(): int
 	{
 		return $this->cantidadDecimales;
 	}
@@ -74,24 +82,22 @@ class Campos_numero extends class_campo
 	 *
 	 * @param number $cantidadDecimales
 	 */
-	public function setCantidadDecimales($cantidadDecimales)
+	public function setCantidadDecimales(int $cantidadDecimales)
 	{
 		$this->cantidadDecimales = $cantidadDecimales;
 	}
 
 	/**
 	 *
-	 * @param object $db
-	 *        	Objeto de coneccion a la base.
 	 * @param String $busqueda
 	 *        	variable donde se registran los parametros de busqueda. es pasada por referencia con lo que se puede utilizar incluso fuera de la funcion.
-	 *
+	 *        	
 	 * @return string
 	 *
 	 * {@inheritdoc}
 	 * @see class_campo::campoFormBuscar()
 	 */
-	public function campoFormBuscar($db, &$busqueda)
+	public function campoFormBuscar(&$busqueda): string
 	{
 		$retorno = "";
 
@@ -115,7 +121,7 @@ class Campos_numero extends class_campo
 		{
 			$valor = "";
 		}
-		$retorno .= "<input type='number' class='input-text $requerido currency' step='0.01' min='0.01' max='250000000.00'  name='c_" . $this->campo . "' value='" . $valor . "' /> \n";
+		$retorno .= "<input type='number' class='input-text $requerido currency' max='250000000.00'  name='c_" . $this->campo . "' value='" . $valor . "' /> \n";
 
 		return $retorno;
 	}
@@ -125,7 +131,7 @@ class Campos_numero extends class_campo
 	 *
 	 * @return string
 	 */
-	public function get_centrar_columna()
+	public function get_centrar_columna(): string
 	{
 		if ($this->isCentrarColumna () == true)
 		{
@@ -142,7 +148,7 @@ class Campos_numero extends class_campo
 	 *
 	 * @return string
 	 */
-	public function get_celda_dato()
+	public function get_celda_dato(): string
 	{
 		if ($this->getValor () != "" and $this->getValor () > 0)
 		{
@@ -154,9 +160,9 @@ class Campos_numero extends class_campo
 		}
 	}
 
-	public function generar_elemento_form_update()
+	public function generar_elemento_form_update(): string
 	{
-		return "<input type='number' class='input-text " . $this->getAtrRequerido () . " step='0.01' min='0.01' max='250000000.00' name='" . $this->getCampo () . "' id='" . $this->getCampo () . "' " . $this->autofocusAttr . " " . $this->getAtrDisabled () . " value='" . $this->getValor () . "' " . $this->establecerMaxLeng () . " " . $this->establecerHint () . " " . $this->getAdicionalInput () . "/> \n";
+		return "<input type='number' class='input-text " . $this->getAtrRequerido () . " max='250000000.00' name='" . $this->getCampo () . "' id='" . $this->getCampo () . "' " . $this->autofocusAttr . " " . $this->getAtrDisabled () . " value='" . $this->getValor () . "' " . $this->establecerMaxLeng () . " " . $this->establecerHint () . " " . $this->getAdicionalInput () . "/> \n";
 	}
 }
 

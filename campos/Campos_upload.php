@@ -20,7 +20,7 @@ require_once 'class_campo.php';
 /**
  *
  * @author iberlot
- *
+ *        
  */
 class Campos_upload extends class_campo
 {
@@ -50,7 +50,7 @@ class Campos_upload extends class_campo
 	 *
 	 * @param array $array
 	 */
-	public function __construct($array = array())
+	public function __construct(array $array = array())
 	{
 		if (isset ($array) and !empty ($array))
 		{
@@ -67,7 +67,7 @@ class Campos_upload extends class_campo
 	 *
 	 * @return array $tiposPermitidos el dato de la variable.
 	 */
-	public function getTiposPermitidos()
+	public function getTiposPermitidos(): array
 	{
 		return $this->tiposPermitidos;
 	}
@@ -78,7 +78,7 @@ class Campos_upload extends class_campo
 	 * @param array $tiposPermitidos
 	 *        	dato a cargar en la variable.
 	 */
-	public function setTiposPermitidos($tiposPermitidos)
+	public function setTiposPermitidos(array $tiposPermitidos)
 	{
 		$this->tiposPermitidos = $tiposPermitidos;
 	}
@@ -88,7 +88,7 @@ class Campos_upload extends class_campo
 	 *
 	 * @return string $directorio el dato de la variable.
 	 */
-	public function getDirectorio()
+	public function getDirectorio(): string
 	{
 		return $this->directorio;
 	}
@@ -99,7 +99,7 @@ class Campos_upload extends class_campo
 	 * @param string $directorio
 	 *        	dato a cargar en la variable.
 	 */
-	public function setDirectorio($directorio)
+	public function setDirectorio(string $directorio)
 	{
 		$this->directorio = $directorio;
 	}
@@ -109,7 +109,7 @@ class Campos_upload extends class_campo
 	 *
 	 * @return string
 	 */
-	public function get_celda_dato()
+	public function get_celda_dato(): string
 	{
 		$dato = explode (".", $this->getValor ());
 
@@ -127,7 +127,7 @@ class Campos_upload extends class_campo
 		}
 	}
 
-	public function generar_elemento_form_update()
+	public function generar_elemento_form_update(): string
 	{
 		return "<input type='file' class='input-text " . $this->getAtrRequerido () . " name='" . $this->getCampo () . "' id='" . $this->getCampo () . "' " . $this->autofocusAttr . " " . $this->getAtrDisabled () . " value='" . $this->getValor () . "' " . $this->establecerHint () . " " . $this->getAdicionalInput () . "/> \n";
 	}

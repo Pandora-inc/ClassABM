@@ -26,7 +26,7 @@ require_once 'class_campo.php';
  *
  * @author iberlot <@> ivanberlot@gmail.com
  * @since 16 Nov. 2018
- *
+ *       
  */
 class Campos_textarea extends class_campo
 {
@@ -45,7 +45,7 @@ class Campos_textarea extends class_campo
 	 *
 	 * @param array $array
 	 */
-	public function __construct($array = array())
+	public function __construct(array $array = array())
 	{
 		if (isset ($array) and !empty ($array))
 		{
@@ -72,7 +72,7 @@ class Campos_textarea extends class_campo
 	 *
 	 * @return number
 	 */
-	public function getMaxMostrar()
+	public function getMaxMostrar(): int
 	{
 		return $this->maxMostrar;
 	}
@@ -83,7 +83,7 @@ class Campos_textarea extends class_campo
 	 *
 	 * @param number $maxMostrar
 	 */
-	public function setMaxMostrar($maxMostrar)
+	public function setMaxMostrar(int $maxMostrar)
 	{
 		$this->maxMostrar = $maxMostrar;
 	}
@@ -93,7 +93,7 @@ class Campos_textarea extends class_campo
 	 *
 	 * @return string
 	 */
-	public function get_celda_dato()
+	public function get_celda_dato(): string
 	{
 		if ($this->isNoLimpiar () == true)
 		{
@@ -105,7 +105,7 @@ class Campos_textarea extends class_campo
 		}
 	}
 
-	public function generar_elemento_form_update()
+	public function generar_elemento_form_update(): string
 	{
 		return "<textarea class='input-textarea " . $this->getAtrRequerido () . " name='" . $this->getCampo () . "' id='" . $this->getCampo () . "' " . $this->autofocusAttr . " " . $this->getAtrDisabled () . " value='" . $this->getValor () . "' " . $this->establecerMaxLeng () . " " . $this->establecerHint () . " " . $this->getAdicionalInput () . "/>" . $this->getValor () . "</textarea>\n";
 	}
