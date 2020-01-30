@@ -20,7 +20,7 @@ require_once 'class_campo.php';
 /**
  *
  * @author iberlot
- *        
+ *
  */
 class Campos_upload extends class_campo
 {
@@ -43,6 +43,13 @@ class Campos_upload extends class_campo
 	 * @var string
 	 */
 	protected $directorio = "";
+
+	/**
+	 * Habilita la carga del archivo sin la extencion correspondiente.
+	 *
+	 * @var bool
+	 */
+	protected $grabarSinExtencion = FALSE;
 
 	/**
 	 * Constructor de la clase.
@@ -130,6 +137,31 @@ class Campos_upload extends class_campo
 	public function generar_elemento_form_update(): string
 	{
 		return "<input type='file' class='input-text " . $this->getAtrRequerido () . " name='" . $this->getCampo () . "' id='" . $this->getCampo () . "' " . $this->autofocusAttr . " " . $this->getAtrDisabled () . " value='" . $this->getValor () . "' " . $this->establecerHint () . " " . $this->getAdicionalInput () . "/> \n";
+	}
+
+	/**
+	 * Retorna el valor del atributo $grabarSinExtencion
+	 *
+	 * @return boolean $grabarSinExtencion el dato de la variable.
+	 */
+	public function isGrabarSinExtencion(): bool
+	{
+		return $this->grabarSinExtencion;
+	}
+
+	/**
+	 * Setter del parametro $grabarSinExtencion de la clase.
+	 * Si el valor pasado es cualquier cosa que no sea: TRUE, 1 o 'v' el campo sera seteado como falso.
+	 *
+	 * @param boolean|int|string $grabarSinExtencion
+	 *        	dato a cargar en la variable.
+	 */
+	public function setGrabarSinExtencion($grabarSinExtencion)
+	{
+		if ($grabarSinExtencion == TRUE or $grabarSinExtencion == 1 or mb_strtoupper ($grabarSinExtencion) == 'V')
+		{
+			$this->grabarSinExtencion = TRUE;
+		}
 	}
 }
 

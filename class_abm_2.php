@@ -1971,7 +1971,8 @@ class class_abm
 				continue;
 			}
 
-			if ($campo->getTipo () == "upload")
+			// if ($campo->getTipo () == "upload")
+			if ($campo instanceof Campos_upload)
 			{
 				continue;
 			}
@@ -2885,7 +2886,8 @@ class class_abm
 
 					eval (strip_tags ($campo->getCustomEvalListado ()));
 				}
-				elseif ($campo->getTipo () == "bit")
+				// elseif ($campo->getTipo () == "bit")
+				elseif ($campo instanceof Campos_bit)
 				{
 					if ($fila[$campo->getCampo ()])
 					{
@@ -2900,7 +2902,8 @@ class class_abm
 				{
 
 					// si es tipo fecha lo formatea
-					if ($campo->getTipo () == "fecha")
+					// if ($campo->getTipo () == "fecha")
+					if ($campo instanceof Campos_fecha)
 					{
 						if ($fila[$campo->getCampo ()] != "" and $fila[$campo->getCampo ()] != "0000-00-00" and $fila[$campo->getCampo ()] != "0000-00-00 00:00:00")
 						{
@@ -2910,14 +2913,16 @@ class class_abm
 							}
 						}
 					}
-					elseif ($campo->getTipo () == "moneda")
+					// elseif ($campo->getTipo () == "moneda")
+					elseif ($campo instanceof Campos_moneda)
 					{
 						// setlocale(LC_MONETARY, 'es_AR');
 						// $fila [$campo ['campo']] = money_format('%.2n', $fila [$campo ['campo']]);
 						// number_format($número, 2, ',', ' ');
 						$fila[$campo->getCampo ()] = number_format ($fila[$campo->getCampo ()], 2, ',', '.');
 					}
-					elseif ($campo->getTipo () == "numero")
+					// elseif ($campo->getTipo () == "numero")
+					elseif ($campo instanceof Campos_numero)
 					{
 						// setlocale(LC_MONETARY, 'es_AR');
 						// $fila [$campo ['campo']] = money_format('%.2n', $fila [$campo ['campo']]);
@@ -3589,7 +3594,8 @@ class class_abm
 
 			// print_r ($campo->getValor ());
 
-			if ($campo->getTipo () == "bit")
+			// if ($campo->getTipo () == "bit")
+			if ($campo instanceof Campos_bit)
 			{
 				if ($this->textoBitTrue != "SI")
 				{
@@ -3800,7 +3806,8 @@ class class_abm
 			else
 			{
 				// si es tipo fecha lo formatea
-				if ($campo->getTipo () == "fecha")
+				// if ($campo->getTipo () == "fecha")
+				if ($campo instanceof Campos_fecha)
 				{
 					if ($fila[$campo->getCampo ()] != "" and $fila[$campo->getCampo ()] != "0000-00-00" and $fila[$campo->getCampo ()] != "0000-00-00 00:00:00")
 					{
@@ -4053,7 +4060,8 @@ class class_abm
 					$campo->setJoinTable ($this->tabla);
 				}
 
-				if ($campo->existeDato ("joinTable") and $campo->getJoinTable () != $tabla and $campo->getTipo () != 'extra' and $campo->getTipo () != 'dbCombo')
+				// if ($campo->existeDato ("joinTable") and $campo->getJoinTable () != $tabla and $campo->getTipo () != 'extra' and $campo->getTipo () != 'dbCombo')
+				if ($campo->existeDato ("joinTable") and $campo->getJoinTable () != $tabla and $campo->getTipo () != 'extra' and ($campo instanceof Campos_dbCombo))
 				{
 					if ($campo->getCampo () === $this->campoId)
 					{
@@ -4071,13 +4079,16 @@ class class_abm
 						continue;
 					}
 
-					if ($campo->getTipo () == 'upload' and $campo->isCargarEnBase () != true)
+					// if ($campo->getTipo () == 'upload' and $campo->isCargarEnBase () != true)
+					if (($campo instanceof Campos_upload) and $campo->isCargarEnBase () != true)
 					{
 						continue;
 					}
-					elseif ($campo->getTipo () == 'upload' and $campo->isCargarEnBase () == true)
+					// elseif ($campo->getTipo () == 'upload' and $campo->isCargarEnBase () == true)
+					elseif ($campo instanceof Campos_upload)
 					{
-						if (isset ($campo['grabarSinExtencion']) and $campo['grabarSinExtencion'] == TRUE)
+						// if (isset ($campo['grabarSinExtencion']) and $campo['grabarSinExtencion'] == TRUE)
+						if ($campo->isGrabarSinExtencion () == TRUE)
 						{
 							$partes_nombre = explode ('.', $_FILES[$campo->getCampo ()]['name']);
 							$valor = $partes_nombre[0];
@@ -4214,7 +4225,8 @@ class class_abm
 					{
 						// Se agrega la comparativa para que en caso de sel bases de oracle haga la conversion del formato de fecha
 						// if ($campo->getTipo() == 'fecha' and $this->db->dbtype == 'oracle')
-						if ($campo->getTipo () == 'fecha')
+						// if ($campo->getTipo () == 'fecha')
+						if ($campo instanceof Campos_fecha)
 						{
 							// $valoresSql .= "TO_DATE('" . $valor . "', 'RRRR-MM-DD')";
 							$valoresSql .= $this->db->toDate ($valor, 'RRRR-MM-DD');
@@ -4246,13 +4258,15 @@ class class_abm
 						continue;
 					}
 
-					if ($campo->getTipo () == 'upload' and $campo->isCargarEnBase () != true)
+					// if ($campo->getTipo () == 'upload' and $campo->isCargarEnBase () != true)
+					if (($campo instanceof Campos_upload) and $campo->isCargarEnBase () != true)
 					{
 						continue;
 					}
-					elseif ($campo->getTipo () == 'upload' and $campo->isCargarEnBase () == true)
+					// elseif ($campo->getTipo () == 'upload' and $campo->isCargarEnBase () == true)
+					elseif ($campo instanceof Campos_upload)
 					{
-						if (isset ($campo['grabarSinExtencion']) and $campo['grabarSinExtencion'] == TRUE)
+						if ($campo->isGrabarSinExtencion () == TRUE)
 						{
 							$partes_nombre = explode ('.', $_FILES[$campo->getCampo ()]['name']);
 							$valor = $partes_nombre[0];
@@ -4402,7 +4416,8 @@ class class_abm
 					{
 						// Se agrega la comparativa para que en caso de sel bases de oracle haga la conversion del formato de fecha
 						// if ($campo->getTipo() == 'fecha' and $this->db->dbtype == 'oracle')
-						if ($campo->getTipo () == 'fecha')
+						// if ($campo->getTipo () == 'fecha')
+						if ($campo instanceof Campos_fecha)
 						{
 							// $valoresSql .= "TO_DATE('" . $valor . "', 'RRRR-MM-DD')";
 							$valoresSql .= $this->db->toDate ($valor, 'RRRR-MM-DD');
@@ -4534,13 +4549,16 @@ class class_abm
 					// continue;
 					// }
 
-					if (!$campo->getTipo () or ($campo->getTipo () == 'upload' and $campo->isCargarEnBase () != true))
+					// if (!$campo->getTipo () or ($campo->getTipo () == 'upload' and $campo->isCargarEnBase () != true))
+					if (!$campo->getTipo () or (($campo instanceof Campos_upload) and $campo->isCargarEnBase () != true))
 					{
 						continue;
 					}
-					elseif ($campo->getTipo () == 'upload' and $campo->isCargarEnBase () == true)
+					// elseif ($campo->getTipo () == 'upload' and $campo->isCargarEnBase () == true)
+					elseif (($campo instanceof Campos_upload) and $campo->isCargarEnBase () == true)
 					{
-						if (isset ($campo['grabarSinExtencion']) and $campo['grabarSinExtencion'] == TRUE)
+						// if (isset ($campo['grabarSinExtencion']) and $campo['grabarSinExtencion'] == TRUE)
+						if ($campo->isGrabarSinExtencion () == TRUE)
 						{
 							$partes_nombre = explode ('.', $_FILES[$campo->getCampo ()]['name']);
 							$valor = $partes_nombre[0];
@@ -4680,12 +4698,14 @@ class class_abm
 					}
 					else
 					{
-						if ($campo->getTipo () == 'fecha')
+						// if ($campo->getTipo () == 'fecha')
+						if ($campo instanceof Campos_fecha)
 						{
 							// $camposSql .= $campo->getCampo() . " = TO_DATE('" . $valor . "', 'yyyy-mm-dd')";
 							$camposSql .= $campo->getCampo () . " = " . $this->db->toDate ($valor, $campo->getMascara ());
 						}
-						elseif ($campo->getTipo () == 'numero' or is_numeric ($valor))
+						// elseif ($campo->getTipo () == 'numero' or is_numeric ($valor))
+						elseif (($campo instanceof Campos_numero) or is_numeric ($valor))
 						{
 							$camposSql .= $campo->getCampo () . " = " . $valor . "";
 						}
@@ -4743,13 +4763,15 @@ class class_abm
 					// foreach ($this->campos as $campo)
 					foreach ($this->campo as $campo)
 					{
-						if (!$campo->getTipo () == 'upload')
+						// if (!$campo->getTipo () == 'upload')
+						if (!($campo instanceof Campos_upload))
 						{
 							continue;
 						}
 
 						if ($campo->getUploadFunction ())
 						{
+							// FIXME revisar para que es esto y corregirlo ya que no se usa.
 							$r = call_user_func_array ($campo->getUploadFunction (), array (
 									$id,
 									$this->tabla
