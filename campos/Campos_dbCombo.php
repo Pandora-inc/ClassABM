@@ -47,7 +47,7 @@ class Campos_dbCombo extends class_campo
 	 *
 	 * @var mixed
 	 */
-	private $valorDatoActual;
+	private $valoriIndice;
 
 	/**
 	 * Para los tipo "combo" o "dbCombo", si esta en True incluye <option value=''></option>
@@ -285,6 +285,8 @@ class Campos_dbCombo extends class_campo
 			if ($filaCombo[strtoupper ($this->getCampoTexto ())] == $this->getValor ())
 			{
 				$selected = "selected";
+
+				$this->setValoriIndice ($filaCombo[strtoupper ($this->getCampoValor ())]);
 			}
 			else
 			{
@@ -314,25 +316,44 @@ class Campos_dbCombo extends class_campo
 		return $imprForm;
 	}
 
-	/**
-	 * Retorna el valor del atributo $valorDatoActual
-	 *
-	 * @return mixed $valorDatoActual el dato de la variable.
-	 */
-	public function getValorDatoActual()
+	public function nombreJoinLargo()
 	{
-		return $this->valorDatoActual;
+		if ($this->existeDato ("joinTable") and $this->isOmitirJoin () == false)
+		{
+			$tablaJoin = $this->getJoinTable ();
+			$tablaJoin = explode (".", $tablaJoin);
+			$tablaJoin = $tablaJoin[count ($tablaJoin) - 1];
+
+			if ($this->existeDato ("campoTexto"))
+			{
+				return $tablaJoin . "_" . $this->getCampoTexto ();
+			}
+			else
+			{
+				return $tablaJoin . "_" . $campo->getCampo ();
+			}
+		}
 	}
 
 	/**
-	 * Setter del parametro $valorDatoActual de la clase.
+	 * Retorna el valor del atributo $valoriIndice
 	 *
-	 * @param mixed $valorDatoActual
+	 * @return mixed $valoriIndice el dato de la variable.
+	 */
+	public function getValoriIndice()
+	{
+		return $this->valoriIndice;
+	}
+
+	/**
+	 * Setter del parametro $valoriIndice de la clase.
+	 *
+	 * @param mixed $valoriIndice
 	 *        	dato a cargar en la variable.
 	 */
-	public function setValorDatoActual($valorDatoActual)
+	public function setValoriIndice($valoriIndice)
 	{
-		$this->valorDatoActual = $valorDatoActual;
+		$this->valoriIndice = $valoriIndice;
 	}
 }
 

@@ -964,7 +964,7 @@ class class_abm
 	dataType: "html",
 	success: function (data) {
 		vex.dialog.confirm({
-		    message: \'Hola\',
+		    message: \'\',
             input: [data] .join(\'\'),
 		    callback: function (value) {
 		        if (value) {
@@ -2103,6 +2103,7 @@ class class_abm
 				$tablaJoin = explode (".", $tablaJoin);
 				$tablaJoin = $tablaJoin[count ($tablaJoin) - 1];
 
+				$campo->setDato ($campo->getCampo ());
 				if ($campo->existeDato ("campoTexto"))
 				{
 					$campo->setCampo ($tablaJoin . "_" . $campo->getCampoTexto ());
@@ -3653,6 +3654,7 @@ class class_abm
 					$tablaJoin = explode (".", $tablaJoin);
 					$tablaJoin = $tablaJoin[count ($tablaJoin) - 1];
 
+					$campo->setDato ($campo->getCampo ());
 					if ($campo->existeDato ("campoTexto"))
 					{
 						$campo->setCampo ($tablaJoin . "_" . $campo->getCampoTexto ());
@@ -3670,6 +3672,7 @@ class class_abm
 				$tablaJoin = explode (".", $tablaJoin);
 				$tablaJoin = $tablaJoin[count ($tablaJoin) - 1];
 
+				$campo->setDato ($campo->getCampo ());
 				if ($campo->existeDato ("campoTexto"))
 				{
 					$campo->setCampo ($tablaJoin . "_" . $campo->getCampoTexto ());
@@ -4565,8 +4568,8 @@ class class_abm
 
 				// if ($campo->getJoinTable () == $tabla or $campo->getTipo () == 'dbCombo')
 				if ($campo->getJoinTable () == $tabla or ($campo instanceof Campos_dbCombo))
-
 				{
+
 					if ($campo->isNoEditar () == TRUE or $campo->isNoMostrarEditar () == TRUE)
 					{
 						continue;
@@ -4581,7 +4584,6 @@ class class_abm
 					{
 						continue;
 					}
-					// elseif ($campo->getTipo () == 'upload' and $campo->isCargarEnBase () == true)
 					elseif (($campo instanceof Campos_upload) and $campo->isCargarEnBase () == true)
 					{
 						// if (isset ($campo['grabarSinExtencion']) and $campo['grabarSinExtencion'] == TRUE)
@@ -4717,6 +4719,11 @@ class class_abm
 						$valor = call_user_func_array ($campo->getCustomFuncionValor (), array (
 								$valor
 						));
+					}
+
+					if ($campo instanceof Campos_dbCombo)
+					{
+						$valor = $_POST[$campo->nombreJoinLargo ()];
 					}
 
 					if (trim ($valor) == '')
