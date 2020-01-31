@@ -43,6 +43,13 @@ class Campos_dbCombo extends class_campo
 	private $db;
 
 	/**
+	 * Valor actual del dato
+	 *
+	 * @var mixed
+	 */
+	private $valorDatoActual;
+
+	/**
 	 * Para los tipo "combo" o "dbCombo", si esta en True incluye <option value=''></option>
 	 *
 	 * @name incluirOpcionVacia =
@@ -275,7 +282,7 @@ class Campos_dbCombo extends class_campo
 			// $filaCombo = Funciones::limpiarEntidadesHTML ($filaCombo);
 			$filaCombo = array_merge (array_change_key_case ($filaCombo, CASE_UPPER), array_change_key_case ($filaCombo, CASE_LOWER));
 
-			if ($filaCombo[strtoupper ($this->getCampoValor ())] == $this->getValor ())
+			if ($filaCombo[strtoupper ($this->getCampoTexto ())] == $this->getValor ())
 			{
 				$selected = "selected";
 			}
@@ -305,6 +312,27 @@ class Campos_dbCombo extends class_campo
 		$imprForm .= "</select> \n";
 
 		return $imprForm;
+	}
+
+	/**
+	 * Retorna el valor del atributo $valorDatoActual
+	 *
+	 * @return mixed $valorDatoActual el dato de la variable.
+	 */
+	public function getValorDatoActual()
+	{
+		return $this->valorDatoActual;
+	}
+
+	/**
+	 * Setter del parametro $valorDatoActual de la clase.
+	 *
+	 * @param mixed $valorDatoActual
+	 *        	dato a cargar en la variable.
+	 */
+	public function setValorDatoActual($valorDatoActual)
+	{
+		$this->valorDatoActual = $valorDatoActual;
 	}
 }
 

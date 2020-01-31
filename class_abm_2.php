@@ -1326,7 +1326,7 @@ class class_abm
 
 		// agregar script para inicar FormCheck ?
 		// foreach ($this->campos as $campo)
-		foreach ($this->campo as $campo)
+		foreach ($this->campo as &$campo)
 		{
 			if ($campo->isRequerido () == true)
 			{
@@ -1337,7 +1337,7 @@ class class_abm
 
 		// agregar script para inicar los Hints ?
 		// foreach ($this->campos as $campo)
-		foreach ($this->campo as $campo)
+		foreach ($this->campo as &$campo)
 		{
 			if ($campo->getHint () != "")
 			{
@@ -1388,7 +1388,7 @@ class class_abm
 				$i = 0;
 
 				// foreach ($this->campos as $campo)
-				foreach ($this->campo as $campo)
+				foreach ($this->campo as &$campo)
 				{
 					if ($campo['enSolapa'] == "")
 					{
@@ -1656,7 +1656,7 @@ class class_abm
 			$i = 0;
 
 			// foreach ($this->campos as $campo)
-			foreach ($this->campo as $campo)
+			foreach ($this->campo as &$campo)
 			{
 				if ($campo->isNoNuevo () == true)
 				{
@@ -1958,9 +1958,8 @@ class class_abm
 		$joinSql = "";
 
 		// por cada campo...
-		foreach ($this->campo as $campo)
+		foreach ($this->campo as &$campo)
 		{
-
 			if ($campo->getCampo () == "")
 			{
 				continue;
@@ -2067,7 +2066,7 @@ class class_abm
 		}
 
 		// agregar script para inicar FormCheck ?
-		foreach ($this->campo as $campo)
+		foreach ($this->campo as &$campo)
 		{
 			if ($campo->existeDato ('requerido') and ($campo->isRequerido () == true))
 			{
@@ -2077,7 +2076,7 @@ class class_abm
 		}
 
 		// agregar script para iniciar los Hints ?
-		foreach ($this->campo as $campo)
+		foreach ($this->campo as &$campo)
 		{
 			if ($campo->existeDato ('hint'))
 			{
@@ -2086,7 +2085,7 @@ class class_abm
 			}
 		}
 
-		foreach ($this->campo as $campo)
+		foreach ($this->campo as &$campo)
 		{
 
 			if (isset ($fila[$campo->getCampo ()]))
@@ -2096,6 +2095,27 @@ class class_abm
 			elseif (isset ($fila[$campo->getCampoTexto ()]))
 			{
 				$campo->setValor ($fila[$campo->getCampoTexto ()]);
+			}
+
+			if ($campo->existeDato ("joinTable") and $campo->isOmitirJoin () == false)
+			{
+				$tablaJoin = $campo->getJoinTable ();
+				$tablaJoin = explode (".", $tablaJoin);
+				$tablaJoin = $tablaJoin[count ($tablaJoin) - 1];
+
+				if ($campo->existeDato ("campoTexto"))
+				{
+					$campo->setCampo ($tablaJoin . "_" . $campo->getCampoTexto ());
+				}
+				else
+				{
+					$campo->setCampo ($tablaJoin . "_" . $campo->getCampo ());
+				}
+
+				if (array_key_exists (substr ($campo->getCampo (), 0, 30), $fila))
+				{
+					$campo->setValor ($fila[substr ($campo->getCampo (), 0, 30)]);
+				}
 			}
 		}
 
@@ -2141,7 +2161,7 @@ class class_abm
 				$i = 0;
 
 				// por cada campo... arma el formulario
-				foreach ($this->campo as $campo)
+				foreach ($this->campo as &$campo)
 				{
 
 					if (!$campo->existeDato ('enSolapa'))
@@ -2408,7 +2428,7 @@ class class_abm
 
 			// por cada campo... arma el formulario
 			// foreach ($this->campos as $campo)
-			foreach ($this->campo as $campo)
+			foreach ($this->campo as &$campo)
 			{
 
 				if ($campo->isNoMostrarEditar () == true)
@@ -2841,7 +2861,7 @@ class class_abm
 
 			$c = 0;
 			// foreach ($this->campos as $campo)
-			foreach ($this->campo as $campo)
+			foreach ($this->campo as &$campo)
 			{
 				$c++;
 				if ($campo->getExportar () != true)
@@ -3004,7 +3024,7 @@ class class_abm
 			$iColumna = 0;
 			$maxColumnas = $this->columnasFormBuscar;
 
-			foreach ($this->campo as $campo)
+			foreach ($this->campo as &$campo)
 			{
 				if ($campo->isBuscar () == false)
 				{
@@ -3112,7 +3132,7 @@ class class_abm
 		$html .= "<HEAD>" . $this->estilosBasicos . "</HEAD>";
 
 		// por cada campo...
-		foreach ($this->campo as $campo)
+		foreach ($this->campo as &$campo)
 		{
 			// print_r ("recorre el campo " . $campo . "<Br />");
 
@@ -3414,7 +3434,7 @@ class class_abm
 			if ($this->mostrarEncabezadosListado)
 			{
 				$html .= '<tr class="tablesorter-headerRow"> ';
-				foreach ($this->campo as $campo)
+				foreach ($this->campo as &$campo)
 				{
 					if ($campo->isNoListar () == true)
 					{
@@ -3550,6 +3570,7 @@ class class_abm
 				$qsamb = "&" . $qsamb;
 			}
 		}
+
 		// FIXME esto debe retornarse y no mostrarse por pantalla
 		echo $html;
 	}
@@ -3575,7 +3596,7 @@ class class_abm
 		$filaListado .= "> \n";
 
 		// print_r ($fila);
-		foreach ($this->campo as $campo)
+		foreach ($this->campo as &$campo)
 		{
 			// print_r ($campo->getCampo ());
 			// print_r ("<Br/>");
@@ -3591,8 +3612,6 @@ class class_abm
 
 				$campo->setValor ($fila[$campo->getCampoTexto ()]);
 			}
-
-			// print_r ($campo->getValor ());
 
 			// if ($campo->getTipo () == "bit")
 			if ($campo instanceof Campos_bit)
@@ -3868,6 +3887,7 @@ class class_abm
 		{
 			throw new Exception ("No paso ningun campo con el que trabajar.");
 		}
+		// print_r ($this->campo);
 
 		$estado = $this->getEstadoActual ();
 
@@ -3880,6 +3900,7 @@ class class_abm
 		{
 			case "listado" :
 				$this->generarListado ($titulo, $sql);
+
 				break;
 
 			case "alta" :
@@ -4028,7 +4049,7 @@ class class_abm
 		}
 
 		// foreach ($this->campos as $campo)
-		foreach ($this->campo as $campo)
+		foreach ($this->campo as &$campo)
 		{
 			if ($campo->existeDato ("joinTable"))
 			{
@@ -4056,7 +4077,7 @@ class class_abm
 			$sql = "INSERT INTO " . $tabla . $this->dbLink . "  \n";
 
 			// foreach ($this->campos as $campo)
-			foreach ($this->campo as $campo)
+			foreach ($this->campo as &$campo)
 			{
 				/*
 				 * FIXME Cuando es un JOIN deberia verificar si existe en la otra tabla y no lo hace genera mal las consultas
@@ -4509,7 +4530,7 @@ class class_abm
 		$_POST = $this->limpiarParaSql ($_POST);
 
 		// foreach ($this->campos as $campo)
-		foreach ($this->campo as $campo)
+		foreach ($this->campo as &$campo)
 		{
 			// if ($campo->existeDato ("joinTable") and strtolower ($campo->getTipo ()) != strtolower ('dbCombo'))
 
@@ -4535,7 +4556,7 @@ class class_abm
 
 			// por cada campo...
 			// foreach ($this->campos as $campo)
-			foreach ($this->campo as $campo)
+			foreach ($this->campo as &$campo)
 			{
 				if (!$campo->existeDato ("joinTable"))
 				{
@@ -4767,7 +4788,7 @@ class class_abm
 				if ($id !== false)
 				{
 					// foreach ($this->campos as $campo)
-					foreach ($this->campo as $campo)
+					foreach ($this->campo as &$campo)
 					{
 						// if (!$campo->getTipo () == 'upload')
 						if (!($campo instanceof Campos_upload))
@@ -4953,9 +4974,9 @@ class class_abm
 	 */
 	private function cargar_campos($campos)
 	{
-		print_r ("<br>||");
-		print_r ($campos);
-		print_r ("||<br>");
+		// print_r ("<br>||");
+		// print_r ($campos);
+		// print_r ("||<br>");
 		foreach ($campos as $camp)
 		{
 			if (!$camp['tipo'])
