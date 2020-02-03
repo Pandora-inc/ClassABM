@@ -5295,13 +5295,13 @@ class class_abm
 	 */
 	public function addAdicionalesSelect(string $adicionalesSelect)
 	{
-		if ($this->adicionalesSelect == "")
+		if (strpos (substr ($adicionalesSelect, 0, 7), "AND ") === false)
 		{
-			$this->adicionalesSelect = $adicionalesSelect;
+			$this->adicionalesSelect .= " AND " . $adicionalesSelect;
 		}
 		else
 		{
-			$this->adicionalesSelect .= $adicionalesSelect;
+			$this->adicionalesSelect .= " " . $adicionalesSelect;
 		}
 	}
 
@@ -5675,7 +5675,7 @@ class class_abm
 				break;
 
 			case "fecha" :
-				$this->campo[] = new Campos_fecha ("", $this->db);
+				$this->campo[] = new Campos_fecha (array (), $this->db);
 				$i = Funciones::endKey ($this->campo);
 				break;
 		}
