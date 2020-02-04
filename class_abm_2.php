@@ -2034,18 +2034,16 @@ class class_abm
 			$camposSelect .= $this->convertirIdMultipleSelect ($this->campoId, $this->tabla);
 			$this->campoId = $this->convertirIdMultiple ($this->campoId, $this->tabla);
 
-			$sql = "SELECT $this->campoId, $camposSelect FROM " . $this->tabla . $this->dbLink . " " . $joinSql . " " . $this->customJoin . " WHERE " . substr ($this->campoId, 0, -6) . " = '" . $id . "'";
+			$sql = "SELECT $this->campoId, $camposSelect FROM " . $this->tabla . $this->dbLink . " " . $joinSql . " " . $this->customJoin . " WHERE upper(" . substr ($this->campoId, 0, -6) . ") = upper('" . $id . "')";
 		}
 		else
 		{
-			$sql = "SELECT $this->tabla.$this->campoId AS ID, $camposSelect FROM " . $this->tabla . $this->dbLink . " " . $joinSql . " " . $this->customJoin . " WHERE " . $this->tabla . "." . $this->campoId . "='" . $id . "'";
+			$sql = "SELECT $this->tabla.$this->campoId AS ID, $camposSelect FROM " . $this->tabla . $this->dbLink . " " . $joinSql . " " . $this->customJoin . " WHERE upper(" . $this->tabla . "." . $this->campoId . ") = upper('" . $id . "')";
 		}
 
 		$result = $this->db->query ($sql);
 
 		$fila = $this->db->fetch_array ($result);
-
-		$fila = array_merge (array_change_key_case ($fila, CASE_UPPER), array_change_key_case ($fila, CASE_LOWER));
 
 		if ($this->db->num_rows ($result) == 0)
 		{
@@ -2055,6 +2053,9 @@ class class_abm
 				return;
 			}
 		}
+
+		$fila = array_merge (array_change_key_case ($fila, CASE_UPPER), array_change_key_case ($fila, CASE_LOWER));
+
 		// genera el query string de variables previamente existentes
 		$get = $_GET;
 		unset ($get['abm_editar']);
