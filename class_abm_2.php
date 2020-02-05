@@ -857,7 +857,7 @@ class class_abm
 	/**
 	 * El JS que se agrega cuando un campo es requerido *
 	 */
-	public $jsIniciadorChequeoForm = '
+	private $jsIniciadorChequeoForm = '
         <script type="text/javascript">
         $(function(){
           $("#formularioAbm").validationEngine({promptPosition:"topLeft"});
@@ -868,7 +868,7 @@ class class_abm
 	/**
 	 * El JS que se agrega cuando un campo es requerido *
 	 */
-	public $jsHints = '
+	private $jsHints = '
         <script type="text/javascript">
         $( document ).tooltip({
             position: {
@@ -890,7 +890,7 @@ class class_abm
 	/**
 	 * codigo Js a insertar en los form de alta y modificacion
 	 */
-	public $jsMonedaInput = '
+	private $jsMonedaInput = '
         <script type="text/javascript">
 			(function($) {
 				  $.fn.currencyInput = function() {
@@ -1075,14 +1075,15 @@ class class_abm
 	 *
 	 * @var string
 	 */
-	public $estilosBasicos = "<link rel='stylesheet' href='%dirname%/font-awesome/css/font-awesome.min.css'>
+	private $estilosBasicos = "<link rel='stylesheet' href='%dirname%/font-awesome/css/font-awesome.min.css'>
 <link rel='stylesheet' type='text/css' href='%dirname%/cssABM/abm.css' />
-<script src='%dirname%/jsABM/vex.combined.min.js'></script>
-<script src='https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js'></script>
-<script>vex.defaultOptions.className = 'vex-theme-os'</script>
 <link rel='stylesheet' href='%dirname%/cssABM/css-vex/vex.css' />
 <link rel='stylesheet' href='%dirname%/cssABM/css-vex/vex-theme-os.css' />
 ";
+	private $jsBasicos = "
+<script src='https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js'></script>
+<script src='%dirname%/jsABM/vex.combined.min.js'></script>
+<script>vex.defaultOptions.className = 'vex-theme-os'</script>";
 
 	/**
 	 * Array de objetos campo
@@ -1330,8 +1331,10 @@ class class_abm
 	 */
 	private function generarFormAlta($titulo = "")
 	{
-		$this->estilosBasicos = str_ireplace ('%dirname%', dirname (__FILE__), $this->estilosBasicos);
-		$this->estilosBasicos = str_ireplace ($_SERVER['DOCUMENT_ROOT'], "", $this->estilosBasicos);
+		// $this->estilosBasicos = str_ireplace ('%dirname%', dirname (__FILE__), $this->estilosBasicos);
+		// $this->estilosBasicos = str_ireplace ($_SERVER['DOCUMENT_ROOT'], "", $this->estilosBasicos);
+		// $this->jsBasicos = str_ireplace ('%dirname%', dirname (__FILE__), $this->jsBasicos);
+		// $this->jsBasicos = str_ireplace ($_SERVER['DOCUMENT_ROOT'], "", $this->jsBasicos);
 		$html = "";
 		// echo "<HEAD>" . $this->estilosBasicos . "</HEAD>";
 
@@ -1974,8 +1977,10 @@ class class_abm
 	 */
 	private function generarFormModificacion($id, $titulo = "")
 	{
-		$this->estilosBasicos = str_ireplace ('%dirname%', dirname (__FILE__), $this->estilosBasicos);
-		$this->estilosBasicos = str_ireplace ($_SERVER['DOCUMENT_ROOT'], "", $this->estilosBasicos);
+		// $this->estilosBasicos = str_ireplace ('%dirname%', dirname (__FILE__), $this->estilosBasicos);
+		// $this->estilosBasicos = str_ireplace ($_SERVER['DOCUMENT_ROOT'], "", $this->estilosBasicos);
+		// $this->jsBasicos = str_ireplace ('%dirname%', dirname (__FILE__), $this->jsBasicos);
+		// $this->jsBasicos = str_ireplace ($_SERVER['DOCUMENT_ROOT'], "", $this->jsBasicos);
 		$html = "";
 
 		// $html .= " <HEAD>" . $this->estilosBasicos . "</HEAD>";
@@ -3158,6 +3163,8 @@ class class_abm
 
 		$this->estilosBasicos = str_ireplace ('%dirname%', dirname (__FILE__), $this->estilosBasicos);
 		$this->estilosBasicos = str_ireplace ($_SERVER['DOCUMENT_ROOT'], "", $this->estilosBasicos);
+		$this->jsBasicos = str_ireplace ('%dirname%', dirname (__FILE__), $this->jsBasicos);
+		$this->jsBasicos = str_ireplace ($_SERVER['DOCUMENT_ROOT'], "", $this->jsBasicos);
 		$html .= "<HEAD>" . $this->estilosBasicos . "</HEAD>";
 
 		// por cada campo...
@@ -3608,7 +3615,7 @@ class class_abm
 		}
 
 		// FIXME esto debe retornarse y no mostrarse por pantalla
-		echo $html;
+		echo $html . $this->jsBasicos;
 	}
 
 	/**
@@ -5727,7 +5734,7 @@ class class_abm
 	 *
 	 * @return string $direNuevo el dato de la variable.
 	 */
-	public function getDireNuevo()
+	public function getDireNuevo(): string
 	{
 		return $this->direNuevo;
 	}
@@ -5738,9 +5745,73 @@ class class_abm
 	 * @param string $direNuevo
 	 *        	dato a cargar en la variable.
 	 */
-	public function setDireNuevo($direNuevo)
+	public function setDireNuevo(string $direNuevo)
 	{
 		$this->direNuevo = $direNuevo;
+	}
+
+	/**
+	 * Retorna el valor del atributo $estilosBasicos
+	 *
+	 * @return string $estilosBasicos el dato de la variable.
+	 */
+	public function getEstilosBasicos(): string
+	{
+		return $this->estilosBasicos;
+	}
+
+	/**
+	 * Setter del parametro $estilosBasicos de la clase.
+	 *
+	 * @param string $estilosBasicos
+	 *        	dato a cargar en la variable.
+	 */
+	public function setEstilosBasicos(string $estilosBasicos)
+	{
+		$this->estilosBasicos = $estilosBasicos;
+	}
+
+	/**
+	 * Setter del parametro $estilosBasicos de la clase.
+	 *
+	 * @param string $estilosBasicos
+	 *        	dato a cargar en la variable.
+	 */
+	public function addEstilosBasicos(string $estilosBasicos)
+	{
+		$this->estilosBasicos .= $estilosBasicos;
+	}
+
+	/**
+	 * Retorna el valor del atributo $jsBasicos
+	 *
+	 * @return string $jsBasicos el dato de la variable.
+	 */
+	public function getJsBasicos(): string
+	{
+		return $this->jsBasicos;
+	}
+
+	/**
+	 * Setter del parametro $jsBasicos de la clase.
+	 *
+	 * @param string $jsBasicos
+	 *        	dato a cargar en la variable.
+	 */
+	public function setJsBasicos(string $jsBasicos)
+	{
+		$this->jsBasicos = $jsBasicos;
+	}
+
+	/**
+	 * Setter del parametro $jsBasicos de la clase.
+	 *
+	 * @param string $jsBasicos
+	 *        	dato a cargar en la variable.
+	 */
+	public function addJsBasicos(string $jsBasicos)
+	{
+		$this->jsBasicos .= $jsBasicos;
 	}
 }
 ?>
