@@ -43,14 +43,6 @@ class Campos_numero extends class_campo
 	 */
 	protected $cantidadDecimales = 2;
 
-	public function __toString(): string
-	{
-		$retorno = "Campo: " . $this->campo;
-		$retorno .= " Valor: " . $this->getValor ();
-
-		return $retorno;
-	}
-
 	/**
 	 * Dato guardado en la base de datos.
 	 *
@@ -58,6 +50,21 @@ class Campos_numero extends class_campo
 	 * @var float
 	 */
 	protected $dato = 0;
+
+	/**
+	 * Establece si el dato se formatea en el listado o no.
+	 *
+	 * @var bool
+	 */
+	protected $formatear = true;
+
+	public function __toString(): string
+	{
+		$retorno = "Campo: " . $this->campo;
+		$retorno .= " Valor: " . $this->getValor ();
+
+		return $retorno;
+	}
 
 	/**
 	 * Constructor de la clase.
@@ -161,11 +168,12 @@ class Campos_numero extends class_campo
 	{
 		if ($this->getValor () != "" and $this->getValor () > 0)
 		{
-			return "<td " . $this->get_centrar_columna () . " " . $this->get_no_mostrar () . ">" . $this->get_spanColorear () . " " . number_format ($this->getValor (), $this->getCantidadDecimales (), ',', '.') . " " . ($this->get_spanColorear () != "" ? "</span>" : "") . "</td> \n";
+
+			return "<td " . $this->get_centrar_columna () . " " . $this->get_no_mostrar () . ">" . $this->get_spanColorear () . " " . (($this->isFormatear () == true) ? number_format ($this->getValor (), $this->getCantidadDecimales (), ',', '.') : $this->getValor ()) . " " . ($this->get_spanColorear () != "" ? "</span>" : "") . "</td> \n";
 		}
 		else
 		{
-			return "<td " . $this->get_centrar_columna () . " " . $this->get_no_mostrar () . ">" . $this->get_spanColorear () . " " . number_format (0, $this->getCantidadDecimales (), ',', '.') . " " . ($this->get_spanColorear () != "" ? "</span>" : "") . "</td> \n";
+			return "<td " . $this->get_centrar_columna () . " " . $this->get_no_mostrar () . ">" . $this->get_spanColorear () . " " . (($this->isFormatear () == true) ? number_format (0, $this->getCantidadDecimales (), ',', '.') : 0) . " " . ($this->get_spanColorear () != "" ? "</span>" : "") . "</td> \n";
 		}
 	}
 
@@ -185,6 +193,27 @@ class Campos_numero extends class_campo
 		{
 			return number_format ((int) $this->getDato (), $this->getCantidadDecimales (), ',', '.');
 		}
+	}
+
+	/**
+	 * Retorna el valor del atributo $formatear
+	 *
+	 * @return boolean $formatear el dato de la variable.
+	 */
+	public function isFormatear(): bool
+	{
+		return $this->formatear;
+	}
+
+	/**
+	 * Setter del parametro $formatear de la clase.
+	 *
+	 * @param boolean $formatear
+	 *        	dato a cargar en la variable.
+	 */
+	public function setFormatear(bool $formatear)
+	{
+		$this->formatear = $formatear;
 	}
 }
 

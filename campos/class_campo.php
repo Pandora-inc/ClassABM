@@ -583,6 +583,13 @@ class class_campo
 	protected $autofocus = false;
 
 	/**
+	 * XXX No se cual es el uso exacto que se le da a esto, queda a estudiar para proximas verciones.
+	 *
+	 * @var mixed
+	 */
+	protected $hint;
+
+	/**
 	 * Va a retornar el valor (la informacion) del campo.
 	 *
 	 * @access public
@@ -2626,6 +2633,48 @@ class class_campo
 	public function generar_elemento_form_update(): string
 	{
 		return "<input type='text' class='input-text " . $this->getAtrRequerido () . " name='" . $this->getCampo () . "' id='" . $this->getCampo () . "' " . $this->autofocusAttr . " " . $this->getAtrDisabled () . " value='" . $this->getValor () . "' " . $this->establecerMaxLeng () . " " . $this->establecerHint () . " " . $this->getAdicionalInput () . "/> \n";
+	}
+
+	/**
+	 * Retorna el valor del atributo $autofocusAttr
+	 *
+	 * @return string $autofocusAttr el dato de la variable.
+	 */
+	public function getAutofocusAttr()
+	{
+		return $this->autofocusAttr;
+	}
+
+	/**
+	 * Setter del parametro $autofocusAttr de la clase.
+	 *
+	 * @param string $autofocusAttr
+	 *        	dato a cargar en la variable.
+	 */
+	public function setAutofocusAttr($autofocusAttr)
+	{
+		$this->autofocusAttr = $autofocusAttr;
+	}
+
+	/**
+	 * Retorna el valor del atributo $hint
+	 *
+	 * @return mixed $hint el dato de la variable.
+	 */
+	public function getHint()
+	{
+		return $this->hint;
+	}
+
+	/**
+	 * Setter del parametro $hint de la clase.
+	 *
+	 * @param mixed $hint
+	 *        	dato a cargar en la variable.
+	 */
+	public function setHint($hint)
+	{
+		$this->hint = $hint;
 	}
 }
 ?>

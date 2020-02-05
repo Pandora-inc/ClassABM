@@ -699,7 +699,8 @@ class class_abm
 	 * @example $abm->iconoAgregar = '<a href="#" onclick="agregarConcepto()"><img src="/img/add.png"></img></a>';
 	 *          Esto agregaria el icono add.png en lugar del boton y ejecutaria agregarConcepto() en vez de redireccionar al link de nuevo.
 	 */
-	public $iconoAgregar = "<input type='button' class='btnAgregar' value='Agregar' title='Atajo: ALT+A' accesskey='a' onclick='window.location=\"%s\"'/>";
+	// public $iconoAgregar = "<input type='button' class='btnAgregar' value='Agregar' title='Atajo: ALT+A' accesskey='a' onclick='window.location=\"%s\"'/>";
+	public $iconoAgregar = "<input type='button' class='btnAgregar' value='Agregar' title='Atajo: ALT+A' accesskey='a' onclick=\"%s\"/>";
 
 	/**
 	 * Icono de exportar a Excel.
@@ -958,6 +959,28 @@ class class_abm
 	// })
 	private $jsUpdateForm = '<script type="text/javascript">
 	function f_editar(direccion){
+	$.ajax({
+	url: direccion,
+	type: "POST",
+	dataType: "html",
+	success: function (data) {
+		vex.dialog.confirm({
+		    message: \'\',
+            input: [data] .join(\'\'),
+		    callback: function (value) {
+		        if (value) {
+		            console.log(\'Successfully destroyed the planet.\')
+		        } else {
+		            console.log(\'Chicken.\')
+		        }
+		    }
+		})
+		}
+	})
+}
+		</script>';
+	private $jsAltaForm = '<script type="text/javascript">
+	function f_alta(direccion){
 	$.ajax({
 	url: direccion,
 	type: "POST",
@@ -1305,14 +1328,14 @@ class class_abm
 	 * @param string $titulo
 	 *        	- Titulo a mostrar en el formulario de alta.
 	 */
-	public function generarFormAlta($titulo = "")
+	private function generarFormAlta($titulo = "")
 	{
 		$this->estilosBasicos = str_ireplace ('%dirname%', dirname (__FILE__), $this->estilosBasicos);
 		$this->estilosBasicos = str_ireplace ($_SERVER['DOCUMENT_ROOT'], "", $this->estilosBasicos);
+		$html = "";
+		// echo "<HEAD>" . $this->estilosBasicos . "</HEAD>";
 
-		echo "<HEAD>" . $this->estilosBasicos . "</HEAD>";
-
-		$_POST = Funciones::limpiarEntidadesHTML ($_POST);
+		// $_POST = Funciones::limpiarEntidadesHTML ($_POST);
 
 		// genera el query string de variables previamente existentes
 		$get = $_GET;
@@ -1330,7 +1353,7 @@ class class_abm
 		{
 			if ($campo->isRequerido () == true)
 			{
-				echo $this->jsIniciadorChequeoForm;
+				$html .= $this->jsIniciadorChequeoForm;
 				break;
 			}
 		}
@@ -1341,44 +1364,44 @@ class class_abm
 		{
 			if ($campo->getHint () != "")
 			{
-				echo $this->jsHints;
+				$html .= $this->jsHints;
 				break;
 			}
 		}
 
-		echo "<div class='mabm'>";
+		$html .= "<div class='mabm'>";
 
 		if (isset ($_GET['abmsg']))
 		{
-			echo "<div class='merror'>" . urldecode ($_GET['abmsg']) . "</div>";
+			$html .= "<div class='merror'>" . urldecode ($_GET['abmsg']) . "</div>";
 		}
 
-		echo $this->jslinksCampoFecha;
+		$html .= $this->jslinksCampoFecha;
 		// FIXME El jslinksSelectConBusqueda habria que mostrarlo solo cuando haya un select que lo uso
-		echo $this->jslinksSelectConBusqueda;
-		echo $this->jsMonedaInput;
-		echo "<form enctype='multipart/form-data' method='" . $this->formMethod . "' id='formularioAbm' action='" . $this->formAction . "?abm_alta=1$qsamb' $this->adicionalesForm> \n";
-		echo "<input type='hidden' name='abm_enviar_formulario' value='1' /> \n";
-		echo "<table class='mformulario' $this->adicionalesTable> \n";
+		$html .= $this->jslinksSelectConBusqueda;
+		$html .= $this->jsMonedaInput;
+		$html .= "<form enctype='multipart/form-data' method='" . $this->formMethod . "' id='formularioAbm' action='" . $this->formAction . "?abm_alta=1$qsamb' $this->adicionalesForm> \n";
+		$html .= "<input type='hidden' name='abm_enviar_formulario' value='1' /> \n";
+		$html .= "<table class='mformulario' $this->adicionalesTable> \n";
 
 		if (isset ($titulo) or isset ($this->textoTituloFormularioAgregar))
 		{
-			echo "<thead><tr><th colspan='2'>" . (isset ($this->textoTituloFormularioAgregar) ? $this->textoTituloFormularioAgregar : $titulo) . "&nbsp;</th></tr></thead>";
+			$html .= "<thead><tr><th colspan='2'>" . (isset ($this->textoTituloFormularioAgregar) ? $this->textoTituloFormularioAgregar : $titulo) . "&nbsp;</th></tr></thead>";
 		}
 
-		echo "<tbody>\n";
-		echo "<tr>\n";
-		echo "<td>\n";
-		echo "<div id='content'>\n";
-		echo "<div id='cuerpo'>\n";
-		echo "<div id='contenedor'>\n";
+		$html .= "<tbody>\n";
+		$html .= "<tr>\n";
+		$html .= "<td>\n";
+		$html .= "<div id='content'>\n";
+		$html .= "<div id='cuerpo'>\n";
+		$html .= "<div id='contenedor'>\n";
 
 		if ($this->formularioSolapa == true)
 		{
 			for($e = 1; $e <= $this->cantidadSolapa; $e++)
 			{
-				echo "<input id='tab-" . $e . "' type='radio' name='radio-set' class='tab-selector-" . $e . " folio' />";
-				echo "<label for='tab-" . $e . "' class='tab-label-" . $e . " folio'>" . $this->tituloSolapa[$e - 1] . "</label>";
+				$html .= "<input id='tab-" . $e . "' type='radio' name='radio-set' class='tab-selector-" . $e . " folio' />";
+				$html .= "<label for='tab-" . $e . "' class='tab-label-" . $e . " folio'>" . $this->tituloSolapa[$e - 1] . "</label>";
 
 				$imprForm .= "<div class='content mabm'>";
 				$imprForm .= "<div class='content-" . $e . "'>\n";
@@ -1390,18 +1413,18 @@ class class_abm
 				// foreach ($this->campos as $campo)
 				foreach ($this->campo as &$campo)
 				{
-					if ($campo['enSolapa'] == "")
+					if ($campo->getEnSolapa () > 0)
 					{
-						$campo['enSolapa'] = 1;
+						$campo->setEnSolapa (1);
 					}
 
-					if ($campo['enSolapa'] == $e)
+					if ($campo->getEnSolapa () == $e)
 					{
 						if ($campo->isNoNuevo () == true)
 						{
 							continue;
 						}
-						if ($campo->getTipo () == '' and $campo['formItem'] == '' and $campo->getSeparador () == "")
+						if ($campo->getTipo () == '' and $campo->getFormItem () == '' and $campo->getSeparador () == "")
 						{
 							continue;
 						}
@@ -1417,7 +1440,7 @@ class class_abm
 							$autofocusAttr = "";
 						}
 
-						if ($campo[requerido])
+						if ($campo->isRequerido ())
 						{
 							$requerido = $this->chequeoInputRequerido;
 						}
@@ -1435,14 +1458,14 @@ class class_abm
 						else
 						{
 							$imprForm .= "<div class='tituloItemsForm'>";
-							$imprForm .= "<label for='" . $campo->getCampo () . "'>" . ($campo->getTitulo () != '' ? $campo->getTitulo () : $campo->getCampo ()) . $this->separadorNombreCampo . ($campo[requerido] ? " " . $this->indicadorDeCampoRequerido : "");
+							$imprForm .= "<label for='" . $campo->getCampo () . "'>" . ($campo->getTitulo () != '' ? $campo->getTitulo () : $campo->getCampo ()) . $this->separadorNombreCampo . ($campo->isRequerido () ? " " . $this->indicadorDeCampoRequerido : "");
 							$imprForm .= "</div> \n";
 
 							$imprForm .= "<div class='itemsForm'> \n";
 
-							if ($campo['formItem'] != "" and function_exists ($campo['formItem']))
+							if ($campo->getFormItem () != "" and function_exists ($campo->getFormItem ()))
 							{
-								call_user_func_array ($campo['formItem'], array (
+								call_user_func_array ($campo->getFormItem (), array (
 										$fila
 								));
 							}
@@ -1457,44 +1480,44 @@ class class_abm
 											$idVal = $this->db->insert_id ($this->campoId, $this->tabla . insert_id);
 											$idVal = $idVal + 1;
 
-											$imprForm .= "<input type='text' name='" . $campo->getCampo () . "' id='" . $campo->getCampo () . "' $autofocusAttr value='" . $idVal . "' " . ((isset ($campo['maxLen']) and $campo['maxLen'] > 0) ? "maxlength='" . $campo['maxLen'] . "'" : "") . " class='input-text $requerido' " . (($campo->getHint () != "") ? 'title="' . $campo->getHint () . '"' : "") . " " . (isset ($campo['adicionalInput']) ? $campo['adicionalInput'] : "") . "/> \n";
+											$imprForm .= "<input type='text' name='" . $campo->getCampo () . "' id='" . $campo->getCampo () . "' $autofocusAttr value='" . $idVal . "' " . (($campo->getMaxLen () > 0) ? "maxlength='" . $campo->getMaxLen () . "'" : "") . " class='input-text $requerido' " . (($campo->getHint () != "") ? 'title="' . $campo->getHint () . '"' : "") . " " . ($campo->getAdicionalInput ()) . "/> \n";
 										}
 										else
 										{
-											$imprForm .= "<input type='text' name='" . $campo->getCampo () . "' id='" . $campo->getCampo () . "' $autofocusAttr value='" . ((isset ($_POST[$campo->getCampo ()]) and $_POST[$campo->getCampo ()] != "") ? $_POST[$campo->getCampo ()] : $campo['valorPredefinido']) . "' " . ((isset ($campo['maxLen']) and $campo['maxLen'] > 0) ? "maxlength='" . $campo['maxLen'] . "'" : "") . " class='input-text $requerido' " . (($campo->getHint () != "") ? 'title="' . $campo->getHint () . '"' : "") . " " . (isset ($campo['adicionalInput']) ? $campo['adicionalInput'] : "") . "/> \n";
+											$imprForm .= "<input type='text' name='" . $campo->getCampo () . "' id='" . $campo->getCampo () . "' $autofocusAttr value='" . ((isset ($_POST[$campo->getCampo ()]) and $_POST[$campo->getCampo ()] != "") ? $_POST[$campo->getCampo ()] : $campo->getValorPredefinido ()) . "' " . (($campo->getMaxLen () > 0) ? "maxlength='" . $campo->getMaxLen () . "'" : "") . " class='input-text $requerido' " . (($campo->getHint () != "") ? 'title="' . $campo->getHint () . '"' : "") . " " . ($campo->getAdicionalInput ()) . "/> \n";
 										}
 										break;
 
 									case "moneda" :
-										$imprForm .= "<input type='number' class='currency' min='0.01' max='250000000.00'  name='" . $campo->getCampo () . "' id='" . $campo->getCampo () . "' $autofocusAttr value='" . ((isset ($_POST[$campo->getCampo ()]) and $_POST[$campo->getCampo ()] != "") ? $_POST[$campo->getCampo ()] : $campo['valorPredefinido']) . "' " . ((isset ($campo['maxLen']) and $campo['maxLen'] > 0) ? "maxlength='" . $campo['maxLen'] . "'" : "") . " class='input-text $requerido' " . (($campo->getHint () != "") ? 'title="' . $campo->getHint () . '"' : "") . " " . (isset ($campo['adicionalInput']) ? $campo['adicionalInput'] : "") . "/> \n";
+										$imprForm .= "<input type='number' class='currency' min='0.01' max='250000000.00'  name='" . $campo->getCampo () . "' id='" . $campo->getCampo () . "' $autofocusAttr value='" . ((isset ($_POST[$campo->getCampo ()]) and $_POST[$campo->getCampo ()] != "") ? $_POST[$campo->getCampo ()] : $campo->getValorPredefinido ()) . "' " . (($campo->getMaxLen () > 0) ? "maxlength='" . $campo->getMaxLen () . "'" : "") . " class='input-text $requerido' " . (($campo->getHint () != "") ? 'title="' . $campo->getHint () . '"' : "") . " " . ($campo->getAdicionalInput ()) . "/> \n";
 										break;
 
 									case "numero" :
-										$imprForm .= "<input type='number' name='" . $campo->getCampo () . "' id='" . $campo->getCampo () . "' $autofocusAttr value='" . ((isset ($_POST[$campo->getCampo ()]) and $_POST[$campo->getCampo ()] != "") ? $_POST[$campo->getCampo ()] : $campo['valorPredefinido']) . "' " . ((isset ($campo['maxLen']) and $campo['maxLen'] > 0) ? "maxlength='" . $campo['maxLen'] . "'" : "") . " class='input-text $requerido' " . (($campo->getHint () != "") ? 'title="' . $campo->getHint () . '"' : "") . " " . (isset ($campo['adicionalInput']) ? $campo['adicionalInput'] : "") . "/> \n";
+										$imprForm .= "<input type='number' name='" . $campo->getCampo () . "' id='" . $campo->getCampo () . "' $autofocusAttr value='" . ((isset ($_POST[$campo->getCampo ()]) and $_POST[$campo->getCampo ()] != "") ? $_POST[$campo->getCampo ()] : $campo->getValorPredefinido ()) . "' " . (($campo->getMaxLen () > 0) ? "maxlength='" . $campo->getMaxLen () . "'" : "") . " class='input-text $requerido' " . (($campo->getHint () != "") ? 'title="' . $campo->getHint () . '"' : "") . " " . ($campo->getAdicionalInput ()) . "/> \n";
 										break;
 
 									case "password" :
-										$imprForm .= "<input type='password' name='" . $campo->getCampo () . "' id='" . $campo->getCampo () . "' $autofocusAttr value='" . ((isset ($_POST[$campo->getCampo ()]) and $_POST[$campo->getCampo ()] != "") ? $_POST[$campo->getCampo ()] : $campo['valorPredefinido']) . "' " . ((isset ($campo['maxLen']) and $campo['maxLen'] > 0) ? "maxlength='" . $campo['maxLen'] . "'" : "") . " class='input-text $requerido' " . (($campo->getHint () != "") ? 'title="' . $campo->getHint () . '"' : "") . " " . (isset ($campo['adicionalInput']) ? $campo['adicionalInput'] : "") . "/> \n";
+										$imprForm .= "<input type='password' name='" . $campo->getCampo () . "' id='" . $campo->getCampo () . "' $autofocusAttr value='" . ((isset ($_POST[$campo->getCampo ()]) and $_POST[$campo->getCampo ()] != "") ? $_POST[$campo->getCampo ()] : $campo->getValorPredefinido ()) . "' " . (($campo->getMaxLen () > 0) ? "maxlength='" . $campo->getMaxLen () . "'" : "") . " class='input-text $requerido' " . (($campo->getHint () != "") ? 'title="' . $campo->getHint () . '"' : "") . " " . ($campo->getAdicionalInput ()) . "/> \n";
 										break;
 
 									case "textarea" :
-										$imprForm .= "<textarea name='" . $campo->getCampo () . "' id='" . $campo->getCampo () . "' $autofocusAttr class='input-textarea $requerido' " . ((isset ($campo['maxLen']) and $campo['maxLen'] > 0) ? "maxlength='" . $campo['maxLen'] . "'" : "") . " " . (($campo->getHint () != "") ? 'title="' . $campo->getHint () . '"' : "") . " $campo[adicionalInput]>" . ((isset ($_POST[$campo->getCampo ()]) and $_POST[$campo->getCampo ()] != "") ? $_POST[$campo->getCampo ()] : $campo['valorPredefinido']) . "</textarea>\n";
+										$imprForm .= "<textarea name='" . $campo->getCampo () . "' id='" . $campo->getCampo () . "' $autofocusAttr class='input-textarea $requerido' " . (($campo->getMaxLen () > 0) ? "maxlength='" . $campo->getMaxLen () . "'" : "") . " " . (($campo->getHint () != "") ? 'title="' . $campo->getHint () . '"' : "") . " $campo->getAdicionalInput()>" . ((isset ($_POST[$campo->getCampo ()]) and $_POST[$campo->getCampo ()] != "") ? $_POST[$campo->getCampo ()] : $campo->getValorPredefinido ()) . "</textarea>\n";
 										break;
 
 									case "dbCombo" :
-										$imprForm .= "<select name='" . $campo->getCampo () . "' id='" . $campo->getCampo () . "' $autofocusAttr class='input-select $requerido' " . (($campo->getHint () != "") ? 'title="' . $campo->getHint () . '"' : "") . " " . $campo[adicionalInput] . "> \n";
-										if ($campo[incluirOpcionVacia])
+										$imprForm .= "<select name='" . $campo->getCampo () . "' id='" . $campo->getCampo () . "' $autofocusAttr class='input-select $requerido' " . (($campo->getHint () != "") ? 'title="' . $campo->getHint () . '"' : "") . " " . $campo->getAdicionalInput () . "> \n";
+										if ($campo->isIncluirOpcionVacia ())
 										{
 											$imprForm .= "<option value=''></option> \n";
 										}
 
-										$result = $this->db->query ($campo['sqlQuery']);
+										$result = $this->db->query ($campo->getSqlQuery ());
 
 										while ($fila = $this->db->fetch_array ($result))
 										{
 											$fila = array_merge (array_change_key_case ($fila, CASE_UPPER), array_change_key_case ($fila, CASE_LOWER));
 
-											if ((isset ($_POST[$campo->getCampo ()]) and $_POST[$campo->getCampo ()] == $fila[$campo[campoValor]]) or $campo['valorPredefinido'] == $fila[$campo[campoValor]])
+											if ((isset ($_POST[$campo->getCampo ()]) and $_POST[$campo->getCampo ()] == $fila[$campo->getValor ()]) or $campo->getValorPredefinido () == $fila[$campo->getValor ()])
 											{
 												$sel = "selected='selected'";
 											}
@@ -1505,12 +1528,12 @@ class class_abm
 
 											$combobit = "";
 
-											if (isset ($campo['mostrarValor']) and ($campo['mostrarValor'] == true))
+											if ($campo->isMostrarValor ())
 											{
-												$combobit .= ' (' . $fila[$campo['campoValor']] . ') ';
+												$combobit .= ' (' . $fila[$campo->getValor ()] . ') ';
 											}
 
-											if (isset ($campo['textoMayuscula']) and ($campo['textoMayuscula'] == true))
+											if ($campo->isTextoMayuscula ())
 											{
 												$combobit .= substr ($fila[$campo->getCampoTexto ()], 0, 50);
 											}
@@ -1519,7 +1542,7 @@ class class_abm
 												$combobit .= ucwords (strtolower (substr ($fila[$campo->getCampoTexto ()], 0, 50)));
 											}
 
-											$imprForm .= "<option value='" . $fila[$campo['campoValor']] . "' $sel>" . $combobit . "</option> \n";
+											$imprForm .= "<option value='" . $fila[$campo->getValor ()] . "' $sel>" . $combobit . "</option> \n";
 										}
 										$imprForm .= "</select> \n";
 
@@ -1527,15 +1550,15 @@ class class_abm
 										break;
 
 									case "combo" :
-										$imprForm .= "<select name='" . $campo->getCampo () . "' id='" . $campo->getCampo () . "' $autofocusAttr class='input-select $requerido' " . (($campo->getHint () != "") ? 'title="' . $campo->getHint () . '"' : "") . " " . $campo[adicionalInput] . "> \n";
-										if ($campo['incluirOpcionVacia'])
+										$imprForm .= "<select name='" . $campo->getCampo () . "' id='" . $campo->getCampo () . "' $autofocusAttr class='input-select $requerido' " . (($campo->getHint () != "") ? 'title="' . $campo->getHint () . '"' : "") . " " . $campo->getAdicionalInput () . "> \n";
+										if ($campo->isIncluirOpcionVacia ())
 										{
 											$imprForm .= "<option value=''></option> \n";
 										}
 
-										foreach ($campo['datos'] as $valor => $texto)
+										foreach ($campo->getDatos () as $valor => $texto)
 										{
-											if ((isset ($_POST[$campo->getCampo ()]) and $_POST[$campo->getCampo ()] == $valor) or $campo['valorPredefinido'] == $valor)
+											if ((isset ($_POST[$campo->getCampo ()]) and $_POST[$campo->getCampo ()] == $valor) or $campo->getValorPredefinido () == $valor)
 											{
 												$sel = "selected='selected'";
 											}
@@ -1549,11 +1572,11 @@ class class_abm
 										break;
 
 									case "bit" :
-										$imprForm .= "<select name='" . $campo->getCampo () . "' id='" . $campo->getCampo () . "' $autofocusAttr class='input-select $requerido' " . ($campo->getHint () != "" ? 'title="' . $campo->getHint () . '"' : "") . " $campo[adicionalInput]> \n";
+										$imprForm .= "<select name='" . $campo->getCampo () . "' id='" . $campo->getCampo () . "' $autofocusAttr class='input-select $requerido' " . ($campo->getHint () != "" ? 'title="' . $campo->getHint () . '"' : "") . " $campo->getAdicionalInput()> \n";
 
-										if (isset ($campo['ordenInversoBit']))
+										if ($campo->isOrdenInversoBit ())
 										{
-											if ((isset ($_POST[$campo->getCampo ()]) and $_POST[$campo->getCampo ()] == false) or $campo['valorPredefinido'] == false)
+											if ((isset ($_POST[$campo->getCampo ()]) and $_POST[$campo->getCampo ()] == false) or $campo->getValorPredefinido () == false)
 											{
 												$sel = "selected='selected'";
 											}
@@ -1563,7 +1586,7 @@ class class_abm
 											}
 											$imprForm .= "<option value='0' $sel>" . ($campo->getTextoBitFalse () != "" ? $campo->getTextoBitFalse () : $this->textoBitFalse) . "</option> \n";
 
-											if ((isset ($_POST[$campo->getCampo ()]) and $_POST[$campo->getCampo ()] == true) or $campo['valorPredefinido'] == true)
+											if ((isset ($_POST[$campo->getCampo ()]) and $_POST[$campo->getCampo ()] == true) or $campo->getValorPredefinido () == true)
 											{
 												$sel = "selected='selected'";
 											}
@@ -1576,7 +1599,7 @@ class class_abm
 										else
 										{
 
-											if ((isset ($_POST[$campo->getCampo ()]) and $_POST[$campo->getCampo ()] == true) or $campo['valorPredefinido'] == true)
+											if ((isset ($_POST[$campo->getCampo ()]) and $_POST[$campo->getCampo ()] == true) or $campo->getValorPredefinido () == true)
 											{
 												$sel = "selected='selected'";
 											}
@@ -1586,7 +1609,7 @@ class class_abm
 											}
 											$imprForm .= "<option value='1' $sel>" . ($campo->getTextoBitTrue () != "" ? $campo->getTextoBitTrue () : $this->textoBitTrue) . "</option> \n";
 
-											if ((isset ($_POST[$campo->getCampo ()]) and $_POST[$campo->getCampo ()] == false) or $campo['valorPredefinido'] == false)
+											if ((isset ($_POST[$campo->getCampo ()]) and $_POST[$campo->getCampo ()] == false) or $campo->getValorPredefinido () == false)
 											{
 												$sel = "selected='selected'";
 											}
@@ -1601,7 +1624,7 @@ class class_abm
 										break;
 
 									case "fecha" :
-										$valor = (isset ($_POST[$campo->getCampo ()]) and $_POST[$campo->getCampo ()] != "") ? $_POST[$campo->getCampo ()] : $campo['valorPredefinido'];
+										$valor = (isset ($_POST[$campo->getCampo ()]) and $_POST[$campo->getCampo ()] != "") ? $_POST[$campo->getCampo ()] : $campo->getValorPredefinido ();
 										if (strlen ($valor) > 10)
 										{
 											$valor = substr ($valor, 0, 10); // sacar hora:min:seg
@@ -1614,16 +1637,16 @@ class class_abm
 										$jsTmp = str_replace ('%VALOR%', $valor, $jsTmp);
 
 										$imprForm .= $jsTmp;
-										$imprForm .= "<input type='text' style='position:absolute' name='" . $campo->getCampo () . "' id='" . $campo->getCampo () . "' value='" . ($fila[$campo->getCampo ()] != "" ? $fila[$campo->getCampo ()] : $campo['valorPredefinido']) . "'/> \n";
-										$imprForm .= "<input type='text' style='position:relative;top:0px;left;0px' $autofocusAttr name='display_" . $campo->getCampo () . "' id='display_" . $campo->getCampo () . "' class='input-fecha $requerido' $campo->getAtrDisabled() $campo[adicionalInput] " . (($campo->getHint () != "") ? 'title="' . $campo->getHint () . '"' : "") . " readonly='readonly'/> \n";
+										$imprForm .= "<input type='text' style='position:absolute' name='" . $campo->getCampo () . "' id='" . $campo->getCampo () . "' value='" . ($fila[$campo->getCampo ()] != "" ? $fila[$campo->getCampo ()] : $campo->getValorPredefinido ()) . "'/> \n";
+										$imprForm .= "<input type='text' style='position:relative;top:0px;left;0px' $autofocusAttr name='display_" . $campo->getCampo () . "' id='display_" . $campo->getCampo () . "' class='input-fecha $requerido' $campo->getAtrDisabled() $campo->getAdicionalInput() " . (($campo->getHint () != "") ? 'title="' . $campo->getHint () . '"' : "") . " readonly='readonly'/> \n";
 										break;
 
 									case "upload" :
-										$imprForm .= "<input type='file' name='" . $campo->getCampo () . "' id='" . $campo->getCampo () . "' $autofocusAttr class='$requerido' " . (($campo->getHint () != "") ? 'title="' . $campo->getHint () . '"' : "") . " " . (isset ($campo['adicionalInput']) ? $campo['adicionalInput'] : "") . "/> \n";
+										$imprForm .= "<input type='file' name='" . $campo->getCampo () . "' id='" . $campo->getCampo () . "' $autofocusAttr class='$requerido' " . (($campo->getHint () != "") ? 'title="' . $campo->getHint () . '"' : "") . " " . ($campo->getAdicionalInput ()) . "/> \n";
 										break;
 
 									default :
-										$imprForm .= $campo->getNombre ();
+										$imprForm .= $campo->getCampo (); // XXX $campo->getNombre ();
 										break;
 								}
 							}
@@ -1639,7 +1662,7 @@ class class_abm
 				$imprForm .= "</div>\n";
 				$imprForm .= "</div>\n";
 			}
-			echo $imprForm;
+			$html .= $imprForm;
 		}
 		// en caso de que no sea de tipo solapa
 		else
@@ -1662,7 +1685,7 @@ class class_abm
 				{
 					continue;
 				}
-				if (($campo->getTipo () == '') and (!isset ($campo['formItem']) or $campo['formItem'] == '') and $campo->getSeparador () == "")
+				if (($campo->getTipo () == '') and ($campo->getFormItem () == '') and $campo->getSeparador () == "")
 				{
 					continue;
 				}
@@ -1701,9 +1724,9 @@ class class_abm
 
 					$imprForm .= "<div class='itemsForm'> \n";
 
-					if (isset ($campo['formItem']) and ($campo['formItem'] != "" and function_exists ($campo['formItem'])))
+					if ($campo->getFormItem () != "" and function_exists ($campo->getFormItem ()))
 					{
-						call_user_func_array ($campo['formItem'], array (
+						call_user_func_array ($campo->getFormItem (), array (
 								$fila
 						));
 					}
@@ -1712,56 +1735,56 @@ class class_abm
 						switch ($campo->getTipo ())
 						{
 							case "texto" :
-								if (($campo->getCampo () == $this->campoId) and (!isset ($campo['valorPredefinido']) or $campo['valorPredefinido'] == ""))
+								if (($campo->getCampo () == $this->campoId) and ($campo->getValorPredefinido () == ""))
 								{
 									$idVal = $this->db->insert_id ($this->campoId, $this->tabla . $this->dbLink);
 									$idVal = $idVal + 1;
 
-									$imprForm .= "<input type='text' name='" . $campo->getCampo () . "' id='" . $campo->getCampo () . "' $autofocusAttr value='" . $idVal . "' " . ((isset ($campo['maxLen']) and $campo['maxLen'] > 0) ? "maxlength='" . $campo['maxLen'] . "'" : "") . " class='input-text $requerido' " . (($campo->getHint () != "") ? 'title="' . $campo->getHint () . '"' : "") . "  " . (isset ($campo['adicionalInput']) ? $campo['adicionalInput'] : "") . "/> \n";
+									$imprForm .= "<input type='text' name='" . $campo->getCampo () . "' id='" . $campo->getCampo () . "' $autofocusAttr value='" . $idVal . "' " . (($campo->getMaxLen () > 0) ? "maxlength='" . $campo->getMaxLen () . "'" : "") . " class='input-text $requerido' " . (($campo->getHint () != "") ? 'title="' . $campo->getHint () . '"' : "") . "  " . ($campo->getAdicionalInput ()) . "/> \n";
 								}
 								else
 								{
-									$imprForm .= "<input type='text' name='" . $campo->getCampo () . "' id='" . $campo->getCampo () . "' $autofocusAttr value='" . ((isset ($_POST[$campo->getCampo ()]) and $_POST[$campo->getCampo ()] != "") ? $_POST[$campo->getCampo ()] : (isset ($campo['valorPredefinido']) ? $campo['valorPredefinido'] : "")) . "' " . ((isset ($campo['maxLen']) and $campo['maxLen'] > 0) ? "maxlength='" . $campo['maxLen'] . "'" : "") . " class='input-text $requerido' " . (($campo->getHint () != "") ? 'title="' . $campo->getHint () . '"' : "") . "  " . (isset ($campo['adicionalInput']) ? $campo['adicionalInput'] : "") . "/> \n";
+									$imprForm .= "<input type='text' name='" . $campo->getCampo () . "' id='" . $campo->getCampo () . "' $autofocusAttr value='" . ((isset ($_POST[$campo->getCampo ()]) and $_POST[$campo->getCampo ()] != "") ? $_POST[$campo->getCampo ()] : $campo->getValorPredefinido ()) . "' " . (($campo->getMaxLen () > 0) ? "maxlength='" . $campo->getMaxLen () . "'" : "") . " class='input-text $requerido' " . (($campo->getHint () != "") ? 'title="' . $campo->getHint () . '"' : "") . "  " . ($campo->getAdicionalInput ()) . "/> \n";
 								}
 								break;
 
 							case "moneda" :
-								$imprForm .= "<input type='number' class='input-text $requerido currency' step='0.01' min='0.01' max='250000000.00'  name='" . $campo->getCampo () . "' id='" . $campo->getCampo () . "' $autofocusAttr value='" . ((isset ($_POST[$campo->getCampo ()]) and $_POST[$campo->getCampo ()] != "") ? $_POST[$campo->getCampo ()] : (isset ($campo['valorPredefinido']) ? $campo['valorPredefinido'] : "")) . "' " . ((isset ($campo['maxLen']) and $campo['maxLen'] > 0) ? "maxlength='" . $campo['maxLen'] . "'" : "") . " " . (($campo->getHint () != "") ? 'title="' . $campo->getHint () . '"' : "") . "  " . (isset ($campo['adicionalInput']) ? $campo['adicionalInput'] : "") . "/> \n";
+								$imprForm .= "<input type='number' class='input-text $requerido currency' step='0.01' min='0.01' max='250000000.00'  name='" . $campo->getCampo () . "' id='" . $campo->getCampo () . "' $autofocusAttr value='" . ((isset ($_POST[$campo->getCampo ()]) and $_POST[$campo->getCampo ()] != "") ? $_POST[$campo->getCampo ()] : $campo->getValorPredefinido ()) . "' " . (($campo->getMaxLen () > 0) ? "maxlength='" . $campo->getMaxLen () . "'" : "") . " " . (($campo->getHint () != "") ? 'title="' . $campo->getHint () . '"' : "") . "  " . ($campo->getAdicionalInput ()) . "/> \n";
 								break;
 
 							case "numero" :
-								$imprForm .= "<input type='number' class='input-text $requerido ' name='" . $campo->getCampo () . "' id='" . $campo->getCampo () . "' $autofocusAttr value='" . ((isset ($_POST[$campo->getCampo ()]) and $_POST[$campo->getCampo ()] != "") ? $_POST[$campo->getCampo ()] : (isset ($campo['valorPredefinido']) ? $campo['valorPredefinido'] : "")) . "' " . ((isset ($campo['maxLen']) and $campo['maxLen'] > 0) ? "maxlength='" . $campo['maxLen'] . "'" : "") . " " . (($campo->getHint () != "") ? 'title="' . $campo->getHint () . '"' : "") . "  " . (isset ($campo['adicionalInput']) ? $campo['adicionalInput'] : "") . "/> \n";
+								$imprForm .= "<input type='number' class='input-text $requerido ' name='" . $campo->getCampo () . "' id='" . $campo->getCampo () . "' $autofocusAttr value='" . ((isset ($_POST[$campo->getCampo ()]) and $_POST[$campo->getCampo ()] != "") ? $_POST[$campo->getCampo ()] : $campo->getValorPredefinido ()) . "' " . (($campo->getMaxLen () > 0) ? "maxlength='" . $campo->getMaxLen () . "'" : "") . " " . (($campo->getHint () != "") ? 'title="' . $campo->getHint () . '"' : "") . "  " . ($campo->getAdicionalInput ()) . "/> \n";
 								break;
 
 							case "password" :
-								$imprForm .= "<input type='password' name='" . $campo->getCampo () . "' id='" . $campo->getCampo () . "' $autofocusAttr value='" . ((isset ($_POST[$campo->getCampo ()]) and $_POST[$campo->getCampo ()] != "") ? $_POST[$campo->getCampo ()] : $campo['valorPredefinido']) . "' " . ((isset ($campo['maxLen']) and $campo['maxLen'] > 0) ? "maxlength='" . $campo['maxLen'] . "'" : "") . " class='input-text $requerido' " . (($campo->getHint () != "") ? 'title="' . $campo->getHint () . '"' : "") . "  " . (isset ($campo['adicionalInput']) ? $campo['adicionalInput'] : "") . "/> \n";
+								$imprForm .= "<input type='password' name='" . $campo->getCampo () . "' id='" . $campo->getCampo () . "' $autofocusAttr value='" . ((isset ($_POST[$campo->getCampo ()]) and $_POST[$campo->getCampo ()] != "") ? $_POST[$campo->getCampo ()] : $campo->getValorPredefinido ()) . "' " . (($campo->getMaxLen () > 0) ? "maxlength='" . $campo->getMaxLen () . "'" : "") . " class='input-text $requerido' " . (($campo->getHint () != "") ? 'title="' . $campo->getHint () . '"' : "") . "  " . ($campo->getAdicionalInput ()) . "/> \n";
 								break;
 
 							case "textarea" :
-								$imprForm .= "<textarea name='" . $campo->getCampo () . "' id='" . $campo->getCampo () . "' $autofocusAttr class='input-textarea $requerido' " . ((isset ($campo['maxLen']) and $campo['maxLen'] > 0) ? "maxlength='" . $campo['maxLen'] . "'" : "") . " " . (($campo->getHint () != "") ? 'title="' . $campo->getHint () . '"' : "") . " " . (isset ($campo['adicionalInput']) ? $campo['adicionalInput'] : "") . " >" . ((isset ($_POST[$campo->getCampo ()]) and $_POST[$campo->getCampo ()] != "") ? $_POST[$campo->getCampo ()] : (isset ($campo['valorPredefinido']) ? $campo['valorPredefinido'] : "")) . "</textarea>\n";
+								$imprForm .= "<textarea name='" . $campo->getCampo () . "' id='" . $campo->getCampo () . "' $autofocusAttr class='input-textarea $requerido' " . (($campo->getMaxLen () > 0) ? "maxlength='" . $campo->getMaxLen () . "'" : "") . " " . (($campo->getHint () != "") ? 'title="' . $campo->getHint () . '"' : "") . " " . ($campo->getAdicionalInput ()) . " >" . ((isset ($_POST[$campo->getCampo ()]) and $_POST[$campo->getCampo ()] != "") ? $_POST[$campo->getCampo ()] : $campo->getValorPredefinido ()) . "</textarea>\n";
 								break;
 
 							case "dbCombo" :
-								$imprForm .= "<select name='" . $campo->getCampo () . "' id='" . $campo->getCampo () . "' $autofocusAttr class='input-select $requerido' " . (($campo->getHint () != "") ? 'title="' . $campo->getHint () . '"' : "") . (isset ($campo['adicionalInput']) ? $campo['adicionalInput'] : "") . " > \n";
-								if ($campo['incluirOpcionVacia'])
+								$imprForm .= "<select name='" . $campo->getCampo () . "' id='" . $campo->getCampo () . "' $autofocusAttr class='input-select $requerido' " . (($campo->getHint () != "") ? 'title="' . $campo->getHint () . '"' : "") . ($campo->getAdicionalInput ()) . " > \n";
+								if ($campo->isIncluirOpcionVacia ())
 								{
 									$imprForm .= "<option value=''></option> \n";
 								}
 
-								if (isset ($campo['sqlQuery']))
+								if ($campo->getSqlQuery ())
 								{
-									$result = $this->db->query ($campo['sqlQuery']);
+									$result = $this->db->query ($campo->getSqlQuery ());
 								}
 								else
 								{
-									$result = $this->db->query ("SELECT " . $campo['campoValor'] . ", " . $campo->getCampoTexto () . " FROM " . $campo->getJoinTable ());
+									$result = $this->db->query ("SELECT " . $campo->getValor () . ", " . $campo->getCampoTexto () . " FROM " . $campo->getJoinTable ());
 								}
 
 								while ($fila = $this->db->fetch_array ($result))
 								{
 									$fila = array_merge (array_change_key_case ($fila, CASE_UPPER), array_change_key_case ($fila, CASE_LOWER));
 
-									if ((isset ($_POST[$campo->getCampo ()]) and $_POST[$campo->getCampo ()] == $fila[$campo['campoValor']]) or (isset ($campo['valorPredefinido']) and $campo['valorPredefinido'] == $fila[$campo['campoValor']]))
+									if ((isset ($_POST[$campo->getCampo ()]) and $_POST[$campo->getCampo ()] == $fila[$campo->getValor ()]) or ($campo->getValorPredefinido () != "" and $campo->getValorPredefinido () == $fila[$campo->getValor ()]))
 									{
 										$sel = "selected='selected'";
 									}
@@ -1772,12 +1795,12 @@ class class_abm
 
 									$combobit = "";
 
-									if (isset ($campo['mostrarValor']) and ($campo['mostrarValor'] == true))
+									if ($campo->isMostrarValor ())
 									{
-										$combobit .= ' (' . $fila[$campo['campoValor']] . ') ';
+										$combobit .= ' (' . $fila[$campo->getValor ()] . ') ';
 									}
 
-									if (isset ($campo['textoMayuscula']) and ($campo['textoMayuscula'] == true))
+									if ($campo->isTextoMayuscula ())
 									{
 										$combobit .= substr ($fila[$campo->getCampoTexto ()], 0, 50);
 									}
@@ -1786,8 +1809,8 @@ class class_abm
 										$combobit .= ucwords (strtolower (substr ($fila[$campo->getCampoTexto ()], 0, 50)));
 									}
 
-									$imprForm .= "<option value='" . $fila[$campo['campoValor']] . "' $sel>" . $combobit . "</option> \n";
-									// $imprForm .= "<option value='" . $fila[$campo['campoValor']] . "' $sel>" . $fila[$campo -> getCampoTexto()] . "</option> \n";
+									$imprForm .= "<option value='" . $fila[$campo->getValor ()] . "' $sel>" . $combobit . "</option> \n";
+									// $imprForm .= "<option value='" . $fila[$campo->getValor()] . "' $sel>" . $fila[$campo -> getCampoTexto()] . "</option> \n";
 								}
 								$imprForm .= "</select> \n";
 
@@ -1795,15 +1818,15 @@ class class_abm
 								break;
 
 							case "combo" :
-								$imprForm .= "<select name='" . $campo->getCampo () . "' id='" . $campo->getCampo () . "' $autofocusAttr class='input-select $requerido' " . (($campo->getHint () != "") ? 'title="' . $campo->getHint () . '"' : "") . (isset ($campo['adicionalInput']) ? $campo['adicionalInput'] : "") . " > \n";
-								if (isset ($campo['incluirOpcionVacia']))
+								$imprForm .= "<select name='" . $campo->getCampo () . "' id='" . $campo->getCampo () . "' $autofocusAttr class='input-select $requerido' " . (($campo->getHint () != "") ? 'title="' . $campo->getHint () . '"' : "") . ($campo->getAdicionalInput ()) . " > \n";
+								if ($campo->isIncluirOpcionVacia ())
 								{
 									$imprForm .= "<option value=''></option> \n";
 								}
 
-								foreach ($campo['datos'] as $valor => $texto)
+								foreach ($campo->getDatos () as $valor => $texto)
 								{
-									if ((isset ($_POST[$campo->getCampo ()]) and $_POST[$campo->getCampo ()] == $valor) or (isset ($campo['valorPredefinido']) and $campo['valorPredefinido'] == $valor))
+									if ((isset ($_POST[$campo->getCampo ()]) and $_POST[$campo->getCampo ()] == $valor) or $campo->getValorPredefinido () == $valor)
 									{
 										$sel = "selected='selected'";
 									}
@@ -1817,11 +1840,11 @@ class class_abm
 								break;
 
 							case "bit" :
-								$imprForm .= "<select name='" . $campo->getCampo () . "' id='" . $campo->getCampo () . "' $autofocusAttr class='input-select $requerido' " . (($campo->getHint () != "") ? 'title="' . $campo->getHint () . '"' : "") . (isset ($campo['adicionalInput']) ? $campo['adicionalInput'] : "") . " \n";
+								$imprForm .= "<select name='" . $campo->getCampo () . "' id='" . $campo->getCampo () . "' $autofocusAttr class='input-select $requerido' " . (($campo->getHint () != "") ? 'title="' . $campo->getHint () . '"' : "") . ($campo->getAdicionalInput ()) . " \n";
 
-								if (isset ($campo['ordenInversoBit']) and $campo['ordenInversoBit'] != "")
+								if ($campo->isOrdenInversoBit ())
 								{
-									if ((isset ($_POST[$campo->getCampo ()]) and $_POST[$campo->getCampo ()] == false) or $campo['valorPredefinido'] == false)
+									if ((isset ($_POST[$campo->getCampo ()]) and $_POST[$campo->getCampo ()] == false) or $campo->getValorPredefinido () == "")
 									{
 										$sel = "selected='selected'";
 									}
@@ -1831,7 +1854,7 @@ class class_abm
 									}
 									$imprForm .= "<option value='0' $sel>" . ($campo->getTextoBitFalse () != "" ? $campo->getTextoBitFalse () : $this->textoBitFalse) . "</option> \n";
 
-									if ((isset ($_POST[$campo->getCampo ()]) and $_POST[$campo->getCampo ()] == true) or $campo['valorPredefinido'] == true)
+									if ((isset ($_POST[$campo->getCampo ()]) and $_POST[$campo->getCampo ()] == true) or $campo->getValorPredefinido () != "")
 									{
 										$sel = "selected='selected'";
 									}
@@ -1844,7 +1867,7 @@ class class_abm
 								else
 								{
 
-									if ((isset ($_POST[$campo->getCampo ()]) and $_POST[$campo->getCampo ()] == true) or $campo['valorPredefinido'] == true)
+									if ((isset ($_POST[$campo->getCampo ()]) and $_POST[$campo->getCampo ()] == true) or $campo->getValorPredefinido () != "")
 									{
 										$sel = "selected='selected'";
 									}
@@ -1854,7 +1877,7 @@ class class_abm
 									}
 									$imprForm .= "<option value='1' $sel>" . (($campo->getTextoBitTrue () != "") ? $campo->getTextoBitTrue () : $this->textoBitTrue) . "</option> \n";
 
-									if ((isset ($_POST[$campo->getCampo ()]) and $_POST[$campo->getCampo ()] == false) or $campo['valorPredefinido'] == false)
+									if ((isset ($_POST[$campo->getCampo ()]) and $_POST[$campo->getCampo ()] == false) or $campo->getValorPredefinido () == "")
 									{
 										$sel = "selected='selected'";
 									}
@@ -1869,7 +1892,7 @@ class class_abm
 								break;
 
 							case "fecha" :
-								$valor = isset ($_POST[$campo->getCampo ()]) and $_POST[$campo->getCampo ()] != "" ? $_POST[$campo->getCampo ()] : $campo['valorPredefinido'];
+								$valor = isset ($_POST[$campo->getCampo ()]) and $_POST[$campo->getCampo ()] != "" ? $_POST[$campo->getCampo ()] : $campo->getValorPredefinido ();
 								if (strlen ($valor) > 10)
 								{
 									$valor = substr ($valor, 0, 10); // sacar hora:min:seg
@@ -1883,16 +1906,16 @@ class class_abm
 
 								$imprForm .= $jsTmp;
 								// $imprForm .= "<input type='text' style='position:absolute' name='" . $campo->getCampo() . "' id='" . $campo->getCampo() . "' value='" . ($fila[$campo->getCampo()] != "" ? $fila[$campo->getCampo()] : $campo['valorPredefinido']) . "'/> \n";
-								$imprForm .= "<input type='text' style='position:absolute' name='" . $campo->getCampo () . "' id='" . $campo->getCampo () . "' value='" . (isset ($_POST[$campo->getCampo ()]) and $_POST[$campo->getCampo ()] != "" ? $_POST[$campo->getCampo ()] : $campo['valorPredefinido']) . "'/> \n";
-								$imprForm .= "<input type='text' style='position:relative;top:0px;left;0px' " . $autofocusAttr . " name='display_" . $campo->getCampo () . "' id='display_" . $campo->getCampo () . "' class='input-fecha " . $requerido . "'  " . (isset ($campo['adicionalInput']) ? $campo['adicionalInput'] : "") . ($campo->getAtrDisabled ()) . " " . ($campo->getHint () != "" ? 'title="' . $campo->getHint () . '"' : "") . " readonly='readonly'/> \n";
+								$imprForm .= "<input type='text' style='position:absolute' name='" . $campo->getCampo () . "' id='" . $campo->getCampo () . "' value='" . (isset ($_POST[$campo->getCampo ()]) and $_POST[$campo->getCampo ()] != "" ? $_POST[$campo->getCampo ()] : $campo->getValorPredefinido ()) . "'/> \n";
+								$imprForm .= "<input type='text' style='position:relative;top:0px;left;0px' " . $autofocusAttr . " name='display_" . $campo->getCampo () . "' id='display_" . $campo->getCampo () . "' class='input-fecha " . $requerido . "'  " . ($campo->getAdicionalInput ()) . ($campo->getAtrDisabled ()) . " " . ($campo->getHint () != "" ? 'title="' . $campo->getHint () . '"' : "") . " readonly='readonly'/> \n";
 								break;
 
 							case "upload" :
-								$imprForm .= "<input type='file' name='" . $campo->getCampo () . "' id='" . $campo->getCampo () . "' $autofocusAttr class='$requerido' " . ($campo->getHint () != "" ? 'title="' . $campo->getHint () . '"' : "") . " " . (isset ($campo['adicionalInput']) ? $campo['adicionalInput'] : "") . "/> \n";
+								$imprForm .= "<input type='file' name='" . $campo->getCampo () . "' id='" . $campo->getCampo () . "' $autofocusAttr class='$requerido' " . ($campo->getHint () != "" ? 'title="' . $campo->getHint () . '"' : "") . " " . ($campo->getAdicionalInput ()) . "/> \n";
 								break;
 
 							default :
-								$imprForm .= $campo->getNombre ();
+								$imprForm .= $campo->getCampo (); // XXX $campo->getNombre ();
 								break;
 						}
 					}
@@ -1907,32 +1930,34 @@ class class_abm
 			$imprForm .= "</div>\n";
 			$imprForm .= "</div>\n";
 
-			echo $imprForm;
+			$html .= $imprForm;
 		}
 
-		echo "</div>\n";
-		echo "</div>\n";
-		echo "</td>\n";
-		echo "</tr>\n";
-		echo "</tbody>\n";
+		$html .= "</div>\n";
+		$html .= "</div>\n";
+		$html .= "</td>\n";
+		$html .= "</tr>\n";
+		$html .= "</tbody>\n";
 
-		echo "<tfoot>";
-		echo "    <tr>";
-		echo "        <th colspan='2'>";
-		echo "			<div class ='divBtnCancelar'><input type='button' class='input-button' title='Atajo: ALT+C' accesskey='c' value='$this->textoBotonCancelar' onclick=\"" . ($this->cancelarOnClickJS != "" ? $this->cancelarOnClickJS : "window.location='$_SERVER[PHP_SELF]?$qsamb'") . "\"/></div> ";
+		$html .= "<tfoot>";
+		$html .= "    <tr>";
+		$html .= "        <th colspan='2'>";
+		$html .= "			<div class ='divBtnCancelar'><input type='button' class='input-button' title='Atajo: ALT+C' accesskey='c' value='$this->textoBotonCancelar' onclick=\"" . ($this->cancelarOnClickJS != "" ? $this->cancelarOnClickJS : "window.location='$_SERVER[PHP_SELF]?$qsamb'") . "\"/></div> ";
 
 		if ($this->extraBtn == 'true')
 		{
-			echo "			<div class='divBtnExtra'><input type='button' class='input-button' title='$this->textoBotonExtraTitulo' value='$this->textoBotonExtra' $this->adicionalesExtra /></div>";
+			$html .= "			<div class='divBtnExtra'><input type='button' class='input-button' title='$this->textoBotonExtraTitulo' value='$this->textoBotonExtra' $this->adicionalesExtra /></div>";
 		}
-		echo "			<div class='divBtnAceptar'><input type='submit' class='input-submit' title='Atajo: ALT+G' accesskey='G' value='$this->textoBotonSubmitNuevo' $this->adicionalesSubmit /></div>";
-		echo "		  </th>";
-		echo "    </tr>";
-		echo "</tfoot>";
+		$html .= "			<div class='divBtnAceptar'><input type='submit' class='input-submit' title='Atajo: ALT+G' accesskey='G' value='$this->textoBotonSubmitNuevo' $this->adicionalesSubmit /></div>";
+		$html .= "		  </th>";
+		$html .= "    </tr>";
+		$html .= "</tfoot>";
 
-		echo "</table> \n";
-		echo "</form> \n";
-		echo "</div>";
+		$html .= "</table> \n";
+		$html .= "</form> \n";
+		$html .= "</div>";
+
+		echo $html;
 	}
 
 	/**
@@ -1947,7 +1972,7 @@ class class_abm
 	 *
 	 * @return string
 	 */
-	public function generarFormModificacion($id, $titulo = "")
+	private function generarFormModificacion($id, $titulo = "")
 	{
 		$this->estilosBasicos = str_ireplace ('%dirname%', dirname (__FILE__), $this->estilosBasicos);
 		$this->estilosBasicos = str_ireplace ($_SERVER['DOCUMENT_ROOT'], "", $this->estilosBasicos);
@@ -2199,7 +2224,7 @@ class class_abm
 						else
 						{
 							$imprForm .= "<div class='tituloItemsForm'>";
-							$imprForm .= "<label for='" . $campo->getCampo () . "'>" . ($campo->existeDato ('titulo') ? $campo->getTitulo () : $campo->getCampo ()) . $this->separadorNombreCampo . ($campo[requerido] ? " " . $this->indicadorDeCampoRequerido : "");
+							$imprForm .= "<label for='" . $campo->getCampo () . "'>" . ($campo->existeDato ('titulo') ? $campo->getTitulo () : $campo->getCampo ()) . $this->separadorNombreCampo . ($campo->isRequerido () ? " " . $this->indicadorDeCampoRequerido : "");
 							$imprForm .= "</div> \n";
 
 							$imprForm .= "<div class='itemsForm'> \n";
@@ -2236,12 +2261,12 @@ class class_abm
 										break;
 
 									case "textarea" :
-										$imprForm .= "<textarea name='" . $campo->getCampo () . "' id='" . $campo->getCampo () . "' $autofocusAttr $campo->getAtrDisabled() class='input-textarea $requerido' " . $campo->establecerMaxLeng () . " " . $campo->establecerHint () . " $campo[adicionalInput]>" . $fila[$campo->getCampo ()] . "</textarea>\n";
+										$imprForm .= "<textarea name='" . $campo->getCampo () . "' id='" . $campo->getCampo () . "' $autofocusAttr $campo->getAtrDisabled() class='input-textarea $requerido' " . $campo->establecerMaxLeng () . " " . $campo->establecerHint () . " $campo->getAdicionalInput()>" . $fila[$campo->getCampo ()] . "</textarea>\n";
 										break;
 
 									case "dbCombo" :
-										$imprForm .= "<select name='" . $campo->getCampo () . "' id='" . $campo->getCampo () . "' $autofocusAttr class='input-select $requerido' $campo->getAtrDisabled() $campo[adicionalInput]> \n";
-										if ($campo[incluirOpcionVacia])
+										$imprForm .= "<select name='" . $campo->getCampo () . "' id='" . $campo->getCampo () . "' $autofocusAttr class='input-select $requerido' $campo->getAtrDisabled() $campo->getAdicionalInput()> \n";
+										if ($campo->isIncluirOpcionVacia ())
 										{
 											$imprForm .= "<option value=''></option> \n";
 										}
@@ -2296,7 +2321,7 @@ class class_abm
 										break;
 
 									case "combo" :
-										$imprForm .= "<select name='" . $campo->getCampo () . "' id='" . $campo->getCampo () . "' $autofocusAttr class='input-select $requerido' $campo->getAtrDisabled() " . $campo->establecerHint () . " $campo[adicionalInput]> \n";
+										$imprForm .= "<select name='" . $campo->getCampo () . "' id='" . $campo->getCampo () . "' $autofocusAttr class='input-select $requerido' $campo->getAtrDisabled() " . $campo->establecerHint () . " $campo->getAdicionalInput()> \n";
 										if ($campo->isIncluirOpcionVacia ())
 										{
 											$imprForm .= "<option value=''></option> \n";
@@ -2318,7 +2343,7 @@ class class_abm
 										break;
 
 									case "bit" :
-										$imprForm .= "<select name='" . $campo->getCampo () . "' id='" . $campo->getCampo () . "' $autofocusAttr class='input-select $requerido' $campo->getAtrDisabled() " . $campo->establecerHint () . " $campo[adicionalInput]> \n";
+										$imprForm .= "<select name='" . $campo->getCampo () . "' id='" . $campo->getCampo () . "' $autofocusAttr class='input-select $requerido' $campo->getAtrDisabled() " . $campo->establecerHint () . " $campo->getAdicionalInput()> \n";
 
 										if ($campo->isOrdenInversoBit ())
 										{
@@ -2387,7 +2412,7 @@ class class_abm
 										$imprForm .= "<input type='text' style='position:
 					relative;
 					top:0px;
-					left;0px'  $autofocusAttr name='display_" . $campo->getCampo () . "' id='display_" . $campo->getCampo () . "' class='input-fecha $requerido' $campo->getAtrDisabled() " . $campo->establecerHint () . " $campo[adicionalInput] readonly='readonly'/> \n";
+					left;0px'  $autofocusAttr name='display_" . $campo->getCampo () . "' id='display_" . $campo->getCampo () . "' class='input-fecha $requerido' $campo->getAtrDisabled() " . $campo->establecerHint () . " $campo->getAdicionalInput() readonly='readonly'/> \n";
 										break;
 
 									case "upload" :
@@ -2395,7 +2420,7 @@ class class_abm
 										break;
 
 									default :
-										$imprForm .= $campo->getNombre ();
+										$imprForm .= $campo->getCampo (); // XXX $campo->getNombre ();
 										break;
 								}
 							}
@@ -2534,7 +2559,7 @@ class class_abm
 						// {
 						// $selected = "";
 						// }
-						// $imprForm .= "<option value='" . $filaCombo[$campo[campoValor]] . "' $selected>" . $filaCombo[$campo->getCampoTexto ()] . "</option> \n";
+						// $imprForm .= "<option value='" . $filaCombo[$campo->getValor()] . "' $selected>" . $filaCombo[$campo->getCampoTexto ()] . "</option> \n";
 						// }
 						// $imprForm .= "</select> \n";
 						// $imprForm .= $jsSelDin;
@@ -2874,7 +2899,9 @@ class class_abm
 				// FIXME campoOrder???
 				if ($campo->existeDato ('campoOrder'))
 				{
-					$campo->setCampo ($campo['']);
+					// XXX no estoy seguro de que esto sea asi, requiere estudi detallado
+					// $campo->setCampo ($campo['']);
+					$campo->setCampo ($campo);
 				}
 				else
 				{
@@ -2948,8 +2975,8 @@ class class_abm
 					{
 						// setlocale(LC_MONETARY, 'es_AR');
 						// $fila [$campo ['campo']] = money_format('%.2n', $fila [$campo ['campo']]);
-						// number_format($número, 2, ',', ' ');
-						$fila[$campo->getCampo ()] = number_format ($fila[$campo->getCampo ()], $campo['cantidadDecimales'], ',', '.');
+						// number_format($numero, 2, ',', ' ');
+						$fila[$campo->getCampo ()] = number_format ($fila[$campo->getCampo ()], $campo->getCantidadDecimales (), ',', '.');
 					}
 
 					$str = $fila[$campo->getCampo ()];
@@ -3334,6 +3361,12 @@ class class_abm
 
 		$html .= "<div class='mabm'>";
 		$html .= $this->jsUpdateForm;
+
+		if ($this->isMostrarNuevo () == true and $this->getDireNuevo () == "")
+		{
+			$html .= $this->jsAltaForm;
+		}
+
 		$html .= "\n<script>
 		        function abmBorrar(id, obj){
 		            var colorAnt = obj.parentNode.parentNode.style.border;
@@ -3414,7 +3447,8 @@ class class_abm
 			}
 			else
 			{
-				$html .= sprintf ($this->iconoAgregar, "$_SERVER[PHP_SELF]?abm_nuevo=1$qsamb");
+				$html .= sprintf ($this->iconoAgregar, "f_alta( '" . $_SERVER['PHP_SELF'] . "?abm_nuevo=1" . $qsamb . "')");
+				// $html .= sprintf ($this->iconoAgregar, "$_SERVER[PHP_SELF]?abm_nuevo=1$qsamb");
 			}
 		}
 		$html .= "</div> \n";
@@ -4155,11 +4189,12 @@ class class_abm
 								$estructura = "";
 							}
 
-							if (isset ($campo['tipoArchivo']) and $campo['tipoArchivo'] != "")
-							{
-								// $tipo_correcto = preg_match ('/^image\/(pjpeg|jpeg|gif|png|txt|doc|pdf|xls|sql|html|htm|php|sql)$/', $tipo);
-								$tipo_correcto = preg_match ('/^' . $campo['tipoArchivo'] . '$/', $tipo);
-							}
+							// FIXME urgente!!! esto esta obsoleto y hay que reeverlo
+							// if (isset ($campo['tipoArchivo']) and $campo['tipoArchivo'] != "")
+							// {
+							// // $tipo_correcto = preg_match ('/^image\/(pjpeg|jpeg|gif|png|txt|doc|pdf|xls|sql|html|htm|php|sql)$/', $tipo);
+							// $tipo_correcto = preg_match ('/^' . $campo['tipoArchivo'] . '$/', $tipo);
+							// }
 
 							if ($campo->getLimiteArchivo () != "")
 							{
@@ -4346,10 +4381,11 @@ class class_abm
 								$estructura = "";
 							}
 
-							if (isset ($campo['tipoArchivo']) and $campo['tipoArchivo'] != "")
-							{
-								$tipo_correcto = preg_match ('/^' . $campo['tipoArchivo'] . '$/', $tipo);
-							}
+							// FIXME urgente!!
+							// if (isset ($campo['tipoArchivo']) and $campo['tipoArchivo'] != "")
+							// {
+							// $tipo_correcto = preg_match ('/^' . $campo['tipoArchivo'] . '$/', $tipo);
+							// }
 
 							if ($campo->getLimiteArchivo () != "")
 							{
@@ -4637,10 +4673,11 @@ class class_abm
 								$estructura = "";
 							}
 
-							if (isset ($campo['tipoArchivo']) and $campo['tipoArchivo'] != "")
-							{
-								$tipo_correcto = preg_match ('/^' . $campo['tipoArchivo'] . '$/', $tipo);
-							}
+							// FIXME urgente!!
+							// if (isset ($campo['tipoArchivo']) and $campo['tipoArchivo'] != "")
+							// {
+							// $tipo_correcto = preg_match ('/^' . $campo['tipoArchivo'] . '$/', $tipo);
+							// }
 
 							if ($campo->getLimiteArchivo () != "")
 							{
@@ -5683,6 +5720,27 @@ class class_abm
 		$this->campo[$i]->setTabla ($this->getTabla ());
 
 		return $i;
+	}
+
+	/**
+	 * Retorna el valor del atributo $direNuevo
+	 *
+	 * @return string $direNuevo el dato de la variable.
+	 */
+	public function getDireNuevo()
+	{
+		return $this->direNuevo;
+	}
+
+	/**
+	 * Setter del parametro $direNuevo de la clase.
+	 *
+	 * @param string $direNuevo
+	 *        	dato a cargar en la variable.
+	 */
+	public function setDireNuevo($direNuevo)
+	{
+		$this->direNuevo = $direNuevo;
 	}
 }
 ?>
