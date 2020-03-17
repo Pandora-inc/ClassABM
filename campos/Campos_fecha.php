@@ -271,11 +271,11 @@ class Campos_fecha extends class_campo
 
 			if ($this->joinTable == "" or $this->selectPersonal != "")
 			{
-				$camposWhereBuscar .= $this->db->toChar ($this->tabla . "." . $campo->getCampo (), "", $this->mascara);
+				$camposWhereBuscar .= $this->db->toChar ($this->tabla . "." . $this->getCampo (), "", $this->mascara);
 			}
 			else
 			{
-				$camposWhereBuscar .= $this->db->toChar ($this->getJoinTable . "." . $campo->getCampoTexto (), "", $this->mascara);
+				$camposWhereBuscar .= $this->db->toChar ($this->getJoinTable . "." . $this->getCampoTexto (), "", $this->mascara);
 			}
 		}
 
@@ -300,6 +300,32 @@ class Campos_fecha extends class_campo
 	 * @see class_campo::generar_elemento_form_update()
 	 */
 	public function generar_elemento_form_update(): string
+	{
+		if (strlen ($this->getValor ()) > 10)
+		{
+			$this->setValor (substr ($this->getValor (), 0, 10)); // sacar hora:min:seg
+		}
+		if ($this->getValor () == '0000-00-00')
+		{
+			$this->setValor ("");
+		}
+
+		$jsTmp = str_replace ('%IDCAMPO%', $this->getCampo (), $this->jsIniciadorCamposFecha);
+		$jsTmp = str_replace ('%VALOR%', $this->getValor (), $jsTmp);
+
+		$imprForm = $jsTmp;
+		$imprForm .= "<input type='text' style='position:absolute' name='" . $this->getCampo () . "' id='" . $this->getCampo () . "' value='" . ($this->getValor () != "" ? $this->getValor () : ($this->getValorPredefinido () != "" ? $this->getValorPredefinido () : " ")) . "'/> \n";
+		$imprForm .= "<input type='text' style='position:relative;top:0px;left;0px'  " . $this->autofocusAttr . " name='display_" . $this->getCampo () . "' id='display_" . $this->getCampo () . "' class='input-fecha " . $this->getAtrRequerido () . "' " . $this->getAtrDisabled () . " " . $this->establecerHint () . " " . $this->getAdicionalInput () . "readonly='readonly'/> \n";
+
+		return $imprForm;
+	}
+
+	/**
+	 *
+	 * {@inheritdoc}
+	 * @see class_campo::generar_elemento_form_update()
+	 */
+	public function generar_elemento_form_nuevo(): string
 	{
 		if (strlen ($this->getValor ()) > 10)
 		{

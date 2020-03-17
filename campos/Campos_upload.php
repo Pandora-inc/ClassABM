@@ -220,6 +220,11 @@ class Campos_upload extends class_campo
 		return "<input type='file' class='input-text " . $this->getAtrRequerido () . " name='" . $this->getCampo () . "' id='" . $this->getCampo () . "' " . $this->autofocusAttr . " " . $this->getAtrDisabled () . " value='" . $this->getValor () . "' " . $this->establecerHint () . " " . $this->getAdicionalInput () . "/> \n";
 	}
 
+	public function generar_elemento_form_nuevo(): string
+	{
+		return "<input type='file' class='input-text " . $this->getAtrRequerido () . " name='" . $this->getCampo () . "' id='" . $this->getCampo () . "' " . $this->autofocusAttr . " " . $this->getAtrDisabled () . " value='' " . $this->establecerHint () . " " . $this->getAdicionalInput () . "/> \n";
+	}
+
 	/**
 	 * Retorna el valor del atributo $grabarSinExtencion
 	 *

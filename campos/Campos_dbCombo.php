@@ -316,6 +316,65 @@ class Campos_dbCombo extends class_campo
 		return $imprForm;
 	}
 
+	public function generar_elemento_form_nuevo(): string
+	{
+		$imprForm = "<select name='" . $this->getCampo () . "' id='" . $this->getCampo () . "' " . $this->autofocusAttr . " class='input-select " . $this->getAtrRequerido () . "' " . $this->getAtrDisabled () . " " . $this->getAdicionalInput () . "> \n";
+		if ($this->isIncluirOpcionVacia ())
+		{
+			$imprForm .= "<option value=''></option> \n";
+		}
+
+		if ($this->tieneSqlQuery () == true)
+		{
+			$sqlQuery = $this->getSqlQuery ();
+		}
+		else
+		{
+			$sqlQuery = "SELECT " . $this->getCampoTexto () . ", " . $this->getCampoValor () . " FROM " . $this->getJoinTable ();
+		}
+
+		// FIXME comprobar e implementar customCompare
+		// if (isset ($campo->customCompare']) and $campo->existeDato('customCompare'))
+		// {
+		// $sqlQuery .= " WHERE 1=1 AND " . $campo->customCompareCampo'] . " = '" . $customCompareValor . "'";
+		// // $sqlQuery .= " WHERE 1=1 AND " . $campo->customCompareCampo'] . " = " . $this->tabla . '.' . $campo->customCompareValor'];
+
+		// if ($campo->['customOrder'] != "")
+		// {
+		// $sqlQuery .= " ORDER BY " . $tabla . '.' . $campo->customOrder'];
+		// }
+		// }
+
+		$resultCombo = $this->db->query ($sqlQuery);
+
+		while ($filaCombo = $this->db->fetch_array ($resultCombo))
+		{
+			// $filaCombo = Funciones::limpiarEntidadesHTML ($filaCombo);
+			$filaCombo = array_merge (array_change_key_case ($filaCombo, CASE_UPPER), array_change_key_case ($filaCombo, CASE_LOWER));
+
+			$combobit = "";
+
+			if ($this->isMostrarValor () == true)
+			{
+				$combobit .= ' (' . $filaCombo[strtoupper ($this->getCampoValor ())] . ') ';
+			}
+
+			if ($this->isTextoMayuscula () == true)
+			{
+				$combobit .= substr ($filaCombo[$this->getCampoTexto ()], 0, 50);
+			}
+			else
+			{
+				$combobit .= ucwords (strtolower (substr ($filaCombo[$this->getCampoTexto ()], 0, 50)));
+			}
+
+			$imprForm .= "<option value='" . $filaCombo[strtoupper ($this->getCampoValor ())] . "' >" . $combobit . "</option> \n";
+		}
+		$imprForm .= "</select> \n";
+
+		return $imprForm;
+	}
+
 	public function nombreJoinLargo()
 	{
 		if ($this->existeDato ("joinTable") and $this->isOmitirJoin () == false)

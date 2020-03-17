@@ -118,6 +118,11 @@ class Campos_textarea extends class_campo
 		return "<textarea class='input-textarea " . $this->getAtrRequerido () . " name='" . $this->getCampo () . "' id='" . $this->getCampo () . "' " . $this->autofocusAttr . " " . $this->getAtrDisabled () . " value='" . $this->getValor () . "' " . $this->establecerMaxLeng () . " " . $this->establecerHint () . " " . $this->getAdicionalInput () . "/>" . $this->getValor () . "</textarea>\n";
 	}
 
+	public function generar_elemento_form_nuevo(): string
+	{
+		return "<textarea class='input-textarea " . $this->getAtrRequerido () . " name='" . $this->getCampo () . "' id='" . $this->getCampo () . "' " . $this->autofocusAttr . " " . $this->getAtrDisabled () . " value='" . $this->getValor () . "' " . $this->establecerMaxLeng () . " " . $this->establecerHint () . " " . $this->getAdicionalInput () . "/></textarea>\n";
+	}
+
 	/**
 	 * Comprueba el valor de un campo y hace el retorno que corresponda.
 	 *

@@ -39,6 +39,11 @@ class Campos_texto extends class_campo
 	{
 		return "<input type='text' name='" . $this->campo . "' id='" . $this->campo . "' " . $this->autofocus . " class='input-text " . $this->getAtrRequerido () . "' " . $this->getAtrDisabled () . " value='" . $this->getValor () . "' " . $this->establecerMaxLeng () . " " . $this->establecerHint () . " " . $this->getAdicionalInput () . "/> \n";
 	}
+
+	public function generar_elemento_form_nuevo(): string
+	{
+		return "<input type='text' name='" . $this->campo . "' id='" . $this->campo . "' " . $this->autofocus . " class='input-text " . $this->getAtrRequerido () . "' " . $this->getAtrDisabled () . " value='' " . $this->establecerMaxLeng () . " " . $this->establecerHint () . " " . $this->getAdicionalInput () . "/> \n";
+	}
 }
 
 ?>

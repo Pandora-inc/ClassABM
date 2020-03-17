@@ -287,6 +287,23 @@ class Campos_combo extends class_campo
 		$imprForm .= "</select> \n";
 		return $imprForm;
 	}
+
+	public function generar_elemento_form_nuevo(): string
+	{
+		$imprForm = "<select name='" . $this->getCampo () . "' id='" . $this->getCampo () . "' " . $this->autofocusAttr . " class='input-select " . $this->getAtrRequerido () . "' " . $this->getAtrDisabled () . " " . $this->establecerHint () . " " . $this->getAdicionalInput () . "> \n";
+
+		if ($this->isIncluirOpcionVacia ())
+		{
+			$imprForm .= "<option value=''></option> \n";
+		}
+
+		foreach ($this->getDatos () as $valor => $texto)
+		{
+			$imprForm .= "<option value='$valor' " . $sel . ">$texto</option> \n";
+		}
+		$imprForm .= "</select> \n";
+		return $imprForm;
+	}
 }
 
 ?>

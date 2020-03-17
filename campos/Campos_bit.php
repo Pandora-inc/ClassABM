@@ -288,6 +288,28 @@ class Campos_bit extends class_campo
 		return $imprForm;
 	}
 
+	public function generar_elemento_form_nuevo(): string
+	{
+		$imprForm = "<select name='" . $this->getCampo () . "' id='" . $this->getCampo () . "' " . $this->autofocusAttr . " class='input-select " . $this->getAtrRequerido () . "' " . $this->getAtrDisabled () . " " . $this->establecerHint () . " " . $this->getAdicionalInput () . " > \n";
+
+		if ($this->isOrdenInversoBit () != "")
+		{
+			$imprForm .= "<option value='0' >" . ($this->textoBitFalse != "" ? $this->textoBitFalse : $this->textoBitFalse) . "</option> \n";
+
+			$imprForm .= "<option value='1' >" . ($this->getTextoBitTrue () != "" ? $this->getTextoBitTrue () : $this->textoBitTrue) . "</option> \n";
+		}
+		else
+		{
+
+			$imprForm .= "<option value='1' >" . (($this->getTextoBitTrue () != "") ? $this->getTextoBitTrue () : $this->textoBitTrue) . "</option> \n";
+
+			$imprForm .= "<option value='0' >" . (($this->getTextoBitFalse () != "") ? $this->getTextoBitFalse () : $this->textoBitFalse) . "</option> \n";
+		}
+
+		$imprForm .= "</select> \n";
+		return $imprForm;
+	}
+
 	/**
 	 * Comprueba el valor de un campo y hace el retorno que corresponda.
 	 *
