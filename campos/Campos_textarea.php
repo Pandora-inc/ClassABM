@@ -26,10 +26,25 @@ require_once 'class_campo.php';
  *
  * @author iberlot <@> ivanberlot@gmail.com
  * @since 16 Nov. 2018
- *       
+ *
  */
 class Campos_textarea extends class_campo
 {
+	// /**
+	// * Establece si hay que limpiar o no las entidades html del campo.
+	// * Esto es util para lo que es textos formatesados.
+	// *
+	// * @var boolean
+	// */
+	// protected $noLimpiar = false;
+
+	/**
+	 * Maximo de caracteres que mostrara por pantalla.
+	 *
+	 * @name maxMostrar
+	 * @var integer
+	 */
+	protected $maxMostrar = 0;
 
 	/**
 	 * Constructor de la clase.
@@ -37,17 +52,114 @@ class Campos_textarea extends class_campo
 	 *
 	 * @param array $array
 	 */
-	public function __construct($array = array())
+	public function __construct(array $array = array())
 	{
 		if (isset ($array) and !empty ($array))
 		{
 			parent::__construct ($array);
+
+			if (array_key_exists ('maxMostrar', $array))
+			{
+				$this->setMaxMostrar ($array['maxMostrar']);
+			}
+			// XXX esto existe para ofrecer compatibilidad con verciones anteriores
+			if (array_key_exists ('tmostrar', $array))
+			{
+				$this->setMaxMostrar ($array['tmostrar']);
+			}
 		}
 		else
 		{
 			parent::__construct ();
 		}
+		$this->setTipo ('textarea');
 	}
+
+	/**
+	 * Retorna el valor de maxMostrar.
+	 *
+	 * @return number
+	 */
+	public function getMaxMostrar(): int
+	{
+		return $this->maxMostrar;
+	}
+
+	/**
+	 *
+	 * Comprueba y setea el valor de maxMostrar
+	 *
+	 * @param number $maxMostrar
+	 */
+	public function setMaxMostrar(int $maxMostrar)
+	{
+		$this->maxMostrar = $maxMostrar;
+	}
+
+	/**
+	 * Arma un Td con el dato de valor del campo
+	 *
+	 * @return string
+	 */
+	public function get_celda_dato(): string
+	{
+		if ($this->isNoLimpiar () == true)
+		{
+			return "<td " . $this->get_centrar_columna () . " " . $this->get_no_mostrar () . ">" . $this->get_spanColorear () . " " . substr (html_entity_decode ($this->getValor ()), 0, $this->getMaxMostrar ()) . " " . ($this->get_spanColorear () != "" ? "</span>" : "") . "</td> \n";
+		}
+		else
+		{
+			return "<td " . $this->get_centrar_columna () . " " . $this->get_no_mostrar () . ">" . $this->get_spanColorear () . " " . substr ($this->getValor (), 0, $this->getMaxMostrar ()) . " " . ($this->get_spanColorear () != "" ? "</span>" : "") . "</td> \n";
+		}
+	}
+
+	public function generar_elemento_form_update(): string
+	{
+		return "<textarea class='input-textarea " . $this->getAtrRequerido () . " name='" . $this->getCampo () . "' id='" . $this->getCampo () . "' " . $this->autofocusAttr . " " . $this->getAtrDisabled () . " value='" . $this->getValor () . "' " . $this->establecerMaxLeng () . " " . $this->establecerHint () . " " . $this->getAdicionalInput () . "/>" . $this->getValor () . "</textarea>\n";
+	}
+
+	public function generar_elemento_form_nuevo(): string
+	{
+		return "<textarea class='input-textarea " . $this->getAtrRequerido () . " name='" . $this->getCampo () . "' id='" . $this->getCampo () . "' " . $this->autofocusAttr . " " . $this->getAtrDisabled () . " value='" . $this->getValor () . "' " . $this->establecerMaxLeng () . " " . $this->establecerHint () . " " . $this->getAdicionalInput () . "/></textarea>\n";
+	}
+
+	/**
+	 * Comprueba el valor de un campo y hace el retorno que corresponda.
+	 *
+	 * @return string
+	 */
+	public function getMostrarListar()
+	{
+		if ($this->getDato () != "")
+		{
+			if ($this->isNoLimpiar () == true)
+			{
+				return substr ((html_entity_decode ($this->getDato ())), 0, $this->getMaxMostrar ());
+			}
+			else
+			{
+				return substr ($this->getDato (), 0, $this->getMaxMostrar ());
+			}
+		}
+	}
+
+	// /**
+	// *
+	// * @return boolean
+	// */
+	// public function isNoLimpiar()
+	// {
+	// return $this->noLimpiar;
+	// }
+
+	// /**
+	// *
+	// * @param boolean $noLimpiar
+	// */
+	// public function setNoLimpiar($noLimpiar)
+	// {
+	// $this->noLimpiar = $noLimpiar;
+	// }
 }
 
 ?>

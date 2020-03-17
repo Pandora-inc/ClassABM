@@ -9,6 +9,7 @@
  *
  * @name class_campo.php
  * @version 0.1 version inicial del archivo.
+ * @version 0.2 Tipado de funciones y parametros valido en php. A partir de esta version se deshabilita su uso en php5.
  */
 require_once '/web/html/classes/funciones.php';
 
@@ -43,9 +44,18 @@ class class_campo
 	 *
 	 * @name campo
 	 * @var string
+	 * @access protected
 	 * @link /u00/html/classes/examples/campo.html - Ejemplo de definicion de un campo para la utilizacion de la clase abm.
 	 */
 	protected $campo = '';
+
+	/**
+	 * Dato guardado en la base de datos.
+	 *
+	 * @name dato
+	 * @var mixed
+	 */
+	protected $dato;
 
 	/**
 	 * Tipo de elemento de formulario.
@@ -54,6 +64,7 @@ class class_campo
 	 * Recordar que tiene que respetar mayusculas y minusculas.
 	 *
 	 * @name tipo
+	 * @access protected
 	 * @var string
 	 */
 	protected $tipo = '';
@@ -62,9 +73,18 @@ class class_campo
 	 * Tabla en la que se encuentra el campo.
 	 *
 	 * @name tabla
+	 * @access protected
 	 * @var string
 	 */
 	protected $tabla = '';
+
+	/**
+	 * Valor que tiene en este momento el campo
+	 *
+	 * @access protected
+	 * @var mixed
+	 */
+	protected $valor;
 
 	/**
 	 * Incluye ese campo en la exportacion.
@@ -73,6 +93,7 @@ class class_campo
 	 * ATENCION: Leer referencia de la funcion exportar_verificar()
 	 *
 	 * @name exportar
+	 * @access protected
 	 * @var boolean
 	 */
 	protected $exportar = true;
@@ -81,6 +102,7 @@ class class_campo
 	 * Texto para el campo en los formularios y listado.
 	 *
 	 * @name titulo
+	 * @access protected
 	 * @var string
 	 */
 	protected $titulo = '';
@@ -89,6 +111,7 @@ class class_campo
 	 * Texto para el campo en los formularios y listado al pasar el mouse por encima.
 	 *
 	 * @name tituloMouseOver
+	 * @access protected
 	 * @var string
 	 */
 	protected $tituloMouseOver = '';
@@ -97,6 +120,7 @@ class class_campo
 	 * Centrar los datos de la columna en el listado.
 	 *
 	 * @name centrarColumna
+	 * @access protected
 	 * @var boolean
 	 */
 	protected $centrarColumna = false;
@@ -107,6 +131,7 @@ class class_campo
 	 *
 	 * @example @link examples/customEvalListado.html
 	 * @name customEvalListado
+	 * @access protected
 	 * @var string
 	 */
 	protected $customEvalListado = '';
@@ -120,6 +145,7 @@ class class_campo
 	 *
 	 *
 	 * @name parametroUsr
+	 * @access protected
 	 * @var string
 	 */
 	protected $parametroUsr = '';
@@ -128,6 +154,7 @@ class class_campo
 	 * No muestra el dato en el listado (lo unico que hace es esconderlo por mecio de css con la propiedad display none, su valor por defecto es false.
 	 *
 	 * @name noMostrar
+	 * @access protected
 	 * @var boolean
 	 */
 	protected $noMostrar = false;
@@ -144,13 +171,23 @@ class class_campo
 	 * no mostrar el campo en el listado.
 	 *
 	 * @name noListar
+	 * @access protected
 	 * @var boolean
 	 */
 	protected $noListar = false;
 
 	/**
+	 * establece si hay que limpiar o no las etiquetas html.
+	 *
+	 * @access protected
+	 * @var boolean
+	 */
+	protected $noLimpiar = false;
+
+	/**
 	 * No incuye ni muestra ese campo en el formulario de alta.
 	 *
+	 * @access protected
 	 * @name noNuevo
 	 * @var boolean
 	 */
@@ -160,6 +197,7 @@ class class_campo
 	 * Si esta seteado usa este titulo en el listado.
 	 *
 	 * @name tituloListado
+	 * @access protected
 	 * @var string
 	 */
 	protected $tituloListado = '';
@@ -170,6 +208,7 @@ class class_campo
 	 * @example Array("Hombre" => "blue", "Mujer" => "#FF00AE")
 	 *
 	 * @name colorearValores
+	 * @access protected
 	 * @var array
 	 */
 	protected $colorearValores = array ();
@@ -179,6 +218,7 @@ class class_campo
 	 * El separador aparece en los formularios de edicion y alta. Es un TH colspan='2' para separar la informacion visualmente.
 	 *
 	 * @name separador
+	 * @access protected
 	 * @var string
 	 */
 	protected $separador = '';
@@ -188,21 +228,15 @@ class class_campo
 	 *
 	 * @name maxLen
 	 * @var integer
+	 * @access protected
 	 */
 	protected $maxLen = 0;
-
-	/**
-	 * Maximo de caracteres que mostrara por pantalla.
-	 *
-	 * @name maxMostrar
-	 * @var integer
-	 */
-	protected $maxMostrar = 0;
 
 	/**
 	 * No permite ordenar por ese campo haciendo click en el titulo de la columna.
 	 *
 	 * @name noOrdenar
+	 * @access protected
 	 * @var boolean
 	 */
 	protected $noOrdenar = false;
@@ -214,6 +248,7 @@ class class_campo
 	 * @todo Obligatorio para el tipo de campo dbCombo.
 	 *
 	 * @name campoValor
+	 * @access protected
 	 * @var string
 	 */
 	protected $campoValor = '';
@@ -224,6 +259,7 @@ class class_campo
 	 * @todo Obligatorio para el tipo de campo dbCombo.
 	 *
 	 * @name campoTexto
+	 * @access protected
 	 * @var string
 	 */
 	protected $campoTexto = '';
@@ -234,6 +270,7 @@ class class_campo
 	 * @todo Obligatorio para el tipo de campo dbCombo.
 	 *
 	 * @name joinTable
+	 * @access protected
 	 * @var string
 	 */
 	protected $joinTable = '';
@@ -242,6 +279,7 @@ class class_campo
 	 * Indica si un campo en particular imprime o no su join
 	 * por defecto es true pero se puede usar para imprimir joins personalizados
 	 *
+	 * @access protected
 	 * @var boolean
 	 */
 	protected $omitirJoin = false;
@@ -257,6 +295,7 @@ class class_campo
 	 * @todo El valor por defecto es INNER.
 	 *
 	 * @name joinCondition
+	 * @access protected
 	 * @var string
 	 */
 	protected $joinCondition = 'INNER';
@@ -266,6 +305,7 @@ class class_campo
 	 *
 	 * XXX esto es un parche temporal y hay que corregirlo.
 	 *
+	 * @access protected
 	 * @var string
 	 */
 	protected $compareMasJoin = '';
@@ -274,6 +314,7 @@ class class_campo
 	 * Valor predefinido para un campo en el formulario de alta.
 	 *
 	 * @name valorPredefinido
+	 * @access protected
 	 * @var string
 	 */
 	protected $valorPredefinido = '';
@@ -284,6 +325,7 @@ class class_campo
 	 *
 	 * @name incluirCampo
 	 * @var string
+	 * @access protected
 	 */
 	protected $incluirCampo = '';
 
@@ -294,6 +336,7 @@ class class_campo
 	 * @example @link examples/customPrintListado.html
 	 *
 	 * @name customPrintListado
+	 * @access protected
 	 * @var string
 	 */
 	protected $customPrintListado = '';
@@ -302,6 +345,7 @@ class class_campo
 	 * Campo que usa para hacer el order by al cliquear el titulo de la columna, esto es ideal para cuando se usa un query en la funcion generarAbm()
 	 *
 	 * @name campoOrder
+	 * @access protected
 	 * @var string
 	 */
 	protected $campoOrder = '';
@@ -311,6 +355,7 @@ class class_campo
 	 *
 	 * @name requerido
 	 * @var boolean
+	 * @access protected
 	 */
 	protected $requerido = false;
 
@@ -319,6 +364,7 @@ class class_campo
 	 * Es para poner un campo especial en el formulario de alta y modificacion para ese campo en particular. Esto es util por ejemplo para poner un editor WUSIWUG.
 	 *
 	 * @name formItem
+	 * @access protected
 	 * @var string
 	 */
 	protected $formItem = '';
@@ -327,6 +373,7 @@ class class_campo
 	 * Agrega el class "label" cuando colorea un valor.
 	 * Por defecto es FALSE
 	 *
+	 * @access protected
 	 * @name colorearConEtiqueta
 	 * @var boolean
 	 */
@@ -335,6 +382,7 @@ class class_campo
 	/**
 	 * JOIN a agregar a la consulta
 	 *
+	 * @access protected
 	 * @name customJoin
 	 * @var string
 	 */
@@ -346,6 +394,7 @@ class class_campo
 	 *
 	 * @name uploadFunction
 	 * @var string
+	 * @access protected
 	 */
 	protected $uploadFunction = '';
 
@@ -353,6 +402,7 @@ class class_campo
 	 * Para el tipo de campo upload.
 	 * Si falla el upload borra el registro recien creado. Por defecto es FALSE. No tiene efecto en el update.
 	 *
+	 * @access protected
 	 * @name borrarSiUploadFalla
 	 * @var Boolean
 	 */
@@ -362,6 +412,7 @@ class class_campo
 	 * para agregar html dentro de los tags del input.
 	 * <input type='text' {ac&aacute;}>
 	 *
+	 * @access protected
 	 * @name adicionalInput
 	 * @var string
 	 */
@@ -370,6 +421,7 @@ class class_campo
 	/**
 	 * permite especificar un ancho a esa columna en el listado (ej: 80px)
 	 *
+	 * @access protected
 	 * @name anchoColumna
 	 * @var string
 	 */
@@ -378,6 +430,7 @@ class class_campo
 	/**
 	 * no muestra el campo en el formulario de edicion
 	 *
+	 * @access protected
 	 * @name noMostrarEditar
 	 * @var boolean
 	 */
@@ -387,6 +440,7 @@ class class_campo
 	 * para ejecutar una funcion del usuario en cada celda del listado sin imprimir ni siquiera los tags < td >< / td>.
 	 * La funcion debe recibir el parametro $fila que contendra todos los datos de la fila
 	 *
+	 * @access protected
 	 * @name customFuncionListado
 	 * @var string
 	 */
@@ -396,6 +450,7 @@ class class_campo
 	 * para ejecutar una funcion del usuario en el valor antes de usarlo para el query sql en las funciones de INSERT Y UPDATE.
 	 * La funcion debe recibir el parametro $valor y retornar el nuevo valor
 	 *
+	 * @access protected
 	 * @name customFuncionValor
 	 * @var string
 	 */
@@ -405,14 +460,17 @@ class class_campo
 	 * Listado de tipos admitidos como tipo de campo.
 	 * No hay seter y geter de esta variable, se considera una constante.
 	 *
+	 *
+	 * @access protected
 	 * @var string[]
 	 */
+	// protected const TIPOSADMITIDOS = array (
 	protected $tiposAdmitidos = array (
 			'texto',
 			'bit',
 			'textarea',
 			'combo',
-			'dbCombo',
+			'dbcombo',
 			'password',
 			'upload',
 			'moneda',
@@ -424,6 +482,7 @@ class class_campo
 	/**
 	 * Objeto que aglutina las opciones y funciones genericas
 	 *
+	 * @access protected
 	 * @var object
 	 */
 	protected $sitio;
@@ -438,6 +497,7 @@ class class_campo
 	 *
 	 * @todo NOTA: el buscador funciona verificando variables de $_REQUEST con los nombres de los campos con prefijo "c_". Si se quisiera hacer un formulario de busqueda independiente sin usar el de la class se puede hacer usando los mismos nombres de los campos, o sea con el prefijo "c_".)
 	 *
+	 * @access protected
 	 * @name buscar
 	 * @var boolean
 	 */
@@ -446,6 +506,7 @@ class class_campo
 	/**
 	 * lo mismo que tipo pero solo para el formulario de busqueda
 	 *
+	 * @access protected
 	 * @name tipoBuscar
 	 * @var string
 	 */
@@ -455,6 +516,7 @@ class class_campo
 	 * Operador que usa en el where.
 	 * Ej. = , LIKE
 	 *
+	 * @access protected
 	 * @name buscarOperador
 	 * @var string
 	 */
@@ -463,6 +525,7 @@ class class_campo
 	/**
 	 * Si esta seteado usa ese campo en el where para buscar
 	 *
+	 * @access protected
 	 * @name buscarUsarCampo
 	 * @var string
 	 */
@@ -472,6 +535,7 @@ class class_campo
 	 * Funcion del usuario para poner un HTML especial en el lugar donde iria el form item del formulario de busqueda.
 	 * La funcion no recibe ningun parametro.
 	 *
+	 * @access protected
 	 * @name customFuncionBuscar
 	 * @var string
 	 */
@@ -480,6 +544,7 @@ class class_campo
 	/**
 	 * si esta seteado usa este titulo en el formulario de busqueda
 	 *
+	 * @access protected
 	 * @name tituloBuscar
 	 * @var string
 	 */
@@ -488,6 +553,7 @@ class class_campo
 	/**
 	 * Select personal incluir en la consulta para el campo particular
 	 *
+	 * @access protected
 	 * @var string
 	 */
 	protected $selectPersonal = '';
@@ -495,6 +561,7 @@ class class_campo
 	/**
 	 * En caso de ir en una solapa diferente indica en cual.
 	 *
+	 * @access protected
 	 * @var integer
 	 */
 	protected $enSolapa = 0;
@@ -502,6 +569,7 @@ class class_campo
 	/**
 	 * Valor del atributo autofocus
 	 *
+	 * @access protected
 	 * @var string
 	 */
 	protected $autofocusAttr = "";
@@ -509,27 +577,38 @@ class class_campo
 	/**
 	 * Valor del atributo autofocus
 	 *
+	 * @access protected
 	 * @var boolean
 	 */
 	protected $autofocus = false;
 
 	/**
+	 * XXX No se cual es el uso exacto que se le da a esto, queda a estudiar para proximas verciones.
+	 *
+	 * @var mixed
+	 */
+	protected $hint;
+
+	/**
 	 * Va a retornar el valor (la informacion) del campo.
 	 *
+	 * @access public
 	 * @return String
 	 */
-	public function __toString()
+	public function __toString(): string
 	{
-		return valorCampo ();
+		// return valorCampo ();
+		return $this->getCampo ();
 	}
 
 	/**
 	 * devuelve un objeto campo basado en el array pasado.
 	 *
+	 * @access public
 	 * @param array $array
 	 * @return class_campo
 	 */
-	public static function toObject($array)
+	public static function toObject(array $array): class_campo
 	{
 		$array = new class_campo ($array);
 
@@ -539,11 +618,11 @@ class class_campo
 	/**
 	 * Asigna los valores del array a cada uno de los parametros de la clase
 	 *
+	 * @access public
 	 * @param array $array
 	 */
-	public function __construct($array = array())
+	public function __construct(array $array = array())
 	{
-		// $sitio = new class_sitio ();
 		if (isset ($array) and !empty ($array))
 		{
 			if (array_key_exists ('campo', $array))
@@ -576,23 +655,27 @@ class class_campo
 			}
 			if (array_key_exists ('buscar', $array))
 			{
-				$this->isBuscar ($array['buscar']);
+				$this->setBuscar ($array['buscar']);
 			}
 			if (array_key_exists ('noMostrar', $array))
 			{
-				$this->isNoMostrar ($array['noMostrar']);
+				$this->setNoMostrar ($array['noMostrar']);
 			}
 			if (array_key_exists ('noEditar', $array))
 			{
-				$this->isNoEditar ($array['noEditar']);
+				$this->setNoEditar ($array['noEditar']);
 			}
 			if (array_key_exists ('noListar', $array))
 			{
-				$this->isNoListar ($array['noListar']);
+				$this->setNoListar ($array['noListar']);
+			}
+			if (array_key_exists ('noLimpiar', $array))
+			{
+				$this->setNoLimpiar ($array['noLimpiar']);
 			}
 			if (array_key_exists ('noNuevo', $array))
 			{
-				$this->isNoNuevo ($array['noNuevo']);
+				$this->setNoNuevo ($array['noNuevo']);
 			}
 			if (array_key_exists ('tituloListado', $array))
 			{
@@ -690,15 +773,6 @@ class class_campo
 			{
 				$this->setSelectPersonal ($array['selectPersonal']);
 			}
-			if (array_key_exists ('maxMostrar', $array))
-			{
-				$this->setMaxMostrar ($array['maxMostrar']);
-			}
-			// XXX esto existe para ofrecer compatibilidad con verciones anteriores
-			if (array_key_exists ('tmostrar', $array))
-			{
-				$this->setMaxMostrar ($array['tmostrar']);
-			}
 			if (array_key_exists ('uploadFunction', $array))
 			{
 				$this->setUploadFunction ($array['uploadFunction']);
@@ -743,6 +817,10 @@ class class_campo
 			{
 				$this->setTipoBuscar ($array['tipoBuscar']);
 			}
+			if (array_key_exists ('compareMasJoin', $array))
+			{
+				$this->setCompareMasJoin ($array['compareMasJoin']);
+			}
 		}
 	}
 
@@ -754,9 +832,10 @@ class class_campo
 	/**
 	 * Retorna los datos del campo.
 	 *
+	 * @access public
 	 * @return string
 	 */
-	public function getCampo()
+	public function getCampo(): string
 	{
 		return $this->campo;
 	}
@@ -764,9 +843,10 @@ class class_campo
 	/**
 	 * Retorna el valor del Tipo
 	 *
+	 * @access public
 	 * @return string
 	 */
-	public function getTipo()
+	public function getTipo(): string
 	{
 		return $this->tipo;
 	}
@@ -774,9 +854,10 @@ class class_campo
 	/**
 	 * Retorna el valor de Exportar.
 	 *
+	 * @access public
 	 * @return boolean
 	 */
-	public function isExportar()
+	public function isExportar(): bool
 	{
 		if ($this->exportar == true)
 		{
@@ -791,9 +872,10 @@ class class_campo
 	/**
 	 * Retorna el valor de Titulo
 	 *
+	 * @access public
 	 * @return string
 	 */
-	public function getTitulo()
+	public function getTitulo(): string
 	{
 		return $this->titulo;
 	}
@@ -801,9 +883,10 @@ class class_campo
 	/**
 	 * Retorna el valor de centrarColumna
 	 *
+	 * @access public
 	 * @return boolean
 	 */
-	public function isCentrarColumna()
+	public function isCentrarColumna(): bool
 	{
 		if ($this->centrarColumna == true)
 		{
@@ -818,9 +901,10 @@ class class_campo
 	/**
 	 * Retorna el valor de customEvalListado
 	 *
+	 * @access public
 	 * @return string
 	 */
-	public function getCustomEvalListado()
+	public function getCustomEvalListado(): string
 	{
 		return $this->customEvalListado;
 	}
@@ -828,9 +912,10 @@ class class_campo
 	/**
 	 * Retorna el valor de getParametroUsr
 	 *
+	 * @access public
 	 * @return string
 	 */
-	public function getParametroUsr()
+	public function getParametroUsr(): string
 	{
 		return $this->parametroUsr;
 	}
@@ -838,9 +923,10 @@ class class_campo
 	/**
 	 * Retorna el valor de cantidadDecimales
 	 *
-	 * @return number
+	 * @access public
+	 * @return int
 	 */
-	public function getCantidadDecimales()
+	public function getCantidadDecimales(): int
 	{
 		return $this->cantidadDecimales;
 	}
@@ -848,9 +934,10 @@ class class_campo
 	/**
 	 * Retorna el valor de buscar
 	 *
+	 * @access public
 	 * @return boolean
 	 */
-	public function isBuscar()
+	public function isBuscar(): bool
 	{
 		if ($this->buscar == true)
 		{
@@ -865,9 +952,10 @@ class class_campo
 	/**
 	 * Retorna el valor de noMostrar
 	 *
+	 * @access public
 	 * @return boolean
 	 */
-	public function isNoMostrar()
+	public function isNoMostrar(): bool
 	{
 		if ($this->noMostrar == true)
 		{
@@ -882,9 +970,10 @@ class class_campo
 	/**
 	 * Retorna el valor de noEditar
 	 *
+	 * @access public
 	 * @return boolean
 	 */
-	public function isNoEditar()
+	public function isNoEditar(): bool
 	{
 		if ($this->noEditar == true)
 		{
@@ -899,9 +988,10 @@ class class_campo
 	/**
 	 * Retorna el valor de noListar
 	 *
+	 * @access public
 	 * @return boolean
 	 */
-	public function isNoListar()
+	public function isNoListar(): bool
 	{
 		if ($this->noListar == true)
 		{
@@ -916,9 +1006,10 @@ class class_campo
 	/**
 	 * Retorna el valor de noNuevo
 	 *
+	 * @access public
 	 * @return boolean
 	 */
-	public function isNoNuevo()
+	public function isNoNuevo(): bool
 	{
 		if ($this->noNuevo == true)
 		{
@@ -933,9 +1024,10 @@ class class_campo
 	/**
 	 * Retorna el valor de tituloListado
 	 *
+	 * @access public
 	 * @return string
 	 */
-	public function getTituloListado()
+	public function getTituloListado(): string
 	{
 		return $this->tituloListado;
 	}
@@ -943,9 +1035,10 @@ class class_campo
 	/**
 	 * Retorna el valor de colorearValores
 	 *
+	 * @access public
 	 * @return array
 	 */
-	public function getColorearValores()
+	public function getColorearValores(): array
 	{
 		return $this->colorearValores;
 	}
@@ -953,9 +1046,10 @@ class class_campo
 	/**
 	 * Retorna el valor de separador
 	 *
+	 * @access public
 	 * @return string
 	 */
-	public function getSeparador()
+	public function getSeparador(): string
 	{
 		return $this->separador;
 	}
@@ -963,9 +1057,10 @@ class class_campo
 	/**
 	 * Retorna el valor de maxLen
 	 *
+	 * @access public
 	 * @return number
 	 */
-	public function getMaxLen()
+	public function getMaxLen(): int
 	{
 		return $this->maxLen;
 	}
@@ -973,9 +1068,10 @@ class class_campo
 	/**
 	 * Retorna el valor de noOrdenar
 	 *
+	 * @access public
 	 * @return boolean
 	 */
-	public function isNoOrdenar()
+	public function isNoOrdenar(): bool
 	{
 		if ($this->noOrdenar == true)
 		{
@@ -990,9 +1086,10 @@ class class_campo
 	/**
 	 * Retorna el valor de campoValor
 	 *
+	 * @access public
 	 * @return string
 	 */
-	public function getCampoValor()
+	public function getCampoValor(): string
 	{
 		return $this->campoValor;
 	}
@@ -1000,9 +1097,10 @@ class class_campo
 	/**
 	 * Retorna el valor de campoTexto
 	 *
+	 * @access public
 	 * @return string
 	 */
-	public function getCampoTexto()
+	public function getCampoTexto(): string
 	{
 		return $this->campoTexto;
 	}
@@ -1010,9 +1108,10 @@ class class_campo
 	/**
 	 * Retorna el valor de joinTable
 	 *
+	 * @access public
 	 * @return string
 	 */
-	public function getJoinTable()
+	public function getJoinTable(): string
 	{
 		return $this->joinTable;
 	}
@@ -1020,9 +1119,10 @@ class class_campo
 	/**
 	 * Retorna el valor de joinCondition
 	 *
+	 * @access public
 	 * @return string
 	 */
-	public function getJoinCondition()
+	public function getJoinCondition(): string
 	{
 		return $this->joinCondition;
 	}
@@ -1030,9 +1130,10 @@ class class_campo
 	/**
 	 * Retorna el valor de incluirOpcionVacia
 	 *
+	 * @access public
 	 * @return boolean
 	 */
-	public function isIncluirOpcionVacia()
+	public function isIncluirOpcionVacia(): bool
 	{
 		if ($this->incluirOpcionVacia == true)
 		{
@@ -1047,9 +1148,10 @@ class class_campo
 	/**
 	 * Retorna el valor de mostrarValor
 	 *
+	 * @access public
 	 * @return boolean
 	 */
-	public function isMostrarValor()
+	public function isMostrarValor(): bool
 	{
 		if ($this->mostrarValor == true)
 		{
@@ -1064,9 +1166,10 @@ class class_campo
 	/**
 	 * Retorna el valor de textoMayuscula
 	 *
+	 * @access public
 	 * @return boolean
 	 */
-	public function isTextoMayuscula()
+	public function isTextoMayuscula(): bool
 	{
 		if ($this->textoMayuscula == true)
 		{
@@ -1081,9 +1184,10 @@ class class_campo
 	/**
 	 * Retorna el valor de valorPredefinido
 	 *
+	 * @access public
 	 * @return string
 	 */
-	public function getValorPredefinido()
+	public function getValorPredefinido(): string
 	{
 		return $this->valorPredefinido;
 	}
@@ -1091,9 +1195,10 @@ class class_campo
 	/**
 	 * Retorna el valor de incluirCampo
 	 *
+	 * @access public
 	 * @return string
 	 */
-	public function getIncluirCampo()
+	public function getIncluirCampo(): string
 	{
 		return $this->incluirCampo;
 	}
@@ -1101,9 +1206,10 @@ class class_campo
 	/**
 	 * Retorna el valor de customPrintListado
 	 *
+	 * @access public
 	 * @return string
 	 */
-	public function getCustomPrintListado()
+	public function getCustomPrintListado(): string
 	{
 		return $this->customPrintListado;
 	}
@@ -1111,19 +1217,35 @@ class class_campo
 	/**
 	 * Retorna el valor de campoOrder
 	 *
+	 * @access public
 	 * @return string
 	 */
-	public function getCampoOrder()
+	public function getCampoOrder(): string
 	{
-		return $this->campoOrder;
+		if ($this->campoOrder != "")
+		{
+			return $this->campoOrder;
+		}
+		else
+		{
+			if ($this->joinTable == "" or $this->selectPersonal != "")
+			{
+				return $this->tabla . "." . $this->getCampo ();
+			}
+			else
+			{
+				return $this->getJoinTable () . "." . $this->getCampoTexto ();
+			}
+		}
 	}
 
 	/**
 	 * Retorna el valor de tituloBuscar
 	 *
+	 * @access public
 	 * @return string
 	 */
-	public function getTituloBuscar()
+	public function getTituloBuscar(): string
 	{
 		return $this->tituloBuscar;
 	}
@@ -1131,9 +1253,10 @@ class class_campo
 	/**
 	 * Retorna el valor de requerido
 	 *
+	 * @access public
 	 * @return boolean
 	 */
-	public function isRequerido()
+	public function isRequerido(): bool
 	{
 		if ($this->requerido == true)
 		{
@@ -1148,9 +1271,10 @@ class class_campo
 	/**
 	 * Retorna el valor de formItem
 	 *
+	 * @access public
 	 * @return string
 	 */
-	public function getFormItem()
+	public function getFormItem(): string
 	{
 		return $this->formItem;
 	}
@@ -1158,9 +1282,10 @@ class class_campo
 	/**
 	 * Retorna el valor de colorearConEtiqueta
 	 *
+	 * @access public
 	 * @return boolean
 	 */
-	public function isColorearConEtiqueta()
+	public function isColorearConEtiqueta(): bool
 	{
 		if ($this->colorearConEtiqueta == true)
 		{
@@ -1175,9 +1300,10 @@ class class_campo
 	/**
 	 * Retorna el valor de customJoin
 	 *
+	 * @access public
 	 * @return string
 	 */
-	public function getCustomJoin()
+	public function getCustomJoin(): string
 	{
 		return $this->customJoin;
 	}
@@ -1185,9 +1311,10 @@ class class_campo
 	/**
 	 * Retorna el valor de omitirJoin
 	 *
+	 * @access public
 	 * @return boolean
 	 */
-	public function isOmitirJoin()
+	public function isOmitirJoin(): bool
 	{
 		if ($this->omitirJoin == true)
 		{
@@ -1202,9 +1329,10 @@ class class_campo
 	/**
 	 * Retorna el valor de uploadFunction
 	 *
+	 * @access public
 	 * @return string
 	 */
-	public function getUploadFunction()
+	public function getUploadFunction(): string
 	{
 		return $this->uploadFunction;
 	}
@@ -1212,9 +1340,10 @@ class class_campo
 	/**
 	 * Retorna el valor de borrarSiUploadFalla
 	 *
+	 * @access public
 	 * @return boolean
 	 */
-	public function isBorrarSiUploadFalla()
+	public function isBorrarSiUploadFalla(): bool
 	{
 		if ($this->borrarSiUploadFalla == true)
 		{
@@ -1229,9 +1358,10 @@ class class_campo
 	/**
 	 * Retorna el valor de buscarOperador
 	 *
+	 * @access public
 	 * @return string
 	 */
-	public function getBuscarOperador()
+	public function getBuscarOperador(): string
 	{
 		return $this->buscarOperador;
 	}
@@ -1239,9 +1369,9 @@ class class_campo
 	/**
 	 * Retorna el valor de buscarUsarCampo
 	 *
-	 * @return string
+	 * @access public @return string
 	 */
-	public function getBuscarUsarCampo()
+	public function getBuscarUsarCampo(): string
 	{
 		return $this->buscarUsarCampo;
 	}
@@ -1249,9 +1379,10 @@ class class_campo
 	/**
 	 * Retorna el valor de customFuncionBuscar
 	 *
+	 * @access public
 	 * @return string
 	 */
-	public function getCustomFuncionBuscar()
+	public function getCustomFuncionBuscar(): string
 	{
 		return $this->customFuncionBuscar;
 	}
@@ -1259,9 +1390,10 @@ class class_campo
 	/**
 	 * Retorna el valor de adicionalInput
 	 *
+	 * @access public
 	 * @return string
 	 */
-	public function getAdicionalInput()
+	public function getAdicionalInput(): string
 	{
 		return $this->adicionalInput;
 	}
@@ -1269,9 +1401,10 @@ class class_campo
 	/**
 	 * Retorna el valor de anchoColumna
 	 *
+	 * @access public
 	 * @return string
 	 */
-	public function getAnchoColumna()
+	public function getAnchoColumna(): string
 	{
 		return $this->anchoColumna;
 	}
@@ -1279,19 +1412,28 @@ class class_campo
 	/**
 	 * Retorna el valor de noMostrarEditar
 	 *
-	 * @return string
+	 * @access public
+	 * @return bool
 	 */
-	public function isNoMostrarEditar()
+	public function isNoMostrarEditar(): bool
 	{
-		return $this->noMostrarEditar;
+		if ($this->noMostrarEditar == true)
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
 	}
 
 	/**
 	 * Retorna el valor de
 	 *
+	 * @access public
 	 * @return string
 	 */
-	public function getCustomFuncionListado()
+	public function getCustomFuncionListado(): string
 	{
 		return $this->customFuncionListado;
 	}
@@ -1299,9 +1441,10 @@ class class_campo
 	/**
 	 * Retorna el valor de customFuncionValor
 	 *
+	 * @access public
 	 * @return string
 	 */
-	public function getCustomFuncionValor()
+	public function getCustomFuncionValor(): string
 	{
 		return $this->customFuncionValor;
 	}
@@ -1309,9 +1452,10 @@ class class_campo
 	/**
 	 * Retorna el valor de tipoBuscar.
 	 *
+	 * @access public
 	 * @return string
 	 */
-	public function getTipoBuscar()
+	public function getTipoBuscar(): string
 	{
 		return $this->tipoBuscar;
 	}
@@ -1319,51 +1463,73 @@ class class_campo
 	/**
 	 * Retorna el valor de selectPersonal.
 	 *
+	 * @access public
 	 * @return string
 	 */
-	public function getSelectPersonal()
+	public function getSelectPersonal(): string
 	{
 		return $this->selectPersonal;
 	}
 
 	/**
-	 * Retorna el valor de maxMostrar.
+	 * Setter del parametro $noLimpiar de la clase.
 	 *
-	 * @return number
+	 * @access public
+	 * @param boolean $noLimpiar
+	 *        	dato a cargar en la variable.
 	 */
-	public function getMaxMostrar()
+	public function setNoLimpiar(bool $noLimpiar)
 	{
-		return $this->maxMostrar;
-	}
-
-	public function isNoLimpiar()
-	{
-		return false;
+		$this->noLimpiar = $noLimpiar;
 	}
 
 	/**
+	 * Retorna el dato de no limpiar
 	 *
+	 * @access public
+	 * @return boolean
+	 */
+	public function isNoLimpiar(): bool
+	{
+		if ($this->noLimpiar == true)
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
+
+	/**
+	 * Retorna el dato de tituloMouseOver
+	 *
+	 * @access public
 	 * @return string
 	 */
-	public function getTituloMouseOver()
+	public function getTituloMouseOver(): string
 	{
 		return $this->tituloMouseOver;
 	}
 
 	/**
+	 * Retorna el dato de tabla
 	 *
+	 * @access public
 	 * @return string
 	 */
-	public function getTabla()
+	public function getTabla(): string
 	{
 		return $this->tabla;
 	}
 
 	/**
+	 * Retorna el dato de compareMasJoin
 	 *
+	 * @access public
 	 * @return string
 	 */
-	public function getCompareMasJoin()
+	public function getCompareMasJoin(): string
 	{
 		return $this->compareMasJoin;
 	}
@@ -1379,9 +1545,10 @@ class class_campo
 	 *
 	 * @example /u00/html/classes/examples/campo.html 12 10 Ejemplo de definicion de un campo para la utilizacion de la clase abm.
 	 *
+	 * @access public
 	 * @param string $campo
 	 */
-	public function setCampo($campo)
+	public function setCampo(string $campo)
 	{
 		$this->campo = $campo;
 	}
@@ -1389,11 +1556,13 @@ class class_campo
 	/**
 	 * Comprueba y setea el valor de tipo
 	 *
+	 * @access public
 	 * @param string $tipo
 	 * @throws Exception En caso de no pertenecer a alguno de los tipos aceptados.
-	 * @return string|true Va a retornar true si todo salio Ok. En caso contrario retorna error.
+	 * @access public
+	 * @return true Va a retornar true si todo salio Ok. En caso contrario retorna error.
 	 */
-	public function setTipo($tipo)
+	public function setTipo(string $tipo): bool
 	{
 		if (in_array (strtolower ($tipo), $this->tiposAdmitidos))
 		{
@@ -1410,9 +1579,10 @@ class class_campo
 	/**
 	 * Comprueba y setea el valor de exportar
 	 *
+	 * @access public
 	 * @param boolean $exportar
 	 */
-	public function setExportar($exportar)
+	public function setExportar(bool $exportar)
 	{
 		$this->exportar = $exportar;
 	}
@@ -1420,9 +1590,10 @@ class class_campo
 	/**
 	 * Comprueba y setea el valor de titulo
 	 *
+	 * @access public
 	 * @param string $titulo
 	 */
-	public function setTitulo($titulo)
+	public function setTitulo(string $titulo)
 	{
 		$this->titulo = $titulo;
 	}
@@ -1430,9 +1601,10 @@ class class_campo
 	/**
 	 * Comprueba y setea el valor de centrarColumna
 	 *
+	 * @access public
 	 * @param boolean $centrarColumna
 	 */
-	public function setCentrarColumna($centrarColumna)
+	public function setCentrarColumna(bool $centrarColumna)
 	{
 		$this->centrarColumna = $centrarColumna;
 	}
@@ -1440,9 +1612,10 @@ class class_campo
 	/**
 	 * Comprueba y setea el valor de customEvalListado
 	 *
+	 * @access public
 	 * @param string $customEvalListado
 	 */
-	public function setCustomEvalListado($customEvalListado)
+	public function setCustomEvalListado(string $customEvalListado)
 	{
 		$this->customEvalListado = $customEvalListado;
 	}
@@ -1450,9 +1623,10 @@ class class_campo
 	/**
 	 * Comprueba y setea el valor de parametroUsr
 	 *
+	 * @access public
 	 * @param string $parametroUsr
 	 */
-	public function setParametroUsr($parametroUsr)
+	public function setParametroUsr(string $parametroUsr)
 	{
 		$this->parametroUsr = $parametroUsr;
 	}
@@ -1460,9 +1634,10 @@ class class_campo
 	/**
 	 * Comprueba y setea el valor de cantidadDecimales
 	 *
+	 * @access public
 	 * @param number $cantidadDecimales
 	 */
-	public function setCantidadDecimales($cantidadDecimales)
+	public function setCantidadDecimales(int $cantidadDecimales)
 	{
 		$this->cantidadDecimales = $cantidadDecimales;
 	}
@@ -1470,9 +1645,10 @@ class class_campo
 	/**
 	 * Comprueba y setea el valor de buscar
 	 *
+	 * @access public
 	 * @param boolean $buscar
 	 */
-	public function setBuscar($buscar)
+	public function setBuscar(bool $buscar)
 	{
 		$this->buscar = $buscar;
 	}
@@ -1480,9 +1656,10 @@ class class_campo
 	/**
 	 * Comprueba y setea el valor de noMostrar
 	 *
+	 * @access public
 	 * @param boolean $noMostrar
 	 */
-	public function setNoMostrar($noMostrar)
+	public function setNoMostrar(bool $noMostrar)
 	{
 		$this->noMostrar = $noMostrar;
 	}
@@ -1490,9 +1667,10 @@ class class_campo
 	/**
 	 * Comprueba y setea el valor de noEditar
 	 *
+	 * @access public
 	 * @param boolean $noEditar
 	 */
-	public function setNoEditar($noEditar)
+	public function setNoEditar(bool $noEditar)
 	{
 		$this->noEditar = $noEditar;
 	}
@@ -1500,9 +1678,10 @@ class class_campo
 	/**
 	 * Comprueba y setea el valor de noListar
 	 *
+	 * @access public
 	 * @param boolean $noListar
 	 */
-	public function setNoListar($noListar)
+	public function setNoListar(bool $noListar)
 	{
 		$this->noListar = $noListar;
 	}
@@ -1510,9 +1689,10 @@ class class_campo
 	/**
 	 * Comprueba y setea el valor de noNuevo
 	 *
+	 * @access public
 	 * @param boolean $noNuevo
 	 */
-	public function setNoNuevo($noNuevo)
+	public function setNoNuevo(bool $noNuevo)
 	{
 		$this->noNuevo = $noNuevo;
 	}
@@ -1520,9 +1700,10 @@ class class_campo
 	/**
 	 * Comprueba y setea el valor de tituloListado
 	 *
+	 * @access public
 	 * @param string $tituloListado
 	 */
-	public function setTituloListado($tituloListado)
+	public function setTituloListado(string $tituloListado)
 	{
 		$this->tituloListado = $tituloListado;
 	}
@@ -1530,9 +1711,10 @@ class class_campo
 	/**
 	 * Comprueba y setea el valor de colorearValores
 	 *
+	 * @access public
 	 * @param array $colorearValores
 	 */
-	public function setColorearValores($colorearValores)
+	public function setColorearValores(array $colorearValores)
 	{
 		$this->colorearValores = $colorearValores;
 	}
@@ -1540,9 +1722,10 @@ class class_campo
 	/**
 	 * Comprueba y setea el valor de separador
 	 *
+	 * @access public
 	 * @param string $separador
 	 */
-	public function setSeparador($separador)
+	public function setSeparador(string $separador)
 	{
 		$this->separador = $separador;
 	}
@@ -1550,9 +1733,10 @@ class class_campo
 	/**
 	 * Comprueba y setea el valor de maxLen
 	 *
-	 * @param number $maxLen
+	 * @access public
+	 * @param int $maxLen
 	 */
-	public function setMaxLen($maxLen)
+	public function setMaxLen(int $maxLen)
 	{
 		$this->maxLen = $maxLen;
 	}
@@ -1560,9 +1744,10 @@ class class_campo
 	/**
 	 * Comprueba y setea el valor de noOrdenar
 	 *
+	 * @access public
 	 * @param boolean $noOrdenar
 	 */
-	public function setNoOrdenar($noOrdenar)
+	public function setNoOrdenar(bool $noOrdenar)
 	{
 		$this->noOrdenar = $noOrdenar;
 	}
@@ -1570,9 +1755,10 @@ class class_campo
 	/**
 	 * Comprueba y setea el valor de campoValor
 	 *
+	 * @access public
 	 * @param string $campoValor
 	 */
-	public function setCampoValor($campoValor)
+	public function setCampoValor(string $campoValor)
 	{
 		$this->campoValor = $campoValor;
 	}
@@ -1580,9 +1766,10 @@ class class_campo
 	/**
 	 * Comprueba y setea el valor de campoTexto
 	 *
+	 * @access public
 	 * @param string $campoTexto
 	 */
-	public function setCampoTexto($campoTexto)
+	public function setCampoTexto(string $campoTexto)
 	{
 		$this->campoTexto = $campoTexto;
 	}
@@ -1590,9 +1777,10 @@ class class_campo
 	/**
 	 * Comprueba y setea el valor de joinTable
 	 *
+	 * @access public
 	 * @param string $joinTable
 	 */
-	public function setJoinTable($joinTable)
+	public function setJoinTable(string $joinTable)
 	{
 		$this->joinTable = $joinTable;
 	}
@@ -1601,7 +1789,8 @@ class class_campo
 	 * Comprueba y setea el valor de omitirJoin.
 	 * En cualquier caso que el valor paseado no sea 1, true o v se seteara como FALSE
 	 *
-	 * @param boolean $omitirJoin
+	 * @access public
+	 * @param mixed $omitirJoin
 	 */
 	public function setOmitirJoin($omitirJoin)
 	{
@@ -1611,26 +1800,41 @@ class class_campo
 		}
 		else
 		{
-			FALSE;
+			$this->omitirJoin = FALSE;
 		}
 	}
 
 	/**
 	 * Comprueba y setea el valor de joinCondition
 	 *
+	 * Valores posibles
+	 * (INNER) JOIN: Returns records that have matching values in both tables
+	 * LEFT (OUTER) JOIN: Returns all records from the left table, and the matched records from the right table
+	 * RIGHT (OUTER) JOIN: Returns all records from the right table, and the matched records from the left table
+	 * FULL (OUTER) JOIN: Returns all records when there is a match in either left or right table
+	 *
+	 * @access public
 	 * @param string $joinCondition
 	 */
-	public function setJoinCondition($joinCondition)
+	public function setJoinCondition(string $joinCondition)
 	{
-		$this->joinCondition = $joinCondition;
+		if (strtoupper ($joinCondition) == "INNER" or strtoupper ($joinCondition) == "LEFT" or strtoupper ($joinCondition) == "RIGHT" or strtoupper ($joinCondition) == "FULL")
+		{
+			$this->joinCondition = $joinCondition;
+		}
+		else
+		{
+			throw new Exception ("Condicion del join erronea.");
+		}
 	}
 
 	/**
 	 * Comprueba y setea el valor de incluirOpcionVacia
 	 *
+	 * @access public
 	 * @param boolean $incluirOpcionVacia
 	 */
-	public function setIncluirOpcionVacia($incluirOpcionVacia)
+	public function setIncluirOpcionVacia(bool $incluirOpcionVacia)
 	{
 		$this->incluirOpcionVacia = $incluirOpcionVacia;
 	}
@@ -1638,9 +1842,10 @@ class class_campo
 	/**
 	 * Comprueba y setea el valor de mostrarValor
 	 *
+	 * @access public
 	 * @param boolean $mostrarValor
 	 */
-	public function setMostrarValor($mostrarValor)
+	public function setMostrarValor(bool $mostrarValor)
 	{
 		$this->mostrarValor = $mostrarValor;
 	}
@@ -1648,9 +1853,10 @@ class class_campo
 	/**
 	 * Comprueba y setea el valor de textoMayuscula
 	 *
+	 * @access public
 	 * @param boolean $textoMayuscula
 	 */
-	public function setTextoMayuscula($textoMayuscula)
+	public function setTextoMayuscula(bool $textoMayuscula)
 	{
 		$this->textoMayuscula = $textoMayuscula;
 	}
@@ -1658,29 +1864,40 @@ class class_campo
 	/**
 	 * Comprueba y setea el valor de valorPredefinido
 	 *
+	 * @access public
 	 * @param string $valorPredefinido
 	 */
-	public function setValorPredefinido($valorPredefinido)
+	public function setValorPredefinido(string $valorPredefinido)
 	{
 		$this->valorPredefinido = $valorPredefinido;
 	}
 
 	/**
-	 * Comprueba y setea el valor de incluirCampo
+	 * Comprueba y setea el valor de incluirCampo.
+	 * En caso de que incluirCampo este vasio lo inicializa, si no lo esta agrega el valor separado por coma.
 	 *
+	 * @access public
 	 * @param string $incluirCampo
 	 */
-	public function setIncluirCampo($incluirCampo)
+	public function setIncluirCampo(string $incluirCampo)
 	{
-		$this->incluirCampo = $incluirCampo;
+		if ($this->incluirCampo == "")
+		{
+			$this->incluirCampo = $incluirCampo;
+		}
+		else
+		{
+			$this->incluirCampo .= ", " . $incluirCampo;
+		}
 	}
 
 	/**
 	 * Comprueba y setea el valor de customPrintListado
 	 *
+	 * @access public
 	 * @param string $customPrintListado
 	 */
-	public function setCustomPrintListado($customPrintListado)
+	public function setCustomPrintListado(string $customPrintListado)
 	{
 		$this->customPrintListado = $customPrintListado;
 	}
@@ -1688,9 +1905,10 @@ class class_campo
 	/**
 	 * Comprueba y setea el valor de campoOrder
 	 *
+	 * @access public
 	 * @param string $campoOrder
 	 */
-	public function setCampoOrder($campoOrder)
+	public function setCampoOrder(string $campoOrder)
 	{
 		$this->campoOrder = $campoOrder;
 	}
@@ -1698,9 +1916,10 @@ class class_campo
 	/**
 	 * Comprueba y setea el valor de tituloBuscar
 	 *
+	 * @access public
 	 * @param string $tituloBuscar
 	 */
-	public function setTituloBuscar($tituloBuscar)
+	public function setTituloBuscar(string $tituloBuscar)
 	{
 		$this->tituloBuscar = $tituloBuscar;
 	}
@@ -1708,9 +1927,10 @@ class class_campo
 	/**
 	 * Comprueba y setea el valor de requerido
 	 *
+	 * @access public
 	 * @param boolean $requerido
 	 */
-	public function setRequerido($requerido)
+	public function setRequerido(bool $requerido)
 	{
 		$this->requerido = $requerido;
 	}
@@ -1718,9 +1938,10 @@ class class_campo
 	/**
 	 * Comprueba y setea el valor de formItem
 	 *
+	 * @access public
 	 * @param string $formItem
 	 */
-	public function setFormItem($formItem)
+	public function setFormItem(string $formItem)
 	{
 		$this->formItem = $formItem;
 	}
@@ -1728,9 +1949,10 @@ class class_campo
 	/**
 	 * Comprueba y setea el valor de colorearConEtiqueta
 	 *
+	 * @access public
 	 * @param boolean $colorearConEtiqueta
 	 */
-	public function setColorearConEtiqueta($colorearConEtiqueta)
+	public function setColorearConEtiqueta(bool $colorearConEtiqueta)
 	{
 		$this->colorearConEtiqueta = $colorearConEtiqueta;
 	}
@@ -1738,9 +1960,10 @@ class class_campo
 	/**
 	 * Comprueba y setea el valor de customJoin
 	 *
+	 * @access public
 	 * @param string $customJoin
 	 */
-	public function setCustomJoin($customJoin)
+	public function setCustomJoin(string $customJoin)
 	{
 		$this->customJoin = $customJoin;
 	}
@@ -1748,9 +1971,10 @@ class class_campo
 	/**
 	 * Comprueba y setea el valor de uploadFunction
 	 *
+	 * @access public
 	 * @param string $uploadFunction
 	 */
-	public function setUploadFunction($uploadFunction)
+	public function setUploadFunction(string $uploadFunction)
 	{
 		$this->uploadFunction = $uploadFunction;
 	}
@@ -1758,9 +1982,10 @@ class class_campo
 	/**
 	 * Comprueba y setea el valor de borrarSiUploadFalla
 	 *
+	 * @access public
 	 * @param boolean $borrarSiUploadFalla
 	 */
-	public function setBorrarSiUploadFalla($borrarSiUploadFalla)
+	public function setBorrarSiUploadFalla(bool $borrarSiUploadFalla)
 	{
 		$this->borrarSiUploadFalla = $borrarSiUploadFalla;
 	}
@@ -1768,9 +1993,10 @@ class class_campo
 	/**
 	 * Comprueba y setea el valor de buscarOperador
 	 *
+	 * @access public
 	 * @param string $buscarOperador
 	 */
-	public function setBuscarOperador($buscarOperador)
+	public function setBuscarOperador(string $buscarOperador)
 	{
 		$this->buscarOperador = $buscarOperador;
 	}
@@ -1778,9 +2004,10 @@ class class_campo
 	/**
 	 * Comprueba y setea el valor de buscarUsarCampo
 	 *
+	 * @access public
 	 * @param string $buscarUsarCampo
 	 */
-	public function setBuscarUsarCampo($buscarUsarCampo)
+	public function setBuscarUsarCampo(string $buscarUsarCampo)
 	{
 		$this->buscarUsarCampo = $buscarUsarCampo;
 	}
@@ -1788,9 +2015,10 @@ class class_campo
 	/**
 	 * Comprueba y setea el valor de customFuncionBuscar
 	 *
+	 * @access public
 	 * @param string $customFuncionBuscar
 	 */
-	public function setCustomFuncionBuscar($customFuncionBuscar)
+	public function setCustomFuncionBuscar(string $customFuncionBuscar)
 	{
 		$this->customFuncionBuscar = $customFuncionBuscar;
 	}
@@ -1798,9 +2026,10 @@ class class_campo
 	/**
 	 * Comprueba y setea el valor de adicionalInput
 	 *
+	 * @access public
 	 * @param string $adicionalInput
 	 */
-	public function setAdicionalInput($adicionalInput)
+	public function setAdicionalInput(string $adicionalInput)
 	{
 		$this->adicionalInput = $adicionalInput;
 	}
@@ -1808,9 +2037,10 @@ class class_campo
 	/**
 	 * Comprueba y setea el valor de anchoColumna
 	 *
+	 * @access public
 	 * @param string $anchoColumna
 	 */
-	public function setAnchoColumna($anchoColumna)
+	public function setAnchoColumna(string $anchoColumna)
 	{
 		$this->anchoColumna = $anchoColumna;
 	}
@@ -1818,9 +2048,10 @@ class class_campo
 	/**
 	 * Comprueba y setea el valor de noMostrarEditar
 	 *
-	 * @param string $noMostrarEditar
+	 * @access public
+	 * @param bool $noMostrarEditar
 	 */
-	public function setNoMostrarEditar($noMostrarEditar)
+	public function setNoMostrarEditar(bool $noMostrarEditar)
 	{
 		$this->noMostrarEditar = $noMostrarEditar;
 	}
@@ -1828,9 +2059,10 @@ class class_campo
 	/**
 	 * Comprueba y setea el valor de customFuncionListado
 	 *
+	 * @access public
 	 * @param string $customFuncionListado
 	 */
-	public function setCustomFuncionListado($customFuncionListado)
+	public function setCustomFuncionListado(string $customFuncionListado)
 	{
 		$this->customFuncionListado = $customFuncionListado;
 	}
@@ -1838,9 +2070,10 @@ class class_campo
 	/**
 	 * Comprueba y setea el valor de customFuncionValor
 	 *
+	 * @access public
 	 * @param string $customFuncionValor
 	 */
-	public function setCustomFuncionValor($customFuncionValor)
+	public function setCustomFuncionValor(string $customFuncionValor)
 	{
 		$this->customFuncionValor = $customFuncionValor;
 	}
@@ -1848,9 +2081,10 @@ class class_campo
 	/**
 	 * Comprueba y setea el valor de tipoBuscar
 	 *
+	 * @access public
 	 * @param string $tipoBuscar
 	 */
-	public function setTipoBuscar($tipoBuscar)
+	public function setTipoBuscar(string $tipoBuscar)
 	{
 		$this->tipoBuscar = $tipoBuscar;
 	}
@@ -1859,56 +2093,54 @@ class class_campo
 	 *
 	 * Comprueba y setea el valor de selectPersonal
 	 *
+	 * @access public
 	 * @param string $selectPersonal
 	 */
-	public function setSelectPersonal($selectPersonal)
+	public function setSelectPersonal(string $selectPersonal)
 	{
 		$this->selectPersonal = $selectPersonal;
 	}
 
 	/**
+	 * Setea el parametro tituloMouseOver
 	 *
-	 * Comprueba y setea el valor de maxMostrar
-	 *
-	 * @param number $maxMostrar
-	 */
-	public function setMaxMostrar($maxMostrar)
-	{
-		$this->maxMostrar = $maxMostrar;
-	}
-
-	/**
-	 *
+	 * @access public
 	 * @param string $tituloMouseOver
 	 */
-	public function setTituloMouseOver($tituloMouseOver)
+	public function setTituloMouseOver(string $tituloMouseOver)
 	{
 		$this->tituloMouseOver = $tituloMouseOver;
 	}
 
 	/**
+	 * Setea el parametro sqlQuery
 	 *
+	 * @access public
 	 * @param string $sqlQuery
 	 */
-	public function setSqlQuery($sqlQuery)
+	public function setSqlQuery(string $sqlQuery)
 	{
 		$this->setSqlQuery = $sqlQuery;
 	}
 
 	/**
+	 * Setea el parametro tabla
 	 *
+	 * @access public
 	 * @param string $tabla
 	 */
-	public function setTabla($tabla)
+	public function setTabla(string $tabla)
 	{
 		$this->tabla = $tabla;
 	}
 
 	/**
+	 * Setea el parametro compareMasJoin
 	 *
+	 * @access public
 	 * @param string $compareMasJoin
 	 */
-	public function setCompareMasJoin($compareMasJoin)
+	public function setCompareMasJoin(string $compareMasJoin)
 	{
 		$this->compareMasJoin = $compareMasJoin;
 	}
@@ -1916,9 +2148,10 @@ class class_campo
 	/**
 	 * Retorna el valor de $enSolapa
 	 *
+	 * @access public
 	 * @return number
 	 */
-	public function getEnSolapa()
+	public function getEnSolapa(): int
 	{
 		return $this->enSolapa;
 	}
@@ -1926,9 +2159,10 @@ class class_campo
 	/**
 	 * Setea $enSolapa con el parametro dado.
 	 *
-	 * @param number $enSolapa
+	 * @access public
+	 * @param int $enSolapa
 	 */
-	public function setEnSolapa($enSolapa)
+	public function setEnSolapa(int $enSolapa)
 	{
 		$this->enSolapa = $enSolapa;
 	}
@@ -1938,10 +2172,11 @@ class class_campo
 	 */
 
 	/**
+	 * Retorna un string con la funcion a insetar en el form
 	 *
-	 * @param string $tituloOver
+	 * @access public
 	 */
-	public function getTituloOver()
+	public function getTituloOver(): string
 	{
 		if ($this->tituloMouseOver = !"")
 		{
@@ -1952,11 +2187,12 @@ class class_campo
 	/**
 	 * Comprueba que esxista cun campo en particular y que sea distinto de nulo
 	 *
-	 * @param String $dato
+	 * @param string $dato
 	 *        	nombre del atributo a comprobar.
+	 * @access public
 	 * @return boolean
 	 */
-	public function existeDato($dato)
+	public function existeDato(string $dato): bool
 	{
 		if (isset ($this->$dato) and $this->$dato != "")
 		{
@@ -1973,9 +2209,10 @@ class class_campo
 	 *
 	 * @param boolean $paraBuscar
 	 *        	especifica si se utilizara en un formulario de busqueda.
+	 * @access public
 	 * @return string
 	 */
-	public function obtenerTitulo($paraBuscar = false)
+	public function obtenerTitulo(bool $paraBuscar = false): string
 	{
 		if ($this->existeDato ("tituloBuscar") and $paraBuscar == true)
 		{
@@ -1998,13 +2235,12 @@ class class_campo
 	/**
 	 * Limpia el campo y genera el elemento del formulario de busqueda para incorporar en la pagina.
 	 *
-	 * @param object $db
-	 *        	Objeto de coneccion a la base.
 	 * @param String $busqueda
 	 *        	variable donde se registran los parametros de busqueda. es pasada por referencia con lo que se puede utilizar incluso fuera de la funcion.
+	 * @access public
 	 * @return string
 	 */
-	public function campoFormBuscar($db, &$busqueda)
+	public function campoFormBuscar(&$busqueda): string
 	{
 		$retorno = "";
 		if (isset ($_REQUEST['c_' . $this->campo]))
@@ -2025,12 +2261,52 @@ class class_campo
 	}
 
 	/**
+	 * Comprueba el valor de un campo y hace el retorno que corresponda.
 	 *
+	 * @return string
+	 */
+	public function getMostrarListar()
+	{
+		if ($this->getDato () != "")
+		{
+			// XXX definir y documentar el atributo noLimpiar
+			if ($this->isNoLimpiar () == true)
+			{
+				return html_entity_decode ($this->getDato ());
+			}
+			else
+			{
+				return $this->getDato ();
+			}
+		}
+	}
+
+	/**
+	 *
+	 * @return mixed
+	 */
+	public function getDato()
+	{
+		return $this->dato;
+	}
+
+	/**
+	 *
+	 * @param mixed $dato
+	 */
+	public function setDato($dato)
+	{
+		$this->dato = $dato;
+	}
+
+	/**
+	 *
+	 * @access public
 	 * @return mixed
 	 */
 	public function prepara_joinTable()
 	{
-		$join = explode (".", $joinTable);
+		$join = explode (".", $this->joinTable);
 
 		return $join[count ($join) - 1];
 	}
@@ -2038,13 +2314,14 @@ class class_campo
 	/**
 	 * Si esta seteado el campo retorna el parametro a poner en la etiqueta.
 	 *
+	 * @access public
 	 * @return string
 	 */
-	public function establecerMaxLeng()
+	public function establecerMaxLeng(): string
 	{
-		if ($campo->existeDato ('maxLen') and $campo->getMaxLen () > 0)
+		if ($this->getMaxLen () > 0)
 		{
-			return " maxlength='" . $this->maxLen . "' ";
+			return " maxlength='" . $this->getMaxLen () . "' ";
 		}
 		else
 		{
@@ -2055,11 +2332,12 @@ class class_campo
 	/**
 	 * Si esta seteado el campo retorna el parametro a poner en la etiqueta.
 	 *
+	 * @access public
 	 * @return string
 	 */
-	public function establecerHint()
+	public function establecerHint(): string
 	{
-		if ($campo->existeDato ('hint'))
+		if ($this->existeDato ('hint'))
 		{
 			return "title='" . $this->hint . "' ";
 		}
@@ -2070,29 +2348,333 @@ class class_campo
 	}
 
 	/**
+	 * Retorna el valor de autofocus
 	 *
-	 * @return boolean el dato de la variable $autofocusAttr
+	 * @access public
+	 * @return boolean el dato de la variable $autofocus
 	 */
-	public function isAutofocus()
+	public function isAutofocus(): bool
 	{
-		return $this->autofocus;
+		if ($this->autofocus == true)
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
 	}
 
 	/**
+	 * Establece el atributo del elemento autofocusAttr en base al parametro pasado.
 	 *
+	 * @access public
 	 * @param
 	 *        	boolean a cargar en la variable $autofocusAttr
 	 */
-	public function setAutofocus($autofocus)
+	public function setAutofocus(bool $autofocus)
 	{
 		if ($autofocus == true)
 		{
 			$this->autofocusAttr = "autofocus='autofocus'";
 		}
-		elseif ($autofocusAttr == false)
+		elseif ($autofocus == false)
 		{
-			$this->autofocus = "";
+			$this->autofocusAttr = "";
 		}
+	}
+
+	/**
+	 * Retorna el valor del atributo $valor
+	 *
+	 * @access public
+	 * @return mixed $valor el dato de la variable.
+	 */
+	public function getValor()
+	{
+		return $this->valor;
+	}
+
+	/**
+	 * Setter del parametro $valor de la clase.
+	 *
+	 * @access public
+	 * @param mixed $valor
+	 *        	dato a cargar en la variable.
+	 */
+	public function setValor($valor)
+	{
+		$this->valor = $valor;
+	}
+
+	/**
+	 * Arma el string del nombre del campo (tabla.campo AS nombrecampo) para agregar en el SELECT
+	 *
+	 * @access public
+	 * @return string
+	 */
+	public function get_campo_select(): string
+	{
+		if ($this->isBuscar () == true or $this->isNoListar () == false)
+		{
+			if ($this->existeDato ("joinTable"))
+			{
+				$tablaJoin = $this->prepara_joinTable ($this->getJoinTable ());
+
+				if ($this->isOmitirJoin () == false)
+				{
+					if ($this->getSelectPersonal () == true)
+					{
+						return $this->getSelectPersonal () . " AS " . substr ($tablaJoin . "_" . $this->getCampoTexto (), 0, 30);
+					}
+					else
+					{
+						if ($this->getCampoTexto () != "")
+						{
+							return $this->getJoinTable () . "." . $this->getCampoTexto () . " AS " . substr ($tablaJoin . "_" . $this->getCampoTexto (), 0, 30);
+						}
+						else
+						{
+							return $this->getJoinTable () . "." . $this->getCampo () . " AS " . substr ($tablaJoin . "_" . $this->getCampo (), 0, 30);
+						}
+					}
+					// FIXME calculo que habria que armar otra funcion que haga esto
+					// $camposOrder .= "|" . $this->getCampoTexto ();
+				}
+				else
+				{
+					if ($this->getSelectPersonal () == true)
+					{
+						return $this->getSelectPersonal () . " AS " . $this->getCampoTexto ();
+					}
+					else
+					{
+						// FIXME Hay que encontrar un metodo mejor ya que si hay mas de una tabla con el mismo campo y las primeras tres letras del nombre de la tabla iguales tirara que la columna esta definida de forma ambigua.
+
+						$camposSelect = $this->getJoinTable () . "." . $this->getCampo () . " AS " . substr ($tablaJoin, 0, 3) . "_" . $this->getCampo ();
+
+						$this->setCampo (substr ($tablaJoin, 0, 3) . "_" . $this->getCampo ());
+
+						return $camposSelect;
+					}
+				}
+			}
+			else
+			{
+				if ($this->getSelectPersonal () == true)
+				{
+					return $this->getSelectPersonal () . " AS " . $this->getCampo ();
+				}
+				else
+				{
+					return $this->tabla . "." . $this->getCampo ();
+				}
+			}
+		}
+	}
+
+	/**
+	 * Arma el where para la busqueda dentro de ese campo.
+	 *
+	 * @param string $valorABuscar
+	 * @access public
+	 * @return string
+	 */
+	public function get_where_buscar(string $valorABuscar): string
+	{
+		$camposWhereBuscar = "";
+
+		if ($this->buscarUsarCampo != "")
+		{
+			$camposWhereBuscar .= "UPPER(" . $this->getBuscarUsarCampo () . ")";
+		}
+		else
+		{
+			if ($this->joinTable == "" or $this->selectPersonal != "")
+			{
+				$camposWhereBuscar .= "UPPER(" . $this->tabla . "." . $this->getCampo () . ")";
+			}
+			else
+			{
+				$camposWhereBuscar .= "UPPER(" . $this->getJoinTable () . "." . $this->getCampoTexto () . ")";
+			}
+		}
+
+		$camposWhereBuscar .= " ";
+
+		if ($this->getBuscarOperador () != "" and strtolower ($this->getBuscarOperador ()) != 'like')
+		{
+			$camposWhereBuscar .= $this->buscarOperador . " UPPER('" . $valorABuscar . "')";
+		}
+		else
+		{
+			$valorABuscar = str_replace (" ", "%", $valorABuscar);
+			$camposWhereBuscar .= "LIKE UPPER('%" . $valorABuscar . "%')";
+		}
+
+		return $camposWhereBuscar;
+	}
+
+	/**
+	 * Comprueba que este habilitado el ocultar columna y en caso de estarlo retorna la etiqueta para realizarlo.
+	 *
+	 * @access public
+	 * @return string
+	 */
+	public function get_no_mostrar(): string
+	{
+		if ($this->isNoMostrar () == true)
+		{
+			return " style='display: none;' ";
+		}
+		else
+		{
+			return " ";
+		}
+	}
+
+	/**
+	 * Comprueba que este habilitado el centrado de la columna y en caso de estarlo retorna la etiqueta para realizarlo.
+	 *
+	 * @access public
+	 * @return string
+	 */
+	public function get_centrar_columna(): string
+	{
+		if ($this->isCentrarColumna () == true)
+		{
+			return ' align="center" ';
+		}
+		else
+		{
+			return " ";
+		}
+	}
+
+	/**
+	 * Comprueba si hay que colorear y retorna la etiqueta correspondiente
+	 *
+	 * @access protected
+	 * @return string
+	 */
+	protected function get_spanColorear(): string
+	{
+		if (is_array ($this->getColorearValores ()))
+		{
+			if ($this->getCampo () != "" and array_key_exists ($this->getValor (), $this->getColorearValores ()))
+			{
+				return "<span class='" . ($this->isColorearConEtiqueta () ? "label" : "") . "' style='" . ($this->isColorearConEtiqueta () ? "background-" : "") . "color:" . $this->getColorearValores ()[$this->getValor ()] . "'>";
+			}
+		}
+
+		return "";
+	}
+
+	/**
+	 * Arma un Td con el dato de valor del campo
+	 *
+	 * @access public
+	 * @return string
+	 */
+	public function get_celda_dato(): string
+	{
+		if ($this->isNoLimpiar () == true)
+		{
+			return "<td " . $this->get_centrar_columna () . " " . $this->get_no_mostrar () . ">" . $this->get_spanColorear () . " " . html_entity_decode ($this->getValor ()) . " " . ($this->get_spanColorear () != "" ? "</span>" : "") . " </td> \n";
+		}
+		else
+		{
+			return "<td " . $this->get_centrar_columna () . " " . $this->get_no_mostrar () . ">" . $this->get_spanColorear () . " " . $this->getValor () . " " . ($this->get_spanColorear () != "" ? "</span>" : "") . "</td> \n";
+		}
+	}
+
+	/**
+	 * Arma el string para que el campo del formulario sea o no obligatorio.
+	 *
+	 * @access protected
+	 * @return string
+	 */
+	protected function getAtrRequerido(): string
+	{
+		if ($this->isRequerido () == true)
+		{
+			return " validate[required] required ";
+		}
+		else
+		{
+			return "";
+		}
+	}
+
+	/**
+	 * Arma un string en caso de que el dato no pueda modificarse para bloquear el input.
+	 *
+	 * @access protected
+	 * @return string
+	 */
+	protected function getAtrDisabled(): string
+	{
+		if ($this->isRequerido () == true)
+		{
+			return " readonly='readonly' disabled='disabled' ";
+		}
+		else
+		{
+			return "";
+		}
+	}
+
+	/**
+	 * Arma un string con el input correspondiente al campo para armar un formulario de update.
+	 *
+	 * @access public
+	 * @return string
+	 */
+	public function generar_elemento_form_update(): string
+	{
+		return "<input type='text' class='input-text " . $this->getAtrRequerido () . " name='" . $this->getCampo () . "' id='" . $this->getCampo () . "' " . $this->autofocusAttr . " " . $this->getAtrDisabled () . " value='" . $this->getValor () . "' " . $this->establecerMaxLeng () . " " . $this->establecerHint () . " " . $this->getAdicionalInput () . "/> \n";
+	}
+
+	/**
+	 * Retorna el valor del atributo $autofocusAttr
+	 *
+	 * @return string $autofocusAttr el dato de la variable.
+	 */
+	public function getAutofocusAttr()
+	{
+		return $this->autofocusAttr;
+	}
+
+	/**
+	 * Setter del parametro $autofocusAttr de la clase.
+	 *
+	 * @param string $autofocusAttr
+	 *        	dato a cargar en la variable.
+	 */
+	public function setAutofocusAttr($autofocusAttr)
+	{
+		$this->autofocusAttr = $autofocusAttr;
+	}
+
+	/**
+	 * Retorna el valor del atributo $hint
+	 *
+	 * @return mixed $hint el dato de la variable.
+	 */
+	public function getHint()
+	{
+		return $this->hint;
+	}
+
+	/**
+	 * Setter del parametro $hint de la clase.
+	 *
+	 * @param mixed $hint
+	 *        	dato a cargar en la variable.
+	 */
+	public function setHint($hint)
+	{
+		$this->hint = $hint;
 	}
 }
 ?>

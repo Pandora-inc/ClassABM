@@ -158,7 +158,7 @@ class BCGcode93 extends BCGBarcode1D
 
 		$this->errorText = ''; // Reset Error
 		$c = strlen ($this->text);
-		for($i = 0; $i < $c; $i ++)
+		for($i = 0; $i < $c; $i++)
 		{
 			$pos = array_search ($this->text[$i], $this->keys);
 			if ($pos === false)
@@ -172,7 +172,7 @@ class BCGcode93 extends BCGBarcode1D
 				else
 				{
 					$extc = strlen ($extended);
-					for($j = 0; $j < $extc; $j ++)
+					for($j = 0; $j < $extc; $j++)
 					{
 						$v = $extended[$j];
 						if ($v === '$')
@@ -228,7 +228,7 @@ class BCGcode93 extends BCGBarcode1D
 		{
 			$error = explode ("\n", trim ($this->errorText));
 			$c = count ($error);
-			for($i = 0; $i < $c; $i ++)
+			for($i = 0; $i < $c; $i++)
 			{
 				$this->drawError ($im, $error[$i]);
 			}
@@ -244,13 +244,13 @@ class BCGcode93 extends BCGBarcode1D
 			{
 				// Starting *
 				$this->drawChar ($im, $this->code[$this->starting], true);
-				for($i = 0; $i < $c; $i ++)
+				for($i = 0; $i < $c; $i++)
 				{
 					$this->drawChar ($im, $this->data[$i], true);
 				}
 				// Checksum
 				$c = count ($this->checksumValue);
-				for($i = 0; $i < $c; $i ++)
+				for($i = 0; $i < $c; $i++)
 				{
 					$this->drawChar ($im, $this->code[$this->checksumValue[$i]], true);
 				}
@@ -303,10 +303,10 @@ class BCGcode93 extends BCGBarcode1D
 		);
 		$this->checksumValue = array ();
 		$indcheck = $this->indcheck;
-		for($z = 0; $z < 2; $z ++)
+		for($z = 0; $z < 2; $z++)
 		{
 			$checksum = 0;
-			for($i = count ($indcheck), $j = 0; $i > 0; $i --, $j ++)
+			for($i = count ($indcheck), $j = 0; $i > 0; $i--, $j++)
 			{
 				$multiplier = $i % $sequence_multiplier[$z];
 				if ($multiplier === 0)
@@ -333,7 +333,7 @@ class BCGcode93 extends BCGBarcode1D
 		{
 			$ret = '';
 			$c = count ($this->checksumValue);
-			for($i = 0; $i < $c; $i ++)
+			for($i = 0; $i < $c; $i++)
 			{
 				$ret .= $this->keys[$this->checksumValue[$i]];
 			}

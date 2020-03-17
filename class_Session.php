@@ -9,98 +9,112 @@
  * @name Session.php
  *
  */
-class Session {
+class Session
+{
+	protected static $sessionStarted = false;
+	protected static $cookieStarted = false;
 
-    protected static $sessionStarted = false;
-    protected static $cookieStarted = false;
+	/**
+	 * Inicia la sesion.
+	 */
+	public static function start()
+	{
+		if (!isset ($_SESSION))
+		{
 
-    /**
-     * Inicia la sesion.
-     */
-    public static function start() {
+			session_start ();
+		}
 
-        if(!isset($_SESSION)){
-            
-        session_start();
-        }
-        
-        self::$sessionStarted = true;
-    }
+		self::$sessionStarted = true;
+	}
 
-    /**
-     * Termina la sesion.
-     */
-    public static function destroy() {
+	/**
+	 * Termina la sesion.
+	 */
+	public static function destroy()
+	{
+		session_destroy ();
 
-        session_destroy();
+		self::$sessionStarted = false;
+	}
 
-        self::$sessionStarted = false;
-    }
+	/**
+	 * Setea valores en la sesion
+	 *
+	 * @param
+	 *        	$prop
+	 * @param
+	 *        	$value
+	 */
+	public static function set($prop, $value)
+	{
+		if (!self::$sessionStarted && !isset ($_SESSION))
+		{
 
-    /**
-     * Setea valores en la sesion
-     * @param $prop
-     * @param $value
-     */
-    public static function set($prop, $value) {
+			self::start ();
+		}
 
-        if (!self::$sessionStarted && !isset($_SESSION) ) {
+		$_SESSION[$prop] = $value;
+	}
 
-            self::start();
-        }
+	public static function setCookie($prop, $value)
+	{
+		$_COOKIE[$prop] = $value;
+	}
 
-        $_SESSION[$prop] = $value;
-    }
+	/**
+	 * Devuelve dato de la sesion
+	 *
+	 * @param
+	 *        	$prop
+	 * @return mixed
+	 */
+	public static function get($prop)
+	{
+		if (!self::$sessionStarted)
+		{
 
-    public static function setCookie($prop, $value) {
+			self::start ();
+		}
+		if (isset ($_SESSION[$prop]))
+		{
+			return $_SESSION[$prop];
+		}
+	}
 
-        $_COOKIE[$prop] = $value;
-    }
+	/**
+	 * Comprueba si un dato existe
+	 *
+	 * @param
+	 *        	$prop
+	 * @return mixed
+	 */
+	public static function has($prop)
+	{
+		if (!self::$sessionStarted)
+		{
 
-    /**
-     * Devuelve dato de la sesion
-     * @param $prop
-     * @return mixed
-     */
-    public static function get($prop) {
+			self::start ();
+		}
 
-        if (!self::$sessionStarted) {
+		return isset ($_SESSION[$prop]);
+	}
 
-            self::start();
-        }
-        if(isset($_SESSION[$prop])){
-            return $_SESSION[$prop];
-        }
-    }
+	/**
+	 * Limpia valor especifico
+	 *
+	 * @param
+	 *        	$prop
+	 * @return mixed
+	 */
+	public static function clearValue($prop)
+	{
+		if (!self::$sessionStarted)
+		{
 
-    /**
-     * Comprueba si un dato existe
-     * @param $prop
-     * @return mixed
-     */
-    public static function has($prop) {
+			self::start ();
+		}
 
-        if (!self::$sessionStarted) {
-
-            self::start();
-        }
-
-        return isset($_SESSION[$prop]);
-    }
-
-    /**
-     * Limpia valor especifico
-     * @param $prop
-     * @return mixed
-     */
-    public static function clearValue($prop) {
-
-        if (!self::$sessionStarted) {
-
-            self::start();
-        }
-
-        unset($_SESSION[$prop]);
-    }
-
+		unset ($_SESSION[$prop]);
+	}
 }

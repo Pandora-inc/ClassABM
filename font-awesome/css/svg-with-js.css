@@ -339,18 +339,38 @@ svg:not (:root ).svg-inline--fa {
 100%
 {
 -webkit-transform
+
+
 :
+
  
+
 rotate
-(360deg);
+
+
+(360
+deg
+);
+
 
             
+
 transform
+
+
 :
+
  
+
 rotate
-(360deg);
+
+
+(360
+deg
+);
+
  
+
 }
 }
 @
@@ -362,18 +382,38 @@ keyframes fa-spin { 0% {
 100%
 {
 -webkit-transform
+
+
 :
+
  
+
 rotate
-(360deg);
+
+
+(360
+deg
+);
+
 
             
+
 transform
+
+
 :
+
  
+
 rotate
-(360deg);
+
+
+(360
+deg
+);
+
  
+
 }
 }
 .fa-rotate-90 {

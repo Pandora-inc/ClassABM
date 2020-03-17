@@ -126,7 +126,7 @@ class BCGupcext2 extends BCGBarcode1D
 
 		// Checking if all chars are allowed
 		$c = strlen ($this->text);
-		for($i = 0; $i < $c; $i ++)
+		for($i = 0; $i < $c; $i++)
 		{
 			if (array_search ($this->text[$i], $this->keys) === false)
 			{
@@ -147,7 +147,7 @@ class BCGupcext2 extends BCGBarcode1D
 				// Starting Code
 				$this->drawChar ($im, '001', true);
 				// Code
-				for($i = 0; $i < 2; $i ++)
+				for($i = 0; $i < 2; $i++)
 				{
 					$this->drawChar ($im, self::inverse ($this->findCode ($this->text[$i]), $this->codeParity[intval ($this->text) % 4][$i]), false);
 					if ($i === 0)

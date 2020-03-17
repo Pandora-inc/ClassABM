@@ -81,7 +81,7 @@ class BCGmsi extends BCGBarcode1D
 
 		// Checking if all chars are allowed
 		$c = strlen ($this->text);
-		for($i = 0; $i < $c; $i ++)
+		for($i = 0; $i < $c; $i++)
 		{
 			if (array_search ($this->text[$i], $this->keys) === false)
 			{
@@ -97,12 +97,12 @@ class BCGmsi extends BCGBarcode1D
 			$this->drawChar ($im, '10', true);
 			// Chars
 			$c = strlen ($this->text);
-			for($i = 0; $i < $c; $i ++)
+			for($i = 0; $i < $c; $i++)
 			{
 				$this->drawChar ($im, $this->findCode ($this->text[$i]), true);
 			}
 			$c = count ($this->checksumValue);
-			for($i = 0; $i < $c; $i ++)
+			for($i = 0; $i < $c; $i++)
 			{
 				$this->drawChar ($im, $this->findCode ($this->checksumValue[$i]), true);
 			}
@@ -148,7 +148,7 @@ class BCGmsi extends BCGBarcode1D
 		// 10 - (? Modulo 10). If result = 10, change to 0
 		$last_text = $this->text;
 		$this->checksumValue = array ();
-		for($i = 0; $i < $this->checksum; $i ++)
+		for($i = 0; $i < $this->checksum; $i++)
 		{
 			$new_text = '';
 			$new_number = 0;
@@ -167,7 +167,7 @@ class BCGmsi extends BCGBarcode1D
 			}
 			$new_text = strval (intval ($new_text) * 2);
 			$c2 = strlen ($new_text);
-			for($j = 0; $j < $c2; $j ++)
+			for($j = 0; $j < $c2; $j++)
 			{
 				$new_number += intval ($new_text[$j]);
 			}
@@ -194,7 +194,7 @@ class BCGmsi extends BCGBarcode1D
 		{
 			$ret = '';
 			$c = count ($this->checksumValue);
-			for($i = 0; $i < $c; $i ++)
+			for($i = 0; $i < $c; $i++)
 			{
 				$ret .= $this->keys[$this->checksumValue[$i]];
 			}

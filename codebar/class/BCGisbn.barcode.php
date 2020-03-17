@@ -302,7 +302,7 @@ class BCGisbn extends BCGean13
 			elseif ($c === 9 || $c === 10)
 			{
 				$checksum = 0;
-				for($i = 10; $i >= 2; $i --)
+				for($i = 10; $i >= 2; $i--)
 				{
 					$checksum += $this->text[10 - $i] * $i;
 				}

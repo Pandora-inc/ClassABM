@@ -30,7 +30,7 @@ require_once 'class_campo.php';
 /**
  *
  * @author iberlot
- *        
+ *
  */
 class Campos_fecha extends class_campo
 {
@@ -71,6 +71,7 @@ class Campos_fecha extends class_campo
 		{
 			parent::__construct ();
 		}
+		$this->setTipo ('fecha');
 	}
 
 	/**
@@ -79,7 +80,7 @@ class Campos_fecha extends class_campo
 	 *        	Objeto de coneccion a la base.
 	 * @param String $busqueda
 	 *        	variable donde se registran los parametros de busqueda. es pasada por referencia con lo que se puede utilizar incluso fuera de la funcion.
-	 *        	
+	 *
 	 * @return string
 	 */
 	public function campoFormBuscar($db, &$busqueda)
@@ -120,5 +121,28 @@ class Campos_fecha extends class_campo
 
 		return $retorno;
 	}
+
+	// /**
+	// * Comprueba el valor de un campo y hace el retorno que corresponda.
+	// *
+	// * @return string
+	// */
+	// public function getMostrarListar()
+	// {
+	// if ($this->getDato () != "")
+	// {
+	// if ($fila[$campo->getCampo ()] != "" and $fila[$campo->getCampo ()] != "0000-00-00" and $fila[$campo->getCampo ()] != "0000-00-00 00:00:00")
+	// {
+	// if (strtotime ($fila[$campo->getCampo ()]) !== -1)
+	// {
+	// // FIXME Urgente arreglar el formateo de fecha y que pasa con strtotime -1
+
+	// // $fila[$campo['campo']] = date ($this->formatoFechaListado, strtotime ($fila[$campo['campo']]));
+	// // $fila[$campo['campo']] = date ($this->formatoFechaListado, $fila[$campo['campo']]);
+	// // $fila[$campo['campo']] = $fila[$campo['campo']];
+	// }
+	// }
+	// }
+	// }
 }
 ?>
