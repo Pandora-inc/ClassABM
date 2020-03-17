@@ -31,7 +31,7 @@ class Campos_texto extends class_campo
 
 	public function generar_elemento_form_update()
 	{
-		return "<input type='text' name='" . $this->campo . "' id='" . $this->campo . "' " . $this->autofocus . " class='input-text " . $requerido . "' $disabled value='" . $this->campoValor . "' " . $campo->establecerMaxLeng () . " " . (($campo->getCampo () == $this->campoId and !$this->campoIdEsEditable) ? "readonly='readonly' disabled='disabled'" : "") . " " . $campo->establecerHint () . " " . ($this->existeDato ('adicionalInput') ? $this->getAdicionalInput () : "") . "/> \n";
+		return "<input type='text' name='" . $this->campo . "' id='" . $this->campo . "' " . $this->autofocus . " class='input-text " . $this->getAtrRequerido () . "' " . $this->getAtrDisabled () . " value='" . $this->campoValor . "' " . $this->establecerMaxLeng () . " " . $this->establecerHint () . " " . $this->getAdicionalInput () . "/> \n";
 	}
 }
 

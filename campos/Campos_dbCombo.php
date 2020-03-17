@@ -215,6 +215,73 @@ class Campos_dbCombo extends class_campo
 
 		return $retorno;
 	}
+
+	public function generar_elemento_form_update()
+	{
+		$imprForm = "<select name='" . $this->getCampo () . "' id='" . $this->getCampo () . "' " . $this->autofocusAttr . " class='input-select " . $this->getAtrRequerido () . "' " . $this->getAtrDisabled () . " " . $this->getAdicionalInput () . "> \n";
+		if ($campo->isIncluirOpcionVacia ())
+		{
+			$imprForm .= "<option value=''></option> \n";
+		}
+
+		if ($campo->tieneSqlQuery () == true)
+		{
+			$sqlQuery = $campo->getSqlQuery ();
+		}
+		else
+		{
+			$sqlQuery = "SELECT " . $this->getCampoTexto () . ", " . $this->getCampoValor () . " FROM " . $this->getJoinTable ();
+		}
+
+		// FIXME comprobar e implementar customCompare
+		// if (isset ($campo->customCompare']) and $campo->existeDato('customCompare'))
+		// {
+		// $sqlQuery .= " WHERE 1=1 AND " . $campo->customCompareCampo'] . " = '" . $customCompareValor . "'";
+		// // $sqlQuery .= " WHERE 1=1 AND " . $campo->customCompareCampo'] . " = " . $this->tabla . '.' . $campo->customCompareValor'];
+
+		// if ($campo->['customOrder'] != "")
+		// {
+		// $sqlQuery .= " ORDER BY " . $tabla . '.' . $campo->customOrder'];
+		// }
+		// }
+
+		$resultCombo = $this->db->query ($sqlQuery);
+
+		while ($filaCombo = $this->db->fetch_array ($resultCombo))
+		{
+			// $filaCombo = Funciones::limpiarEntidadesHTML ($filaCombo);
+
+			if ($filaCombo[$this->getCampoValor ()] == $this->getValor ())
+			{
+				$selected = "selected";
+			}
+			else
+			{
+				$selected = "";
+			}
+
+			$combobit = "";
+
+			if ($this->isMostrarValor () == true)
+			{
+				$combobit .= ' (' . $filaCombo[$this->getCampoValor ()] . ') ';
+			}
+
+			if ($this->isTextoMayuscula () == true)
+			{
+				$combobit .= substr ($filaCombo[$this->getCampoTexto ()], 0, 50);
+			}
+			else
+			{
+				$combobit .= ucwords (strtolower (substr ($filaCombo[$this->getCampoTexto ()], 0, 50)));
+			}
+
+			$imprForm .= "<option value='" . $filaCombo[$this->getCampoValor ()] . "' $selected>" . $combobit . "</option> \n";
+		}
+		$imprForm .= "</select> \n";
+
+		return $imprForm;
+	}
 }
 
 ?>

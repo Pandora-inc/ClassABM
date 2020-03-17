@@ -36,6 +36,87 @@ class Campos_combo extends class_campo
 	protected $datos = array ();
 
 	/**
+	 * Para los tipo "combo" o "dbCombo", si esta en True incluye <option value=''></option>
+	 *
+	 * @name incluirOpcionVacia =
+	 * @var boolean
+	 */
+	protected $incluirOpcionVacia = true;
+
+	/**
+	 * Muestra el valor del campo en el combo.
+	 *
+	 * @name mostrarValor
+	 * @var boolean
+	 */
+	protected $mostrarValor = true;
+
+	/**
+	 * Pone el texto del combo en mayusculas.
+	 *
+	 * @name textoMayuscula
+	 * @var boolean
+	 */
+	protected $textoMayuscula = true;
+
+	/**
+	 *
+	 * @return boolean el dato de la variable $incluirOpcionVacia
+	 */
+	public function isIncluirOpcionVacia()
+	{
+		return $this->incluirOpcionVacia;
+	}
+
+	/**
+	 *
+	 * @return boolean el dato de la variable $mostrarValor
+	 */
+	public function isMostrarValor()
+	{
+		return $this->mostrarValor;
+	}
+
+	/**
+	 *
+	 * @return boolean el dato de la variable $textoMayuscula
+	 */
+	public function isTextoMayuscula()
+	{
+		return $this->textoMayuscula;
+	}
+
+	/**
+	 *
+	 * @param
+	 *        	boolean a cargar en la variable $incluirOpcionVacia
+	 */
+	public function setIncluirOpcionVacia($incluirOpcionVacia)
+	{
+		$this->incluirOpcionVacia = $incluirOpcionVacia;
+	}
+
+	/**
+	 *
+	 * @param
+	 *        	boolean a cargar en la variable $mostrarValor
+	 */
+	public function setMostrarValor($mostrarValor)
+	{
+		$this->mostrarValor = $mostrarValor;
+	}
+
+	/**
+	 *
+	 * @param
+	 *        	boolean a cargar en la variable $textoMayuscula
+	 */
+	public function setTextoMayuscula($textoMayuscula)
+	{
+		$this->textoMayuscula = $textoMayuscula;
+	}
+
+	/**
 	 *
 	 * @param array $array
 	 */
@@ -71,9 +152,20 @@ class Campos_combo extends class_campo
 	 *
 	 * @return array
 	 */
-	public function getDatos()
+	public function getDatos($busca = "")
 	{
-		return $this->datos;
+		if ($busca == "")
+		{
+			return $this->datos;
+		}
+		elseif (array_key_exists ($this->getValor (), $this->datos))
+		{
+			return $this->datos[$this->getValor ()];
+		}
+		else
+		{
+			throw new Exception ("El valor " . $this->getValor () . " no existe entre los posibles datos.");
+		}
 	}
 
 	public function campoFormBuscar($db, &$busqueda)
@@ -101,6 +193,23 @@ class Campos_combo extends class_campo
 
 		return $retorno;
 	}
+
+	/**
+	 * Arma un Td con el dato de valor del campo
+	 *
+	 * @return string
+	 */
+	public function get_celda_dato()
+	{
+		if ($this->isNoLimpiar () == true)
+		{
+			return "<td " . $this->get_centrar_columna () . " " . $this->get_no_mostrar () . ">" . $this->get_spanColorear () . " " . html_entity_decode ($this->getDatos ($this->getValor ())) . " " . ($this->get_spanColorear () != "" ? "</span>" : "") . "</td> \n";
+		}
+		else
+		{
+			return "<td " . $this->get_centrar_columna () . " " . $this->get_no_mostrar () . ">" . $this->get_spanColorear () . " " . $this->getDatos ($this->getValor ()) . " " . ($this->get_spanColorear () != "" ? "</span>" : "") . "</td> \n";
+		}
+	}
 }
 
-
+?>

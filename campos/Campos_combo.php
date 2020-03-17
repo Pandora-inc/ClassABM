@@ -20,7 +20,7 @@ require_once 'class_campo.php';
 /**
  *
  * @author iberlot
- *        
+ *
  */
 class Campos_combo extends class_campo
 {
@@ -29,7 +29,7 @@ class Campos_combo extends class_campo
 	 * Datos para el tipo de campo "combo".
 	 *
 	 * @example Array("key" => "value"...)
-	 *         
+	 *
 	 * @name datos
 	 * @var array
 	 */
@@ -152,9 +152,20 @@ class Campos_combo extends class_campo
 	 *
 	 * @return array
 	 */
-	public function getDatos()
+	public function getDatos($busca = "")
 	{
-		return $this->datos;
+		if ($busca == "")
+		{
+			return $this->datos;
+		}
+		elseif (array_key_exists ($this->getValor (), $this->datos))
+		{
+			return $this->datos[$this->getValor ()];
+		}
+		else
+		{
+			throw new Exception ("El valor " . $this->getValor () . " no existe entre los posibles datos.");
+		}
 	}
 
 	public function campoFormBuscar($db, &$busqueda)
@@ -181,6 +192,48 @@ class Campos_combo extends class_campo
 		$retorno .= "</select> \n";
 
 		return $retorno;
+	}
+
+	/**
+	 * Arma un Td con el dato de valor del campo
+	 *
+	 * @return string
+	 */
+	public function get_celda_dato()
+	{
+		if ($this->isNoLimpiar () == true)
+		{
+			return "<td " . $this->get_centrar_columna () . " " . $this->get_no_mostrar () . ">" . $this->get_spanColorear () . " " . html_entity_decode ($this->getDatos ($this->getValor ())) . " " . ($this->get_spanColorear () != "" ? "</span>" : "") . "</td> \n";
+		}
+		else
+		{
+			return "<td " . $this->get_centrar_columna () . " " . $this->get_no_mostrar () . ">" . $this->get_spanColorear () . " " . $this->getDatos ($this->getValor ()) . " " . ($this->get_spanColorear () != "" ? "</span>" : "") . "</td> \n";
+		}
+	}
+
+	public function generar_elemento_form_update()
+	{
+		$imprForm = "<select name='" . $this->getCampo () . "' id='" . $this->getCampo () . "' $this->autofocusAttr class='input-select $this->getAtrRequerido () ' $this->getAtrDisabled() " . $this->establecerHint () . " " . $this->getAdicionalInput () . "> \n";
+
+		if ($this->isIncluirOpcionVacia ())
+		{
+			$imprForm .= "<option value=''></option> \n";
+		}
+
+		foreach ($this->getDatos () as $valor => $texto)
+		{
+			if ($this->getValor () == Funciones::limpiarEntidadesHTML ($valor))
+			{
+				$sel = "selected='selected'";
+			}
+			else
+			{
+				$sel = "";
+			}
+			$imprForm .= "<option value='$valor' " . $sel . ">$texto</option> \n";
+		}
+		$imprForm .= "</select> \n";
+		return $imprForm;
 	}
 }
 

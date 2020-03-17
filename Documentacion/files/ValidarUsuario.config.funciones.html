@@ -1,28 +1,27 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta name="viewport"
-	content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
-<meta charset="utf-8" />
-<title>API Documentation</title>
-<meta name="author" content="" />
-<meta name="description" content="" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
+    <meta charset="utf-8"/>
+    <title>API Documentation</title>
+    <meta name="author" content=""/>
+    <meta name="description" content=""/>
 
-<link href="../css/bootstrap-combined.no-icons.min.css" rel="stylesheet">
-<link href="../css/font-awesome.min.css" rel="stylesheet">
-<link href="../css/prism.css" rel="stylesheet" media="all" />
-<link href="../css/template.css" rel="stylesheet" media="all" />
-
-<!--[if lt IE 9]>
+    <link href="../css/bootstrap-combined.no-icons.min.css" rel="stylesheet">
+    <link href="../css/font-awesome.min.css" rel="stylesheet">
+    <link href="../css/prism.css" rel="stylesheet" media="all"/>
+    <link href="../css/template.css" rel="stylesheet" media="all"/>
+    
+    <!--[if lt IE 9]>
     <script src="../js/html5.js"></script>
     <![endif]-->
-<script src="../js/jquery-1.11.0.min.js"></script>
-<script src="../js/ui/1.10.4/jquery-ui.min.js"></script>
-<script src="../js/bootstrap.min.js"></script>
-<script src="../js/jquery.smooth-scroll.js"></script>
-<script src="../js/prism.min.js"></script>
-<!-- TODO: Add http://jscrollpane.kelvinluck.com/ to style the scrollbars for browsers not using webkit-->
-<script type="text/javascript">
+    <script src="../js/jquery-1.11.0.min.js"></script>
+    <script src="../js/ui/1.10.4/jquery-ui.min.js"></script>
+    <script src="../js/bootstrap.min.js"></script>
+    <script src="../js/jquery.smooth-scroll.js"></script>
+    <script src="../js/prism.min.js"></script>
+    <!-- TODO: Add http://jscrollpane.kelvinluck.com/ to style the scrollbars for browsers not using webkit-->
+        <script type="text/javascript">
         function loadExternalCodeSnippets() {
             Array.prototype.slice.call(document.querySelectorAll('pre[data-src]')).forEach(function (pre) {
                 var src = pre.getAttribute('data-src');
@@ -71,1410 +70,1176 @@
         })
     </script>
 
-<link rel="shortcut icon" href="../images/favicon.ico" />
-<link rel="apple-touch-icon" href="../images/apple-touch-icon.png" />
-<link rel="apple-touch-icon" sizes="72x72"
-	href="../images/apple-touch-icon-72x72.png" />
-<link rel="apple-touch-icon" sizes="114x114"
-	href="../images/apple-touch-icon-114x114.png" />
+    <link rel="shortcut icon" href="../images/favicon.ico"/>
+    <link rel="apple-touch-icon" href="../images/apple-touch-icon.png"/>
+    <link rel="apple-touch-icon" sizes="72x72" href="../images/apple-touch-icon-72x72.png"/>
+    <link rel="apple-touch-icon" sizes="114x114" href="../images/apple-touch-icon-114x114.png"/>
 </head>
 <body>
 
-	<div class="navbar navbar-fixed-top">
-		<div class="navbar-inner">
-			<div class="container">
-				<a class="btn btn-navbar" data-toggle="collapse"
-					data-target=".nav-collapse"> <i class="icon-ellipsis-vertical"></i>
-				</a> <a class="brand" href="../index.html">API Documentation</a>
-
-				<div class="nav-collapse">
-					<ul class="nav pull-right">
-						<li class="dropdown" id="charts-menu"><a href="#"
-							class="dropdown-toggle" data-toggle="dropdown"> Charts <b
-								class="caret"></b>
-						</a>
-							<ul class="dropdown-menu">
-								<li><a href="../graphs/class.html"> <i
-										class="icon-list-alt"></i>&#160;Class hierarchy diagram
-								</a></li>
-							</ul></li>
-						<li class="dropdown" id="reports-menu"><a href="#"
-							class="dropdown-toggle" data-toggle="dropdown"> Reports <b
-								class="caret"></b>
-						</a>
-							<ul class="dropdown-menu">
-								<li><a href="../reports/errors.html"> <<<<<<< HEAD
-										<<<<<<< develop <<<<<<< develop <<<<<<< Updated upstream <i
-										class="icon-list-alt"></i>&#160;Errors <span
-										class="label label-info pull-right">98</span> ======= <i
-										class="icon-list-alt"></i>&#160;Errors <span
-										class="label label-info pull-right">139</span> >>>>>>> Stashed
-										changes ======= <i class="icon-list-alt"></i>&#160;Errors <span
-										class="label label-info pull-right">140</span> >>>>>>> F_C-002
-										======= <i class="icon-list-alt"></i>&#160;Errors <span
-										class="label label-info pull-right">139</span> >>>>>>> BS-004
-										======= <i class="icon-list-alt"></i>&#160;Errors <span
-										class="label label-info pull-right">139</span> >>>>>>> ABM-006
-								</a></li>
-								<li><a href="../reports/markers.html"> <i
-										class="icon-list-alt"></i>&#160;Markers <span
-										class="label label-info pull-right">91</span>
-								</a></li>
-								<li><a href="../reports/deprecated.html"> <i
-										class="icon-list-alt"></i>&#160;Deprecated <span
-										class="label label-info pull-right">35</span>
-								</a></li>
-							</ul></li>
-					</ul>
-				</div>
-			</div>
-		</div>
-		<!--<div class="go_to_top">-->
-		<!--<a href="#___" style="color: inherit">Back to top&#160;&#160;<i class="icon-upload icon-white"></i></a>-->
-		<!--</div>-->
-	</div>
-
-	<div id="___" class="container-fluid">
-		<section class="row-fluid">
-			<div class="span2 sidebar">
-				<div class="accordion" style="margin-bottom: 0">
-					<div class="accordion-group">
-						<div class="accordion-heading">
-							<<<<<<< HEAD <<<<<<< develop <<<<<<< develop <<<<<<< Updated
-							upstream <a class="accordion-toggle " data-toggle="collapse"
-								data-target="#namespace-1536137120"></a> <a
-								href="../namespaces/default.html"
-								style="margin-left: 30px; padding-left: 0">\</a>
-						</div>
-						<div id="namespace-1536137120" class="accordion-body collapse in">
-							======= <a class="accordion-toggle " data-toggle="collapse"
-								data-target="#namespace-773378688"></a> <a
-								href="../namespaces/default.html"
-								style="margin-left: 30px; padding-left: 0">\</a>
-						</div>
-						<div id="namespace-773378688" class="accordion-body collapse in">
-							>>>>>>> Stashed changes ======= <a class="accordion-toggle "
-								data-toggle="collapse" data-target="#namespace-2054156558"></a>
-							<a href="../namespaces/default.html"
-								style="margin-left: 30px; padding-left: 0">\</a>
-						</div>
-						<div id="namespace-2054156558" class="accordion-body collapse in">
-							>>>>>>> F_C-002 ======= <a class="accordion-toggle "
-								data-toggle="collapse" data-target="#namespace-773378688"></a> <a
-								href="../namespaces/default.html"
-								style="margin-left: 30px; padding-left: 0">\</a>
-						</div>
-						<div id="namespace-773378688" class="accordion-body collapse in">
-							>>>>>>> BS-004 ======= <a class="accordion-toggle "
-								data-toggle="collapse" data-target="#namespace-773378688"></a> <a
-								href="../namespaces/default.html"
-								style="margin-left: 30px; padding-left: 0">\</a>
-						</div>
-						<div id="namespace-773378688" class="accordion-body collapse in">
-							>>>>>>> ABM-006
-							<div class="accordion-inner">
-
-
-								<ul>
-									<li class="class"><a href="../classes/Campos_bit.html">Campos_bit</a></li>
-									<li class="class"><a href="../classes/Campos_combo.html">Campos_combo</a></li>
-									<li class="class"><a href="../classes/Campos_dbCombo.html">Campos_dbCombo</a></li>
-									<li class="class"><a href="../classes/Campos_fecha.html">Campos_fecha</a></li>
-									<li class="class"><a href="../classes/Campos_moneda.html">Campos_moneda</a></li>
-									<li class="class"><a href="../classes/Campos_numero.html">Campos_numero</a></li>
-									<li class="class"><a
-										href="../classes/Campos_password.html">Campos_password</a></li>
-									<li class="class"><a href="../classes/Campos_rownum.html">Campos_rownum</a></li>
-									<li class="class"><a
-										href="../classes/Campos_textarea.html">Campos_textarea</a></li>
-									<li class="class"><a href="../classes/Campos_texto.html">Campos_texto</a></li>
-									<li class="class"><a href="../classes/Campos_upload.html">Campos_upload</a></li>
-									<li class="class"><a href="../classes/class_abm.html">class_abm</a></li>
-									<li class="class"><a href="../classes/class_abm.html">class_abm</a></li>
-									<li class="class"><a href="../classes/class_campo.html">class_campo</a></li>
-									<li class="class"><a href="../classes/class_db.html">class_db</a></li>
-									<li class="class"><a
-										href="../classes/class_institucion.html">class_institucion</a></li>
-									<li class="class"><a href="../classes/class_orderby.html">class_orderby</a></li>
-									<li class="class"><a href="../classes/class_paginado.html">class_paginado</a></li>
-									<li class="class"><a href="../classes/class_persona.html">class_persona</a></li>
-									<li class="class"><a href="../classes/class_sitio.html">class_sitio</a></li>
-									<li class="class"><a href="../classes/consulta.html">consulta</a></li>
-									<li class="class"><a href="../classes/Fechas.html">Fechas</a></li>
-									<li class="class"><a href="../classes/Funciones.html">Funciones</a></li>
-									<li class="class"><a
-										href="../classes/FuncionesString.html">FuncionesString</a></li>
-									<li class="class"><a href="../classes/validar.html">validar</a></li>
-								</ul>
-							</div>
-						</div>
-					</div>
-				</div>
-
-			</div>
-		</section>
-		<section class="row-fluid">
-			<div class="span10 offset2">
-				<div class="row-fluid">
-					<div class="span8 content file">
-						<nav></nav>
-
-						<a href="#source-view" role="button" class="pull-right btn"
-							data-toggle="modal"><i class="icon-code"></i></a>
-						<h1>
-							<small>ValidarUsuario/config</small>funciones.php
-						</h1>
-						<p>
-							<em></em>
-						</p>
-
-
-
-
-					</div>
-
-					<aside class="span4 detailsbar">
-						<dl>
-							<dt>Package</dt>
-							<dd>
-								<div class="namespace-wrapper">\Default</div>
-							</dd>
-
-
-						</dl>
-						<h2>Tags</h2>
-						<table class="table table-condensed">
-							<tr>
-								<td colspan="2"><em>None found</em></td>
-							</tr>
-						</table>
-
-					</aside>
-				</div>
-
-
-				<div class="row-fluid">
-					<section class="span8 content file">
-						<h2>Functions</h2>
-					</section>
-					<aside class="span4 detailsbar"></aside>
-				</div>
-
-				<div class="row-fluid">
-					<div class="span8 content class">
-						<a id="method_usuario" name="method_usuario" class="anchor"></a>
-						<article class="method">
-							<h3 class=" ">usuario()</h3>
-							<a href="#source-view" role="button" class="pull-right btn"
-								data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i
-								class="icon-code"></i></a>
-							<pre class="signature" style="margin-right: 54px;">usuario(string  <span
-									class="argument">$cadena</span>) : string</pre>
-							<p>
-								<em>Devuelve el usuario encerrado entre parentesis</em>
-							</p>
-
-
-							<h4>Parameters</h4>
-							<table class="table table-condensed table-hover">
-								<tr>
-									<td>string</td>
-									<td>$cadena</td>
-									<td><p>Cadena en la que se encuetra el texto encerrado
-											entre parentesis a extraer</p></td>
-								</tr>
-							</table>
-
-
-							<h4>Returns</h4>
-							string &mdash;
-							<p>$final Texto que se encuentra entre parentesis extraido
-								para su uso</p>
-
-						</article>
-					</div>
-					<aside class="span4 detailsbar">
-						<h1>
-							<i class="icon-arrow-down"></i>
-						</h1>
-						<dl>
-							<dt>File</dt>
-							<dd>
-								<a href=""><div class="path-wrapper">ValidarUsuario/config/funciones.php</div></a>
-							</dd>
-						</dl>
-						<h2>Tags</h2>
-						<table class="table table-condensed">
-							<tr>
-								<th>package</th>
-								<td>
-									<p>Default</p>
-								</td>
-							</tr>
-						</table>
-					</aside>
-				</div>
-
-				<div class="row-fluid">
-					<div class="span8 content class">
-						<a id="method_usrRefernt" name="method_usrRefernt" class="anchor"></a>
-						<article class="method">
-							<h3 class=" ">usrRefernt()</h3>
-							<a href="#source-view" role="button" class="pull-right btn"
-								data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i
-								class="icon-code"></i></a>
-							<pre class="signature" style="margin-right: 54px;">usrRefernt(integer  <span
-									class="argument">$anio</span>, integer  <span class="argument">$reque</span>) : string</pre>
-							<p>
-								<em>Devuelve los datos del usuario Referente</em>
-							</p>
-
-
-							<h4>Parameters</h4>
-							<table class="table table-condensed table-hover">
-								<tr>
-									<td>integer</td>
-									<td>$anio</td>
-									<td><p>ano del requerimiento del que se quiere saber
-											el referente</p></td>
-								</tr>
-								<tr>
-									<td>integer</td>
-									<td>$reque</td>
-									<td><p>Numero del requerimiento del que se quiere
-											saber el referente</p></td>
-								</tr>
-							</table>
-
-
-							<h4>Returns</h4>
-							string &mdash;
-							<p>$final Texto que se encuentra entre parentesis extraido
-								para su uso</p>
-
-						</article>
-					</div>
-					<aside class="span4 detailsbar">
-						<h1>
-							<i class="icon-arrow-down"></i>
-						</h1>
-						<dl>
-							<dt>File</dt>
-							<dd>
-								<a href=""><div class="path-wrapper">ValidarUsuario/config/funciones.php</div></a>
-							</dd>
-						</dl>
-						<h2>Tags</h2>
-						<table class="table table-condensed">
-							<tr>
-								<th>package</th>
-								<td>
-									<p>Default</p>
-								</td>
-							</tr>
-						</table>
-					</aside>
-				</div>
-
-				<div class="row-fluid">
-					<div class="span8 content class">
-						<a id="method_datosPersona" name="method_datosPersona"
-							class="anchor"></a>
-						<article class="method">
-							<h3 class=" ">datosPersona()</h3>
-							<a href="#source-view" role="button" class="pull-right btn"
-								data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i
-								class="icon-code"></i></a>
-							<pre class="signature" style="margin-right: 54px;">datosPersona(integer  <span
-									class="argument">$nroDoc</span>, string  <span class="argument">$tipoDoc</span>) : array</pre>
-							<p>
-								<em>Devuelve los datos del usuario ingresando numero y tipo
-									de documento</em>
-							</p>
-
-
-							<h4>Parameters</h4>
-							<table class="table table-condensed table-hover">
-								<tr>
-									<td>integer</td>
-									<td>$nroDoc</td>
-									<td><p>Numero del documento</p></td>
-								</tr>
-								<tr>
-									<td>string</td>
-									<td>$tipoDoc</td>
-									<td><p>Tipo de documento</p></td>
-								</tr>
-							</table>
-
-
-							<h4>Returns</h4>
-							array &mdash;
-							<p>$personaNombre, $persona['CUENTA'], $EmailPersona con los
-								diferentes datos</p>
-
-						</article>
-					</div>
-					<aside class="span4 detailsbar">
-						<h1>
-							<i class="icon-arrow-down"></i>
-						</h1>
-						<dl>
-							<dt>File</dt>
-							<dd>
-								<a href=""><div class="path-wrapper">ValidarUsuario/config/funciones.php</div></a>
-							</dd>
-						</dl>
-						<h2>Tags</h2>
-						<table class="table table-condensed">
-							<tr>
-								<th>package</th>
-								<td>
-									<p>Default</p>
-								</td>
-							</tr>
-						</table>
-					</aside>
-				</div>
-
-				<div class="row-fluid">
-					<div class="span8 content class">
-						<a id="method_validarEmail" name="method_validarEmail"
-							class="anchor"></a>
-						<article class="method">
-							<h3 class=" ">validarEmail()</h3>
-							<a href="#source-view" role="button" class="pull-right btn"
-								data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i
-								class="icon-code"></i></a>
-							<pre class="signature" style="margin-right: 54px;">validarEmail(  <span
-									class="argument">$str</span>) </pre>
-							<p>
-								<em></em>
-							</p>
-
-
-							<h4>Parameters</h4>
-							<table class="table table-condensed table-hover">
-								<tr>
-									<td></td>
-									<td>$str</td>
-									<td></td>
-								</tr>
-							</table>
-
-
-
-						</article>
-					</div>
-					<aside class="span4 detailsbar">
-						<h1>
-							<i class="icon-arrow-down"></i>
-						</h1>
-						<dl>
-							<dt>File</dt>
-							<dd>
-								<a href=""><div class="path-wrapper">ValidarUsuario/config/funciones.php</div></a>
-							</dd>
-						</dl>
-						<h2>Tags</h2>
-						<table class="table table-condensed">
-							<tr>
-								<th>package</th>
-								<td>
-									<p>Default</p>
-								</td>
-							</tr>
-						</table>
-					</aside>
-				</div>
-
-				<div class="row-fluid">
-					<div class="span8 content class">
-						<a id="method_fecha_DD_MM_YYYY_Oracle"
-							name="method_fecha_DD_MM_YYYY_Oracle" class="anchor"></a>
-						<article class="method">
-							<h3 class=" ">fecha_DD_MM_YYYY_Oracle()</h3>
-							<a href="#source-view" role="button" class="pull-right btn"
-								data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i
-								class="icon-code"></i></a>
-							<pre class="signature" style="margin-right: 54px;">fecha_DD_MM_YYYY_Oracle(  <span
-									class="argument">$fecha_inicio</span>) </pre>
-							<p>
-								<em></em>
-							</p>
-
-
-							<h4>Parameters</h4>
-							<table class="table table-condensed table-hover">
-								<tr>
-									<td></td>
-									<td>$fecha_inicio</td>
-									<td></td>
-								</tr>
-							</table>
-
-
-
-						</article>
-					</div>
-					<aside class="span4 detailsbar">
-						<h1>
-							<i class="icon-arrow-down"></i>
-						</h1>
-						<dl>
-							<dt>File</dt>
-							<dd>
-								<a href=""><div class="path-wrapper">ValidarUsuario/config/funciones.php</div></a>
-							</dd>
-						</dl>
-						<h2>Tags</h2>
-						<table class="table table-condensed">
-							<tr>
-								<th>package</th>
-								<td>
-									<p>Default</p>
-								</td>
-							</tr>
-						</table>
-					</aside>
-				</div>
-
-				<div class="row-fluid">
-					<div class="span8 content class">
-						<a id="method_invertirFecha" name="method_invertirFecha"
-							class="anchor"></a>
-						<article class="method">
-							<h3 class=" ">invertirFecha()</h3>
-							<a href="#source-view" role="button" class="pull-right btn"
-								data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i
-								class="icon-code"></i></a>
-							<pre class="signature" style="margin-right: 54px;">invertirFecha(  <span
-									class="argument">$fecha</span>) : string</pre>
-							<p>
-								<em>invierte el orden de la fecha para que quede en el
-									formato dia-mes-ano.</em>
-							</p>
-
-
-							<h4>Parameters</h4>
-							<table class="table table-condensed table-hover">
-								<tr>
-									<td></td>
-									<td>$fecha</td>
-									<td></td>
-								</tr>
-							</table>
-
-
-							<h4>Returns</h4>
-							string &mdash;
-							<p>$aux</p>
-
-						</article>
-					</div>
-					<aside class="span4 detailsbar">
-						<h1>
-							<i class="icon-arrow-down"></i>
-						</h1>
-						<dl>
-							<dt>File</dt>
-							<dd>
-								<a href=""><div class="path-wrapper">ValidarUsuario/config/funciones.php</div></a>
-							</dd>
-						</dl>
-						<h2>Tags</h2>
-						<table class="table table-condensed">
-							<tr>
-								<th>package</th>
-								<td>
-									<p>Default</p>
-								</td>
-							</tr>
-						</table>
-					</aside>
-				</div>
-
-				<div class="row-fluid">
-					<div class="span8 content class">
-						<a id="method_nombreDiacorto" name="method_nombreDiacorto"
-							class="anchor"></a>
-						<article class="method">
-							<h3 class=" ">nombreDiacorto()</h3>
-							<a href="#source-view" role="button" class="pull-right btn"
-								data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i
-								class="icon-code"></i></a>
-							<pre class="signature" style="margin-right: 54px;">nombreDiacorto(  <span
-									class="argument">$fecha</span>) : string</pre>
-							<p>
-								<em>devuelve el dia correspondiente de la semana en formato
-									de tres letras.</em>
-							</p>
-
-
-							<h4>Parameters</h4>
-							<table class="table table-condensed table-hover">
-								<tr>
-									<td></td>
-									<td>$fecha</td>
-									<td></td>
-								</tr>
-							</table>
-
-
-							<h4>Returns</h4>
-							string &mdash;
-							<p>$dias</p>
-
-						</article>
-					</div>
-					<aside class="span4 detailsbar">
-						<h1>
-							<i class="icon-arrow-down"></i>
-						</h1>
-						<dl>
-							<dt>File</dt>
-							<dd>
-								<a href=""><div class="path-wrapper">ValidarUsuario/config/funciones.php</div></a>
-							</dd>
-						</dl>
-						<h2>Tags</h2>
-						<table class="table table-condensed">
-							<tr>
-								<th>package</th>
-								<td>
-									<p>Default</p>
-								</td>
-							</tr>
-						</table>
-					</aside>
-				</div>
-
-				<div class="row-fluid">
-					<div class="span8 content class">
-						<a id="method_sumaDia" name="method_sumaDia" class="anchor"></a>
-						<article class="method">
-							<h3 class=" ">sumaDia()</h3>
-							<a href="#source-view" role="button" class="pull-right btn"
-								data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i
-								class="icon-code"></i></a>
-							<pre class="signature" style="margin-right: 54px;">sumaDia(  <span
-									class="argument">$fecha</span>, integer  <span class="argument">$dia</span>) : string</pre>
-							<p>
-								<em>devuelve la suma de dias.</em>
-							</p>
-
-
-							<h4>Parameters</h4>
-							<table class="table table-condensed table-hover">
-								<tr>
-									<td></td>
-									<td>$fecha</td>
-									<td></td>
-								</tr>
-								<tr>
-									<td>integer</td>
-									<td>$dia</td>
-									<td><p>numero de dias a sumar</p></td>
-								</tr>
-							</table>
-
-
-							<h4>Returns</h4>
-							string &mdash;
-							<ul>
-								<li>Date fecha con los dias sumados</li>
-							</ul>
-
-						</article>
-					</div>
-					<aside class="span4 detailsbar">
-						<h1>
-							<i class="icon-arrow-down"></i>
-						</h1>
-						<dl>
-							<dt>File</dt>
-							<dd>
-								<a href=""><div class="path-wrapper">ValidarUsuario/config/funciones.php</div></a>
-							</dd>
-						</dl>
-						<h2>Tags</h2>
-						<table class="table table-condensed">
-							<tr>
-								<th>package</th>
-								<td>
-									<p>Default</p>
-								</td>
-							</tr>
-						</table>
-					</aside>
-				</div>
-
-				<div class="row-fluid">
-					<div class="span8 content class">
-						<a id="method_diferenciaDias" name="method_diferenciaDias"
-							class="anchor"></a>
-						<article class="method">
-							<h3 class=" ">diferenciaDias()</h3>
-							<a href="#source-view" role="button" class="pull-right btn"
-								data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i
-								class="icon-code"></i></a>
-							<pre class="signature" style="margin-right: 54px;">diferenciaDias(array  <span
-									class="argument">$fecha2</span>, array  <span class="argument">$fecha1</span>) : string</pre>
-							<p>
-								<em>Diferencia de dias - Fecha mayor, Fecha menor.</em>
-							</p>
-
-
-							<h4>Parameters</h4>
-							<table class="table table-condensed table-hover">
-								<tr>
-									<td>array</td>
-									<td>$fecha2</td>
-									<td><p>fecha mayor con el formato ano-mes-dia</p></td>
-								</tr>
-								<tr>
-									<td>array</td>
-									<td>$fecha1</td>
-									<td><p>fecha menor con el formato ano-mes-dia</p></td>
-								</tr>
-							</table>
-
-
-							<h4>Returns</h4>
-							string &mdash;
-							<ul>
-								<li>Date $dias_diferencia fecha con los dias restados</li>
-							</ul>
-
-						</article>
-					</div>
-					<aside class="span4 detailsbar">
-						<h1>
-							<i class="icon-arrow-down"></i>
-						</h1>
-						<dl>
-							<dt>File</dt>
-							<dd>
-								<a href=""><div class="path-wrapper">ValidarUsuario/config/funciones.php</div></a>
-							</dd>
-						</dl>
-						<h2>Tags</h2>
-						<table class="table table-condensed">
-							<tr>
-								<th>package</th>
-								<td>
-									<p>Default</p>
-								</td>
-							</tr>
-						</table>
-					</aside>
-				</div>
-
-				<div class="row-fluid">
-					<div class="span8 content class">
-						<a id="method_fechaCorrecta" name="method_fechaCorrecta"
-							class="anchor"></a>
-						<article class="method">
-							<h3 class=" ">fechaCorrecta()</h3>
-							<a href="#source-view" role="button" class="pull-right btn"
-								data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i
-								class="icon-code"></i></a>
-							<pre class="signature" style="margin-right: 54px;">fechaCorrecta(integer  <span
-									class="argument">$d</span>, integer  <span class="argument">$m</span>, integer  <span
-									class="argument">$a</span>) : boolean</pre>
-							<p>
-								<em>Chequea que la fecha ingresada sea correcta.</em>
-							</p>
-
-
-							<h4>Parameters</h4>
-							<table class="table table-condensed table-hover">
-								<tr>
-									<td>integer</td>
-									<td>$d</td>
-									<td><p>El dia que esta dentro del numero de dias del
-											mes m dado. Los anos a bisiestos son tomados en
-											consideracion.</p></td>
-								</tr>
-								<tr>
-									<td>integer</td>
-									<td>$m</td>
-									<td><p>El mes entre 1 y 12 inclusive.</p></td>
-								</tr>
-								<tr>
-									<td>integer</td>
-									<td>$a</td>
-									<td><p>El ano entre 1 y 32767 inclusive.</p></td>
-								</tr>
-							</table>
-
-
-							<h4>Returns</h4>
-							boolean &mdash;
-							<p>puede ser 0 o 1 dependiendo si la fecha es correcta o no</p>
-
-						</article>
-					</div>
-					<aside class="span4 detailsbar">
-						<h1>
-							<i class="icon-arrow-down"></i>
-						</h1>
-						<dl>
-							<dt>File</dt>
-							<dd>
-								<a href=""><div class="path-wrapper">ValidarUsuario/config/funciones.php</div></a>
-							</dd>
-						</dl>
-						<h2>Tags</h2>
-						<table class="table table-condensed">
-							<tr>
-								<th>package</th>
-								<td>
-									<p>Default</p>
-								</td>
-							</tr>
-						</table>
-					</aside>
-				</div>
-
-				<div class="row-fluid">
-					<div class="span8 content class">
-						<a id="method_calcularMminutosExcedentes"
-							name="method_calcularMminutosExcedentes" class="anchor"></a>
-						<article class="method">
-							<h3 class=" ">calcularMminutosExcedentes()</h3>
-							<a href="#source-view" role="button" class="pull-right btn"
-								data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i
-								class="icon-code"></i></a>
-							<pre class="signature" style="margin-right: 54px;">calcularMminutosExcedentes(string  <span
-									class="argument">$hora1</span>, string  <span class="argument">$hora2</span>) : \number</pre>
-							<p>
-								<em>Calcula la diferencia entre dos horas con el formato
-									00:00.</em>
-							</p>
-
-
-							<h4>Parameters</h4>
-							<table class="table table-condensed table-hover">
-								<tr>
-									<td>string</td>
-									<td>$hora1</td>
-									<td></td>
-								</tr>
-								<tr>
-									<td>string</td>
-									<td>$hora2</td>
-									<td></td>
-								</tr>
-							</table>
-
-
-							<h4>Returns</h4>
-							\number
-
-						</article>
-					</div>
-					<aside class="span4 detailsbar">
-						<h1>
-							<i class="icon-arrow-down"></i>
-						</h1>
-						<dl>
-							<dt>File</dt>
-							<dd>
-								<a href=""><div class="path-wrapper">ValidarUsuario/config/funciones.php</div></a>
-							</dd>
-						</dl>
-						<h2>Tags</h2>
-						<table class="table table-condensed">
-							<tr>
-								<th>package</th>
-								<td>
-									<p>Default</p>
-								</td>
-							</tr>
-						</table>
-					</aside>
-				</div>
-
-				<div class="row-fluid">
-					<div class="span8 content class">
-						<a id="method_generar_mensaje_detalle_boleta"
-							name="method_generar_mensaje_detalle_boleta" class="anchor"></a>
-						<article class="method">
-							<h3 class=" ">generar_mensaje_detalle_boleta()</h3>
-							<a href="#source-view" role="button" class="pull-right btn"
-								data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i
-								class="icon-code"></i></a>
-							<pre class="signature" style="margin-right: 54px;">generar_mensaje_detalle_boleta(integer  <span
-									class="argument">$id_boleta</span>, integer  <span
-									class="argument">$estado_boleta</span>) : string</pre>
-							<p>
-								<em>Genera el mail con el detalle de la boleta.</em>
-							</p>
-
-
-							<h4>Parameters</h4>
-							<table class="table table-condensed table-hover">
-								<tr>
-									<td>integer</td>
-									<td>$id_boleta</td>
-									<td></td>
-								</tr>
-								<tr>
-									<td>integer</td>
-									<td>$estado_boleta</td>
-									<td></td>
-								</tr>
-							</table>
-
-
-							<h4>Returns</h4>
-							string
-
-						</article>
-					</div>
-					<aside class="span4 detailsbar">
-						<h1>
-							<i class="icon-arrow-down"></i>
-						</h1>
-						<dl>
-							<dt>File</dt>
-							<dd>
-								<a href=""><div class="path-wrapper">ValidarUsuario/config/funciones.php</div></a>
-							</dd>
-						</dl>
-						<h2>Tags</h2>
-						<table class="table table-condensed">
-							<tr>
-								<th>package</th>
-								<td>
-									<p>Default</p>
-								</td>
-							</tr>
-						</table>
-					</aside>
-				</div>
-
-				<div class="row-fluid">
-					<div class="span8 content class">
-						<a id="method_interfazBoleInst_Out"
-							name="method_interfazBoleInst_Out" class="anchor"></a>
-						<article class="method">
-							<h3 class=" ">interfazBoleInst_Out()</h3>
-							<a href="#source-view" role="button" class="pull-right btn"
-								data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i
-								class="icon-code"></i></a>
-							<pre class="signature" style="margin-right: 54px;">interfazBoleInst_Out() </pre>
-							<p>
-								<em></em>
-							</p>
-
-
-
-
-
-						</article>
-					</div>
-					<aside class="span4 detailsbar">
-						<h1>
-							<i class="icon-arrow-down"></i>
-						</h1>
-						<dl>
-							<dt>File</dt>
-							<dd>
-								<a href=""><div class="path-wrapper">ValidarUsuario/config/funciones.php</div></a>
-							</dd>
-						</dl>
-						<h2>Tags</h2>
-						<table class="table table-condensed">
-							<tr>
-								<th>package</th>
-								<td>
-									<p>Default</p>
-								</td>
-							</tr>
-						</table>
-					</aside>
-				</div>
-
-				<div class="row-fluid">
-					<div class="span8 content class">
-						<a id="method_interfazInstituciones"
-							name="method_interfazInstituciones" class="anchor"></a>
-						<article class="method">
-							<h3 class=" ">interfazInstituciones()</h3>
-							<a href="#source-view" role="button" class="pull-right btn"
-								data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i
-								class="icon-code"></i></a>
-							<pre class="signature" style="margin-right: 54px;">interfazInstituciones(  <span
-									class="argument">$str</span>) </pre>
-							<p>
-								<em></em>
-							</p>
-
-
-							<h4>Parameters</h4>
-							<table class="table table-condensed table-hover">
-								<tr>
-									<td></td>
-									<td>$str</td>
-									<td></td>
-								</tr>
-							</table>
-
-
-
-						</article>
-					</div>
-					<aside class="span4 detailsbar">
-						<h1>
-							<i class="icon-arrow-down"></i>
-						</h1>
-						<dl>
-							<dt>File</dt>
-							<dd>
-								<a href=""><div class="path-wrapper">ValidarUsuario/config/funciones.php</div></a>
-							</dd>
-						</dl>
-						<h2>Tags</h2>
-						<table class="table table-condensed">
-							<tr>
-								<th>package</th>
-								<td>
-									<p>Default</p>
-								</td>
-							</tr>
-						</table>
-					</aside>
-				</div>
-
-				<div class="row-fluid">
-					<div class="span8 content class">
-						<a id="method_calcularDigitoVerificador"
-							name="method_calcularDigitoVerificador" class="anchor"></a>
-						<article class="method">
-							<h3 class=" ">calcularDigitoVerificador()</h3>
-							<a href="#source-view" role="button" class="pull-right btn"
-								data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i
-								class="icon-code"></i></a>
-							<pre class="signature" style="margin-right: 54px;">calcularDigitoVerificador(  <span
-									class="argument">$str</span>) </pre>
-							<p>
-								<em></em>
-							</p>
-
-
-							<h4>Parameters</h4>
-							<table class="table table-condensed table-hover">
-								<tr>
-									<td></td>
-									<td>$str</td>
-									<td></td>
-								</tr>
-							</table>
-
-
-
-						</article>
-					</div>
-					<aside class="span4 detailsbar">
-						<h1>
-							<i class="icon-arrow-down"></i>
-						</h1>
-						<dl>
-							<dt>File</dt>
-							<dd>
-								<a href=""><div class="path-wrapper">ValidarUsuario/config/funciones.php</div></a>
-							</dd>
-						</dl>
-						<h2>Tags</h2>
-						<table class="table table-condensed">
-							<tr>
-								<th>package</th>
-								<td>
-									<p>Default</p>
-								</td>
-							</tr>
-						</table>
-					</aside>
-				</div>
-
-				<div class="row-fluid">
-					<div class="span8 content class">
-						<a id="method_clean" name="method_clean" class="anchor"></a>
-						<article class="method">
-							<h3 class=" ">clean()</h3>
-							<a href="#source-view" role="button" class="pull-right btn"
-								data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i
-								class="icon-code"></i></a>
-							<pre class="signature" style="margin-right: 54px;">clean(  <span
-									class="argument">$str</span>) </pre>
-							<p>
-								<em></em>
-							</p>
-
-
-							<h4>Parameters</h4>
-							<table class="table table-condensed table-hover">
-								<tr>
-									<td></td>
-									<td>$str</td>
-									<td></td>
-								</tr>
-							</table>
-
-
-
-						</article>
-					</div>
-					<aside class="span4 detailsbar">
-						<h1>
-							<i class="icon-arrow-down"></i>
-						</h1>
-						<dl>
-							<dt>File</dt>
-							<dd>
-								<a href=""><div class="path-wrapper">ValidarUsuario/config/funciones.php</div></a>
-							</dd>
-						</dl>
-						<h2>Tags</h2>
-						<table class="table table-condensed">
-							<tr>
-								<th>package</th>
-								<td>
-									<p>Default</p>
-								</td>
-							</tr>
-						</table>
-					</aside>
-				</div>
-
-				<div class="row-fluid">
-					<div class="span8 content class">
-						<a id="method_save_image" name="method_save_image" class="anchor"></a>
-						<article class="method">
-							<h3 class=" ">save_image()</h3>
-							<a href="#source-view" role="button" class="pull-right btn"
-								data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i
-								class="icon-code"></i></a>
-							<pre class="signature" style="margin-right: 54px;">save_image(  <span
-									class="argument">$inPath</span>,   <span class="argument">$outPath</span>) </pre>
-							<p>
-								<em></em>
-							</p>
-
-
-							<h4>Parameters</h4>
-							<table class="table table-condensed table-hover">
-								<tr>
-									<td></td>
-									<td>$inPath</td>
-									<td></td>
-								</tr>
-								<tr>
-									<td></td>
-									<td>$outPath</td>
-									<td></td>
-								</tr>
-							</table>
-
-
-
-						</article>
-					</div>
-					<aside class="span4 detailsbar">
-						<h1>
-							<i class="icon-arrow-down"></i>
-						</h1>
-						<dl>
-							<dt>File</dt>
-							<dd>
-								<a href=""><div class="path-wrapper">ValidarUsuario/config/funciones.php</div></a>
-							</dd>
-						</dl>
-						<h2>Tags</h2>
-						<table class="table table-condensed">
-							<tr>
-								<th>package</th>
-								<td>
-									<p>Default</p>
-								</td>
-							</tr>
-						</table>
-					</aside>
-				</div>
-
-				<div class="row-fluid">
-					<div class="span8 content class">
-						<a id="method_mantenimiento" name="method_mantenimiento"
-							class="anchor"></a>
-						<article class="method">
-							<h3 class=" ">mantenimiento()</h3>
-							<a href="#source-view" role="button" class="pull-right btn"
-								data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i
-								class="icon-code"></i></a>
-							<pre class="signature" style="margin-right: 54px;">mantenimiento() </pre>
-							<p>
-								<em></em>
-							</p>
-
-
-
-
-
-						</article>
-					</div>
-					<aside class="span4 detailsbar">
-						<h1>
-							<i class="icon-arrow-down"></i>
-						</h1>
-						<dl>
-							<dt>File</dt>
-							<dd>
-								<a href=""><div class="path-wrapper">ValidarUsuario/config/funciones.php</div></a>
-							</dd>
-						</dl>
-						<h2>Tags</h2>
-						<table class="table table-condensed">
-							<tr>
-								<th>package</th>
-								<td>
-									<p>Default</p>
-								</td>
-							</tr>
-						</table>
-					</aside>
-				</div>
-
-				<div class="row-fluid">
-					<div class="span8 content class">
-						<a id="method_datosDerivado" name="method_datosDerivado"
-							class="anchor"></a>
-						<article class="method">
-							<h3 class=" ">datosDerivado()</h3>
-							<a href="#source-view" role="button" class="pull-right btn"
-								data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i
-								class="icon-code"></i></a>
-							<pre class="signature" style="margin-right: 54px;">datosDerivado(  <span
-									class="argument">$derivado</span>) : boolean</pre>
-							<p>
-								<em>Verifica que el usuario cargado en el campo DERIVADO
-									sea una persona y recupera sus datos, en caso contrario
-									recupera los datos del departamento</em>
-							</p>
-
-
-							<h4>Parameters</h4>
-							<table class="table table-condensed table-hover">
-								<tr>
-									<td></td>
-									<td>$derivado</td>
-									<td></td>
-								</tr>
-							</table>
-
-
-							<h4>Returns</h4>
-							boolean &mdash;
-							<p>puede ser 0 o 1 dependiendo si la fecha es correcta o no</p>
-
-						</article>
-					</div>
-					<aside class="span4 detailsbar">
-						<h1>
-							<i class="icon-arrow-down"></i>
-						</h1>
-						<dl>
-							<dt>File</dt>
-							<dd>
-								<a href=""><div class="path-wrapper">ValidarUsuario/config/funciones.php</div></a>
-							</dd>
-						</dl>
-						<h2>Tags</h2>
-						<table class="table table-condensed">
-							<tr>
-								<th>package</th>
-								<td>
-									<p>Default</p>
-								</td>
-							</tr>
-						</table>
-					</aside>
-				</div>
-
-				<div class="row-fluid">
-					<div class="span8 content class">
-						<a id="method_convertir_especiales_html"
-							name="method_convertir_especiales_html" class="anchor"></a>
-						<article class="method">
-							<h3 class=" ">convertir_especiales_html()</h3>
-							<a href="#source-view" role="button" class="pull-right btn"
-								data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i
-								class="icon-code"></i></a>
-							<pre class="signature" style="margin-right: 54px;">convertir_especiales_html(  <span
-									class="argument">$str</span>) </pre>
-							<p>
-								<em></em>
-							</p>
-
-
-							<h4>Parameters</h4>
-							<table class="table table-condensed table-hover">
-								<tr>
-									<td></td>
-									<td>$str</td>
-									<td></td>
-								</tr>
-							</table>
-
-
-
-						</article>
-					</div>
-					<aside class="span4 detailsbar">
-						<h1>
-							<i class="icon-arrow-down"></i>
-						</h1>
-						<dl>
-							<dt>File</dt>
-							<dd>
-								<a href=""><div class="path-wrapper">ValidarUsuario/config/funciones.php</div></a>
-							</dd>
-						</dl>
-						<h2>Tags</h2>
-						<table class="table table-condensed">
-							<tr>
-								<th>package</th>
-								<td>
-									<p>Default</p>
-								</td>
-							</tr>
-						</table>
-					</aside>
-				</div>
-
-				<div class="row-fluid">
-					<div class="span8 content class">
-						<a id="method_limpiarString" name="method_limpiarString"
-							class="anchor"></a>
-						<article class="method">
-							<h3 class=" ">limpiarString()</h3>
-							<a href="#source-view" role="button" class="pull-right btn"
-								data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i
-								class="icon-code"></i></a>
-							<pre class="signature" style="margin-right: 54px;">limpiarString(  <span
-									class="argument">$texto</span>) </pre>
-							<p>
-								<em></em>
-							</p>
-
-
-							<h4>Parameters</h4>
-							<table class="table table-condensed table-hover">
-								<tr>
-									<td></td>
-									<td>$texto</td>
-									<td></td>
-								</tr>
-							</table>
-
-
-
-						</article>
-					</div>
-					<aside class="span4 detailsbar">
-						<h1>
-							<i class="icon-arrow-down"></i>
-						</h1>
-						<dl>
-							<dt>File</dt>
-							<dd>
-								<a href=""><div class="path-wrapper">ValidarUsuario/config/funciones.php</div></a>
-							</dd>
-						</dl>
-						<h2>Tags</h2>
-						<table class="table table-condensed">
-							<tr>
-								<th>package</th>
-								<td>
-									<p>Default</p>
-								</td>
-							</tr>
-						</table>
-					</aside>
-				</div>
-
-
-			</div>
-		</section>
-
-		<div id="source-view" class="modal hide fade" tabindex="-1"
-			role="dialog" aria-labelledby="source-view-label" aria-hidden="true">
-			<div class="modal-header">
-				<button type="button" class="close" data-dismiss="modal"
-					aria-hidden="true">×</button>
-				<h3 id="source-view-label"></h3>
-			</div>
-			<div class="modal-body">
-				<pre data-src="../files/ValidarUsuario/config/funciones.php.txt"
-					class="language-php line-numbers"></pre>
-			</div>
-		</div>
-
-		<footer class="row-fluid">
-			<section class="span10 offset2">
-				<section class="row-fluid">
-					<section class="span10 offset1">
-						<section class="row-fluid footer-sections">
-							<section class="span4">
-								<h1>
-									<i class="icon-code"></i>
-								</h1>
-								<div>
-									<ul>
-									</ul>
-								</div>
-							</section>
-							<section class="span4">
-								<h1>
-									<i class="icon-bar-chart"></i>
-								</h1>
-								<div>
-									<ul>
-										<li><a href="../graphs/class.html">Class Hierarchy
-												Diagram</a></li>
-									</ul>
-								</div>
-							</section>
-							<section class="span4">
-								<h1>
-									<i class="icon-pushpin"></i>
-								</h1>
-								<div>
-									<ul>
-										<li><a href="../reports/errors.html">Errors</a></li>
-										<li><a href="../reports/markers.html">Markers</a></li>
-									</ul>
-								</div>
-							</section>
-						</section>
-					</section>
-				</section>
-				<section class="row-fluid">
-					<section class="span10 offset1">
-						<hr />
-						Documentation is powered by <a href="http://www.phpdoc.org/">phpDocumentor
-						</a> and authored <<<<<<< HEAD <<<<<<< develop <<<<<<< develop <<<<<<<
-						Updated upstream on September 24th, 2018 at 11:10. ======= on
-						December 7th, 2018 at 13:16. >>>>>>> Stashed changes ======= on
-						December 7th, 2018 at 12:38. >>>>>>> F_C-002 ======= on December
-						7th, 2018 at 13:16. >>>>>>> BS-004 ======= on December 7th, 2018
-						at 13:16. >>>>>>> ABM-006
-					</section>
-				</section>
-			</section>
-		</footer>
-	</div>
+<div class="navbar navbar-fixed-top">
+    <div class="navbar-inner">
+        <div class="container">
+            <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                <i class="icon-ellipsis-vertical"></i>
+            </a>
+            <a class="brand" href="../index.html">API Documentation</a>
+
+            <div class="nav-collapse">
+                <ul class="nav pull-right">
+                                        <li class="dropdown" id="charts-menu">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            Charts <b class="caret"></b>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a href="../graphs/class.html">
+                                    <i class="icon-list-alt"></i>&#160;Class hierarchy diagram
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="dropdown" id="reports-menu">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            Reports <b class="caret"></b>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a href="../reports/errors.html">
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        <i class="icon-list-alt"></i>&#160;Errors <span class="label label-info pull-right">262</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="../reports/markers.html">
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        <i class="icon-list-alt"></i>&#160;Markers <span class="label label-info pull-right">84</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="../reports/deprecated.html">
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    <i class="icon-list-alt"></i>&#160;Deprecated <span class="label label-info pull-right">34</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!--<div class="go_to_top">-->
+    <!--<a href="#___" style="color: inherit">Back to top&#160;&#160;<i class="icon-upload icon-white"></i></a>-->
+    <!--</div>-->
+</div>
+
+<div id="___" class="container-fluid">
+        <section class="row-fluid">
+        <div class="span2 sidebar">
+                                <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle " data-toggle="collapse" data-target="#namespace-1575887885"></a>
+                                <a href="../namespaces/default.html" style="margin-left: 30px; padding-left: 0">\</a>
+            </div>
+            <div id="namespace-1575887885" class="accordion-body collapse in">
+                <div class="accordion-inner">
+
+                    
+                    <ul>
+                                                                                                    <li class="class"><a href="../classes/Campos_bit.html">Campos_bit</a></li>
+                                                    <li class="class"><a href="../classes/Campos_combo.html">Campos_combo</a></li>
+                                                    <li class="class"><a href="../classes/Campos_dbCombo.html">Campos_dbCombo</a></li>
+                                                    <li class="class"><a href="../classes/Campos_fecha.html">Campos_fecha</a></li>
+                                                    <li class="class"><a href="../classes/Campos_moneda.html">Campos_moneda</a></li>
+                                                    <li class="class"><a href="../classes/Campos_numero.html">Campos_numero</a></li>
+                                                    <li class="class"><a href="../classes/Campos_password.html">Campos_password</a></li>
+                                                    <li class="class"><a href="../classes/Campos_rownum.html">Campos_rownum</a></li>
+                                                    <li class="class"><a href="../classes/Campos_textarea.html">Campos_textarea</a></li>
+                                                    <li class="class"><a href="../classes/Campos_texto.html">Campos_texto</a></li>
+                                                    <li class="class"><a href="../classes/Campos_upload.html">Campos_upload</a></li>
+                                                    <li class="class"><a href="../classes/class_abm.html">class_abm</a></li>
+                                                    <li class="class"><a href="../classes/class_abm.html">class_abm</a></li>
+                                                    <li class="class"><a href="../classes/class_campo.html">class_campo</a></li>
+                                                    <li class="class"><a href="../classes/class_db.html">class_db</a></li>
+                                                    <li class="class"><a href="../classes/class_orderby.html">class_orderby</a></li>
+                                                    <li class="class"><a href="../classes/class_paginado.html">class_paginado</a></li>
+                                                    <li class="class"><a href="../classes/consulta.html">consulta</a></li>
+                                                    <li class="class"><a href="../classes/Fechas.html">Fechas</a></li>
+                                                    <li class="class"><a href="../classes/files.html">files</a></li>
+                                                    <li class="class"><a href="../classes/Funciones.html">Funciones</a></li>
+                                                    <li class="class"><a href="../classes/FuncionesString.html">FuncionesString</a></li>
+                                                    <li class="class"><a href="../classes/Session.html">Session</a></li>
+                                                    <li class="class"><a href="../classes/Sitios.html">Sitios</a></li>
+                                                    <li class="class"><a href="../classes/validar.html">validar</a></li>
+                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+        </div>
+    </section>
+    <section class="row-fluid">
+        <div class="span10 offset2">
+            <div class="row-fluid">
+                <div class="span8 content file">
+                    <nav>
+                                                                    </nav>
+
+                    <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal"><i class="icon-code"></i></a>
+                    <h1><small>ValidarUsuario/config</small>funciones.php</h1>
+                    <p><em></em></p>
+                    
+
+                    
+                    
+                                    </div>
+
+                <aside class="span4 detailsbar">
+                    <dl>
+                                                    <dt>Package</dt>
+                            <dd><div class="namespace-wrapper">\Default</div></dd>
+                        
+                        
+                    </dl>
+                    <h2>Tags</h2>
+                    <table class="table table-condensed">
+                                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                                            </table>
+
+                </aside>
+            </div>
+
+            
+                        <div class="row-fluid">
+                <section class="span8 content file">
+                    <h2>Functions</h2>
+                </section>
+                <aside class="span4 detailsbar"></aside>
+            </div>
+
+                                        <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_usuario" name="method_usuario" class="anchor"></a>
+            <article class="method">
+                <h3 class=" ">usuario()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">usuario(string  <span class="argument">$cadena</span>) : string</pre>
+                <p><em>Devuelve el usuario encerrado entre parentesis</em></p>
+                
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>string</td>
+                                <td>$cadena </td>
+                                <td><p>Cadena en la que se encuetra el texto encerrado entre parentesis a extraer</p></td>
+                            </tr>
+                                            </table>
+                
+                
+                                    <h4>Returns</h4>
+                    string
+                                            &mdash; <p>$final Texto que se encuentra entre parentesis extraido para su uso</p>
+                                    				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                    <dt>File</dt>
+                    <dd><a href=""><div class="path-wrapper">ValidarUsuario/config/funciones.php</div></a></dd>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            package
+                        </th>
+                        <td>
+                                                                                            <p>Default</p>
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                        <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_usrRefernt" name="method_usrRefernt" class="anchor"></a>
+            <article class="method">
+                <h3 class=" ">usrRefernt()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">usrRefernt(integer  <span class="argument">$anio</span>, integer  <span class="argument">$reque</span>) : string</pre>
+                <p><em>Devuelve los datos del usuario Referente</em></p>
+                
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>integer</td>
+                                <td>$anio </td>
+                                <td><p>ano del requerimiento del que se quiere saber el referente</p></td>
+                            </tr>
+                                                    <tr>
+                                <td>integer</td>
+                                <td>$reque </td>
+                                <td><p>Numero del requerimiento del que se quiere saber el referente</p></td>
+                            </tr>
+                                            </table>
+                
+                
+                                    <h4>Returns</h4>
+                    string
+                                            &mdash; <p>$final Texto que se encuentra entre parentesis extraido para su uso</p>
+                                    				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                    <dt>File</dt>
+                    <dd><a href=""><div class="path-wrapper">ValidarUsuario/config/funciones.php</div></a></dd>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            package
+                        </th>
+                        <td>
+                                                                                            <p>Default</p>
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                        <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_datosPersona" name="method_datosPersona" class="anchor"></a>
+            <article class="method">
+                <h3 class=" ">datosPersona()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">datosPersona(integer  <span class="argument">$nroDoc</span>, string  <span class="argument">$tipoDoc</span>) : array</pre>
+                <p><em>Devuelve los datos del usuario ingresando numero y tipo de documento</em></p>
+                
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>integer</td>
+                                <td>$nroDoc </td>
+                                <td><p>Numero del documento</p></td>
+                            </tr>
+                                                    <tr>
+                                <td>string</td>
+                                <td>$tipoDoc </td>
+                                <td><p>Tipo de documento</p></td>
+                            </tr>
+                                            </table>
+                
+                
+                                    <h4>Returns</h4>
+                    array
+                                            &mdash; <p>$personaNombre, $persona['CUENTA'], $EmailPersona con los diferentes datos</p>
+                                    				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                    <dt>File</dt>
+                    <dd><a href=""><div class="path-wrapper">ValidarUsuario/config/funciones.php</div></a></dd>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            package
+                        </th>
+                        <td>
+                                                                                            <p>Default</p>
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                        <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_validarEmail" name="method_validarEmail" class="anchor"></a>
+            <article class="method">
+                <h3 class=" ">validarEmail()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">validarEmail(  <span class="argument">$str</span>) </pre>
+                <p><em></em></p>
+                
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td></td>
+                                <td>$str </td>
+                                <td></td>
+                            </tr>
+                                            </table>
+                
+                
+                				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                    <dt>File</dt>
+                    <dd><a href=""><div class="path-wrapper">ValidarUsuario/config/funciones.php</div></a></dd>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            package
+                        </th>
+                        <td>
+                                                                                            <p>Default</p>
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                        <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_fecha_DD_MM_YYYY_Oracle" name="method_fecha_DD_MM_YYYY_Oracle" class="anchor"></a>
+            <article class="method">
+                <h3 class=" ">fecha_DD_MM_YYYY_Oracle()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">fecha_DD_MM_YYYY_Oracle(  <span class="argument">$fecha_inicio</span>) </pre>
+                <p><em></em></p>
+                
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td></td>
+                                <td>$fecha_inicio </td>
+                                <td></td>
+                            </tr>
+                                            </table>
+                
+                
+                				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                    <dt>File</dt>
+                    <dd><a href=""><div class="path-wrapper">ValidarUsuario/config/funciones.php</div></a></dd>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            package
+                        </th>
+                        <td>
+                                                                                            <p>Default</p>
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                        <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_invertirFecha" name="method_invertirFecha" class="anchor"></a>
+            <article class="method">
+                <h3 class=" ">invertirFecha()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">invertirFecha(  <span class="argument">$fecha</span>) : string</pre>
+                <p><em>invierte el orden de la fecha para que quede en el formato dia-mes-ano.</em></p>
+                
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td></td>
+                                <td>$fecha </td>
+                                <td></td>
+                            </tr>
+                                            </table>
+                
+                
+                                    <h4>Returns</h4>
+                    string
+                                            &mdash; <p>$aux</p>
+                                    				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                    <dt>File</dt>
+                    <dd><a href=""><div class="path-wrapper">ValidarUsuario/config/funciones.php</div></a></dd>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            package
+                        </th>
+                        <td>
+                                                                                            <p>Default</p>
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                        <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_nombreDiacorto" name="method_nombreDiacorto" class="anchor"></a>
+            <article class="method">
+                <h3 class=" ">nombreDiacorto()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">nombreDiacorto(  <span class="argument">$fecha</span>) : string</pre>
+                <p><em>devuelve el dia correspondiente de la semana en formato de tres letras.</em></p>
+                
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td></td>
+                                <td>$fecha </td>
+                                <td></td>
+                            </tr>
+                                            </table>
+                
+                
+                                    <h4>Returns</h4>
+                    string
+                                            &mdash; <p>$dias</p>
+                                    				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                    <dt>File</dt>
+                    <dd><a href=""><div class="path-wrapper">ValidarUsuario/config/funciones.php</div></a></dd>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            package
+                        </th>
+                        <td>
+                                                                                            <p>Default</p>
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                        <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_sumaDia" name="method_sumaDia" class="anchor"></a>
+            <article class="method">
+                <h3 class=" ">sumaDia()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">sumaDia(  <span class="argument">$fecha</span>, integer  <span class="argument">$dia</span>) : string</pre>
+                <p><em>devuelve la suma de dias.</em></p>
+                
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td></td>
+                                <td>$fecha </td>
+                                <td></td>
+                            </tr>
+                                                    <tr>
+                                <td>integer</td>
+                                <td>$dia </td>
+                                <td><p>numero de dias a sumar</p></td>
+                            </tr>
+                                            </table>
+                
+                
+                                    <h4>Returns</h4>
+                    string
+                                            &mdash; <ul>
+<li>Date fecha con los dias sumados</li>
+</ul>
+                                    				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                    <dt>File</dt>
+                    <dd><a href=""><div class="path-wrapper">ValidarUsuario/config/funciones.php</div></a></dd>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            package
+                        </th>
+                        <td>
+                                                                                            <p>Default</p>
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                        <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_diferenciaDias" name="method_diferenciaDias" class="anchor"></a>
+            <article class="method">
+                <h3 class=" ">diferenciaDias()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">diferenciaDias(array  <span class="argument">$fecha2</span>, array  <span class="argument">$fecha1</span>) : string</pre>
+                <p><em>Diferencia de dias - Fecha mayor, Fecha menor.</em></p>
+                
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>array</td>
+                                <td>$fecha2 </td>
+                                <td><p>fecha mayor con el formato ano-mes-dia</p></td>
+                            </tr>
+                                                    <tr>
+                                <td>array</td>
+                                <td>$fecha1 </td>
+                                <td><p>fecha menor con el formato ano-mes-dia</p></td>
+                            </tr>
+                                            </table>
+                
+                
+                                    <h4>Returns</h4>
+                    string
+                                            &mdash; <ul>
+<li>Date $dias_diferencia fecha con los dias restados</li>
+</ul>
+                                    				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                    <dt>File</dt>
+                    <dd><a href=""><div class="path-wrapper">ValidarUsuario/config/funciones.php</div></a></dd>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            package
+                        </th>
+                        <td>
+                                                                                            <p>Default</p>
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                        <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_fechaCorrecta" name="method_fechaCorrecta" class="anchor"></a>
+            <article class="method">
+                <h3 class=" ">fechaCorrecta()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">fechaCorrecta(integer  <span class="argument">$d</span>, integer  <span class="argument">$m</span>, integer  <span class="argument">$a</span>) : boolean</pre>
+                <p><em>Chequea que la fecha ingresada sea correcta.</em></p>
+                
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>integer</td>
+                                <td>$d </td>
+                                <td><p>El dia que esta dentro del numero de dias del mes m dado. Los anos a bisiestos son tomados en consideracion.</p></td>
+                            </tr>
+                                                    <tr>
+                                <td>integer</td>
+                                <td>$m </td>
+                                <td><p>El mes entre 1 y 12 inclusive.</p></td>
+                            </tr>
+                                                    <tr>
+                                <td>integer</td>
+                                <td>$a </td>
+                                <td><p>El ano entre 1 y 32767 inclusive.</p></td>
+                            </tr>
+                                            </table>
+                
+                
+                                    <h4>Returns</h4>
+                    boolean
+                                            &mdash; <p>puede ser 0 o 1 dependiendo si la fecha es correcta o no</p>
+                                    				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                    <dt>File</dt>
+                    <dd><a href=""><div class="path-wrapper">ValidarUsuario/config/funciones.php</div></a></dd>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            package
+                        </th>
+                        <td>
+                                                                                            <p>Default</p>
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                        <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_calcularMminutosExcedentes" name="method_calcularMminutosExcedentes" class="anchor"></a>
+            <article class="method">
+                <h3 class=" ">calcularMminutosExcedentes()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">calcularMminutosExcedentes(string  <span class="argument">$hora1</span>, string  <span class="argument">$hora2</span>) : \number</pre>
+                <p><em>Calcula la diferencia entre dos horas con el formato 00:00.</em></p>
+                
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>string</td>
+                                <td>$hora1 </td>
+                                <td></td>
+                            </tr>
+                                                    <tr>
+                                <td>string</td>
+                                <td>$hora2 </td>
+                                <td></td>
+                            </tr>
+                                            </table>
+                
+                
+                                    <h4>Returns</h4>
+                    \number
+                                    				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                    <dt>File</dt>
+                    <dd><a href=""><div class="path-wrapper">ValidarUsuario/config/funciones.php</div></a></dd>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            package
+                        </th>
+                        <td>
+                                                                                            <p>Default</p>
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                        <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_generar_mensaje_detalle_boleta" name="method_generar_mensaje_detalle_boleta" class="anchor"></a>
+            <article class="method">
+                <h3 class=" ">generar_mensaje_detalle_boleta()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">generar_mensaje_detalle_boleta(integer  <span class="argument">$id_boleta</span>, integer  <span class="argument">$estado_boleta</span>) : string</pre>
+                <p><em>Genera el mail con el detalle de la boleta.</em></p>
+                
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>integer</td>
+                                <td>$id_boleta </td>
+                                <td></td>
+                            </tr>
+                                                    <tr>
+                                <td>integer</td>
+                                <td>$estado_boleta </td>
+                                <td></td>
+                            </tr>
+                                            </table>
+                
+                
+                                    <h4>Returns</h4>
+                    string
+                                    				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                    <dt>File</dt>
+                    <dd><a href=""><div class="path-wrapper">ValidarUsuario/config/funciones.php</div></a></dd>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            package
+                        </th>
+                        <td>
+                                                                                            <p>Default</p>
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                        <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_interfazBoleInst_Out" name="method_interfazBoleInst_Out" class="anchor"></a>
+            <article class="method">
+                <h3 class=" ">interfazBoleInst_Out()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">interfazBoleInst_Out() </pre>
+                <p><em></em></p>
+                
+
+                
+                
+                				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                    <dt>File</dt>
+                    <dd><a href=""><div class="path-wrapper">ValidarUsuario/config/funciones.php</div></a></dd>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            package
+                        </th>
+                        <td>
+                                                                                            <p>Default</p>
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                        <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_interfazInstituciones" name="method_interfazInstituciones" class="anchor"></a>
+            <article class="method">
+                <h3 class=" ">interfazInstituciones()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">interfazInstituciones(  <span class="argument">$str</span>) </pre>
+                <p><em></em></p>
+                
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td></td>
+                                <td>$str </td>
+                                <td></td>
+                            </tr>
+                                            </table>
+                
+                
+                				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                    <dt>File</dt>
+                    <dd><a href=""><div class="path-wrapper">ValidarUsuario/config/funciones.php</div></a></dd>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            package
+                        </th>
+                        <td>
+                                                                                            <p>Default</p>
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                        <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_calcularDigitoVerificador" name="method_calcularDigitoVerificador" class="anchor"></a>
+            <article class="method">
+                <h3 class=" ">calcularDigitoVerificador()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">calcularDigitoVerificador(  <span class="argument">$str</span>) </pre>
+                <p><em></em></p>
+                
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td></td>
+                                <td>$str </td>
+                                <td></td>
+                            </tr>
+                                            </table>
+                
+                
+                				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                    <dt>File</dt>
+                    <dd><a href=""><div class="path-wrapper">ValidarUsuario/config/funciones.php</div></a></dd>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            package
+                        </th>
+                        <td>
+                                                                                            <p>Default</p>
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                        <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_clean" name="method_clean" class="anchor"></a>
+            <article class="method">
+                <h3 class=" ">clean()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">clean(  <span class="argument">$str</span>) </pre>
+                <p><em></em></p>
+                
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td></td>
+                                <td>$str </td>
+                                <td></td>
+                            </tr>
+                                            </table>
+                
+                
+                				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                    <dt>File</dt>
+                    <dd><a href=""><div class="path-wrapper">ValidarUsuario/config/funciones.php</div></a></dd>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            package
+                        </th>
+                        <td>
+                                                                                            <p>Default</p>
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                        <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_save_image" name="method_save_image" class="anchor"></a>
+            <article class="method">
+                <h3 class=" ">save_image()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">save_image(  <span class="argument">$inPath</span>,   <span class="argument">$outPath</span>) </pre>
+                <p><em></em></p>
+                
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td></td>
+                                <td>$inPath </td>
+                                <td></td>
+                            </tr>
+                                                    <tr>
+                                <td></td>
+                                <td>$outPath </td>
+                                <td></td>
+                            </tr>
+                                            </table>
+                
+                
+                				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                    <dt>File</dt>
+                    <dd><a href=""><div class="path-wrapper">ValidarUsuario/config/funciones.php</div></a></dd>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            package
+                        </th>
+                        <td>
+                                                                                            <p>Default</p>
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                        <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_mantenimiento" name="method_mantenimiento" class="anchor"></a>
+            <article class="method">
+                <h3 class=" ">mantenimiento()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">mantenimiento() </pre>
+                <p><em></em></p>
+                
+
+                
+                
+                				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                    <dt>File</dt>
+                    <dd><a href=""><div class="path-wrapper">ValidarUsuario/config/funciones.php</div></a></dd>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            package
+                        </th>
+                        <td>
+                                                                                            <p>Default</p>
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                        <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_datosDerivado" name="method_datosDerivado" class="anchor"></a>
+            <article class="method">
+                <h3 class=" ">datosDerivado()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">datosDerivado(  <span class="argument">$derivado</span>) : boolean</pre>
+                <p><em>Verifica que el usuario cargado en el campo DERIVADO sea una persona
+y recupera sus datos, en caso contrario recupera los datos del departamento</em></p>
+                
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td></td>
+                                <td>$derivado </td>
+                                <td></td>
+                            </tr>
+                                            </table>
+                
+                
+                                    <h4>Returns</h4>
+                    boolean
+                                            &mdash; <p>puede ser 0 o 1 dependiendo si la fecha es correcta o no</p>
+                                    				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                    <dt>File</dt>
+                    <dd><a href=""><div class="path-wrapper">ValidarUsuario/config/funciones.php</div></a></dd>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            package
+                        </th>
+                        <td>
+                                                                                            <p>Default</p>
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                        <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_convertir_especiales_html" name="method_convertir_especiales_html" class="anchor"></a>
+            <article class="method">
+                <h3 class=" ">convertir_especiales_html()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">convertir_especiales_html(  <span class="argument">$str</span>) </pre>
+                <p><em></em></p>
+                
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td></td>
+                                <td>$str </td>
+                                <td></td>
+                            </tr>
+                                            </table>
+                
+                
+                				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                    <dt>File</dt>
+                    <dd><a href=""><div class="path-wrapper">ValidarUsuario/config/funciones.php</div></a></dd>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            package
+                        </th>
+                        <td>
+                                                                                            <p>Default</p>
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                        <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_limpiarString" name="method_limpiarString" class="anchor"></a>
+            <article class="method">
+                <h3 class=" ">limpiarString()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">limpiarString(  <span class="argument">$texto</span>) </pre>
+                <p><em></em></p>
+                
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td></td>
+                                <td>$texto </td>
+                                <td></td>
+                            </tr>
+                                            </table>
+                
+                
+                				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                    <dt>File</dt>
+                    <dd><a href=""><div class="path-wrapper">ValidarUsuario/config/funciones.php</div></a></dd>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            package
+                        </th>
+                        <td>
+                                                                                            <p>Default</p>
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                            
+        </div>
+    </section>
+
+    <div id="source-view" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="source-view-label" aria-hidden="true">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            <h3 id="source-view-label"></h3>
+        </div>
+        <div class="modal-body">
+            <pre data-src="../files/ValidarUsuario/config/funciones.php.txt" class="language-php line-numbers"></pre>
+        </div>
+    </div>
+
+    <footer class="row-fluid">
+        <section class="span10 offset2">
+            <section class="row-fluid">
+                <section class="span10 offset1">
+                    <section class="row-fluid footer-sections">
+                        <section class="span4">
+                                                        <h1><i class="icon-code"></i></h1>
+                            <div>
+                                <ul>
+                                                                    </ul>
+                            </div>
+                        </section>
+                        <section class="span4">
+                                                        <h1><i class="icon-bar-chart"></i></h1>
+                            <div>
+                                <ul>
+                                    <li><a href="../graphs/class.html">Class Hierarchy Diagram</a></li>
+                                </ul>
+                            </div>
+                        </section>
+                        <section class="span4">
+                                                        <h1><i class="icon-pushpin"></i></h1>
+                            <div>
+                                <ul>
+                                    <li><a href="../reports/errors.html">Errors</a></li>
+                                    <li><a href="../reports/markers.html">Markers</a></li>
+                                </ul>
+                            </div>
+                        </section>
+                    </section>
+                </section>
+            </section>
+            <section class="row-fluid">
+                <section class="span10 offset1">
+                    <hr />
+                    Documentation is powered by <a href="http://www.phpdoc.org/">phpDocumentor </a> and authored
+                    on August 30th, 2019 at 15:33.
+                </section>
+            </section>
+        </section>
+    </footer>
+</div>
 
 </body>
 </html>

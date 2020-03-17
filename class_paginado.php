@@ -1,4 +1,5 @@
 <?php
+require_once 'class_db.php';
 
 /**
  * Class para el paginado de registros.
@@ -145,10 +146,17 @@ class class_paginado
 	 * Nombres de estilos css: paginado (DIV) -> link_ant, ant_desact (SPAN), link_pagina_actual (SPAN), link_pagina, link_sig, sig_desact (SPAN), rotuloTotalRegistros (SPAN)
 	 */
 	var $cssClassPaginado = "paginado";
-	var $sumarBusqueda = "";
+	private $sumarBusqueda = "";
 	private $registro = 0;
 	private $desde_reg;
 	private $hasta_reg;
+
+	// /**
+	// * Objeto de coneccion a la base de datos
+	// *
+	// * @var class_db
+	// */
+	// // private $db = new class_db($host, $user, $pass, $db);
 
 	/**
 	 * Ejecuta el query de mysql (que no debe tener LIMIT) que cuenta el total de registros
@@ -228,11 +236,11 @@ class class_paginado
 		$this->total_registros = $cantidad[0];
 
 		// Ejecutar el query original con el LIMIT
-		if ($db->dbtype == 'mysql')
+		if ($db->getDbtype () == 'mysql')
 		{
 			$query .= " LIMIT $this->registro, $this->registros_por_pagina";
 		}
-		elseif ($db->dbtype == 'oracle')
+		elseif ($db->getDbtype () == 'oracle')
 		{
 			$registros_por_pagina = $this->registros_por_pagina;
 			$registro = $this->registro;
@@ -248,14 +256,37 @@ class class_paginado
 			WHERE rnum > " . $registro;
 			// WHERE ROWNUM > " . $registro . " AND ROWNUM <= " . $RegistroHasta;
 		}
-		elseif ($db->dbtype == 'mssql')
+		elseif ($db->getDbtype () == 'mssql')
 		{
+			$ordby = "";
+			$pos = "";
+
 			$registros_por_pagina = $this->registros_por_pagina;
 			$registro = $this->registro;
 
 			$RegistroHasta = $registros_por_pagina + $registro;
 
-			$query = 'SELECT * FROM(SELECT * ,ROW_NUMBER() OVER (ORDER BY id) AS subrow FROM (' . $query . ') a) b  WHERE   subrow >= ' . $registro . ' and  subrow <= ' . $RegistroHasta;
+			$pos = strpos ($query, "ORDER BY");
+
+			if ($pos !== false)
+			{
+				$ordby = substr ($query, $pos);
+				$query = substr ($query, 0, $pos);
+
+				$porciones = explode (" ", $ordby);
+				for($i = 0; $i < count ($porciones); $i ++)
+				{
+					$pos = strpos ($porciones[$i], ".");
+
+					if ($pos !== false)
+					{
+						$porciones[$i] = "b" . substr ($porciones[$i], $pos);
+					}
+				}
+
+				$ordby = implode (" ", $porciones);
+			}
+			$query = 'SELECT * FROM(SELECT * ,ROW_NUMBER() OVER (ORDER BY id) AS subrow FROM (' . $query . ') a) b  WHERE   subrow >= ' . $registro . ' and  subrow <= ' . $RegistroHasta . " " . $ordby;
 		}
 
 		$result = $db->query ($query);
@@ -416,6 +447,71 @@ class class_paginado
 	function mostrar_paginado()
 	{
 		echo $this->get_paginado ();
-	} // FIN function mostrar_paginado
+	}
+
+	// FIN function mostrar_paginado
+
+	/**
+	 * Retorna el valor del atributo $nombre_var_registro
+	 *
+	 * @return string $nombre_var_registro el dato de la variable.
+	 */
+	public function getNombre_var_registro()
+	{
+		return $this->nombre_var_registro;
+	}
+
+	/**
+	 * Retorna el valor del atributo $registros_por_pagina
+	 *
+	 * @return number $registros_por_pagina el dato de la variable.
+	 */
+	public function getRegistros_por_pagina()
+	{
+		return $this->registros_por_pagina;
+	}
+
+	/**
+	 * Retorna el valor del atributo $sumarBusqueda
+	 *
+	 * @return string $sumarBusqueda el dato de la variable.
+	 */
+	public function getSumarBusqueda()
+	{
+		return $this->sumarBusqueda;
+	}
+
+	/**
+	 * Setter del parametro $nombre_var_registro de la clase.
+	 *
+	 * @param string $nombre_var_registro
+	 *        	dato a cargar en la variable.
+	 */
+	public function setNombre_var_registro($nombre_var_registro)
+	{
+		$this->nombre_var_registro = $nombre_var_registro;
+	}
+
+	/**
+	 * Setter del parametro $registros_por_pagina de la clase.
+	 *
+	 * @param number $registros_por_pagina
+	 *        	dato a cargar en la variable.
+	 */
+	public function setRegistros_por_pagina($registros_por_pagina)
+	{
+		$this->registros_por_pagina = $registros_por_pagina;
+	}
+
+	/**
+	 * Setter del parametro $sumarBusqueda de la clase.
+	 *
+	 * @param string $sumarBusqueda
+	 *        	dato a cargar en la variable.
+	 */
+	public function setSumarBusqueda($sumarBusqueda)
+	{
+		$this->sumarBusqueda = $sumarBusqueda;
+	}
 } // FIN class_paginado
 ?>
