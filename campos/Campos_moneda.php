@@ -172,6 +172,16 @@ class Campos_moneda extends class_campo
 			return "<td " . $this->get_centrar_columna () . " " . $this->get_no_mostrar () . ">" . $this->get_spanColorear () . " " . money_format ('%.2n', 0) . " " . ($this->get_spanColorear () != "" ? "</span>" : "") . "</td> \n";
 		}
 	}
+	
+	public function generar_elemento_form_update(): string
+	{
+	    return "<input type='number' class='currency " . $this->getAtrRequerido () . " max='250000000.00' name='" . $this->getCampo () . "' id='" . $this->getCampo () . "' " . $this->autofocusAttr . " " . $this->getAtrDisabled () . " value='" . $this->getValor () . "' " . $this->establecerMaxLeng () . " " . $this->establecerHint () . " " . $this->getAdicionalInput () . "/> \n";
+	}
+	
+	public function generar_elemento_form_nuevo(): string
+	{
+	    return "<input type='number' class='currency " . $this->getAtrRequerido () . " max='250000000.00' name='" . $this->getCampo () . "' id='" . $this->getCampo () . "' " . $this->autofocusAttr . " " . $this->getAtrDisabled () . " value='' " . $this->establecerMaxLeng () . " " . $this->establecerHint () . " " . $this->getAdicionalInput () . "/> \n";
+	}
 }
 
 ?>
