@@ -345,7 +345,9 @@ class class_paginado
 		{
 			$link_pagina = 0;
 		}
-
+		
+		$cant_adelante = 0;
+		
 		for($i = $link_pagina; $i < $this->total_registros; $i = $i + $this->registros_por_pagina)
 		{
 			$pagina = ((($i) * ($this->total_registros / $this->registros_por_pagina)) / $this->total_registros) + 1; // regla de tres simple...
