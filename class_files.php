@@ -23,9 +23,9 @@ class files
 	protected $IDFORMULARIO_pertenece;
 	protected $db;
 
-	public function __construct($db, $IDFORMULARIO_pertenece = NULL, $pre = NULL)
+	public function __construct(&$db, $IDFORMULARIO_pertenece = NULL, $pre = NULL)
 	{
-		$this->db = $db;
+		$this->db = &$db;
 
 		if ($IDFORMULARIO_pertenece != null && $IDFORMULARIO_pertenece != '' && $pre == NULL)
 		{
@@ -74,10 +74,10 @@ class files
 	 *        	Array con los datos de la imagen , solo 1 imagen
 	 * @param string $path
 	 *        	path donde se v a subir la img
-	 *
+	 *        	
 	 *        	crear carpeta con anio(si no existe)/arhicvoconiddelmismo.pdf
 	 *        	//INSERTAR EN /u00/RepositorioArchivos/Solitram/
-	 *
+	 *        	
 	 */
 	public function uploadFile($imagen, $path, $id)
 	{
@@ -132,7 +132,7 @@ class files
 	 *        	ser archivo o prearchivo
 	 * @param int $person-->person
 	 *        	de quien sube la img
-	 *
+	 *        	
 	 * @return boolean
 	 */
 	public function updateFile($imagen, $path, $tablacodumento, $tablaarchivo, $person)

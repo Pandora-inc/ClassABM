@@ -76,6 +76,7 @@ class Campos_bit extends class_campo
 		{
 			parent::__construct ();
 		}
+		$this->setTipo ('bit');
 	}
 
 	/**
@@ -141,14 +142,12 @@ class Campos_bit extends class_campo
 	/**
 	 * Sobrecarga del metodo retornand cun campo select
 	 *
-	 * @param object $db
-	 *        	Objeto de coneccion a la base.
 	 * @param String $busqueda
 	 *        	variable donde se registran los parametros de busqueda. es pasada por referencia con lo que se puede utilizar incluso fuera de la funcion.
 	 * {@inheritdoc}
 	 * @see class_campo::campoFormBuscar()
 	 */
-	public function campoFormBuscar($db, &$busqueda)
+	public function campoFormBuscar(&$busqueda): string
 	{
 		$retorno = "";
 		$retorno .= "<select name='c_" . $this->campo . "' id='c_" . $this->campo . "' class='input-select'> \n";
@@ -223,7 +222,7 @@ class Campos_bit extends class_campo
 	 *
 	 * @return string
 	 */
-	public function get_celda_dato()
+	public function get_celda_dato(): string
 	{
 		if ($this->getValor () == true)
 		{
@@ -235,9 +234,9 @@ class Campos_bit extends class_campo
 		}
 	}
 
-	public function generar_elemento_form_update()
+	public function generar_elemento_form_update(): string
 	{
-		$imprForm = "<select name='" . $this->getCampo () . "' id='" . $this->getCampo () . "' $this->autofocusAttr class='input-select $this->getAtrRequerido ()' $this->getAtrDisabled() " . $this->establecerHint () . " " . $this->getAdicionalInput () . " > \n";
+		$imprForm = "<select name='" . $this->getCampo () . "' id='" . $this->getCampo () . "' " . $this->autofocusAttr . " class='input-select " . $this->getAtrRequerido () . "' " . $this->getAtrDisabled () . " " . $this->establecerHint () . " " . $this->getAdicionalInput () . " > \n";
 
 		if ($this->isOrdenInversoBit () != "")
 		{
@@ -287,6 +286,46 @@ class Campos_bit extends class_campo
 
 		$imprForm .= "</select> \n";
 		return $imprForm;
+	}
+
+	public function generar_elemento_form_nuevo(): string
+	{
+		$imprForm = "<select name='" . $this->getCampo () . "' id='" . $this->getCampo () . "' " . $this->autofocusAttr . " class='input-select " . $this->getAtrRequerido () . "' " . $this->getAtrDisabled () . " " . $this->establecerHint () . " " . $this->getAdicionalInput () . " > \n";
+
+		if ($this->isOrdenInversoBit () != "")
+		{
+			$imprForm .= "<option value='0' >" . ($this->textoBitFalse != "" ? $this->textoBitFalse : $this->textoBitFalse) . "</option> \n";
+
+			$imprForm .= "<option value='1' >" . ($this->getTextoBitTrue () != "" ? $this->getTextoBitTrue () : $this->textoBitTrue) . "</option> \n";
+		}
+		else
+		{
+
+			$imprForm .= "<option value='1' >" . (($this->getTextoBitTrue () != "") ? $this->getTextoBitTrue () : $this->textoBitTrue) . "</option> \n";
+
+			$imprForm .= "<option value='0' >" . (($this->getTextoBitFalse () != "") ? $this->getTextoBitFalse () : $this->textoBitFalse) . "</option> \n";
+		}
+
+		$imprForm .= "</select> \n";
+		return $imprForm;
+	}
+
+	/**
+	 * Comprueba el valor de un campo y hace el retorno que corresponda.
+	 *
+	 * @return string
+	 */
+	public function getMostrarListar()
+	{
+		if ($this->getCampo () != "" and $this->getCampo () != false and $this->getCampo () != 0)
+		{
+			return $this->textoBitTrue;
+		}
+		else
+		{
+
+			return $this->textoBitFalse;
+		}
 	}
 }
 

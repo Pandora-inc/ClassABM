@@ -14,7 +14,7 @@ require_once 'class_db.php';
  *
  * @author Andres Carizza www.andrescarizza.com.ar
  * @author iberlot <@> ivanberlot@gmail.com
- *
+ *        
  * @version 3.6.2 Se corrigen las consultas y las expreciones regulares para mejorar el performance de la recuperacion de registros. Ya no realiza dos veces la consulta si no que hace un count.
  * @version 3.6.1 Se modifico para que devolviera 1 en vez de $db->result ($result_paginado, 0, "cantidad"); cuando el conteo de rows fuera igual a uno.
  *          Con esto se corrige el error de que no mostraba datos cuando habia un unico registro.
@@ -164,7 +164,7 @@ class class_paginado
 	 *
 	 * @since 3.6.1 Se modifico para que devolviera 1 en vez de $db->result ($result_paginado, 0, "cantidad"); cuando el conteo de rows fuera igual a uno.
 	 *        Con esto se corrige el error de que no mostraba datos cuando habia un unico registro.
-	 *
+	 *       
 	 * @param string $sqlQuery
 	 *        	query a ejecutar
 	 * @param object $db
@@ -274,7 +274,7 @@ class class_paginado
 				$query = substr ($query, 0, $pos);
 
 				$porciones = explode (" ", $ordby);
-				for($i = 0; $i < count ($porciones); $i ++)
+				for($i = 0; $i < count ($porciones); $i++)
 				{
 					$pos = strpos ($porciones[$i], ".");
 
@@ -340,7 +340,7 @@ class class_paginado
 
 		if (count ($this->variablesNoConservar) > 0)
 		{
-			for($i = 0; $i < count ($this->variablesNoConservar); $i ++)
+			for($i = 0; $i < count ($this->variablesNoConservar); $i++)
 			{
 				unset ($_GET[$this->variablesNoConservar[$i]]);
 			}
@@ -376,7 +376,9 @@ class class_paginado
 		{
 			$link_pagina = 0;
 		}
-
+		
+		$cant_adelante = 0;
+		
 		for($i = $link_pagina; $i < $this->total_registros; $i = $i + $this->registros_por_pagina)
 		{
 			$pagina = ((($i) * ($this->total_registros / $this->registros_por_pagina)) / $this->total_registros) + 1; // regla de tres simple...
@@ -396,7 +398,7 @@ class class_paginado
 			{ // si ya se paso link del numero de p&aacute;gina actual
 				if (isset ($cant_adelante))
 				{
-					$cant_adelante ++;
+					$cant_adelante++;
 				}
 				else
 				{

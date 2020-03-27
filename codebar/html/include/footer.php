@@ -22,8 +22,7 @@ if (!defined ('IN_CB'))
                     <div id="imageOutput">
                         <?php if ($imageKeys['text'] !== '') { ?><img
 				src="image.php<?php echo $finalRequest; ?>" alt="Barcode Image" /><?php
-
-}
+																								}
 																								else
 																								{
 																									?>Fill the form to generate a barcode.<?php } ?>

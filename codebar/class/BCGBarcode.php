@@ -233,7 +233,7 @@ abstract class BCGBarcode
 		}
 
 		imagestring ($im, 2, 0, $this->error * 15, $text, $this->colorFg->allocate ($im));
-		$this->error ++;
+		$this->error++;
 	}
 }
 ?>

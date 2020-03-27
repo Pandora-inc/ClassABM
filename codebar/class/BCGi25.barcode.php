@@ -75,7 +75,7 @@ class BCGi25 extends BCGBarcode1D
 
 		// Checking if all chars are allowed
 		$c = strlen ($this->text);
-		for($i = 0; $i < $c; $i ++)
+		for($i = 0; $i < $c; $i++)
 		{
 			if (array_search ($this->text[$i], $this->keys) === false)
 			{
@@ -113,7 +113,7 @@ class BCGi25 extends BCGBarcode1D
 				{
 					$temp_bar = '';
 					$c2 = strlen ($this->findCode ($temp_text[$i]));
-					for($j = 0; $j < $c2; $j ++)
+					for($j = 0; $j < $c2; $j++)
 					{
 						$temp_bar .= substr ($this->findCode ($temp_text[$i]), $j, 1);
 						$temp_bar .= substr ($this->findCode ($temp_text[$i + 1]), $j, 1);
@@ -165,7 +165,7 @@ class BCGi25 extends BCGBarcode1D
 		$even = true;
 		$this->checksumValue = 0;
 		$c = strlen ($this->text);
-		for($i = $c; $i > 0; $i --)
+		for($i = $c; $i > 0; $i--)
 		{
 			if ($even === true)
 			{

@@ -197,11 +197,11 @@ include_once 'campos/class_campo.php';
  * Clase que genera automaticamente un listado y los formularios que modifican o agregan datos en una tabla de BD.
  *
  * @name class_abm
- *
+ *      
  * @uses class_paginado.php, class_orderby.php, class_db.php
  * @author Andres Carizza www.andrescarizza.com.ar
  * @author iberlot <@> ivanberlot@gmail.com
- *
+ *        
  * @version 3.96
  * @since 3.0 cambia la forma de aplicar los estilos css.
  * @since 3.4 cambia de usar MooTools a usar JQuery.
@@ -414,7 +414,7 @@ class class_abm
 	 *
 	 * @var string
 	 * @example a $abm->adicionalesExtra = 'onclick="window.location="abmCapitulos.php?abm_extra=1&r=40&idLibro=2""';
-	 *
+	 *         
 	 */
 	public $adicionalesExtra;
 
@@ -1098,7 +1098,7 @@ class class_abm
 	 *
 	 * @author iberlot <@> ivanberlot@gmail.com
 	 * @name convertirIdMultipleSelect
-	 *
+	 *      
 	 * @param array $array
 	 *        	--> array con todos los campos a utilizar para generar el id compuesto
 	 * @param string $tabla
@@ -1260,7 +1260,7 @@ class class_abm
 
 		if ($this->formularioSolapa == true)
 		{
-			for($e = 1; $e <= $this->cantidadSolapa; $e ++)
+			for($e = 1; $e <= $this->cantidadSolapa; $e++)
 			{
 				echo "<input id='tab-" . $e . "' type='radio' name='radio-set' class='tab-selector-" . $e . " folio' />";
 				echo "<label for='tab-" . $e . "' class='tab-label-" . $e . " folio'>" . $this->tituloSolapa[$e - 1] . "</label>";
@@ -1290,7 +1290,7 @@ class class_abm
 							continue;
 						}
 
-						$i ++;
+						$i++;
 
 						if ($i == 1 and $this->autofocus)
 						{
@@ -1548,7 +1548,7 @@ class class_abm
 					continue;
 				}
 
-				$i ++;
+				$i++;
 
 				if ($i == 1 and $this->autofocus)
 				{
@@ -1818,14 +1818,14 @@ class class_abm
 	 * Genera el formulario de modificacion de un registro
 	 *
 	 * @version 1.0.2 Se corrigio el uso de $customCompareValor para que quedara entre comillas simples cosa de poder hacer comparaciones de textos.
-	 *
+	 *         
 	 * @param string $id
 	 *        	id por el que debe identificarse el registro a modificar
 	 * @param string $titulo
 	 *        	en caso de que el formulario deba tener un titulo especial
 	 * @param object $db
 	 *        	- Objeto encargado de la interaccion con la base de datos.
-	 *
+	 *        	
 	 * @return string
 	 */
 	public function generarFormModificacion($id, $titulo = "", $db)
@@ -1839,7 +1839,7 @@ class class_abm
 		$joinSql = "";
 
 		// por cada campo...
-		for($i = 0; $i < count ($this->campos); $i ++)
+		for($i = 0; $i < count ($this->campos); $i++)
 		{
 
 			if ($this->campos[$i]['campo'] == "")
@@ -2080,7 +2080,7 @@ class class_abm
 
 		if ($this->formularioSolapa == true)
 		{
-			for($e = 1; $e <= $this->cantidadSolapa; $e ++)
+			for($e = 1; $e <= $this->cantidadSolapa; $e++)
 			{
 				echo "<input id='tab-" . $e . "' type='radio' name='radio-set' class='tab-selector-" . $e . " folio' />";
 				echo "<label for='tab-" . $e . "' class='tab-label-" . $e . " folio'>" . $this->tituloSolapa[$e - 1] . "</label>";
@@ -2112,7 +2112,7 @@ class class_abm
 							continue;
 						}
 
-						$i ++;
+						$i++;
 
 						if ($i == 1 and $this->autofocus)
 						{
@@ -2394,7 +2394,7 @@ class class_abm
 					continue;
 				}
 
-				$i ++;
+				$i++;
 
 				if ($i == 1 and $this->autofocus)
 				{
@@ -2781,17 +2781,17 @@ class class_abm
 		// contar el total de campos que tienen el parametro "exportar"
 		$totalCamposExportar = 0;
 
-		for($i = 0; $i < count ($this->campos); $i ++)
+		for($i = 0; $i < count ($this->campos); $i++)
 		{
 			if (!isset ($this->campos[$i]['exportar']) or $this->campos[$i]['exportar'] != true)
 			{
 				continue;
 			}
-			$totalCamposExportar ++;
+			$totalCamposExportar++;
 		}
 
 		// Por cada campo...
-		for($i = 0; $i < count ($this->campos); $i ++)
+		for($i = 0; $i < count ($this->campos); $i++)
 		{
 			if (!isset ($this->campos[$i]['exportar']) or $this->campos[$i]['exportar'] != true)
 			{
@@ -2990,8 +2990,10 @@ class class_abm
 		while ($fila = $db->fetch_array ($result))
 		{
 			// print_r("<Br />*******************<Br />");
+
+			$fila = array_change_key_case ($fila, CASE_LOWER);
 			$fila = $this->limpiarEntidadesHTML ($fila);
-			$i ++;
+			$i++;
 
 			if (strtolower ($formato) == 'excel')
 			{
@@ -3005,7 +3007,7 @@ class class_abm
 			$c = 0;
 			foreach ($this->campos as $campo)
 			{
-				$c ++;
+				$c++;
 				if (!isset ($campo['exportar']) or $campo['exportar'] != true)
 				{
 					continue;
@@ -3038,7 +3040,7 @@ class class_abm
 					 * echo "|-";
 					 */
 					extract ($GLOBALS);
-					$id = $fila['ID'];
+					$id = $fila['id'];
 
 					if (isset ($campo['campo']) and $campo['campo'] != "")
 					{
@@ -3151,20 +3153,19 @@ class class_abm
 	 * Genera el listado ABM con las funciones de editar, nuevo y borrar (segun la configuracion).
 	 *
 	 * @todo NOTA: Esta funcion solamente genera el listado, se necesita usar la funcion generarAbm() para que funcione el ABM.
-	 *
+	 *      
 	 * @param object $db
 	 *        	- Objeto encargado de la interaccion con la base de datos.
 	 * @param string $titulo
 	 *        	Un titulo para mostrar en el encabezado del listado
 	 * @param string $sql
 	 *        	Query SQL personalizado para el listado. Usando este query no se usa $adicionalesSelect
-	 *
+	 *        	
 	 */
 	public function generarListado($db, $titulo, $sql = "")
 	{
 		$noMostrar = "";
 		$estaBuscando = "";
-
 		$this->estilosBasicos = str_ireplace ('%dirname%', dirname (__FILE__), $this->estilosBasicos);
 		$this->estilosBasicos = str_ireplace ($_SERVER['DOCUMENT_ROOT'], "", $this->estilosBasicos);
 		echo "<HEAD>" . $this->estilosBasicos . "</HEAD>";
@@ -3172,7 +3173,7 @@ class class_abm
 		$agregarFormBuscar = false;
 
 		// por cada campo...
-		for($i = 0; $i < count ($this->campos); $i ++)
+		for($i = 0; $i < count ($this->campos); $i++)
 		{
 			if ((!isset ($this->campos[$i]['campo'])) or $this->campos[$i]['campo'] == "")
 			{
@@ -3189,6 +3190,8 @@ class class_abm
 				$mostrarExportar = true;
 			}
 
+			// print_r ("hola1");
+
 			if (!isset ($camposWhereBuscar))
 			{
 				$camposWhereBuscar = "";
@@ -3198,9 +3201,9 @@ class class_abm
 			$estaBuscando = true;
 
 			// para la class de ordenar por columnas
-			if (((!isset ($this->campos[$i]['noListar'])) or $this->campos[$i]['noListar'] == false) and ((!isset ($this->campos[$i]['noOrdenar']) or $this->campos[$i]['noOrdenar'] == false)))
+			// if (((!isset ($this->campos[$i]['noListar'])) or $this->campos[$i]['noListar'] == false) and ((!isset ($this->campos[$i]['noOrdenar']) or $this->campos[$i]['noOrdenar'] == false)))
+			if ((!isset ($this->campos[$i]['noOrdenar']) or $this->campos[$i]['noOrdenar'] == false))
 			{
-
 				if (isset ($camposOrder) and $camposOrder != "")
 				{
 					$camposOrder .= "|";
@@ -3248,6 +3251,7 @@ class class_abm
 				}
 			}
 
+			// print_r ("Pepino 0");
 			// campos para el select
 			if ((!isset ($this->campos[$i]['noListar']) or ($this->campos[$i]['noListar'] == false)) or (isset ($this->campos[$i]['buscar']) and ($this->campos[$i]['buscar'] == true)))
 			{
@@ -3331,9 +3335,12 @@ class class_abm
 				$agregarFormBuscar = true;
 				// }
 			}
+			// print_r ("Pepino 1");
 			// tablas para sql join
 			if ((isset ($this->campos[$i]['joinTable']) and $this->campos[$i]['joinTable'] != '') and ((!isset ($this->campos[$i]['omitirJoin'])) or $this->campos[$i]['omitirJoin'] == false))
 			{
+				// print_r ("Pepino ");
+
 				if (isset ($this->campos[$i]['joinCondition']) and $this->campos[$i]['joinCondition'] != '')
 				{
 					$joinCondition = $this->campos[$i]['joinCondition'];
@@ -3590,7 +3597,7 @@ class class_abm
 					$campo['adicionalInput'] = "";
 				}
 
-				$iColumna ++;
+				$iColumna++;
 				echo "<div>\n";
 				// echo "<label>" . ($campo ['tituloBuscar'] != "" ? $campo ['tituloBuscar'] : ($campo ['tituloListado'] != "" ? $campo ['tituloListado'] : ($campo ['titulo'] != '' ? $campo ['titulo'] : $campo ['campo']))) . "</label>";
 				echo "<label>" . (((isset ($campo['tituloBuscar']) and ($campo['tituloBuscar'] != "")) ? $campo['tituloBuscar'] : (isset ($campo['tituloListado']) and ($campo['tituloListado'] != "")) ? $campo['tituloListado'] : ($campo['titulo'] != '' ? $campo['titulo'] : $campo['campo']))) . "</label>";
@@ -3862,7 +3869,7 @@ class class_abm
 
 		if (isset ($busqueda))
 		{
-			$paginado->sumarBusqueda = $busqueda;
+			$paginado->setSumarBusqueda ($busqueda);
 		}
 		// fin formulario de busqueda
 
@@ -3970,6 +3977,7 @@ class class_abm
 			echo "</thead> \n";
 			// filas de datos
 			$i = 0;
+
 			while ($fila = $db->fetch_array ($result))
 			{
 				$fila = array_change_key_case ($fila, CASE_LOWER);
@@ -3989,7 +3997,7 @@ class class_abm
 				}
 				$fila = $this->limpiarEntidadesHTML ($fila);
 
-				$i ++;
+				$i++;
 				$rallado = !$rallado;
 
 				echo "<tr class='rallado$rallado' ";
@@ -4093,6 +4101,18 @@ class class_abm
 							$parametroUsr = $campo['parametroUsr'];
 						}
 
+						if (isset ($campo['incluirCampo']) and $campo['incluirCampo'] != "")
+						{
+							$campo['incluirCampo'] = explode (",", $campo['incluirCampo']);
+
+							$cant = count ($campo['incluirCampo']);
+
+							for($j = 0; $j < $cant; $j++)
+							{
+								$campo['customEvalListado'] = str_ireplace ("{" . trim ($campo['incluirCampo'][$j]) . "}", $fila[trim ($campo['incluirCampo'][$j])], $campo['customEvalListado']);
+							}
+						}
+
 						eval ($campo['customEvalListado']);
 					}
 					elseif (isset ($campo['customFuncionListado']) and ($campo['customFuncionListado'] != ""))
@@ -4116,9 +4136,9 @@ class class_abm
 
 							$cant = count ($campo['incluirCampo']);
 
-							for($j = 0; $j < $cant; $j ++)
+							for($j = 0; $j < $cant; $j++)
 							{
-								$campo['customPrintListado'] = str_ireplace ("{" . trim ($campo['incluirCampo'][$j]) . "}", $fila[trim ($campo['incluirCampo'][$j])], $campo['customPrintListado']);
+								$campo['customPrintListado'] = str_ireplace ("{" . trim ($campo['incluirCampo'][$j]) . "}", $fila[trim (strtolower ($campo['incluirCampo'][$j]))], $campo['customPrintListado']);
 							}
 						}
 
@@ -4457,7 +4477,8 @@ class class_abm
 				break;
 
 			case "exportar" :
-				$this->exportar_verificar ($camposWhereBuscar);
+				// $this->exportar_verificar ($camposWhereBuscar);
+				$this->exportar_verificar ($db);
 				break;
 
 			default :
@@ -4471,7 +4492,7 @@ class class_abm
 	 *
 	 * @param object $db
 	 *        	- Objeto encargado de la interaccion con la base de datos.
-	 *
+	 *        	
 	 * @return void|string En caso de haber algun problema devuelve un error
 	 */
 	private function dbRealizarAlta($db)
@@ -5231,7 +5252,7 @@ class class_abm
 	 *        	- id del registro a eliminar.
 	 * @param object $db
 	 *        	- Objeto encargado de la interaccion con la base de datos.
-	 *
+	 *        	
 	 * @return int devuelve codigo de error en caso de ser necesario
 	 */
 	private function dbBorrarRegistro($id, $db)
@@ -5268,9 +5289,11 @@ class class_abm
 	 *
 	 * @param string $camposWhereBuscar
 	 */
-	public function exportar_verificar($camposWhereBuscar = "")
+	public function exportar_verificar($db)
+	// public function exportar_verificar($camposWhereBuscar = "")
 	{
 		$estado = $this->getEstadoActual ();
+
 		if ($estado == "exportar" and $this->mostrarListado)
 		{
 			$this->exportar ($_GET['abm_exportar'], $db, $_GET['buscar']);
@@ -5298,7 +5321,7 @@ class class_abm
 	 * Convierte de un array todas las entidades HTML para que sea seguro mostrar en pantalla strings ingresados por los usuarios
 	 *
 	 * @example $_REQUEST = limpiarEntidadesHTML($_REQUEST);
-	 *
+	 *         
 	 * @param String[] $param
 	 * @return String[] - Depende del parametro recibido, un array con los datos remplazados o un String
 	 */
@@ -5338,7 +5361,7 @@ class class_abm
 	 * Escapa de un array todos los caracteres especiales de una cadena para su uso en una sentencia SQL
 	 *
 	 * @example $_REQUEST = limpiarParaSql($_REQUEST, $db);
-	 *
+	 *         
 	 * @param String[] $param
 	 * @param object $db
 	 *        	- Objeto encargado de la interaccion con la base de datos.
@@ -5414,7 +5437,7 @@ class class_abm
 	 * Funcion que arma los parametros del where de la consulta en caso de estar realizando una busqueda
 	 *
 	 * @todo En la version 2 de esta clase esto va a estar en las clases referiadas a los campos.
-	 *
+	 *      
 	 * @param object $db
 	 *        	Conectos a la base de datos
 	 * @param String $camposWhereBuscar

@@ -121,6 +121,12 @@ class Sitios
 	 * @var int
 	 */
 	private static $dbPort;
+
+	/**
+	 * En caso de que la base use un sdn especifico.
+	 *
+	 * @var mixed
+	 */
 	private static $dbDSN;
 
 	/**
@@ -1141,7 +1147,7 @@ class Sitios
 			while ($len >= strlen ($texto) + strlen ($arrayTexto[$contador]))
 			{
 				$texto .= ' ' . $arrayTexto[$contador];
-				$contador ++;
+				$contador++;
 			}
 
 			return $texto . $txt_continua;
@@ -1746,13 +1752,13 @@ class Sitios
 			$row2 = $db->fetch_row ($db->query ('SHOW CREATE TABLE ' . $table));
 			$return .= "\n\n" . $row2[1] . ";\n\n";
 
-			for($i = 0; $i < $num_fields; $i ++)
+			for($i = 0; $i < $num_fields; $i++)
 			{
 				while ($row = $db->fetch_row ($result))
 				{
 					$return .= 'INSERT INTO ' . $table . ' VALUES(';
 
-					for($j = 0; $j < $num_fields; $j ++)
+					for($j = 0; $j < $num_fields; $j++)
 					{
 						$row[$j] = addslashes ($row[$j]);
 
@@ -2004,6 +2010,26 @@ class Sitios
 		}
 
 		return $files;
+	}
+
+	/**
+	 * Crea recursivamente una cadena de directorios
+	 *
+	 * @param String $path
+	 *        	Arbol de directorios a chequear y crear
+	 * @return boolean
+	 */
+	public function createPath($path)
+	{
+		if (is_dir ($path))
+		{
+			return true;
+		}
+
+		$prev_path = substr ($path, 0, strrpos ($path, '/', -2) + 1);
+		$return = createPath ($prev_path);
+
+		return ($return && is_writable ($prev_path)) ? mkdir ($path) : false;
 	}
 
 	/**
@@ -2703,6 +2729,27 @@ class Sitios
 	{
 		json_decode ($str);
 		return json_last_error () == JSON_ERROR_NONE;
+	}
+
+	/**
+	 * Retorna el valor del atributo $db
+	 *
+	 * @return object $db el dato de la variable.
+	 */
+	public static function &getDb()
+	{
+		return Sitios::$db;
+	}
+
+	/**
+	 * Setter del parametro $db de la clase.
+	 *
+	 * @param object $db
+	 *        	dato a cargar en la variable.
+	 */
+	public static function setDb($db)
+	{
+		Sitios::$db = $db;
 	}
 }
 ?>

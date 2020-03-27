@@ -44,12 +44,40 @@ class Campos_numero extends class_campo
 	protected $cantidadDecimales = 2;
 
 	/**
+	 * Dato guardado en la base de datos.
+	 *
+	 * @name dato
+	 * @var float
+	 */
+	protected $dato = 0;
+
+	/**
+	 * Establece si el dato se formatea en el listado o no.
+	 *
+	 * @var bool
+	 */
+	protected $formatear = true;
+
+	/**
+	 *
+	 * {@inheritdoc}
+	 * @see class_campo::__toString()
+	 */
+	public function __toString(): string
+	{
+		$retorno = "Campo: " . $this->campo;
+		$retorno .= " Valor: " . $this->getValor ();
+
+		return $retorno;
+	}
+
+	/**
 	 * Constructor de la clase.
 	 * Puede recibir un array con los datos a inicializar. Utiliza el constructor padre y en caso de corresponder carga los propios.
 	 *
 	 * @param array $array
 	 */
-	public function __construct($array = array())
+	public function __construct(array $array = array())
 	{
 		if (isset ($array) and !empty ($array))
 		{
@@ -59,13 +87,14 @@ class Campos_numero extends class_campo
 		{
 			parent::__construct ();
 		}
+		$this->setTipo ('numero');
 	}
 
 	/**
 	 *
 	 * @return number
 	 */
-	public function getCantidadDecimales()
+	public function getCantidadDecimales(): int
 	{
 		return $this->cantidadDecimales;
 	}
@@ -74,15 +103,13 @@ class Campos_numero extends class_campo
 	 *
 	 * @param number $cantidadDecimales
 	 */
-	public function setCantidadDecimales($cantidadDecimales)
+	public function setCantidadDecimales(int $cantidadDecimales)
 	{
 		$this->cantidadDecimales = $cantidadDecimales;
 	}
 
 	/**
 	 *
-	 * @param object $db
-	 *        	Objeto de coneccion a la base.
 	 * @param String $busqueda
 	 *        	variable donde se registran los parametros de busqueda. es pasada por referencia con lo que se puede utilizar incluso fuera de la funcion.
 	 *
@@ -91,7 +118,7 @@ class Campos_numero extends class_campo
 	 * {@inheritdoc}
 	 * @see class_campo::campoFormBuscar()
 	 */
-	public function campoFormBuscar($db, &$busqueda)
+	public function campoFormBuscar(&$busqueda): string
 	{
 		$retorno = "";
 
@@ -115,7 +142,7 @@ class Campos_numero extends class_campo
 		{
 			$valor = "";
 		}
-		$retorno .= "<input type='number' class='input-text $requerido currency' step='0.01' min='0.01' max='250000000.00'  name='c_" . $this->campo . "' value='" . $valor . "' /> \n";
+		$retorno .= "<input type='number' class='input-text $requerido currency' max='250000000.00'  name='c_" . $this->campo . "' value='" . $valor . "' /> \n";
 
 		return $retorno;
 	}
@@ -125,7 +152,7 @@ class Campos_numero extends class_campo
 	 *
 	 * @return string
 	 */
-	public function get_centrar_columna()
+	public function get_centrar_columna(): string
 	{
 		if ($this->isCentrarColumna () == true)
 		{
@@ -142,21 +169,71 @@ class Campos_numero extends class_campo
 	 *
 	 * @return string
 	 */
-	public function get_celda_dato()
+	public function get_celda_dato(): string
 	{
 		if ($this->getValor () != "" and $this->getValor () > 0)
 		{
-			return "<td " . $this->get_centrar_columna () . " " . $this->get_no_mostrar () . ">" . $this->get_spanColorear () . " " . number_format ($this->getValor (), $this->getCantidadDecimales (), ',', '.') . " " . ($this->get_spanColorear () != "" ? "</span>" : "") . "</td> \n";
+
+			return "<td " . $this->get_centrar_columna () . " " . $this->get_no_mostrar () . ">" . $this->get_spanColorear () . " " . (($this->isFormatear () == true) ? number_format ($this->getValor (), $this->getCantidadDecimales (), ',', '.') : $this->getValor ()) . " " . ($this->get_spanColorear () != "" ? "</span>" : "") . "</td> \n";
 		}
 		else
 		{
-			return "<td " . $this->get_centrar_columna () . " " . $this->get_no_mostrar () . ">" . $this->get_spanColorear () . " " . number_format (0, $this->getCantidadDecimales (), ',', '.') . " " . ($this->get_spanColorear () != "" ? "</span>" : "") . "</td> \n";
+			return "<td " . $this->get_centrar_columna () . " " . $this->get_no_mostrar () . ">" . $this->get_spanColorear () . " " . (($this->isFormatear () == true) ? number_format (0, $this->getCantidadDecimales (), ',', '.') : 0) . " " . ($this->get_spanColorear () != "" ? "</span>" : "") . "</td> \n";
 		}
 	}
 
-	public function generar_elemento_form_update()
+	/**
+	 *
+	 * {@inheritdoc}
+	 * @see class_campo::generar_elemento_form_update()
+	 */
+	public function generar_elemento_form_update(): string
 	{
-		return "<input type='number' class='input-text " . $this->getAtrRequerido () . " step='0.01' min='0.01' max='250000000.00' name='" . $this->getCampo () . "' id='" . $this->getCampo () . "' " . $this->autofocusAttr . " " . $this->getAtrDisabled () . " value='" . $this->getValor () . "' " . $this->establecerMaxLeng () . " " . $this->establecerHint () . " " . $this->getAdicionalInput () . "/> \n";
+		return "<input type='number' class='input-text " . $this->getAtrRequerido () . " max='250000000.00' name='" . $this->getCampo () . "' id='" . $this->getCampo () . "' " . $this->autofocusAttr . " " . $this->getAtrDisabled () . " value='" . $this->getValor () . "' " . $this->establecerMaxLeng () . " " . $this->establecerHint () . " " . $this->getAdicionalInput () . "/> \n";
+	}
+
+	/**
+	 *
+	 * {@inheritdoc}
+	 * @see class_campo::generar_elemento_form_nuevo()
+	 */
+	public function generar_elemento_form_nuevo(): string
+	{
+		return "<input type='number' class='input-text " . $this->getAtrRequerido () . " max='250000000.00' name='" . $this->getCampo () . "' id='" . $this->getCampo () . "' " . $this->autofocusAttr . " " . $this->getAtrDisabled () . " value='' " . $this->establecerMaxLeng () . " " . $this->establecerHint () . " " . $this->getAdicionalInput () . "/> \n";
+	}
+
+	/**
+	 * Comprueba el valor de un campo y hace el retorno que corresponda.
+	 *
+	 * @return string
+	 */
+	public function getMostrarListar()
+	{
+		if ($this->getCampo () != "")
+		{
+			return number_format ((int) $this->getDato (), $this->getCantidadDecimales (), ',', '.');
+		}
+	}
+
+	/**
+	 * Retorna el valor del atributo $formatear
+	 *
+	 * @return boolean $formatear el dato de la variable.
+	 */
+	public function isFormatear(): bool
+	{
+		return $this->formatear;
+	}
+
+	/**
+	 * Setter del parametro $formatear de la clase.
+	 *
+	 * @param boolean $formatear
+	 *        	dato a cargar en la variable.
+	 */
+	public function setFormatear(bool $formatear)
+	{
+		$this->formatear = $formatear;
 	}
 }
 

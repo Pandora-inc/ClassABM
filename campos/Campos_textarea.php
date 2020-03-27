@@ -30,6 +30,13 @@ require_once 'class_campo.php';
  */
 class Campos_textarea extends class_campo
 {
+	// /**
+	// * Establece si hay que limpiar o no las entidades html del campo.
+	// * Esto es util para lo que es textos formatesados.
+	// *
+	// * @var boolean
+	// */
+	// protected $noLimpiar = false;
 
 	/**
 	 * Maximo de caracteres que mostrara por pantalla.
@@ -45,7 +52,7 @@ class Campos_textarea extends class_campo
 	 *
 	 * @param array $array
 	 */
-	public function __construct($array = array())
+	public function __construct(array $array = array())
 	{
 		if (isset ($array) and !empty ($array))
 		{
@@ -65,6 +72,7 @@ class Campos_textarea extends class_campo
 		{
 			parent::__construct ();
 		}
+		$this->setTipo ('textarea');
 	}
 
 	/**
@@ -72,7 +80,7 @@ class Campos_textarea extends class_campo
 	 *
 	 * @return number
 	 */
-	public function getMaxMostrar()
+	public function getMaxMostrar(): int
 	{
 		return $this->maxMostrar;
 	}
@@ -83,7 +91,7 @@ class Campos_textarea extends class_campo
 	 *
 	 * @param number $maxMostrar
 	 */
-	public function setMaxMostrar($maxMostrar)
+	public function setMaxMostrar(int $maxMostrar)
 	{
 		$this->maxMostrar = $maxMostrar;
 	}
@@ -93,7 +101,7 @@ class Campos_textarea extends class_campo
 	 *
 	 * @return string
 	 */
-	public function get_celda_dato()
+	public function get_celda_dato(): string
 	{
 		if ($this->isNoLimpiar () == true)
 		{
@@ -105,10 +113,53 @@ class Campos_textarea extends class_campo
 		}
 	}
 
-	public function generar_elemento_form_update()
+	public function generar_elemento_form_update(): string
 	{
 		return "<textarea class='input-textarea " . $this->getAtrRequerido () . " name='" . $this->getCampo () . "' id='" . $this->getCampo () . "' " . $this->autofocusAttr . " " . $this->getAtrDisabled () . " value='" . $this->getValor () . "' " . $this->establecerMaxLeng () . " " . $this->establecerHint () . " " . $this->getAdicionalInput () . "/>" . $this->getValor () . "</textarea>\n";
 	}
+
+	public function generar_elemento_form_nuevo(): string
+	{
+		return "<textarea class='input-textarea " . $this->getAtrRequerido () . " name='" . $this->getCampo () . "' id='" . $this->getCampo () . "' " . $this->autofocusAttr . " " . $this->getAtrDisabled () . " value='" . $this->getValor () . "' " . $this->establecerMaxLeng () . " " . $this->establecerHint () . " " . $this->getAdicionalInput () . "/></textarea>\n";
+	}
+
+	/**
+	 * Comprueba el valor de un campo y hace el retorno que corresponda.
+	 *
+	 * @return string
+	 */
+	public function getMostrarListar()
+	{
+		if ($this->getDato () != "")
+		{
+			if ($this->isNoLimpiar () == true)
+			{
+				return substr ((html_entity_decode ($this->getDato ())), 0, $this->getMaxMostrar ());
+			}
+			else
+			{
+				return substr ($this->getDato (), 0, $this->getMaxMostrar ());
+			}
+		}
+	}
+
+	// /**
+	// *
+	// * @return boolean
+	// */
+	// public function isNoLimpiar()
+	// {
+	// return $this->noLimpiar;
+	// }
+
+	// /**
+	// *
+	// * @param boolean $noLimpiar
+	// */
+	// public function setNoLimpiar($noLimpiar)
+	// {
+	// $this->noLimpiar = $noLimpiar;
+	// }
 }
 
 ?>

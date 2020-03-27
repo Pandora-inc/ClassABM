@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Archivo principal de la clase validar.
  *

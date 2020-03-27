@@ -55,7 +55,25 @@ class Campos_fecha extends class_campo
         if("%VALOR%" != "") $("#%IDCAMPO%").datepicker("setDate", "%VALOR%");
     });
     </script>';
+
+	/**
+	 * Objeto de coneccion a la base de datos
+	 *
+	 * @var class_db Class_db
+	 */
 	private $db = null;
+
+	/**
+	 * Mascara a utilizar en las consultas.
+	 *
+	 * @var string
+	 */
+	private $mascara = "dd/mm/YYYY";
+
+	public function __toString(): string
+	{
+		return "Campo: " . $this->getCampo () . " Valor: " . $this->getValor ();
+	}
 
 	/**
 	 * Constructor de la clase.
@@ -63,7 +81,7 @@ class Campos_fecha extends class_campo
 	 *
 	 * @param array $array
 	 */
-	public function __construct($array = array(), $db = null)
+	public function __construct(array $array = array(), class_db $db = null)
 	{
 		if (!isset ($db) or empty ($db) or $db == null)
 		{
@@ -84,24 +102,28 @@ class Campos_fecha extends class_campo
 
 		if (isset ($array) and !empty ($array))
 		{
+			if (array_key_exists ('mascara', $array))
+			{
+				$this->setMascara ($array['mascara']);
+			}
+
 			parent::__construct ($array);
 		}
 		else
 		{
 			parent::__construct ();
 		}
+		$this->setTipo ('fecha');
 	}
 
 	/**
 	 *
-	 * @param object $db
-	 *        	Objeto de coneccion a la base.
 	 * @param String $busqueda
 	 *        	variable donde se registran los parametros de busqueda. es pasada por referencia con lo que se puede utilizar incluso fuera de la funcion.
 	 *
 	 * @return string
 	 */
-	public function campoFormBuscar($db, &$busqueda)
+	public function campoFormBuscar(&$busqueda): string
 	{
 		$retorno = "";
 
@@ -145,7 +167,7 @@ class Campos_fecha extends class_campo
 	 *
 	 * @return string
 	 */
-	public function get_campo_select()
+	public function get_campo_select(): string
 	{
 		if ($this->isBuscar () == true or $this->isNoListar () == false)
 		{
@@ -153,7 +175,7 @@ class Campos_fecha extends class_campo
 			{
 				$tablaJoin = $this->prepara_joinTable ($this->getJoinTable ());
 
-				if ($this->isOmitirJoin == false)
+				if ($this->isOmitirJoin () == false)
 				{
 					if ($this->getSelectPersonal () == true)
 					{
@@ -163,11 +185,11 @@ class Campos_fecha extends class_campo
 					{
 						if ($this->getCampoTexto () != "")
 						{
-							return $this->db->toChar ($this->getJoinTable () . "." . $this->getCampoTexto (), substr ($tablaJoin, 0, 3) . "_" . $this->getCampoTexto (), "dd/mm/YYYY");
+							return $this->db->toChar ($this->getJoinTable () . "." . $this->getCampoTexto (), substr ($tablaJoin, 0, 3) . "_" . $this->getCampoTexto (), $this->mascara);
 						}
 						else
 						{
-							return $this->db->toChar ($this->getJoinTable () . "." . $this->getCampo (), substr ($tablaJoin, 0, 3) . "_" . $this->getCampo (), "dd/mm/YYYY");
+							return $this->db->toChar ($this->getJoinTable () . "." . $this->getCampo (), substr ($tablaJoin, 0, 3) . "_" . $this->getCampo (), $this->mascara);
 						}
 					}
 					// FIXME calculo que habria que armar otra funcion que haga esto
@@ -183,7 +205,7 @@ class Campos_fecha extends class_campo
 					{
 						// FIXME Hay que encontrar un metodo mejor ya que si hay mas de una tabla con el mismo campo y las primeras tres letras del nombre de la tabla iguales tirara que la columna esta definida de forma ambigua.
 
-						$camposSelect .= $this->db->toChar ($this->getJoinTable () . "." . $this->getCampo (), substr ($tablaJoin, 0, 3) . "_" . $this->getCampo (), "dd/mm/YYYY");
+						$camposSelect .= $this->db->toChar ($this->getJoinTable () . "." . $this->getCampo (), substr ($tablaJoin, 0, 3) . "_" . $this->getCampo (), $this->mascara);
 						$this->setCampo (substr ($tablaJoin, 0, 3) . "_" . $this->getCampo ());
 
 						return $camposSelect;
@@ -198,7 +220,7 @@ class Campos_fecha extends class_campo
 				}
 				else
 				{
-					return $this->db->toChar ($this->tabla . "." . $this->getCampo (), $this->getCampo (), "dd/mm/YYYY");
+					return $this->db->toChar ($this->tabla . "." . $this->getCampo (), $this->getCampo (), $this->mascara);
 				}
 			}
 		}
@@ -209,7 +231,7 @@ class Campos_fecha extends class_campo
 	 *
 	 * @return string
 	 */
-	public function getCampoOrder()
+	public function getCampoOrder(): string
 	{
 		if ($this->campoOrder != "")
 		{
@@ -223,7 +245,7 @@ class Campos_fecha extends class_campo
 			}
 			else
 			{
-				return "TO_CHAR(" . $this->getJoinTable . "." . $this->getCampoTexto () . ", 'yyyymmdd')";
+				return "TO_CHAR(" . $this->getJoinTable () . "." . $this->getCampoTexto () . ", 'yyyymmdd')";
 			}
 		}
 	}
@@ -233,7 +255,7 @@ class Campos_fecha extends class_campo
 	 *
 	 * @return string
 	 */
-	public function get_where_buscar($valorABuscar)
+	public function get_where_buscar(string $valorABuscar): string
 	{
 		$camposWhereBuscar = "";
 
@@ -249,11 +271,11 @@ class Campos_fecha extends class_campo
 
 			if ($this->joinTable == "" or $this->selectPersonal != "")
 			{
-				$camposWhereBuscar .= $this->db->toChar ($this->tabla . "." . $campo->getCampo (), "", "dd/mm/YYYY");
+				$camposWhereBuscar .= $this->db->toChar ($this->tabla . "." . $this->getCampo (), "", $this->mascara);
 			}
 			else
 			{
-				$camposWhereBuscar .= $this->db->toChar ($this->getJoinTable . "." . $campo->getCampoTexto (), "", "dd/mm/YYYY");
+				$camposWhereBuscar .= $this->db->toChar ($this->getJoinTable . "." . $this->getCampoTexto (), "", $this->mascara);
 			}
 		}
 
@@ -272,7 +294,12 @@ class Campos_fecha extends class_campo
 		return $camposWhereBuscar;
 	}
 
-	public function generar_elemento_form_update()
+	/**
+	 *
+	 * {@inheritdoc}
+	 * @see class_campo::generar_elemento_form_update()
+	 */
+	public function generar_elemento_form_update(): string
 	{
 		if (strlen ($this->getValor ()) > 10)
 		{
@@ -291,6 +318,53 @@ class Campos_fecha extends class_campo
 		$imprForm .= "<input type='text' style='position:relative;top:0px;left;0px'  " . $this->autofocusAttr . " name='display_" . $this->getCampo () . "' id='display_" . $this->getCampo () . "' class='input-fecha " . $this->getAtrRequerido () . "' " . $this->getAtrDisabled () . " " . $this->establecerHint () . " " . $this->getAdicionalInput () . "readonly='readonly'/> \n";
 
 		return $imprForm;
+	}
+
+	/**
+	 *
+	 * {@inheritdoc}
+	 * @see class_campo::generar_elemento_form_update()
+	 */
+	public function generar_elemento_form_nuevo(): string
+	{
+		if (strlen ($this->getValor ()) > 10)
+		{
+			$this->setValor (substr ($this->getValor (), 0, 10)); // sacar hora:min:seg
+		}
+		if ($this->getValor () == '0000-00-00')
+		{
+			$this->setValor ("");
+		}
+
+		$jsTmp = str_replace ('%IDCAMPO%', $this->getCampo (), $this->jsIniciadorCamposFecha);
+		$jsTmp = str_replace ('%VALOR%', $this->getValor (), $jsTmp);
+
+		$imprForm = $jsTmp;
+		$imprForm .= "<input type='text' style='position:absolute' name='" . $this->getCampo () . "' id='" . $this->getCampo () . "' value='" . ($this->getValor () != "" ? $this->getValor () : ($this->getValorPredefinido () != "" ? $this->getValorPredefinido () : " ")) . "'/> \n";
+		$imprForm .= "<input type='text' style='position:relative;top:0px;left;0px'  " . $this->autofocusAttr . " name='display_" . $this->getCampo () . "' id='display_" . $this->getCampo () . "' class='input-fecha " . $this->getAtrRequerido () . "' " . $this->getAtrDisabled () . " " . $this->establecerHint () . " " . $this->getAdicionalInput () . "readonly='readonly'/> \n";
+
+		return $imprForm;
+	}
+
+	/**
+	 * Retorna el valor del atributo $mascara
+	 *
+	 * @return string $mascara el dato de la variable.
+	 */
+	public function getMascara(): string
+	{
+		return $this->mascara;
+	}
+
+	/**
+	 * Setter del parametro $mascara de la clase.
+	 *
+	 * @param string $mascara
+	 *        	dato a cargar en la variable.
+	 */
+	public function setMascara(string $mascara)
+	{
+		$this->mascara = $mascara;
 	}
 }
 ?>
