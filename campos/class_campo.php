@@ -1130,6 +1130,7 @@ class class_campo
 	/**
 	 * Retorna el valor de incluirOpcionVacia
 	 *
+	 * @deprecated Debe utilizarse la definicion de la clase que corresponda. L proxima version lo eliminara.
 	 * @access public
 	 * @return boolean
 	 */
@@ -2634,8 +2635,7 @@ class class_campo
 	{
 		return "<input type='text' class='input-text " . $this->getAtrRequerido () . " name='" . $this->getCampo () . "' id='" . $this->getCampo () . "' " . $this->autofocusAttr . " " . $this->getAtrDisabled () . " value='" . $this->getValor () . "' " . $this->establecerMaxLeng () . " " . $this->establecerHint () . " " . $this->getAdicionalInput () . "/> \n";
 	}
-	
-	
+
 	/**
 	 * Arma un string con el input correspondiente al campo para armar un formulario de nuevo.
 	 *
@@ -2644,9 +2644,9 @@ class class_campo
 	 */
 	public function generar_elemento_form_nuevo(): string
 	{
-	    return "<input type='text' class='input-text " . $this->getAtrRequerido () . " name='" . $this->getCampo () . "' id='" . $this->getCampo () . "' " . $this->autofocusAttr . " " . $this->getAtrDisabled () . " value='' " . $this->establecerMaxLeng () . " " . $this->establecerHint () . " " . $this->getAdicionalInput () . "/> \n";
-	    
-	    }
+		return "<input type='text' class='input-text " . $this->getAtrRequerido () . " name='" . $this->getCampo () . "' id='" . $this->getCampo () . "' " . $this->autofocusAttr . " " . $this->getAtrDisabled () . " value='' " . $this->establecerMaxLeng () . " " . $this->establecerHint () . " " . $this->getAdicionalInput () . "/> \n";
+	}
+
 	/**
 	 * Retorna el valor del atributo $autofocusAttr
 	 *

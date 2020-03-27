@@ -58,6 +58,11 @@ class Campos_numero extends class_campo
 	 */
 	protected $formatear = true;
 
+	/**
+	 *
+	 * {@inheritdoc}
+	 * @see class_campo::__toString()
+	 */
 	public function __toString(): string
 	{
 		$retorno = "Campo: " . $this->campo;
@@ -177,11 +182,21 @@ class Campos_numero extends class_campo
 		}
 	}
 
+	/**
+	 *
+	 * {@inheritdoc}
+	 * @see class_campo::generar_elemento_form_update()
+	 */
 	public function generar_elemento_form_update(): string
 	{
 		return "<input type='number' class='input-text " . $this->getAtrRequerido () . " max='250000000.00' name='" . $this->getCampo () . "' id='" . $this->getCampo () . "' " . $this->autofocusAttr . " " . $this->getAtrDisabled () . " value='" . $this->getValor () . "' " . $this->establecerMaxLeng () . " " . $this->establecerHint () . " " . $this->getAdicionalInput () . "/> \n";
 	}
 
+	/**
+	 *
+	 * {@inheritdoc}
+	 * @see class_campo::generar_elemento_form_nuevo()
+	 */
 	public function generar_elemento_form_nuevo(): string
 	{
 		return "<input type='number' class='input-text " . $this->getAtrRequerido () . " max='250000000.00' name='" . $this->getCampo () . "' id='" . $this->getCampo () . "' " . $this->autofocusAttr . " " . $this->getAtrDisabled () . " value='' " . $this->establecerMaxLeng () . " " . $this->establecerHint () . " " . $this->getAdicionalInput () . "/> \n";

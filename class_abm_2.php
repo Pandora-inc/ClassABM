@@ -1372,6 +1372,18 @@ class class_abm
 		// FIXME El jslinksSelectConBusqueda habria que mostrarlo solo cuando haya un select que lo uso
 		$html .= $this->jslinksSelectConBusqueda;
 		$html .= $this->jsMonedaInput;
+
+		// foreach ($this->campo as &$campo)
+		// {
+		// if ($campo instanceof Campos_dbCombo)
+		// {
+		// if ($campo->isEsDinamico () == true)
+		// {
+		// $html .= $campo->getJs_dinamic ();
+		// }
+		// }
+		// }
+
 		$html .= "<form enctype='multipart/form-data' method='" . $this->formMethod . "' id='formularioAbm' action='" . $this->formAction . "?abm_alta=1$qsamb' $this->adicionalesForm> \n";
 		$html .= "<input type='hidden' name='abm_enviar_formulario' value='1' /> \n";
 		$html .= "<table class='mformulario' $this->adicionalesTable> \n";
@@ -1445,6 +1457,7 @@ class class_abm
 							}
 							else
 							{
+
 								$imprForm .= $campo->generar_elemento_form_nuevo ();
 							}
 
@@ -1569,7 +1582,7 @@ class class_abm
 	{
 		$html = "";
 		$camposSelect = "";
-		
+
 		$joinSql = "";
 
 		// por cada campo...
@@ -1589,6 +1602,16 @@ class class_abm
 			if ($campo instanceof Campos_upload)
 			{
 				continue;
+			}
+
+			if ($campo instanceof Campos_dbCombo)
+			{
+				if ($campo->isEsDinamico () == true)
+				{
+					$campo->preparar_script_dinamic ();
+
+					$html .= $campo->getJs_dinamic ();
+				}
 			}
 
 			// campos para el select
@@ -1831,9 +1854,8 @@ class class_abm
 								{
 									$customCompareValor = $fila[$campo->getCampo ()];
 								}
-								
+
 								$imprForm .= $campo->generar_elemento_form_update ();
-								
 							}
 
 							$imprForm .= "</div> \n";
@@ -2802,6 +2824,7 @@ class class_abm
 				$html .= '<tr class="tablesorter-headerRow"> ';
 				foreach ($this->campo as &$campo)
 				{
+
 					if ($campo->isNoListar () == true)
 					{
 						continue;
@@ -2938,6 +2961,16 @@ class class_abm
 		}
 
 		// FIXME esto debe retornarse y no mostrarse por pantalla
+		foreach ($this->campo as &$campo)
+		{
+			if ($campo instanceof Campos_dbCombo)
+			{
+				if ($campo->isEsDinamico () == true)
+				{
+					$html .= $campo->getJs_dinamic ();
+				}
+			}
+		}
 		echo $html . $this->jsBasicos;
 	}
 
@@ -3157,6 +3190,9 @@ class class_abm
 			}
 			elseif ($campo->existeDato ("customPrintListado"))
 			{
+
+				$campo->setValor ($campo->getCustomPrintListado ());
+
 				if (is_array ($this->campoId))
 				{
 					$this->campoId = $this->convertirIdMultiple ($this->campoId, $this->tabla);
@@ -3172,21 +3208,23 @@ class class_abm
 
 					for($j = 0; $j < $cant; $j++)
 					{
-						$campo->setCustomPrintListado (str_ireplace ("{" . trim ($camposIncuidos[$j]) . "}", $fila[trim ($camposIncuidos[$j])], $campo->getCustomPrintListado ()));
+						// $campo->setCustomPrintListado (str_ireplace ("{" . trim ($camposIncuidos[$j]) . "}", $fila[trim ($camposIncuidos[$j])], $campo->getCustomPrintListado ()));
+
+						$campo->setValor (str_ireplace ("{" . trim ($camposIncuidos[$j]) . "}", $fila[trim ($camposIncuidos[$j])], $campo->getValor ()));
 					}
 				}
 
 				$filaListado .= "<td " . $campo->get_centrar_columna () . " " . $campo->get_no_mostrar () . ">" . " ";
 
-				$campo->setCustomPrintListado (str_ireplace ('{id}', $fila['ID'], $campo->getCustomPrintListado ()));
+				$campo->setValor (str_ireplace ('{id}', $fila['ID'], $campo->getValor ()));
 
 				if (isset ($fila[$campo->getCampo ()]))
 				{
-					$filaListado .= sprintf ($campo->getCustomPrintListado (), $fila[$campo->getCampo ()]);
+					$filaListado .= sprintf ($campo->getValor (), $fila[$campo->getCampo ()]);
 				}
 				else
 				{
-					$filaListado .= sprintf ($campo->getCustomPrintListado ());
+					$filaListado .= sprintf ($campo->getValor ());
 				}
 				$filaListado .= "</td> \n";
 			}
@@ -3442,7 +3480,7 @@ class class_abm
 			$valoresSql = "";
 			$sql = "";
 
-			$sql = "INSERT INTO " . $tabla . $this->dbLink . "  \n";
+			$sql = " INSERT INTO " . $tabla . $this->dbLink . "  \n";
 
 			// foreach ($this->campos as $campo)
 			foreach ($this->campo as &$campo)
@@ -3571,8 +3609,8 @@ class class_abm
 					}
 					else
 					{
-					    $campo->setValor($_POST[$campo->getCampo ()]);
-					    $valor =  $campo->getValor();
+						$campo->setValor ($_POST[$campo->getCampo ()]);
+						$valor = $campo->getValor ();
 					}
 
 					// chequeo de campos requeridos
@@ -3632,16 +3670,17 @@ class class_abm
 				}
 				else
 				{
-				    if (!is_array ($this->campoId))
-				    { 
-					if ($campo->getCampo () === $this->campoId)
+					if (!is_array ($this->campoId))
 					{
-						$hayID = true;
+						if ($campo->getCampo () === $this->campoId)
+						{
+							$hayID = true;
+						}
+						elseif ($campo->getCampo () != "" and isset ($this->campoId) and is_array ($campo->getCampo ()) and (in_array ($campo->getCampo (), $this->campoId)))
+						{
+							$hayID = true;
+						}
 					}
-					elseif ($campo->getCampo () != "" and isset ($this->campoId) and is_array ($campo->getCampo ()) and (in_array ($campo->getCampo (), $this->campoId)))
-					{
-						$hayID = true;
-					}}
 
 					if ($campo->isNoNuevo () == true)
 					{
@@ -3826,7 +3865,7 @@ class class_abm
 				}
 			}
 
-			if (strpos ($camposSql, $this->campoId) == false)
+			if (!is_array ($this->campoId) and strpos ($camposSql, $this->campoId) == false)
 			{
 				if ($camposSql != "")
 				{
