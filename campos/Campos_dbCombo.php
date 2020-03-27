@@ -1,5 +1,7 @@
 <?php
-
+/**
+ * Archivo con el funcionamiento de la clase dbCombo
+ */
 /*
  * Querido programador:
  *
@@ -20,9 +22,11 @@ require_once '/web/html/classes/class_sitio.php';
 // require_once '../funciones.php';
 
 /**
+ * Clase que agrupa todo lo relacionado a los calpos dbCombo.
  *
- * @author iberlot
- *
+ * @author iberlot <iberlot@pandora-inc.com.ar>
+ * @version 1.0.1
+ * @since 1.0.1 - Se agrega la opcion de selects dinamicos que dependen de otro elemento
  */
 class Campos_dbCombo extends class_campo
 {
@@ -52,8 +56,8 @@ class Campos_dbCombo extends class_campo
 	/**
 	 * Para los tipo "combo" o "dbCombo", si esta en True incluye <option value=''></option>
 	 *
-	 * @name incluirOpcionVacia =
-	 * @var boolean
+	 * @name incluirOpcionVacia
+	 * @var bool
 	 */
 	protected $incluirOpcionVacia = true;
 
@@ -61,7 +65,7 @@ class Campos_dbCombo extends class_campo
 	 * Muestra el valor del campo en el combo.
 	 *
 	 * @name mostrarValor
-	 * @var boolean
+	 * @var bool
 	 */
 	protected $mostrarValor = true;
 
@@ -73,6 +77,55 @@ class Campos_dbCombo extends class_campo
 	 */
 	protected $textoMayuscula = true;
 
+	/**
+	 * Establece si los valores del select del campo dependen de lo seleccionado en otro.
+	 *
+	 * @var boolean
+	 */
+	protected $esDinamico = false;
+
+	/**
+	 * Campo que al modificarse afecta al campo actual.
+	 *
+	 * @var string
+	 */
+	protected $campoDinamicoDende = "";
+
+	/**
+	 * Direccion por deccion a la que se dirige para recuperar los datos.
+	 *
+	 * @var string
+	 */
+	protected $direcionDinamico = "#";
+
+	/**
+	 * Script js que se encarga del funcionamiento del dinamic.
+	 *
+	 * @var string
+	 */
+	protected $js_dinamic = '<script>
+$(document).ready(function() {
+    $("#{DependeDe} option:selected").each(function () {
+
+						dato = $(this).val();
+						dato1 = "select_dinamico";
+						dato2 = "{DependeDe}";
+
+						$.post("{DondeVoy}", { accion: dato1, campo: dato2, valor: dato }, function(data){
+							$("#{CampoACambiar}").html(data);
+						});
+					});
+});
+</script>';
+
+	/**
+	 * Constructor de la clase.
+	 *
+	 * @param array $array
+	 *        	Array con los parametro del objeto para poder inicializarlo rapidamente
+	 * @param class_db $db
+	 *        	Conector a la base de datos, si es nulo intenta recuperarlo global o crear uno.
+	 */
 	public function __construct(array $array = array(), $db = null)
 	{
 		if (!isset ($db) or empty ($db) or $db == null)
@@ -101,11 +154,27 @@ class Campos_dbCombo extends class_campo
 			parent::__construct ();
 		}
 		$this->setTipo ('dbcombo');
+
+		if ($this->esDinamico == true)
+		{
+			$this->preparar_script_dinamic ();
+		}
+	}
+
+	/**
+	 * Remplaza los nombres de los campos a los correspondientes en la base y la direccion a la que se reenviara el form.
+	 */
+	public function preparar_script_dinamic()
+	{
+		$this->js_dinamic = str_ireplace ('{DependeDe}', $this->campoDinamicoDende, $this->js_dinamic);
+		$this->js_dinamic = str_ireplace ('{CampoACambiar}', "c_" . $this->campo, $this->js_dinamic);
+		$this->js_dinamic = str_ireplace ('{DondeVoy}', $this->direcionDinamico, $this->js_dinamic);
 	}
 
 	/**
 	 *
-	 * @return boolean el dato de la variable $incluirOpcionVacia
+	 * {@inheritdoc}
+	 * @see class_campo::isIncluirOpcionVacia()
 	 */
 	public function isIncluirOpcionVacia(): bool
 	{
@@ -113,6 +182,7 @@ class Campos_dbCombo extends class_campo
 	}
 
 	/**
+	 * Retorna el valor de la variable
 	 *
 	 * @return boolean el dato de la variable $mostrarValor
 	 */
@@ -122,6 +192,7 @@ class Campos_dbCombo extends class_campo
 	}
 
 	/**
+	 * Retorna el valor de la variable
 	 *
 	 * @return boolean el dato de la variable $textoMayuscula
 	 */
@@ -131,26 +202,29 @@ class Campos_dbCombo extends class_campo
 	}
 
 	/**
+	 * Establece el valor de la variable
 	 *
 	 * @param
-	 *        	boolean a cargar en la variable $incluirOpcionVacia
+	 *        	bool a cargar en la variable $incluirOpcionVacia
 	 */
-	public function setIncluirOpcionVacia($incluirOpcionVacia)
+	public function setIncluirOpcionVacia(bool $incluirOpcionVacia)
 	{
 		$this->incluirOpcionVacia = $incluirOpcionVacia;
 	}
 
 	/**
+	 * Establece el valor de la variable
 	 *
 	 * @param
-	 *        	boolean a cargar en la variable $mostrarValor
+	 *        	bool a cargar en la variable $mostrarValor
 	 */
-	public function setMostrarValor($mostrarValor)
+	public function setMostrarValor(bool $mostrarValor)
 	{
 		$this->mostrarValor = $mostrarValor;
 	}
 
 	/**
+	 * Establece el valor de la variable
 	 *
 	 * @param
 	 *        	boolean a cargar en la variable $textoMayuscula
@@ -197,6 +271,14 @@ class Campos_dbCombo extends class_campo
 		$this->sqlQuery = $sqlQuery;
 	}
 
+	/**
+	 *
+	 * {@inheritdoc}
+	 * @see class_campo::campoFormBuscar()
+	 * @param String $busqueda
+	 *        	variable donde se registran los parametros de busqueda. es pasada por referencia con lo que se puede utilizar incluso fuera de la funcion.
+	 *
+	 */
 	public function campoFormBuscar(&$busqueda): string
 	{
 		$retorno = "";
@@ -246,6 +328,11 @@ class Campos_dbCombo extends class_campo
 		return $retorno;
 	}
 
+	/**
+	 *
+	 * {@inheritdoc}
+	 * @see class_campo::generar_elemento_form_update()
+	 */
 	public function generar_elemento_form_update(): string
 	{
 		$imprForm = "<select name='" . $this->getCampo () . "' id='" . $this->getCampo () . "' " . $this->autofocusAttr . " class='input-select " . $this->getAtrRequerido () . "' " . $this->getAtrDisabled () . " " . $this->getAdicionalInput () . "> \n";
@@ -316,9 +403,14 @@ class Campos_dbCombo extends class_campo
 		return $imprForm;
 	}
 
+	/**
+	 *
+	 * {@inheritdoc}
+	 * @see class_campo::generar_elemento_form_nuevo()
+	 */
 	public function generar_elemento_form_nuevo(): string
 	{
-		$imprForm = "<select name='" . $this->getCampo () . "' id='" . $this->getCampo () . "' " . $this->autofocusAttr . " class='input-select " . $this->getAtrRequerido () . "' " . $this->getAtrDisabled () . " " . $this->getAdicionalInput () . "> \n";
+		$imprForm = "<select name='" . $this->getCampo () . "' id='" . $this->getCampo () . "' " . $this->autofocusAttr . " class='input-select " . $this->getAtrRequerido () . "' " . $this->getAtrDisabled () . " " . $this->getAdicionalInput () . " onChange='function_c_" . $this->campo . "()'> \n";
 		if ($this->isIncluirOpcionVacia ())
 		{
 			$imprForm .= "<option value=''></option> \n";
@@ -375,7 +467,12 @@ class Campos_dbCombo extends class_campo
 		return $imprForm;
 	}
 
-	public function nombreJoinLargo()
+	/**
+	 * Arma un string con el nombre de la tabla join y el del campo de texto.
+	 *
+	 * @return string
+	 */
+	public function nombreJoinLargo(): string
 	{
 		if ($this->existeDato ("joinTable") and $this->isOmitirJoin () == false)
 		{
@@ -413,6 +510,91 @@ class Campos_dbCombo extends class_campo
 	public function setValoriIndice($valoriIndice)
 	{
 		$this->valoriIndice = $valoriIndice;
+	}
+
+	/**
+	 * Retorna el valor del atributo $esDinamico
+	 *
+	 * @return boolean $esDinamico el dato de la variable.
+	 */
+	public function isEsDinamico()
+	{
+		return $this->esDinamico;
+	}
+
+	/**
+	 * Setter del parametro $esDinamico de la clase.
+	 *
+	 * @param boolean $esDinamico
+	 *        	dato a cargar en la variable.
+	 */
+	public function setEsDinamico($esDinamico)
+	{
+		$this->esDinamico = $esDinamico;
+	}
+
+	/**
+	 * Retorna el valor del atributo $campoDinamicoDende
+	 *
+	 * @return string $campoDinamicoDende el dato de la variable.
+	 */
+	public function getCampoDinamicoDende()
+	{
+		return $this->campoDinamicoDende;
+	}
+
+	/**
+	 * Setter del parametro $campoDinamicoDende de la clase.
+	 *
+	 * @param string $campoDinamicoDende
+	 *        	dato a cargar en la variable.
+	 */
+	public function setCampoDinamicoDende($campoDinamicoDende)
+	{
+		$this->campoDinamicoDende = $campoDinamicoDende;
+	}
+
+	/**
+	 * Retorna el valor del atributo $direcionDinamico
+	 *
+	 * @return string $direcionDinamico el dato de la variable.
+	 */
+	public function getDirecionDinamico()
+	{
+		return $this->direcionDinamico;
+	}
+
+	/**
+	 * Setter del parametro $direcionDinamico de la clase.
+	 *
+	 * @param string $direcionDinamico
+	 *        	dato a cargar en la variable.
+	 */
+	public function setDirecionDinamico($direcionDinamico)
+	{
+		$this->direcionDinamico = $direcionDinamico;
+	}
+
+	/**
+	 * Retorna el valor del atributo $js_dinamic
+	 *
+	 * @return string $js_dinamic el dato de la variable.
+	 */
+	public function getJs_dinamic()
+	{
+		$this->preparar_script_dinamic ();
+		return $this->js_dinamic;
+	}
+
+	/**
+	 * Setter del parametro $js_dinamic de la clase.
+	 *
+	 * @param string $js_dinamic
+	 *        	dato a cargar en la variable.
+	 */
+	public function setJs_dinamic($js_dinamic)
+	{
+		$this->js_dinamic = $js_dinamic;
 	}
 }
 
