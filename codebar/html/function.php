@@ -54,7 +54,7 @@ function display_select($filename)
 	$text2display = '';
 	$text2display .= '<select name="barcode_type" size="1" onchange="location.href=barcode_type.options[barcode_type.selectedIndex].value + \'.php\'" style="width: 300px">';
 	$c = count ($table_value);
-	for($i = 0; $i < $c; $i ++)
+	for($i = 0; $i < $c; $i++)
 	{
 		$text2display .= '<option value="' . $table_value[$i] . '"';
 		if ($table_value[$i] === $filename)
@@ -87,7 +87,7 @@ function display_output($number)
 	$text2display = '';
 	$text2display .= '<select onchange="if(this.value==1||this.value==2)disableDPI(false);else disableDPI(true);" name="output" size="1" style="width:300px">';
 	$c = count ($table_value);
-	for($i = 0; $i < $c; $i ++)
+	for($i = 0; $i < $c; $i++)
 	{
 		$text2display .= '<option value="' . $table_value[$i] . '"';
 		if (intval ($table_value[$i]) === intval ($number))
@@ -139,7 +139,7 @@ function display_res($number)
 {
 	$table = new LSTable (1, 3, '100%', $null);
 	$table->setTemplate ('tpl_BLANK');
-	for($i = 1; $i <= 3; $i ++)
+	for($i = 1; $i <= 3; $i++)
 	{
 		$text2display = '';
 		$text2display .= '<input type="radio" id="res' . $i . '" name="res" value="' . $i . '"';
@@ -169,7 +169,7 @@ function display_rotation($rotation)
 	$c = count ($availableRotation);
 	$table = new LSTable (1, $c, '100%', $null);
 	$table->setTemplate ('tpl_BLANK');
-	for($i = 0; $i < $c; $i ++)
+	for($i = 0; $i < $c; $i++)
 	{
 		$text2display = '';
 		$text2display .= '<input type="radio" id="rotation' . $i . '" name="rotation" value="' . $availableRotation[$i] . '"';
@@ -198,7 +198,7 @@ function display_font($family, $size)
 	// List of all fonts available
 	$f = listfonts ();
 	$c = count ($f);
-	for($i = 0; $i < $c; $i ++)
+	for($i = 0; $i < $c; $i++)
 	{
 		$text2display .= '<option value="' . $f[$i] . '"';
 		if ($f[$i] === $family)

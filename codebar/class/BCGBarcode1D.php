@@ -182,9 +182,9 @@ abstract class BCGBarcode1D extends BCGBarcode
 		);
 		$currentColor = $startBar ? 0 : 1;
 		$c = strlen ($code);
-		for($i = 0; $i < $c; $i ++)
+		for($i = 0; $i < $c; $i++)
 		{
-			for($j = 0; $j < intval ($code[$i]) + 1; $j ++)
+			for($j = 0; $j < intval ($code[$i]) + 1; $j++)
 			{
 				$this->drawSingleBar ($im, $colors[$currentColor]);
 				$this->nextX ();
@@ -209,7 +209,7 @@ abstract class BCGBarcode1D extends BCGBarcode
 	 */
 	protected function nextX()
 	{
-		$this->positionX ++;
+		$this->positionX++;
 	}
 
 	/**

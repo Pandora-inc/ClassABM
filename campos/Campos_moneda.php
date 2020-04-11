@@ -20,7 +20,7 @@ require_once 'class_campo.php';
 /**
  *
  * @author iberlot
- *        
+ *
  */
 class Campos_moneda extends class_campo
 {
@@ -30,11 +30,19 @@ class Campos_moneda extends class_campo
 	 * Derine el numero de valores despues de la coma.
 	 *
 	 * @todo Por defecto su valor es 2.
-	 *      
+	 *
 	 * @name cantidadDecimales
 	 * @var integer
 	 */
 	protected $cantidadDecimales = 2;
+
+	/**
+	 * Dato guardado en la base de datos.
+	 *
+	 * @name dato
+	 * @var float
+	 */
+	protected $dato = 0;
 
 	/**
 	 * Constructor de la clase.
@@ -42,7 +50,7 @@ class Campos_moneda extends class_campo
 	 *
 	 * @param array $array
 	 */
-	public function __construct($array = array())
+	public function __construct(array $array = array())
 	{
 		if (isset ($array) and !empty ($array))
 		{
@@ -52,13 +60,14 @@ class Campos_moneda extends class_campo
 		{
 			parent::__construct ();
 		}
+		$this->setTipo ('moneda');
 	}
 
 	/**
 	 *
 	 * @return number
 	 */
-	public function getCantidadDecimales()
+	public function getCantidadDecimales(): int
 	{
 		return $this->cantidadDecimales;
 	}
@@ -74,17 +83,15 @@ class Campos_moneda extends class_campo
 
 	/**
 	 *
-	 * @param object $db
-	 *        	Objeto de coneccion a la base.
 	 * @param String $busqueda
 	 *        	variable donde se registran los parametros de busqueda. es pasada por referencia con lo que se puede utilizar incluso fuera de la funcion.
-	 *        	
+	 *
 	 * @return string
 	 *
 	 * {@inheritdoc}
 	 * @see class_campo::campoFormBuscar()
 	 */
-	public function campoFormBuscar($db, &$busqueda)
+	public function campoFormBuscar(&$busqueda): string
 	{
 		$retorno = "";
 
@@ -112,6 +119,68 @@ class Campos_moneda extends class_campo
 		$retorno .= "<input type='number' class='input-text $requerido currency' step='0.01' min='0.01' max='250000000.00'  name='c_" . $this->campo . "' value='" . $valor . "' /> \n";
 
 		return $retorno;
+	}
+
+	/**
+	 * Comprueba el valor de un campo y hace el retorno que corresponda.
+	 *
+	 * @return string
+	 */
+	public function getMostrarListar()
+	{
+		if ($this->getCampo () != "")
+		{
+			setlocale (LC_MONETARY, 'es_AR');
+			return money_format ('%.2n', $this->getDato ());
+		}
+	}
+
+	/**
+	 * Comprueba que este habilitado el centrado de la columna y en caso de estarlo retorna la etiqueta para realizarlo.
+	 *
+	 * @return string
+	 */
+	public function get_centrar_columna(): string
+	{
+		if ($this->isCentrarColumna () == true)
+		{
+			return ' align="center" ';
+		}
+		else
+		{
+			return " style='text-align: right;' ";
+		}
+	}
+
+	/**
+	 * Arma un Td con el dato de valor del campo
+	 *
+	 * @return string
+	 */
+	public function get_celda_dato(): string
+	{
+		setlocale (LC_MONETARY, 'es_AR');
+
+		// FIXME el formato deberia ser algo asi '%.$this->getCantidadDecimales ()n' ya que si no se omite el uso de dicho parametro.
+
+		if ($this->getValor () != "" and $this->getValor () > 0)
+		{
+			return "<td " . $this->get_centrar_columna () . " " . $this->get_no_mostrar () . ">" . $this->get_spanColorear () . " " . money_format ('%.2n', $this->getValor ()) . " " . ($this->get_spanColorear () != "" ? "</span>" : "") . "</td> \n";
+		}
+		else
+		{
+			return "<td " . $this->get_centrar_columna () . " " . $this->get_no_mostrar () . ">" . $this->get_spanColorear () . " " . money_format ('%.2n', 0) . " " . ($this->get_spanColorear () != "" ? "</span>" : "") . "</td> \n";
+		}
+	}
+	
+	public function generar_elemento_form_update(): string
+	{
+	    return "<input type='number' class='currency " . $this->getAtrRequerido () . " max='250000000.00' name='" . $this->getCampo () . "' id='" . $this->getCampo () . "' " . $this->autofocusAttr . " " . $this->getAtrDisabled () . " value='" . $this->getValor () . "' " . $this->establecerMaxLeng () . " " . $this->establecerHint () . " " . $this->getAdicionalInput () . "/> \n";
+	}
+	
+	public function generar_elemento_form_nuevo(): string
+	{
+	    return "<input type='number' class='currency " . $this->getAtrRequerido () . " max='250000000.00' name='" . $this->getCampo () . "' id='" . $this->getCampo () . "' " . $this->autofocusAttr . " " . $this->getAtrDisabled () . " value='' " . $this->establecerMaxLeng () . " " . $this->establecerHint () . " " . $this->getAdicionalInput () . "/> \n";
 	}
 }
 

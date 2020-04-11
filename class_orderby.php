@@ -122,7 +122,15 @@ class class_orderby
 	{
 		if (isset ($_GET[$this->variableOrderBy]) and trim ($_GET[$this->variableOrderBy]) != "")
 		{
-			$i = $_GET[$this->variableOrderBy];
+
+			$i = 0;
+
+			if ($_GET[$this->variableOrderBy] != "")
+			{
+				$i = $_GET[$this->variableOrderBy];
+			}
+
+			// print_r ($i + 0);
 
 			if (array_key_exists ($i - 1, $this->arrayCamposOrder))
 			{

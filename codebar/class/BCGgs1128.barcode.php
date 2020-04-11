@@ -755,7 +755,7 @@ class BCGgs1128 extends BCGcode128
 		$formatedLabel = '';
 		$c = count ($this->identifiersId);
 
-		for($i = 0; $i < $c; $i ++)
+		for($i = 0; $i < $c; $i++)
 		{
 			if ($i > 0)
 			{
@@ -850,7 +850,7 @@ class BCGgs1128 extends BCGcode128
 			);
 		}
 		$textCount = count ($text);
-		for($cmpt = 0; $cmpt < $textCount; $cmpt ++)
+		for($cmpt = 0; $cmpt < $textCount; $cmpt++)
 		{
 			/* We parse the content of the array */
 			if (!$this->parseContent ($text[$cmpt]))
@@ -900,7 +900,7 @@ class BCGgs1128 extends BCGcode128
 		{
 			if (strpos ($content, '.') !== false || strpos ($content, ',') !== false)
 			{
-				$n ++;
+				$n++;
 				if ($n <= $nbCharToParse)
 				{
 					/* We take an extra char */
@@ -913,7 +913,7 @@ class BCGgs1128 extends BCGcode128
 		if ($separator !== false)
 		{
 			$content = substr ($content, 0, $separator);
-			$separatorsFound ++;
+			$separatorsFound++;
 		}
 		/* We check the conformity */
 		if (!$this->checkConformity ($content, $id, $realNameId))
@@ -944,7 +944,7 @@ class BCGgs1128 extends BCGcode128
 			if ($otherContent[0] === chr (29))
 			{
 				$otherContent = substr ($otherContent, 1);
-				$nbCharOtherContent --;
+				$nbCharOtherContent--;
 			}
 			if ($nbCharOtherContent > 0)
 			{
@@ -1106,7 +1106,7 @@ class BCGgs1128 extends BCGcode128
 
 		if ($this->identifiersAi[$realNameId][self::CHECKSUM])
 		{
-			$checksumChar ++;
+			$checksumChar++;
 		}
 		if ($nbCharContent < ($minlengthContent - $checksumChar))
 		{
@@ -1143,7 +1143,7 @@ class BCGgs1128 extends BCGcode128
 			{
 				/* we need to calculate the checksum */
 				$content .= $this->calculateChecksumMod10 ($content);
-				$checksumAdded ++;
+				$checksumAdded++;
 			}
 			elseif ($nbCharContent === $minlengthContent)
 			{
@@ -1194,7 +1194,7 @@ class BCGgs1128 extends BCGcode128
 			{
 				$id = str_replace ('y', $nbCharContent - ($pos + 1), strtolower ($id));
 				$content = str_replace ('.', '', $content);
-				$decimalPointRemoved ++;
+				$decimalPointRemoved++;
 			}
 		}
 		return true;
@@ -1218,7 +1218,7 @@ class BCGgs1128 extends BCGcode128
 		$checksumValue = 0;
 		$c = strlen ($content);
 
-		for($i = $c; $i > 0; $i --)
+		for($i = $c; $i > 0; $i--)
 		{
 			if ($odd === true)
 			{

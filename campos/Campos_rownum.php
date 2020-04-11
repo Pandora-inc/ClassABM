@@ -20,12 +20,15 @@ require_once 'class_campo.php';
 /**
  *
  * @author iberlot
- *        
+ *
  */
 class Campos_rownum extends class_campo
 {
 
-	// TODO - Insert your code here
+	public function __toString(): string
+	{
+		return $this->getCampo ();
+	}
 
 	/**
 	 * Constructor de la clase.
@@ -33,7 +36,7 @@ class Campos_rownum extends class_campo
 	 *
 	 * @param array $array
 	 */
-	public function __construct($array = array())
+	public function __construct(array $array = array())
 	{
 		if (isset ($array) and !empty ($array))
 		{
@@ -42,6 +45,38 @@ class Campos_rownum extends class_campo
 		else
 		{
 			parent::__construct ();
+		}
+
+		$this->setTipo ('rownum');
+	}
+
+	/**
+	 * Arma el string del nombre del campo (tabla.campo AS nombrecampo) para agregar en el SELECT
+	 *
+	 * @return string
+	 */
+	public function get_campo_select(): string
+	{
+		if ($this->isBuscar () == true or $this->isNoListar () == false)
+		{
+			return $this->getCampo ();
+		}
+	}
+
+	/**
+	 * Retorna el valor de campoOrder
+	 *
+	 * @return string
+	 */
+	public function getCampoOrder(): string
+	{
+		if ($this->campoOrder != "")
+		{
+			return $this->campoOrder;
+		}
+		else
+		{
+			return $this->getCampo ();
 		}
 	}
 }

@@ -78,7 +78,7 @@ class BCGean8 extends BCGBarcode1D
 
 		// Checking if all chars are allowed
 		$c = strlen ($this->text);
-		for($i = 0; $i < $c; $i ++)
+		for($i = 0; $i < $c; $i++)
 		{
 			if (array_search ($this->text[$i], $this->keys) === false)
 			{
@@ -102,14 +102,14 @@ class BCGean8 extends BCGBarcode1D
 				// Starting Code
 				$this->drawChar ($im, '000', true);
 				// Draw First 4 Chars (Left-Hand)
-				for($i = 0; $i < 4; $i ++)
+				for($i = 0; $i < 4; $i++)
 				{
 					$this->drawChar ($im, $this->findCode ($temp_text[$i]), false);
 				}
 				// Draw Center Guard Bar
 				$this->drawChar ($im, '00000', false);
 				// Draw Last 4 Chars (Right-Hand)
-				for($i = 4; $i < 8; $i ++)
+				for($i = 4; $i < 8; $i++)
 				{
 					$this->drawChar ($im, $this->findCode ($temp_text[$i]), true);
 				}
@@ -153,7 +153,7 @@ class BCGean8 extends BCGBarcode1D
 		$odd = true;
 		$this->checksumValue = 0;
 		$c = strlen ($this->text);
-		for($i = $c; $i > 0; $i --)
+		for($i = $c; $i > 0; $i--)
 		{
 			if ($odd === true)
 			{

@@ -59,6 +59,21 @@ class class_campo
 	protected $tipo = '';
 
 	/**
+	 * Tabla en la que se encuentra el campo.
+	 *
+	 * @name tabla
+	 * @var string
+	 */
+	protected $tabla = '';
+
+	/**
+	 * Valor que tiene en este momento el campo
+	 *
+	 * @var mixed
+	 */
+	protected $valor;
+
+	/**
 	 * Incluye ese campo en la exportacion.
 	 * Si al menos uno de los campos lo incluye entonces aparecen los iconos de exportar.
 	 *
@@ -76,6 +91,14 @@ class class_campo
 	 * @var string
 	 */
 	protected $titulo = '';
+
+	/**
+	 * Texto para el campo en los formularios y listado al pasar el mouse por encima.
+	 *
+	 * @name tituloMouseOver
+	 * @var string
+	 */
+	protected $tituloMouseOver = '';
 
 	/**
 	 * Centrar los datos de la columna en el listado.
@@ -96,12 +119,25 @@ class class_campo
 	protected $customEvalListado = '';
 
 	/**
+	 *
+	 * Parametro a pasarle de forma manual a customEvalListado.
+	 * Solo se utiliza si customEvalListado tiene datos.
+	 *
 	 * No muestra el dato en el listado (lo unico que hace es esconderlo por mecio de css con la propiedad display none.
+	 *
+	 *
+	 * @name parametroUsr
+	 * @var string
+	 */
+	protected $parametroUsr = '';
+
+	/**
+	 * No muestra el dato en el listado (lo unico que hace es esconderlo por mecio de css con la propiedad display none, su valor por defecto es false.
 	 *
 	 * @name noMostrar
 	 * @var boolean
 	 */
-	protected $noMostrar = true;
+	protected $noMostrar = false;
 
 	/**
 	 * No permite editar el campo en el formulario de edicion.
@@ -118,6 +154,13 @@ class class_campo
 	 * @var boolean
 	 */
 	protected $noListar = false;
+
+	/**
+	 * establece si hay que limpiar o no las etiquetas html.
+	 *
+	 * @var boolean
+	 */
+	protected $noLimpiar = false;
 
 	/**
 	 * No incuye ni muestra ese campo en el formulario de alta.
@@ -160,15 +203,7 @@ class class_campo
 	 * @name maxLen
 	 * @var integer
 	 */
-	protected $maxLen = 00;
-
-	/**
-	 * Maximo de caracteres que mostrara por pantalla.
-	 *
-	 * @name maxMostrar
-	 * @var integer
-	 */
-	protected $maxMostrar = 0;
+	protected $maxLen = 0;
 
 	/**
 	 * No permite ordenar por ese campo haciendo click en el titulo de la columna.
@@ -233,28 +268,13 @@ class class_campo
 	protected $joinCondition = 'INNER';
 
 	/**
-	 * Para los tipo "combo" o "dbCombo", si esta en True incluye <option value=''></option>
+	 * Condicion a agregar al final del join
 	 *
-	 * @name incluirOpcionVacia =
-	 * @var boolean
-	 */
-	protected $incluirOpcionVacia = true;
-
-	/**
-	 * Muestra el valor del campo en el combo.
+	 * XXX esto es un parche temporal y hay que corregirlo.
 	 *
-	 * @name mostrarValor
-	 * @var boolean
+	 * @var string
 	 */
-	protected $mostrarValor = true;
-
-	/**
-	 * Pone el texto del combo en mayusculas.
-	 *
-	 * @name textoMayuscula
-	 * @var boolean
-	 */
-	protected $textoMayuscula = true;
+	protected $compareMasJoin = '';
 
 	/**
 	 * Valor predefinido para un campo en el formulario de alta.
@@ -298,7 +318,7 @@ class class_campo
 	 * @name requerido
 	 * @var boolean
 	 */
-	protected $requerido = '';
+	protected $requerido = false;
 
 	/**
 	 * una funcion de usuario que reciba el parametro $fila.
@@ -365,9 +385,9 @@ class class_campo
 	 * no muestra el campo en el formulario de edicion
 	 *
 	 * @name noMostrarEditar
-	 * @var string
+	 * @var boolean
 	 */
-	protected $noMostrarEditar = '';
+	protected $noMostrarEditar = false;
 
 	/**
 	 * para ejecutar una funcion del usuario en cada celda del listado sin imprimir ni siquiera los tags < td >< / td>.
@@ -479,6 +499,27 @@ class class_campo
 	protected $selectPersonal = '';
 
 	/**
+	 * En caso de ir en una solapa diferente indica en cual.
+	 *
+	 * @var integer
+	 */
+	protected $enSolapa = 0;
+
+	/**
+	 * Valor del atributo autofocus
+	 *
+	 * @var string
+	 */
+	protected $autofocusAttr = "";
+
+	/**
+	 * Valor del atributo autofocus
+	 *
+	 * @var boolean
+	 */
+	protected $autofocus = false;
+
+	/**
 	 * Va a retornar el valor (la informacion) del campo.
 	 *
 	 * @return String
@@ -541,23 +582,27 @@ class class_campo
 			}
 			if (array_key_exists ('buscar', $array))
 			{
-				$this->isBuscar ($array['buscar']);
+				$this->setBuscar ($array['buscar']);
 			}
 			if (array_key_exists ('noMostrar', $array))
 			{
-				$this->isNoMostrar ($array['noMostrar']);
+				$this->setNoMostrar ($array['noMostrar']);
 			}
 			if (array_key_exists ('noEditar', $array))
 			{
-				$this->isNoEditar ($array['noEditar']);
+				$this->setNoEditar ($array['noEditar']);
 			}
 			if (array_key_exists ('noListar', $array))
 			{
-				$this->isNoListar ($array['noListar']);
+				$this->setNoListar ($array['noListar']);
+			}
+			if (array_key_exists ('noLimpiar', $array))
+			{
+				$this->setNoLimpiar ($array['noLimpiar']);
 			}
 			if (array_key_exists ('noNuevo', $array))
 			{
-				$this->isNoNuevo ($array['noNuevo']);
+				$this->setNoNuevo ($array['noNuevo']);
 			}
 			if (array_key_exists ('tituloListado', $array))
 			{
@@ -654,15 +699,6 @@ class class_campo
 			if (array_key_exists ('selectPersonal', $array))
 			{
 				$this->setSelectPersonal ($array['selectPersonal']);
-			}
-			if (array_key_exists ('maxMostrar', $array))
-			{
-				$this->setMaxMostrar ($array['maxMostrar']);
-			}
-			// XXX esto existe para ofrecer compatibilidad con verciones anteriores
-			if (array_key_exists ('tmostrar', $array))
-			{
-				$this->setMaxMostrar ($array['tmostrar']);
 			}
 			if (array_key_exists ('uploadFunction', $array))
 			{
@@ -788,6 +824,16 @@ class class_campo
 	public function getCustomEvalListado()
 	{
 		return $this->customEvalListado;
+	}
+
+	/**
+	 * Retorna el valor de getParametroUsr
+	 *
+	 * @return string
+	 */
+	public function getParametroUsr()
+	{
+		return $this->parametroUsr;
 	}
 
 	/**
@@ -1070,7 +1116,21 @@ class class_campo
 	 */
 	public function getCampoOrder()
 	{
-		return $this->campoOrder;
+		if ($this->campoOrder != "")
+		{
+			return $this->campoOrder;
+		}
+		else
+		{
+			if ($this->joinTable == "" or $this->selectPersonal != "")
+			{
+				return $this->tabla . "." . $this->getCampo ();
+			}
+			else
+			{
+				return $this->getJoinTable () . "." . $this->getCampoTexto ();
+			}
+		}
 	}
 
 	/**
@@ -1236,7 +1296,7 @@ class class_campo
 	 *
 	 * @return string
 	 */
-	public function getNoMostrarEditar()
+	public function isNoMostrarEditar()
 	{
 		return $this->noMostrarEditar;
 	}
@@ -1282,13 +1342,51 @@ class class_campo
 	}
 
 	/**
-	 * Retorna el valor de maxMostrar.
+	 * Setter del parametro $noLimpiar de la clase.
 	 *
-	 * @return number
+	 * @param boolean $noLimpiar
+	 *        	dato a cargar en la variable.
 	 */
-	public function getMaxMostrar()
+	public function setNoLimpiar($noLimpiar)
 	{
-		return $this->maxMostrar;
+		$this->noLimpiar = $noLimpiar;
+	}
+
+	/**
+	 * Retorna el dato de no limpiar
+	 *
+	 * @return boolean
+	 */
+	public function isNoLimpiar()
+	{
+		return $this->noLimpiar;
+	}
+
+	/**
+	 *
+	 * @return string
+	 */
+	public function getTituloMouseOver()
+	{
+		return $this->tituloMouseOver;
+	}
+
+	/**
+	 *
+	 * @return string
+	 */
+	public function getTabla()
+	{
+		return $this->tabla;
+	}
+
+	/**
+	 *
+	 * @return string
+	 */
+	public function getCompareMasJoin()
+	{
+		return $this->compareMasJoin;
 	}
 
 	/*
@@ -1318,15 +1416,15 @@ class class_campo
 	 */
 	public function setTipo($tipo)
 	{
-		if (in_array ($tipo, $this->tiposAdmitidos))
+		if (in_array (strtolower ($tipo), $this->tiposAdmitidos))
 		{
-			$this->tipo = $tipo;
+			$this->tipo = strtolower ($tipo);
 
 			return true;
 		}
 		else
 		{
-			throw new Exception ('Tipo de campo no admitido: ' . $tipo . '.');
+			throw new Exception ('Tipo de campo no admitido: ' . strtolower ($tipo) . '.');
 		}
 	}
 
@@ -1368,6 +1466,16 @@ class class_campo
 	public function setCustomEvalListado($customEvalListado)
 	{
 		$this->customEvalListado = $customEvalListado;
+	}
+
+	/**
+	 * Comprueba y setea el valor de parametroUsr
+	 *
+	 * @param string $parametroUsr
+	 */
+	public function setParametroUsr($parametroUsr)
+	{
+		$this->parametroUsr = $parametroUsr;
 	}
 
 	/**
@@ -1781,18 +1889,75 @@ class class_campo
 
 	/**
 	 *
-	 * Comprueba y setea el valor de maxMostrar
-	 *
-	 * @param number $maxMostrar
+	 * @param string $tituloMouseOver
 	 */
-	public function setMaxMostrar($maxMostrar)
+	public function setTituloMouseOver($tituloMouseOver)
 	{
-		$this->maxMostrar = $maxMostrar;
+		$this->tituloMouseOver = $tituloMouseOver;
+	}
+
+	/**
+	 *
+	 * @param string $sqlQuery
+	 */
+	public function setSqlQuery($sqlQuery)
+	{
+		$this->setSqlQuery = $sqlQuery;
+	}
+
+	/**
+	 *
+	 * @param string $tabla
+	 */
+	public function setTabla($tabla)
+	{
+		$this->tabla = $tabla;
+	}
+
+	/**
+	 *
+	 * @param string $compareMasJoin
+	 */
+	public function setCompareMasJoin($compareMasJoin)
+	{
+		$this->compareMasJoin = $compareMasJoin;
+	}
+
+	/**
+	 * Retorna el valor de $enSolapa
+	 *
+	 * @return number
+	 */
+	public function getEnSolapa()
+	{
+		return $this->enSolapa;
+	}
+
+	/**
+	 * Setea $enSolapa con el parametro dado.
+	 *
+	 * @param number $enSolapa
+	 */
+	public function setEnSolapa($enSolapa)
+	{
+		$this->enSolapa = $enSolapa;
 	}
 
 	/*
 	 * OTRAS FUNCIONES
 	 */
+
+	/**
+	 *
+	 * @param string $tituloOver
+	 */
+	public function getTituloOver()
+	{
+		if ($this->tituloMouseOver = !"")
+		{
+			return ' title="' . $this->tituloMouseOver . '" ';
+		}
+	}
 
 	/**
 	 * Comprueba que esxista cun campo en particular y que sea distinto de nulo
@@ -1867,6 +2032,273 @@ class class_campo
 		$retorno .= "<input type='text' class='input-text' name='c_" . $this->campo . "' value='" . $valor . "' /> \n";
 
 		return $retorno;
+	}
+
+	/**
+	 *
+	 * @return mixed
+	 */
+	public function prepara_joinTable()
+	{
+		$join = explode (".", $this->joinTable);
+
+		return $join[count ($join) - 1];
+	}
+
+	/**
+	 * Si esta seteado el campo retorna el parametro a poner en la etiqueta.
+	 *
+	 * @return string
+	 */
+	public function establecerMaxLeng()
+	{
+		if ($campo->existeDato ('maxLen') and $campo->getMaxLen () > 0)
+		{
+			return " maxlength='" . $this->maxLen . "' ";
+		}
+		else
+		{
+			return " ";
+		}
+	}
+
+	/**
+	 * Si esta seteado el campo retorna el parametro a poner en la etiqueta.
+	 *
+	 * @return string
+	 */
+	public function establecerHint()
+	{
+		if ($campo->existeDato ('hint'))
+		{
+			return "title='" . $this->hint . "' ";
+		}
+		else
+		{
+			return " ";
+		}
+	}
+
+	/**
+	 *
+	 * @return boolean el dato de la variable $autofocusAttr
+	 */
+	public function isAutofocus()
+	{
+		return $this->autofocus;
+	}
+
+	/**
+	 *
+	 * @param
+	 *        	boolean a cargar en la variable $autofocusAttr
+	 */
+	public function setAutofocus($autofocus)
+	{
+		if ($autofocus == true)
+		{
+			$this->autofocusAttr = "autofocus='autofocus'";
+		}
+		elseif ($autofocusAttr == false)
+		{
+			$this->autofocus = "";
+		}
+	}
+
+	/**
+	 * Retorna el valor del atributo $valor
+	 *
+	 * @return mixed $valor el dato de la variable.
+	 */
+	public function getValor()
+	{
+		return $this->valor;
+	}
+
+	/**
+	 * Setter del parametro $valor de la clase.
+	 *
+	 * @param mixed $valor
+	 *        	dato a cargar en la variable.
+	 */
+	public function setValor($valor)
+	{
+		$this->valor = $valor;
+	}
+
+	/**
+	 * Arma el string del nombre del campo (tabla.campo AS nombrecampo) para agregar en el SELECT
+	 *
+	 * @return string
+	 */
+	public function get_campo_select()
+	{
+		if ($this->isBuscar () == true or $this->isNoListar () == false)
+		{
+			if ($this->existeDato ("joinTable"))
+			{
+				$tablaJoin = $this->prepara_joinTable ($this->getJoinTable ());
+
+				if ($this->isOmitirJoin () == false)
+				{
+					if ($this->getSelectPersonal () == true)
+					{
+						return $this->getSelectPersonal () . " AS " . substr ($tablaJoin . "_" . $this->getCampoTexto (), 0, 30);
+					}
+					else
+					{
+						if ($this->getCampoTexto () != "")
+						{
+							return $this->getJoinTable () . "." . $this->getCampoTexto () . " AS " . substr ($tablaJoin . "_" . $this->getCampoTexto (), 0, 30);
+						}
+						else
+						{
+							return $this->getJoinTable () . "." . $this->getCampo () . " AS " . substr ($tablaJoin . "_" . $this->getCampo (), 0, 30);
+						}
+					}
+					// FIXME calculo que habria que armar otra funcion que haga esto
+					// $camposOrder .= "|" . $this->getCampoTexto ();
+				}
+				else
+				{
+					if ($this->getSelectPersonal () == true)
+					{
+						return $this->getSelectPersonal () . " AS " . $this->getCampoTexto ();
+					}
+					else
+					{
+						// FIXME Hay que encontrar un metodo mejor ya que si hay mas de una tabla con el mismo campo y las primeras tres letras del nombre de la tabla iguales tirara que la columna esta definida de forma ambigua.
+
+						$camposSelect = $this->getJoinTable () . "." . $this->getCampo () . " AS " . substr ($tablaJoin, 0, 3) . "_" . $this->getCampo ();
+
+						$this->setCampo (substr ($tablaJoin, 0, 3) . "_" . $this->getCampo ());
+
+						return $camposSelect;
+					}
+				}
+			}
+			else
+			{
+				if ($this->getSelectPersonal () == true)
+				{
+					return $this->getSelectPersonal () . " AS " . $this->getCampo ();
+				}
+				else
+				{
+					return $this->tabla . "." . $this->getCampo ();
+				}
+			}
+		}
+	}
+
+	/**
+	 * Arma el where para la busqueda dentro de ese campo.
+	 *
+	 * @param string $valorABuscar
+	 * @return string
+	 */
+	public function get_where_buscar($valorABuscar)
+	{
+		$camposWhereBuscar = "";
+
+		if ($this->buscarUsarCampo != "")
+		{
+			$camposWhereBuscar .= "UPPER(" . $this->getBuscarUsarCampo () . ")";
+		}
+		else
+		{
+			if ($this->joinTable == "" or $this->selectPersonal != "")
+			{
+				$camposWhereBuscar .= "UPPER(" . $this->tabla . "." . $this->getCampo () . ")";
+			}
+			else
+			{
+				$camposWhereBuscar .= "UPPER(" . $this->getJoinTable . "." . $this->getCampoTexto () . ")";
+			}
+		}
+
+		$camposWhereBuscar .= " ";
+
+		if ($this->getBuscarOperador () != "" and strtolower ($this->getBuscarOperador ()) != 'like')
+		{
+			$camposWhereBuscar .= $this->buscarOperador . " UPPER('" . $valorABuscar . "')";
+		}
+		else
+		{
+			$valorABuscar = str_replace (" ", "%", $valorABuscar);
+			$camposWhereBuscar .= "LIKE UPPER('%" . $valorABuscar . "%')";
+		}
+
+		return $camposWhereBuscar;
+	}
+
+	/**
+	 * Comprueba que este habilitado el ocultar columna y en caso de estarlo retorna la etiqueta para realizarlo.
+	 *
+	 * @return string
+	 */
+	public function get_no_mostrar()
+	{
+		if ($this->isNoMostrar () == true)
+		{
+			return " style='display: none;' ";
+		}
+		else
+		{
+			return " ";
+		}
+	}
+
+	/**
+	 * Comprueba que este habilitado el centrado de la columna y en caso de estarlo retorna la etiqueta para realizarlo.
+	 *
+	 * @return string
+	 */
+	public function get_centrar_columna()
+	{
+		if ($this->isCentrarColumna () == true)
+		{
+			return ' align="center" ';
+		}
+		else
+		{
+			return " ";
+		}
+	}
+
+	/**
+	 * Comprueba si hay que colorear y retorna la etiqueta correspondiente
+	 *
+	 * @return string
+	 */
+	protected function get_spanColorear()
+	{
+		if (is_array ($this->getColorearValores ()))
+		{
+			if ($this->getCampo () != "" and array_key_exists ($this->getValor (), $this->getColorearValores ()))
+			{
+				return "<span class='" . ($this->isColorearConEtiqueta () ? "label" : "") . "' style='" . ($this->isColorearConEtiqueta () ? "background-" : "") . "color:" . $this->getColorearValores ()[$this->getValor ()] . "'>";
+			}
+		}
+
+		return "";
+	}
+
+	/**
+	 * Arma un Td con el dato de valor del campo
+	 *
+	 * @return string
+	 */
+	public function get_celda_dato()
+	{
+		if ($this->isNoLimpiar () == true)
+		{
+			return "<td " . $this->get_centrar_columna () . " " . $this->get_no_mostrar () . ">" . $this->get_spanColorear () . " " . html_entity_decode ($this->getValor ()) . " " . ($this->get_spanColorear () != "" ? "</span>" : "") . " </td> \n";
+		}
+		else
+		{
+			return "<td " . $this->get_centrar_columna () . " " . $this->get_no_mostrar () . ">" . $this->get_spanColorear () . " " . $this->getValor () . " " . ($this->get_spanColorear () != "" ? "</span>" : "") . "</td> \n";
+		}
 	}
 }
 ?>

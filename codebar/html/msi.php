@@ -32,7 +32,7 @@ $table->setText ($n + 1, 1, $text2display);
 $table->setText ($n + 2, 0, 'Keys');
 $text2display = '';
 $c = count ($keys);
-for($i = 0; $i < $c; $i ++)
+for($i = 0; $i < $c; $i++)
 {
 	$text2display .= '<input type="button" value="' . $keys[$i] . '" style="width:25px;padding:0px;" onclick="newkey(this.form,\'' . $keys[$i] . '\')" /> ';
 }

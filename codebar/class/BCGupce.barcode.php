@@ -284,7 +284,7 @@ class BCGupce extends BCGBarcode1D
 
 		// Checking if all chars are allowed
 		$c = strlen ($this->text);
-		for($i = 0; $i < $c; $i ++)
+		for($i = 0; $i < $c; $i++)
 		{
 			if (array_search ($this->text[$i], $this->keys) === false)
 			{
@@ -392,7 +392,7 @@ class BCGupce extends BCGBarcode1D
 					// Starting Code
 					$this->drawChar ($im, '000', true);
 					$c = strlen ($upce);
-					for($i = 0; $i < $c; $i ++)
+					for($i = 0; $i < $c; $i++)
 					{
 						$this->drawChar ($im, self::inverse ($this->findCode ($upce[$i]), $this->codeParity[$this->text[0]][$this->checksumValue][$i]), false);
 					}
@@ -446,7 +446,7 @@ class BCGupce extends BCGBarcode1D
 		$odd = true;
 		$this->checksumValue = 0;
 		$c = strlen ($this->text);
-		for($i = $c; $i > 0; $i --)
+		for($i = $c; $i > 0; $i--)
 		{
 			if ($odd === true)
 			{

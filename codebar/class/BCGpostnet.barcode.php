@@ -69,7 +69,7 @@ class BCGpostnet extends BCGBarcode1D
 
 		// Checking if all chars are allowed
 		$c = strlen ($this->text);
-		for($i = 0; $i < $c; $i ++)
+		for($i = 0; $i < $c; $i++)
 		{
 			if (array_search ($this->text[$i], $this->keys) === false)
 			{
@@ -89,7 +89,7 @@ class BCGpostnet extends BCGBarcode1D
 			{
 				// Checksum
 				$checksum = 0;
-				for($i = 0; $i < $c; $i ++)
+				for($i = 0; $i < $c; $i++)
 				{
 					$checksum += intval ($this->text[$i]);
 				}
@@ -98,7 +98,7 @@ class BCGpostnet extends BCGBarcode1D
 				// Starting Code
 				$this->drawChar ($im, '1');
 				// Code
-				for($i = 0; $i < $c; $i ++)
+				for($i = 0; $i < $c; $i++)
 				{
 					$this->drawChar ($im, $this->findCode ($this->text[$i]));
 				}
@@ -144,7 +144,7 @@ class BCGpostnet extends BCGBarcode1D
 	protected function drawChar(&$im, $code, $last = false)
 	{
 		$c = strlen ($code);
-		for($i = 0; $i < $c; $i ++)
+		for($i = 0; $i < $c; $i++)
 		{
 			if ($code[$i] === '0')
 			{

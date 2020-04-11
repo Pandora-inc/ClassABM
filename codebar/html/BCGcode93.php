@@ -5,7 +5,7 @@ include ('include/header.php');
 registerImageKey ('code', 'BCGcode93');
 
 $vals = array ();
-for($i = 0; $i <= 127; $i ++)
+for($i = 0; $i <= 127; $i++)
 {
 	$vals[] = '%' . sprintf ('%02X', $i);
 }

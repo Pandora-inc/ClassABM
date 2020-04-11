@@ -49,9 +49,9 @@ class LSTable
 	{
 		$this->numRows = intval ($numRows);
 		$this->numCols = intval ($numCols);
-		for($i = 0; $i < $numRows; $i ++)
+		for($i = 0; $i < $numRows; $i++)
 			$this->_setVariable ($i);
-		for($i = 0; $i < $numCols; $i ++)
+		for($i = 0; $i < $numCols; $i++)
 			$this->hiddenCols[$i] = TABLE_DEFAULT_COL_HIDDEN;
 		$this->title = '';
 		$this->width = strval ($width);
@@ -63,9 +63,9 @@ class LSTable
 		if (is_object ($parent))
 		{
 			$stop = false;
-			for($i = 0; $i < $parent->numRows; $i ++)
+			for($i = 0; $i < $parent->numRows; $i++)
 			{
-				for($j = 0; $j < $parent->numCols; $j ++)
+				for($j = 0; $j < $parent->numCols; $j++)
 				{
 					if ($parent->text[$i][$j] == TABLE_DEFAULT_CELL_VALUE)
 					{
@@ -173,7 +173,7 @@ class LSTable
 	{
 		if (is_int ($row) && is_string ($attrib))
 			if ($row < $this->numRows)
-				for($i = 0; $i < $this->numCols; $i ++)
+				for($i = 0; $i < $this->numCols; $i++)
 					$this->cellsAttributes[$row][$i][strtolower ($attrib)] = $value;
 	}
 
@@ -189,7 +189,7 @@ class LSTable
 	{
 		if (is_int ($col) && is_string ($attrib))
 			if ($col < $this->numCols)
-				for($i = 0; $i < $this->numRows; $i ++)
+				for($i = 0; $i < $this->numRows; $i++)
 					$this->cellsAttributes[$i][$col][strtolower ($attrib)] = $value;
 	}
 
@@ -301,7 +301,7 @@ class LSTable
 				if ($r > $this->numRows)
 					$this->insertRows ($this->numRows, $r - $this->numRows);
 				elseif ($r < $this->numRows)
-					for($i = $this->numRows; $i > $r; $i --)
+					for($i = $this->numRows; $i > $r; $i--)
 						$this->removeRow ($i - 1);
 	}
 
@@ -318,7 +318,7 @@ class LSTable
 				if ($r > $this->numCols)
 					$this->insertColumns ($this->numCols, $r - $this->numCols);
 				elseif ($r < $this->numCols)
-					for($i = $this->numCols; $i > $r; $i --)
+					for($i = $this->numCols; $i > $r; $i--)
 						$this->removeColumn ($i - 1);
 	}
 
@@ -447,7 +447,7 @@ class LSTable
 		{
 			if ($col1 < $this->numCols && $col2 < $this->numCols)
 			{
-				for($i = 0; $i < $this->numRows; $i ++)
+				for($i = 0; $i < $this->numRows; $i++)
 				{
 					$temp = & $this->text[$i][$col1];
 					$this->text[$i][$col1] = & $this->text[$i][$col2];
@@ -505,7 +505,7 @@ class LSTable
 		{
 			if ($row >= 0 && $row <= $this->numRows)
 			{
-				for($i = 0; $i < $count; $i ++)
+				for($i = 0; $i < $count; $i++)
 				{
 					array_splice ($this->text, $row, 0, '');
 					array_splice ($this->hiddenRows, $row, 0, FALSE);
@@ -531,16 +531,16 @@ class LSTable
 		{
 			if ($col >= 0 && $col <= $this->numCols)
 			{
-				for($i = 0; $i < $this->numRows; $i ++)
+				for($i = 0; $i < $this->numRows; $i++)
 				{
 					$temp_text = array ();
 					$temp_attributes = array ();
 					reset ($this->text[$i]);
-					for($j = 0; $j <= $this->numCols; $j ++)
+					for($j = 0; $j <= $this->numCols; $j++)
 					{
 						if ($col == $j)
 						{
-							for($k = 0; $k < $count; $k ++)
+							for($k = 0; $k < $count; $k++)
 							{
 								$temp_text[] = '';
 								$temp_attributes[] = array ();
@@ -554,7 +554,7 @@ class LSTable
 					$this->text[$i] = $temp_text;
 					$this->cellsAttributes[$i] = $temp_attributes;
 				}
-				for($i = 0; $i < $count; $i ++)
+				for($i = 0; $i < $count; $i++)
 					array_splice ($this->hiddenCols, $col, 0, FALSE);
 				$this->numCols += $count;
 			}
@@ -594,7 +594,7 @@ class LSTable
 		{
 			if ($col < $this->numCols)
 			{
-				for($i = 0; $i < $this->numRows; $i ++)
+				for($i = 0; $i < $this->numRows; $i++)
 				{
 					$temp_text = array ();
 					$temp_attributes = array ();
@@ -669,12 +669,12 @@ class LSTable
 			$tpl = new $this->template ();
 			$tpl->__header ($this->width, $this->title);
 			$this->_check_rowcol_span ();
-			for($i = 0; $i < $this->numRows; $i ++)
+			for($i = 0; $i < $this->numRows; $i++)
 			{
 				if ($this->hiddenRows[$i] == FALSE)
 				{
 					$tpl->__row_start ($this->rowsAttributes[$i]);
-					for($j = 0; $j < $this->numCols; $j ++)
+					for($j = 0; $j < $this->numCols; $j++)
 					{
 						if ($this->hiddenCols[$j] == FALSE)
 						{
@@ -705,17 +705,17 @@ class LSTable
 	 */
 	private function _check_rowcol_span()
 	{
-		for($i = 0; $i < $this->numRows; $i ++)
+		for($i = 0; $i < $this->numRows; $i++)
 		{
-			for($j = 0; $j < $this->numCols; $j ++)
+			for($j = 0; $j < $this->numCols; $j++)
 			{
 				if (isset ($this->cellsAttributes[$i][$j]['colspan']))
 					if ($this->cellsAttributes[$i][$j]['colspan'] > 0)
-						for($z = 1; $z < intval ($this->cellsAttributes[$i][$j]['colspan']); $z ++)
+						for($z = 1; $z < intval ($this->cellsAttributes[$i][$j]['colspan']); $z++)
 							$this->text[$i][$j + $z] = NULL;
 				if (isset ($this->cellsAttributes[$i][$j]['rowspan']))
 					if ($this->cellsAttributes[$i][$j]['rowspan'] > 0)
-						for($z = 1; $z < intval ($this->cellsAttributes[$i][$j]['rowspan']); $z ++)
+						for($z = 1; $z < intval ($this->cellsAttributes[$i][$j]['rowspan']); $z++)
 							$this->text[$i + $z][$j] = NULL;
 			}
 		}
@@ -764,7 +764,7 @@ class LSTable
 			$tab1 = array ();
 			$tab2 = array ();
 
-			for($i = 0; $i < count ($tab); $i ++)
+			for($i = 0; $i < count ($tab); $i++)
 			{
 				if ($i < (count ($tab)) / 2)
 					$tab1[] = $tab[$i];
@@ -794,21 +794,21 @@ class LSTable
 		while ($i1 < count ($tab1) && $i2 < count ($tab2))
 		{
 			if (strcmp ($tab1[$i1][$this->temp_col], $tab2[$i2][$this->temp_col]) == (($this->temp_ascending == TRUE) ? -1 : 1))
-				$tab[$i] = $tab1[$i1 ++];
+				$tab[$i] = $tab1[$i1++];
 			else
-				$tab[$i] = $tab2[$i2 ++];
-			$i ++;
+				$tab[$i] = $tab2[$i2++];
+			$i++;
 		}
 
 		while ($i1 < count ($tab1))
 		{
-			$tab[$i] = $tab1[$i1 ++];
-			$i ++;
+			$tab[$i] = $tab1[$i1++];
+			$i++;
 		}
 		while ($i2 < count ($tab2))
 		{
-			$tab[$i] = $tab2[$i2 ++];
-			$i ++;
+			$tab[$i] = $tab2[$i2++];
+			$i++;
 		}
 	}
 }

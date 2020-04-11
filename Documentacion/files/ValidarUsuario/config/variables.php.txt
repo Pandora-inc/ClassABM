@@ -1,4 +1,3 @@
-
 <?php
 /**
  *
@@ -376,16 +375,16 @@ $bajaDeLaCuenta = "";
  *
  * @var string Direccion deonde se encuentra la foto de la persona dentro de la carpeta de fotos
  *      se arma de la siguiente manera
- *
+ *     
  *      <code>
  *      <?php
  *      substr($docNumero, - 1)."/".substr($docNumero, - 2, 1)."/".substr($docNumero, - 3, 1)."/".substr('00000000000'.$docNumero, - 10).".jpg";
  *      ?>
  *      </code>
- *
+ *     
  * @example para el DNI 31234567 quedaria:
  * @example 7/6/5/0031234567.jpg
- *
+ *         
  */
 $foto_persona = "";
 

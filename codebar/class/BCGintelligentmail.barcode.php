@@ -2168,7 +2168,7 @@ class BCGintelligentmail extends BCGBarcode1D
 		}
 
 		$c = strlen ($this->data);
-		for($i = 0; $i < $c; $i ++)
+		for($i = 0; $i < $c; $i++)
 		{
 			$this->drawChar ($im, $this->data[$i]);
 		}
@@ -2304,7 +2304,7 @@ class BCGintelligentmail extends BCGBarcode1D
 		$bit = 0;
 
 		$data = (ord ($byteArray[$byteIndex]) << 5) & 0xffff;
-		for($bit = 2; $bit < 8; $bit ++)
+		for($bit = 2; $bit < 8; $bit++)
 		{
 			if (($frameCheckSequence ^ $data) & 0x400)
 			{
@@ -2320,10 +2320,10 @@ class BCGintelligentmail extends BCGBarcode1D
 			$data &= 0xffff;
 		}
 
-		for($byteIndex = 1; $byteIndex < 13; $byteIndex ++)
+		for($byteIndex = 1; $byteIndex < 13; $byteIndex++)
 		{
 			$data = (ord ($byteArray[$byteIndex]) << 3) & 0xffff;
-			for($bit = 0; $bit < 8; $bit ++)
+			for($bit = 0; $bit < 8; $bit++)
 			{
 				if (($frameCheckSequence ^ $data) & 0x0400)
 				{
@@ -2356,7 +2356,7 @@ class BCGintelligentmail extends BCGBarcode1D
 		$codewords[9] = (int) bcmod ($number, '636');
 		$number = bcdiv ($number, '636', 0);
 
-		for($i = 8; $i >= 0; $i --)
+		for($i = 8; $i >= 0; $i--)
 		{
 			$codewords[$i] = (int) bcmod ($number, '1365');
 			$number = bcdiv ($number, '1365', 0);
@@ -2393,7 +2393,7 @@ class BCGintelligentmail extends BCGBarcode1D
 	private static function executeStep5($codewords, $crc)
 	{
 		$characters = array ();
-		for($i = 0; $i < 10; $i ++)
+		for($i = 0; $i < 10; $i++)
 		{
 			if ($codewords[$i] <= 1286)
 			{
@@ -2405,7 +2405,7 @@ class BCGintelligentmail extends BCGBarcode1D
 			}
 		}
 
-		for($i = 0; $i < 10; $i ++)
+		for($i = 0; $i < 10; $i++)
 		{
 			$mask = 1 << $i;
 			if ($crc & $mask)
@@ -2426,7 +2426,7 @@ class BCGintelligentmail extends BCGBarcode1D
 	private static function executeStep6($characters)
 	{
 		$bars = '';
-		for($i = 0; $i < 65; $i ++)
+		for($i = 0; $i < 65; $i++)
 		{
 			$barPosition = self::$barPositions[$i];
 			$descender = $barPosition[0];
@@ -2496,7 +2496,7 @@ class BCGintelligentmail extends BCGBarcode1D
 		$number = bcadd ($number, $barcodeIdentifier[1], 0);
 
 		$temp = $serviceTypeIdentifier . $mailerIdentifier . $serialNumber;
-		for($i = 0; $i < 18; $i ++)
+		for($i = 0; $i < 18; $i++)
 		{
 			$number = bcmul ($number, 10, 0);
 			$number = bcadd ($number, $temp[$i], 0);

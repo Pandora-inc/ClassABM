@@ -55,7 +55,7 @@ class BCGcode39extended extends BCGcode39
 
 		$this->errorText = ''; // Reset Error
 		$c = strlen ($this->text);
-		for($i = 0; $i < $c; $i ++)
+		for($i = 0; $i < $c; $i++)
 		{
 			$pos = array_search ($this->text[$i], $this->keys);
 			if ($pos === false)
@@ -69,7 +69,7 @@ class BCGcode39extended extends BCGcode39
 				else
 				{
 					$extc = strlen ($extended);
-					for($j = 0; $j < $extc; $j ++)
+					for($j = 0; $j < $extc; $j++)
 					{
 						$v = $extended[$j];
 						if ($v === '$')
@@ -125,7 +125,7 @@ class BCGcode39extended extends BCGcode39
 		{
 			$error = explode ("\n", trim ($this->errorText));
 			$c = count ($error);
-			for($i = 0; $i < $c; $i ++)
+			for($i = 0; $i < $c; $i++)
 			{
 				$this->drawError ($im, $error[$i]);
 			}
@@ -141,7 +141,7 @@ class BCGcode39extended extends BCGcode39
 			{
 				// Starting *
 				$this->drawChar ($im, $this->code[$this->starting], true);
-				for($i = 0; $i < $c; $i ++)
+				for($i = 0; $i < $c; $i++)
 				{
 					$this->drawChar ($im, $this->data[$i], true);
 				}
@@ -187,7 +187,7 @@ class BCGcode39extended extends BCGcode39
 	{
 		$this->checksumValue = 0;
 		$c = count ($this->indcheck);
-		for($i = 0; $i < $c; $i ++)
+		for($i = 0; $i < $c; $i++)
 		{
 			$this->checksumValue += $this->indcheck[$i];
 		}
