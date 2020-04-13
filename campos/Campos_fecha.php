@@ -81,7 +81,7 @@ class Campos_fecha extends class_campo
 	 *
 	 * @param array $array
 	 */
-	public function __construct(array $array = array(), class_db $db = null)
+	public function __construct(array $array = array (), class_db $db = null)
 	{
 		if (!isset ($db) or empty ($db) or $db == null)
 		{
@@ -98,6 +98,11 @@ class Campos_fecha extends class_campo
 		else
 		{
 			$this->db = $db;
+		}
+
+		if ($this->db->getDbtype () == "mysql")
+		{
+			$this->setMascara ("%Y-%m-%d");
 		}
 
 		if (isset ($array) and !empty ($array))
@@ -314,8 +319,8 @@ class Campos_fecha extends class_campo
 		$jsTmp = str_replace ('%VALOR%', $this->getValor (), $jsTmp);
 
 		$imprForm = $jsTmp;
-		$imprForm .= "<input type='text' style='position:absolute' name='" . $this->getCampo () . "' id='" . $this->getCampo () . "' value='" . ($this->getValor () != "" ? $this->getValor () : ($this->getValorPredefinido () != "" ? $this->getValorPredefinido () : " ")) . "'/> \n";
-		$imprForm .= "<input type='text' style='position:relative;top:0px;left;0px'  " . $this->autofocusAttr . " name='display_" . $this->getCampo () . "' id='display_" . $this->getCampo () . "' class='input-fecha " . $this->getAtrRequerido () . "' " . $this->getAtrDisabled () . " " . $this->establecerHint () . " " . $this->getAdicionalInput () . "readonly='readonly'/> \n";
+		// $imprForm .= "<input type='date' style='position:absolute' name='" . $this->getCampo () . "' id='" . $this->getCampo () . "' value='" . ($this->getValor () != "" ? $this->getValor () : ($this->getValorPredefinido () != "" ? $this->getValorPredefinido () : " ")) . "'/> \n";
+		$imprForm .= "<input type='date' style='position:relative;top:0px;left;0px' " . $this->autofocusAttr . " name='display_" . $this->getCampo () . "' id='display_" . $this->getCampo () . "' class='input-fecha " . $this->getAtrRequerido () . "' " . $this->getAtrDisabled () . " " . $this->establecerHint () . " " . $this->getAdicionalInput () . "/> \n";
 
 		return $imprForm;
 	}
@@ -340,8 +345,9 @@ class Campos_fecha extends class_campo
 		$jsTmp = str_replace ('%VALOR%', $this->getValor (), $jsTmp);
 
 		$imprForm = $jsTmp;
-		$imprForm .= "<input type='text' style='position:absolute' name='" . $this->getCampo () . "' id='" . $this->getCampo () . "' value='" . ($this->getValor () != "" ? $this->getValor () : ($this->getValorPredefinido () != "" ? $this->getValorPredefinido () : " ")) . "'/> \n";
-		$imprForm .= "<input type='text' style='position:relative;top:0px;left;0px'  " . $this->autofocusAttr . " name='display_" . $this->getCampo () . "' id='display_" . $this->getCampo () . "' class='input-fecha " . $this->getAtrRequerido () . "' " . $this->getAtrDisabled () . " " . $this->establecerHint () . " " . $this->getAdicionalInput () . "readonly='readonly'/> \n";
+		// $imprForm .= "<input type='date' style='position:absolute' name='" . $this->getCampo () . "' id='" . $this->getCampo () . "' value='" . ($this->getValor () != "" ? $this->getValor () : ($this->getValorPredefinido () != "" ? $this->getValorPredefinido () : " ")) . "'/> \n";
+		// $imprForm .= "<input type='date' style='position:relative;top:0px;left;0px' " . $this->autofocusAttr . " name='display_" . $this->getCampo () . "' id='display_" . $this->getCampo () . "' class='input-fecha " . $this->getAtrRequerido () . "' " . $this->getAtrDisabled () . " " . $this->establecerHint () . " " . $this->getAdicionalInput () . "/> \n";
+		$imprForm .= "<input type='date' style='position:relative;top:0px;left;0px' " . $this->autofocusAttr . " name='" . $this->getCampo () . "' id='" . $this->getCampo () . "' class='input-fecha " . $this->getAtrRequerido () . "' " . $this->getAtrDisabled () . " " . $this->establecerHint () . " " . $this->getAdicionalInput () . "/> \n";
 
 		return $imprForm;
 	}

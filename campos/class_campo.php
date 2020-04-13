@@ -11,7 +11,7 @@
  * @version 0.1 version inicial del archivo.
  * @version 0.2 Tipado de funciones y parametros valido en php. A partir de esta version se deshabilita su uso en php5.
  */
-require_once '/web/html/classes/funciones.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/classes/funciones.php';
 
 /*
  * Querido programador:
@@ -621,7 +621,7 @@ class class_campo
 	 * @access public
 	 * @param array $array
 	 */
-	public function __construct(array $array = array())
+	public function __construct(array $array = array ())
 	{
 		if (isset ($array) and !empty ($array))
 		{
@@ -735,7 +735,10 @@ class class_campo
 			}
 			if (array_key_exists ('valorPredefinido', $array))
 			{
-				$this->setValorPredefinido ($array['valorPredefinido']);
+				if ($array['valorPredefinido'] != null)
+				{
+					$this->setValorPredefinido ($array['valorPredefinido']);
+				}
 			}
 			if (array_key_exists ('incluirCampo', $array))
 			{
@@ -2633,7 +2636,7 @@ class class_campo
 	 */
 	public function generar_elemento_form_update(): string
 	{
-		return "<input type='text' class='input-text " . $this->getAtrRequerido () . " name='" . $this->getCampo () . "' id='" . $this->getCampo () . "' " . $this->autofocusAttr . " " . $this->getAtrDisabled () . " value='" . $this->getValor () . "' " . $this->establecerMaxLeng () . " " . $this->establecerHint () . " " . $this->getAdicionalInput () . "/> \n";
+		return "<input type='text' class='input-text " . $this->getAtrRequerido () . "' name='" . $this->getCampo () . "' id='" . $this->getCampo () . "' " . $this->autofocusAttr . " " . $this->getAtrDisabled () . " value='" . $this->getValor () . "' " . $this->establecerMaxLeng () . " " . $this->establecerHint () . " " . $this->getAdicionalInput () . "/> \n";
 	}
 
 	/**
@@ -2644,7 +2647,7 @@ class class_campo
 	 */
 	public function generar_elemento_form_nuevo(): string
 	{
-		return "<input type='text' class='input-text " . $this->getAtrRequerido () . " name='" . $this->getCampo () . "' id='" . $this->getCampo () . "' " . $this->autofocusAttr . " " . $this->getAtrDisabled () . " value='' " . $this->establecerMaxLeng () . " " . $this->establecerHint () . " " . $this->getAdicionalInput () . "/> \n";
+		return "<input type='text' class='input-text " . $this->getAtrRequerido () . "' name='" . $this->getCampo () . "' id='" . $this->getCampo () . "' " . $this->autofocusAttr . " " . $this->getAtrDisabled () . " value='' " . $this->establecerMaxLeng () . " " . $this->establecerHint () . " " . $this->getAdicionalInput () . "/> \n";
 	}
 
 	/**
