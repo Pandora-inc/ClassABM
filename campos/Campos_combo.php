@@ -80,7 +80,7 @@ class Campos_combo extends class_campo
 	 *
 	 * @param array $array
 	 */
-	public function __construct($array = array())
+	public function __construct($array = array ())
 	{
 		if (isset ($array) and !empty ($array))
 		{
@@ -130,7 +130,7 @@ class Campos_combo extends class_campo
 	 * @param
 	 *        	boolean a cargar en la variable $incluirOpcionVacia
 	 */
-	public function setIncluirOpcionVacia($incluirOpcionVacia)
+	public function setIncluirOpcionVacia(bool $incluirOpcionVacia)
 	{
 		$this->incluirOpcionVacia = $incluirOpcionVacia;
 	}
@@ -140,7 +140,7 @@ class Campos_combo extends class_campo
 	 * @param
 	 *        	boolean a cargar en la variable $mostrarValor
 	 */
-	public function setMostrarValor($mostrarValor)
+	public function setMostrarValor(bool $mostrarValor)
 	{
 		$this->mostrarValor = $mostrarValor;
 	}
@@ -150,7 +150,7 @@ class Campos_combo extends class_campo
 	 * @param
 	 *        	boolean a cargar en la variable $textoMayuscula
 	 */
-	public function setTextoMayuscula($textoMayuscula)
+	public function setTextoMayuscula(bool $textoMayuscula)
 	{
 		$this->textoMayuscula = $textoMayuscula;
 	}
@@ -255,11 +255,11 @@ class Campos_combo extends class_campo
 	{
 		if ($this->isNoLimpiar () == true)
 		{
-			return "<td " . $this->get_centrar_columna () . " " . $this->get_no_mostrar () . ">" . $this->get_spanColorear () . " " . html_entity_decode ($this->getDatos ($this->getValor ())) . " " . ($this->get_spanColorear () != "" ? "</span>" : "") . "</td> \n";
+			return "<td " . $this->get_extras_td () . ">" . $this->get_spanColorear () . " " . html_entity_decode ($this->getDatos ($this->getValor ())) . " " . ($this->get_spanColorear () != "" ? "</span>" : "") . "</td> \n";
 		}
 		else
 		{
-			return "<td " . $this->get_centrar_columna () . " " . $this->get_no_mostrar () . ">" . $this->get_spanColorear () . " " . $this->getDatos ($this->getValor ()) . " " . ($this->get_spanColorear () != "" ? "</span>" : "") . "</td> \n";
+			return "<td " . $this->get_extras_td () . ">" . $this->get_spanColorear () . " " . $this->getDatos ($this->getValor ()) . " " . ($this->get_spanColorear () != "" ? "</span>" : "") . "</td> \n";
 		}
 	}
 

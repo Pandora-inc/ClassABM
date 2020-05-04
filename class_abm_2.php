@@ -553,7 +553,7 @@ class class_abm
 	 *
 	 * @example AND userId=2
 	 */
-	public $adicionalesSelect;
+	public $adicionalesSelect = "";
 
 	/**
 	 * Esto es ultil cuando se necesita traer un campo para usar durante el listado y no esta como visible
@@ -705,13 +705,15 @@ class class_abm
 	/**
 	 * Icono de exportar a Excel.
 	 */
-	public $iconoExportarExcel = "<input type='button' class='btnExcel' title='Exportar a Excel' onclick='javascript:window.open(\"%s\", \"_blank\")'/>";
+	// public $iconoExportarExcel = "<input type='button' class='btnExcel' title='Exportar a Excel' onclick='javascript:window.open(\"%s\", \"_blank\")'/>";
+	public $iconoExportarExcel = "<a href=\"javascript:void(0)\" onclick=\"%s\" title='Exportar a Excel'><i class='fa fa-file-excel-o' aria-hidden='true'></i></a> &nbsp;";
 	// public $iconoExportarExcel = "<input type='button' class='btnExcel' title='Exportar a Excel' onclick='window.location=\"%s\"'/>";
 
 	/**
 	 * Icono de exportar a CSV.
 	 */
-	public $iconoExportarCsv = "<input type='button' class='btnCsv' title='Exportar a CSV' onclick='javascript:window.open(\"%s\", \"_blank\")'/>";
+	// public $iconoExportarCsv = "<input type='button' class='btnCsv' title='Exportar a CSV' onclick='javascript:window.open(\"%s\", \"_blank\")'/>";
+	public $iconoExportarCsv = "<a href=\"javascript:void(0)\" onclick=\"%s\" title='Exportar a CSV'><i class='fa fa-file-text-o' aria-hidden='true'></i></a> &nbsp;";
 
 	/**
 	 * Direccion a la que se tiene que dirigir en caso de que el formulario para agregar un nuevo registro no sea el standar
@@ -979,6 +981,9 @@ class class_abm
 	})
 }
 		</script>';
+	// className: 'vex-dialog-button-primary', text: 'Checkout', click: function
+	// vex.dialog.buttons.YES.text = \'Okiedokie\';
+	// vex.dialog.buttons.NO.text = \'Aahw hell no\';
 	private $jsAltaForm = '<script type="text/javascript">
 	function f_alta(direccion){
 	$.ajax({
@@ -989,6 +994,20 @@ class class_abm
 		vex.dialog.confirm({
 		    message: \'\',
             input: [data] .join(\'\'),
+			buttons: [
+        $.extend({}, vex.dialog.buttons.NO, {
+className: \'divBtnCancelar\',
+text: \'no\',
+click: function($vexContent, event) {
+            $vexContent.data().vex.value = \'no\';
+            vex.close($vexContent.data().vex.id);
+        }}),
+$.extend({}, vex.dialog.buttons.YES, {
+className: \'divBtnAceptar\',
+text: \'yes\',
+click: function($vexContent, event) {}})
+    ],
+
 		    callback: function (value) {
 		        if (value) {
 		            console.log(\'Successfully destroyed the planet.\')
@@ -996,11 +1015,19 @@ class class_abm
 		            console.log(\'Chicken.\')
 		        }
 		    }
-		})
+		});
 		}
 	})
 }
 		</script>';
+
+	// // $html .= " <div class ='divBtnCancelar'>
+	// <input type='button' class='input-button' title='Atajo: ALT+C' accesskey='c'
+	// value='$this->textoBotonCancelar' onclick=\"" . ($this->cancelarOnClickJS != "" ? $this->cancelarOnClickJS : "window.location='$_SERVER[PHP_SELF]?$qsamb'") . "\"/></div> ";
+	// // $html .= " <div class='divBtnAceptar'>
+	// <input type='submit' class='input-submit' title='Atajo: ALT+G' accesskey='G'
+	// value='$this->textoBotonSubmitNuevo' $this->adicionalesSubmit /></div>";
+
 	/**
 	 * Establece si los formularios del abm se separaran en solapas o no
 	 *
@@ -1548,13 +1575,14 @@ class class_abm
 		$html .= "<tfoot>";
 		$html .= "    <tr>";
 		$html .= "        <th colspan='2'>";
-		$html .= "			<div class ='divBtnCancelar'><input type='button' class='input-button' title='Atajo: ALT+C' accesskey='c' value='$this->textoBotonCancelar' onclick=\"" . ($this->cancelarOnClickJS != "" ? $this->cancelarOnClickJS : "window.location='$_SERVER[PHP_SELF]?$qsamb'") . "\"/></div> ";
+		$html .= " <div class ='divBtnCancelar'><input type='button' class='input-button' title='Atajo: ALT+C' accesskey='c' value='$this->textoBotonCancelar' onclick=\"" . ($this->cancelarOnClickJS != "" ? $this->cancelarOnClickJS : "window.location='$_SERVER[PHP_SELF]?$qsamb'") . "\"/></div> ";
 
 		if ($this->extraBtn == 'true')
 		{
 			$html .= "			<div class='divBtnExtra'><input type='button' class='input-button' title='$this->textoBotonExtraTitulo' value='$this->textoBotonExtra' $this->adicionalesExtra /></div>";
 		}
-		$html .= "			<div class='divBtnAceptar'><input type='submit' class='input-submit' title='Atajo: ALT+G' accesskey='G' value='$this->textoBotonSubmitNuevo' $this->adicionalesSubmit /></div>";
+
+		$html .= " <div class='divBtnAceptar'><input type='submit' class='input-submit' title='Atajo: ALT+G' accesskey='G' value='$this->textoBotonSubmitNuevo' $this->adicionalesSubmit /></div>";
 		$html .= "		  </th>";
 		$html .= "    </tr>";
 		$html .= "</tfoot>";
@@ -2687,6 +2715,7 @@ class class_abm
 			$sql = $sql . " " . $orderBy;
 		}
 
+		// print_r ("=000=");
 		// // class paginado
 		// $paginado = new class_paginado ();
 		// $paginado->registros_por_pagina = $this->registros_por_pagina;
@@ -2697,10 +2726,13 @@ class class_abm
 
 		if ($this->mostrarListado)
 		{
+			// print_r ("###");
 			$result = $this->paginado->query ($sql, $this->db);
 		}
 		$this->totalFilas = $this->paginado->total_registros;
 
+		// print_r ("###");
+		// print_r ($this->totalFilas);
 		// genera el query string de variables previamente existentes
 		$get = $_GET;
 		unset ($get['abmsg']);
@@ -2851,7 +2883,7 @@ class class_abm
 
 					if ($campo->getCampo () == "" or $campo->isNoOrdenar () == true)
 					{
-						$html .= "<th " . ($styleTh != "" ? "style='$styleTh'" : "") . $campo->get_no_mostrar () . ">" . (($campo->existeDato ("tituloListado")) ? $campo->getTituloListado () : (($campo->existeDato ("titulo")) ? $campo->getTitulo () : $campo->getCampo ())) . "</th> \n";
+						$html .= "<th " . ($styleTh != "" ? "style='$styleTh'" : "") . $campo->get_no_mostrar () . " " . $campo->get_prioridad_campo () . ">" . (($campo->existeDato ("tituloListado")) ? $campo->getTituloListado () : (($campo->existeDato ("titulo")) ? $campo->getTitulo () : $campo->getCampo ())) . "</th> \n";
 					}
 					else
 					{
@@ -2891,7 +2923,7 @@ class class_abm
 						}
 						// echo "<th " . ($styleTh != "" ? "style='$styleTh'" : "") . " $campo->get_no_mostrar() >" . $o->linkOrderBy(((isset($campo->getTituloListado()) and $campo->getTituloListado() != "") ? $campo->getTituloListado() : ($campo->getTitulo() != '' ? $campo->getTitulo() : $campo->getCampo())), $campoOrder) . "</th> \n";
 
-						$html .= "<th " . ($styleTh != "" ? "style='$styleTh'" : "") . " " . $campo->get_no_mostrar () . " >" . $linkas . "</th> \n";
+						$html .= "<th " . ($styleTh != "" ? "style='$styleTh'" : "") . " " . $campo->get_no_mostrar () . " " . $campo->get_prioridad_campo () . " >" . $linkas . "</th> \n";
 					}
 				}
 				if ($this->mostrarEditar)
@@ -2985,6 +3017,9 @@ class class_abm
 	 */
 	private function armar_fila_listado($fila, &$rallado)
 	{
+		// print_r ("==");
+		// print_r ($fila);
+		// print_r ("==");
 		$filaListado = "<tr class='rallado$rallado' ";
 		if ($this->colorearFilas)
 		{
@@ -3012,7 +3047,7 @@ class class_abm
 			elseif (isset ($fila[strtoupper ($campo->getCampoTexto ())]))
 			{
 				// print_r ($campo->getCampoTexto ());
-				print_r ($fila[strtoupper ($campo->getCampoTexto ())]);
+				// print_r ($fila[strtoupper ($campo->getCampoTexto ())]);
 				// print_r ("<Br/>");
 				$campo->setValor ($fila[strtoupper ($campo->getCampoTexto ())]);
 			}
