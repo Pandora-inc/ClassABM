@@ -228,12 +228,14 @@ class Campos_upload extends class_campo
 			$otrosImagen .= " height='" . $this->getAlto () . "' ";
 			$otrosImagen .= " width='" . $this->getAncho () . "' ";
 
-			return "<td " . $this->get_centrar_columna () . " " . $this->get_no_mostrar () . "><img " . $otrosImagen . " src='" . $this->getDirectorio () . "/" . $this->getValor () . "'></td> \n";
+			return "<td " . $this->get_extras_td () . "><img " . $otrosImagen . " src='" . $this->getDirectorio () . "/" . $this->getValor () . "'></td> \n";
 		}
-		elseif ($this->isMostrar () == true)
+		elseif ($this->isNoMostrar () == false)
 		{
-			return "<td " . $this->get_centrar_columna () . " " . $this->get_no_mostrar () . ">" . $this->getValor () . "</td> \n";
+			return "<td " . $this->get_extras_td () . ">" . $this->getValor () . "</td> \n";
 		}
+
+		return "";
 	}
 
 	public function generar_elemento_form_update(): string
@@ -243,7 +245,7 @@ class Campos_upload extends class_campo
 
 	public function generar_elemento_form_nuevo(): string
 	{
-		return "<input type='file' class='input-text " . $this->getAtrRequerido () . "' name='" . $this->getCampo () . "' id='" . $this->getCampo () . "' " . $this->autofocusAttr . " " . $this->getAtrDisabled () . " value='' " . $this->establecerHint () . " " . $this->getAdicionalInput () . "/> \n";
+		return "<input type='file' class='input-text " . $this->getAtrRequerido () . "' name='" . $this->getCampo () . "' id='" . $this->getCampo () . "' " . $this->autofocusAttr . " " . $this->getAtrDisabled () . " value='" . $this->getValorPredefinido () . "' " . $this->establecerHint () . " " . $this->getAdicionalInput () . "/> \n";
 	}
 
 	/**
@@ -325,8 +327,8 @@ class Campos_upload extends class_campo
 				$this->setNombreArchivo (str_replace ("{{", "\$_REQUEST['", $this->getNombreArchivo ()));
 				$this->setNombreArchivo (str_replace ("}}", "']", $this->getNombreArchivo ()));
 
-				$nombre = eval ($this->getNombreArchivo ());
-				$nombre = $data;
+				$nombre = eval ("return " . $this->getNombreArchivo () . ";");
+				// $nombre = $data;
 
 				if ($nombre == "")
 				{
@@ -411,12 +413,13 @@ class Campos_upload extends class_campo
 			{
 				throw new Exception ('Tamaño de archivo inv&aacute;lido');
 			}
+			return $valor;
 		}
 		else if ($this->getNombreArchivo () != "")
 		{
-			$valor = $this->getNombreArchivo ();
+			// $valor = $this->getNombreArchivo ();
+			return "NULL";
 		}
-		return $valor;
 		// Finalizamos el upload del archivo
 	}
 
