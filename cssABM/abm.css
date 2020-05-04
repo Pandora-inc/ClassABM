@@ -1,9 +1,9 @@
-<
-style> /*
+/*<style> 
   miAbmPHP
   author: Andres Carizza www.andrescarizza.com.ar
   css version: 2.5
-*/ .mabm {
+*/ 
+.mabm {
 	
 }
 
@@ -143,10 +143,10 @@ style> /*
 	color: #000;
 	padding: 12px 10px;
 	border: none;
-	border-bottom: 0;
-	background: url(/images/degrade_gris_vert.jpg) repeat;
+	border-bottom: 0;  
+	background: url(../img/degrade_gris_vert.jpg) repeat;
 }
-
+ 
 .mabm .mlistado THEAD TH DIV {
 	font-size: 15px !important;
 }
@@ -464,6 +464,46 @@ tr {
 .mabm .mlistado td {
 	border: none !important;
 }
-</
-style
->
+
+@media screen and (max-width: 1225px) and (min-width: 1045px) {
+    .priority-5{
+        display:none;
+    }
+}
+        
+@media screen and (max-width: 1045px) and (min-width: 835px) {
+    .priority-5{
+     display:none;
+    }
+    .priority-4{
+        display:none;
+    }
+}
+        
+@media screen and (max-width: 565px) and (min-width: 300px) {
+    .priority-5{
+        display:none;
+    }
+    .priority-4{
+        display:none;
+    }
+    .priority-3{
+        display:none;
+    }
+}
+        
+@media screen and (max-width: 300px) {
+    .priority-5{
+        display:none;
+    }
+    .priority-4{
+        display:none;
+    }
+    .priority-3{
+        display:none;
+    }
+    .priority-2{
+        display:none;
+    }     
+}
+/*</style>*/

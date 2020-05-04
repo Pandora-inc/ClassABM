@@ -590,6 +590,13 @@ class class_campo
 	protected $hint;
 
 	/**
+	 * Establece la prioridad de las columnas;
+	 *
+	 * @var integer
+	 */
+	protected $priority = 0;
+
+	/**
 	 * Va a retornar el valor (la informacion) del campo.
 	 *
 	 * @access public
@@ -2584,11 +2591,11 @@ class class_campo
 	{
 		if ($this->isNoLimpiar () == true)
 		{
-			return "<td " . $this->get_centrar_columna () . " " . $this->get_no_mostrar () . ">" . $this->get_spanColorear () . " " . html_entity_decode ($this->getValor ()) . " " . ($this->get_spanColorear () != "" ? "</span>" : "") . " </td> \n";
+			return "<td " . $this->get_extras_td () . ">" . $this->get_spanColorear () . " " . html_entity_decode ($this->getValor ()) . " " . ($this->get_spanColorear () != "" ? "</span>" : "") . " </td> \n";
 		}
 		else
 		{
-			return "<td " . $this->get_centrar_columna () . " " . $this->get_no_mostrar () . ">" . $this->get_spanColorear () . " " . $this->getValor () . " " . ($this->get_spanColorear () != "" ? "</span>" : "") . "</td> \n";
+			return "<td " . $this->get_extras_td () . ">" . $this->get_spanColorear () . " " . $this->getValor () . " " . ($this->get_spanColorear () != "" ? "</span>" : "") . "</td> \n";
 		}
 	}
 
@@ -2647,7 +2654,7 @@ class class_campo
 	 */
 	public function generar_elemento_form_nuevo(): string
 	{
-		return "<input type='text' class='input-text " . $this->getAtrRequerido () . "' name='" . $this->getCampo () . "' id='" . $this->getCampo () . "' " . $this->autofocusAttr . " " . $this->getAtrDisabled () . " value='' " . $this->establecerMaxLeng () . " " . $this->establecerHint () . " " . $this->getAdicionalInput () . "/> \n";
+		return "<input type='text' class='input-text " . $this->getAtrRequerido () . "' name='" . $this->getCampo () . "' id='" . $this->getCampo () . "' " . $this->autofocusAttr . " " . $this->getAtrDisabled () . " value='" . $this->getValorPredefinido () . "' " . $this->establecerMaxLeng () . " " . $this->establecerHint () . " " . $this->getAdicionalInput () . "/> \n";
 	}
 
 	/**
@@ -2690,6 +2697,53 @@ class class_campo
 	public function setHint($hint)
 	{
 		$this->hint = $hint;
+	}
+
+	/**
+	 * Retorna el valor del atributo $priority
+	 *
+	 * @return number $priority el dato de la variable.
+	 */
+	public function getPriority(): int
+	{
+		return $this->priority;
+	}
+
+	/**
+	 * Setter del parametro $priority de la clase.
+	 *
+	 * @param number $priority
+	 *        	dato a cargar en la variable.
+	 */
+	public function setPriority(int $priority)
+	{
+		if ($priority < 0 || $priority > 5)
+		{
+			throw new Exception ("Prioridad del campo fuera de termino, debe ser un numero entre 0 y 5.");
+		}
+		$this->priority = $priority;
+	}
+
+	public function get_prioridad_campo(): string
+	{
+		if ($this->priority > 0)
+		{
+			return ' class="priority-' . $this->priority . '" ';
+		}
+		else
+		{
+			return "";
+		}
+	}
+
+	public function get_extras_td(): string
+	{
+		$string = " ";
+		$string .= $this->get_prioridad_campo () . " ";
+		$string .= $this->get_no_mostrar () . " ";
+		$string .= $this->get_centrar_columna () . " ";
+
+		return $string;
 	}
 }
 ?>
