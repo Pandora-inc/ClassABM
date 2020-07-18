@@ -326,7 +326,9 @@ class class_db
      */
     public function query($str_query, $esParam = false, $parametros = array())
     {
+        // print_r ($str_query);
         $str_query = $this->format_query_usar($str_query);
+        // print_r ($str_query);
         /**
          * Consulata a la base de datos ya compilada
          *
@@ -843,7 +845,11 @@ class class_db
     {
         $str_query_debug = nl2br(htmlentities($str_query));
 
-        $str_query_debug = strtolower($str_query_debug);
+        if ($this->dbtype != "mysql") {
+            $str_query_debug = strtolower($str_query);
+        } else {
+            $str_query_debug = $str_query;
+        }
 
         $str_query_debug = str_ireplace("SELECT", "<span style='color:green;font-weight:bold;'>SELECT</span>", $str_query_debug);
         $str_query_debug = str_ireplace("INSERT", "<span style='color:#660000;font-weight:bold;'>INSERT</span>", $str_query_debug);
@@ -889,6 +895,8 @@ class class_db
     {
         if ($this->dbtype != "mysql") {
             $str_query_debug = strtolower($str_query);
+        } else {
+            $str_query_debug = $str_query;
         }
 
         $str_query_debug = str_ireplace("SELECT", "SELECT", $str_query_debug);
@@ -1200,7 +1208,23 @@ class class_db
     {
         echo "<Br /><Br />";
 
-        if ($this->dbtype == 'mysql') {} elseif ($this->dbtype == 'oracle') {
+        if ($this->dbtype == 'mysql') {
+            $cantidad = substr_count($str_query, ':');
+
+            $para = explode(':', $str_query);
+
+            for ($i = 0; $i < $cantidad; $i ++) {
+                $e = $i + 1;
+
+                $paraY = explode(' ', $para[$e]);
+
+                $paraY[0] = trim(str_replace(",", "", $paraY[0]));
+
+                $paraY[0] = str_replace(")", "", $paraY[0]);
+
+                echo "-- :" . $paraY[0] . " = " . $parametros[$i] . "<Br />";
+            }
+        } elseif ($this->dbtype == 'oracle') {
             $cantidad = substr_count($str_query, ':');
 
             $para = explode(':', $str_query);
