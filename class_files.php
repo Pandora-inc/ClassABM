@@ -334,7 +334,7 @@ class files
 		if ($insercion)
 		{
 
-			return $this->db->insert_id ('IDDOCUMEN', 'documento.archivo');
+			return $this->db->insert_id ('IDARCHIVO', 'documento.archivo');
 		}
 		else
 		{
@@ -478,7 +478,7 @@ class files
 		if ($insercion)
 		{
 
-			return $this->db->insert_id ('IDDOCUMEN', 'documento.prearchivo');
+			return $this->db->insert_id ('IDARCHIVO', 'documento.prearchivo');
 		}
 		else
 		{
