@@ -140,9 +140,9 @@ class files
 
 		/* primero elimino el archivo anterior */
 		// $file =$path.'/'.$this->get_iddocumen().'.'.$this->get_extension();
-		$file = $path . '/' . $this->get_iddocumen () . '.' . $this->get_extension ();
+		$file = $path . '/' . $this->get_idarchivo () . '.' . $this->get_extension ();
 
-		$renombre = $path . '/' . $this->get_iddocumen () . '_temp.' . $this->get_extension ();
+		$renombre = $path . '/' . $this->get_idarchivo () . '_temp.' . $this->get_extension ();
 
 		// $renombrar = rename ($file, $renombre);
 		rename ($file, $renombre);
@@ -154,7 +154,7 @@ class files
 			if ($this->updateDocToArchivo ($imagen, $person, $tablaarchivo))
 			{
 				// si se hizo el update en archivo , subo la nueva imagen
-				$e = $this->uploadFile ($imagen, $path, $this->get_iddocumen ());
+				$e = $this->uploadFile ($imagen, $path, $this->get_idarchivo());
 
 				if (!$e)
 				{
