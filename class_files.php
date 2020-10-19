@@ -367,12 +367,12 @@ class files
 			$extension = 'jpg';
 		}
 
-		$nombre_real = preg_replace ($buscar, $poner, $this->get_idarchivo () . '.' . strtolower ($extension));
+		/*$nombre_real = preg_replace ($buscar, $poner, $this->get_idarchivo () . '.' . strtolower ($extension));*/
 
 		/* IDDOCUMEN - TIPOADJUNTO - ESTADODOCUMEN - FECHAALTA - PERSON */
 		$datos = array ();
 
-		$datos['NOMBREARCH'] = $nombre_real;
+		$datos['NOMBREARCH'] = $imagen['name'];
 
 		$datos['ESTADOARCH'] = 1;
 
