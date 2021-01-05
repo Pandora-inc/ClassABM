@@ -66,12 +66,33 @@ class Campos_upload extends class_campo
 	protected $grabarSinExtencion = FALSE;
 
 	/**
+	 * Especifica si hay que cargar los datos del archivo en la base
+	 *
+	 * @var bool
+	 */
+	protected $cargarEnBase = true;
+
+	/**
+	 * Nombre con el que se guardara el archivo.
+	 *
+	 * @var string
+	 */
+	protected $nombreArchivo = "";
+
+	/**
+	 * Tamaño maximo del archivo
+	 *
+	 * @var int
+	 */
+	protected $limiteArchivo = 0;
+
+	/**
 	 * Constructor de la clase.
 	 * Puede recibir un array con los datos a inicializar. Utiliza el constructor padre y en caso de corresponder carga los propios.
 	 *
 	 * @param array $array
 	 */
-	public function __construct(array $array = array())
+	public function __construct(array $array = array ())
 	{
 		if (isset ($array) and !empty ($array))
 		{
@@ -207,22 +228,24 @@ class Campos_upload extends class_campo
 			$otrosImagen .= " height='" . $this->getAlto () . "' ";
 			$otrosImagen .= " width='" . $this->getAncho () . "' ";
 
-			return "<td " . $this->get_centrar_columna () . " " . $this->get_no_mostrar () . "><img " . $otrosImagen . " src='" . $this->getDirectorio () . "/" . $this->getValor () . "'></td> \n";
+			return "<td " . $this->get_extras_td () . "><img " . $otrosImagen . " src='" . $this->getDirectorio () . "/" . $this->getValor () . "'></td> \n";
 		}
-		elseif ($this->isMostrar () == true)
+		elseif ($this->isNoMostrar () == false)
 		{
-			return "<td " . $this->get_centrar_columna () . " " . $this->get_no_mostrar () . ">" . $this->getValor () . "</td> \n";
+			return "<td " . $this->get_extras_td () . ">" . $this->getValor () . "</td> \n";
 		}
+
+		return "";
 	}
 
 	public function generar_elemento_form_update(): string
 	{
-		return "<input type='file' class='input-text " . $this->getAtrRequerido () . " name='" . $this->getCampo () . "' id='" . $this->getCampo () . "' " . $this->autofocusAttr . " " . $this->getAtrDisabled () . " value='" . $this->getValor () . "' " . $this->establecerHint () . " " . $this->getAdicionalInput () . "/> \n";
+		return "<input type='file' class='input-text " . $this->getAtrRequerido () . "' name='" . $this->getCampo () . "' id='" . $this->getCampo () . "' " . $this->autofocusAttr . " " . $this->getAtrDisabled () . " value='" . $this->getValor () . "' " . $this->establecerHint () . " " . $this->getAdicionalInput () . "/> \n";
 	}
 
 	public function generar_elemento_form_nuevo(): string
 	{
-		return "<input type='file' class='input-text " . $this->getAtrRequerido () . " name='" . $this->getCampo () . "' id='" . $this->getCampo () . "' " . $this->autofocusAttr . " " . $this->getAtrDisabled () . " value='' " . $this->establecerHint () . " " . $this->getAdicionalInput () . "/> \n";
+		return "<input type='file' class='input-text " . $this->getAtrRequerido () . "' name='" . $this->getCampo () . "' id='" . $this->getCampo () . "' " . $this->autofocusAttr . " " . $this->getAtrDisabled () . " value='" . $this->getValorPredefinido () . "' " . $this->establecerHint () . " " . $this->getAdicionalInput () . "/> \n";
 	}
 
 	/**
@@ -248,6 +271,177 @@ class Campos_upload extends class_campo
 		{
 			$this->grabarSinExtencion = TRUE;
 		}
+	}
+
+	/**
+	 * Retorna el valor del atributo $cargarEnBase
+	 *
+	 * @return boolean $cargarEnBase el dato de la variable.
+	 */
+	public function isCargarEnBase()
+	{
+		return $this->cargarEnBase;
+	}
+
+	/**
+	 * Setter del parametro $cargarEnBase de la clase.
+	 *
+	 * @param boolean $cargarEnBase
+	 *        	dato a cargar en la variable.
+	 */
+	public function setCargarEnBase($cargarEnBase)
+	{
+		$this->cargarEnBase = $cargarEnBase;
+	}
+
+	/**
+	 * Retorna el valor del atributo $nombreArchivo
+	 *
+	 * @return string $nombreArchivo el dato de la variable.
+	 */
+	public function getNombreArchivo()
+	{
+		return $this->nombreArchivo;
+	}
+
+	/**
+	 * Setter del parametro $nombreArchivo de la clase.
+	 *
+	 * @param string $nombreArchivo
+	 *        	dato a cargar en la variable.
+	 */
+	public function setNombreArchivo($nombreArchivo)
+	{
+		$this->nombreArchivo = $nombreArchivo;
+	}
+
+	public function realizarCarga(): String
+	{
+		$valor = "";
+
+		if (isset ($_FILES[$this->getCampo ()]) and $_FILES[$this->getCampo ()]['size'] > 1)
+		{
+			// Iniciamos el upload del archivo
+			if ($this->getNombreArchivo () != "")
+			{
+				$this->setNombreArchivo (str_replace ("{{", "\$_REQUEST['", $this->getNombreArchivo ()));
+				$this->setNombreArchivo (str_replace ("}}", "']", $this->getNombreArchivo ()));
+
+				$nombre = eval ("return " . $this->getNombreArchivo () . ";");
+				// $nombre = $data;
+
+				if ($nombre == "")
+				{
+					$nombre = $this->getNombreArchivo ();
+				}
+			}
+			else
+			{
+				$nombre = $_FILES[$this->getCampo ()]['name'];
+			}
+
+			if ($this->isGrabarSinExtencion () == true)
+			{
+				$partes_nombre = explode ('.', $nombre);
+				$nombre = $partes_nombre[0];
+			}
+
+			$valor = $nombre;
+
+			$nombre_tmp = $_FILES[$this->getCampo ()]['tmp_name'];
+			$tipo = $_FILES[$this->getCampo ()]['type'];
+			$tamano = $_FILES[$this->getCampo ()]['size'];
+
+			// if ($this->getUbicacionArchivo () != "")
+			if ($this->getDirectorio () != "")
+			{
+				// $estructura = $this->getUbicacionArchivo ();
+				$estructura = $this->getDirectorio ();
+			}
+			else
+			{
+				$estructura = "";
+			}
+
+			// FIXME urgente!!
+			// if (isset ($this['tipoArchivo']) and $this['tipoArchivo'] != "")
+			// {
+			// $tipo_correcto = preg_match ('/^' . $this['tipoArchivo'] . '$/', $tipo);
+			// }
+
+			if ($this->getLimiteArchivo () > 0)
+			{
+				$limite = $this->getLimiteArchivo () * 1024;
+			}
+			else
+			{
+				$limite = 50000 * 1024;
+			}
+
+			if ($tamano <= $limite)
+			{
+
+				if ($_FILES[$this->getCampo ()]['error'] > 0)
+				{
+					throw new Exception ('Error: ' . $_FILES[$this->getCampo ()]['error'] . '<br/>' . var_dump ($_FILES) . " en linea " . __LINE__);
+				}
+				else
+				{
+
+					if (file_exists ($nombre))
+					{
+						throw new Exception ('<br/>El archivo ya existe: ' . $nombre);
+					}
+					else
+					{
+						if (file_exists ($estructura))
+						{
+							move_uploaded_file ($nombre_tmp, $estructura . "/" . $nombre) or die (" Error en move_uploaded_file " . var_dump (move_uploaded_file) . " en linea " . __LINE__);
+							chmod ($estructura . "/" . $nombre, 0775);
+						}
+						else
+						{
+							mkdir ($estructura, 0777, true);
+							move_uploaded_file ($nombre_tmp, $estructura . "/" . $nombre) or die (" Error en move_uploaded_file " . var_dump (move_uploaded_file) . " en linea " . __LINE__);
+							chmod ($estructura . "/" . $nombre, 0775);
+						}
+					}
+				}
+				// $imagen = $nombre;
+			}
+			else
+			{
+				throw new Exception ('Tamaño de archivo inv&aacute;lido');
+			}
+			return $valor;
+		}
+		else if ($this->getNombreArchivo () != "")
+		{
+			// $valor = $this->getNombreArchivo ();
+			return "NULL";
+		}
+		// Finalizamos el upload del archivo
+	}
+
+	/**
+	 * Retorna el valor del atributo $limiteArchivo
+	 *
+	 * @return mixed $limiteArchivo el dato de la variable.
+	 */
+	public function getLimiteArchivo(): int
+	{
+		return $this->limiteArchivo;
+	}
+
+	/**
+	 * Setter del parametro $limiteArchivo de la clase.
+	 *
+	 * @param mixed $limiteArchivo
+	 *        	dato a cargar en la variable.
+	 */
+	public function setLimiteArchivo(int $limiteArchivo)
+	{
+		$this->limiteArchivo = $limiteArchivo;
 	}
 }
 

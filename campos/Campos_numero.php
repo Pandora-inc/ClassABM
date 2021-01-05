@@ -77,7 +77,7 @@ class Campos_numero extends class_campo
 	 *
 	 * @param array $array
 	 */
-	public function __construct(array $array = array())
+	public function __construct(array $array = array ())
 	{
 		if (isset ($array) and !empty ($array))
 		{
@@ -173,12 +173,11 @@ class Campos_numero extends class_campo
 	{
 		if ($this->getValor () != "" and $this->getValor () > 0)
 		{
-
-			return "<td " . $this->get_centrar_columna () . " " . $this->get_no_mostrar () . ">" . $this->get_spanColorear () . " " . (($this->isFormatear () == true) ? number_format ($this->getValor (), $this->getCantidadDecimales (), ',', '.') : $this->getValor ()) . " " . ($this->get_spanColorear () != "" ? "</span>" : "") . "</td> \n";
+			return "<td " . $this->get_extras_td () . ">" . $this->get_spanColorear () . " " . (($this->isFormatear () == true) ? number_format ($this->getValor (), $this->getCantidadDecimales (), ',', '.') : $this->getValor ()) . " " . ($this->get_spanColorear () != "" ? "</span>" : "") . "</td> \n";
 		}
 		else
 		{
-			return "<td " . $this->get_centrar_columna () . " " . $this->get_no_mostrar () . ">" . $this->get_spanColorear () . " " . (($this->isFormatear () == true) ? number_format (0, $this->getCantidadDecimales (), ',', '.') : 0) . " " . ($this->get_spanColorear () != "" ? "</span>" : "") . "</td> \n";
+			return "<td " . $this->get_extras_td () . ">" . $this->get_spanColorear () . " " . (($this->isFormatear () == true) ? number_format (0, $this->getCantidadDecimales (), ',', '.') : 0) . " " . ($this->get_spanColorear () != "" ? "</span>" : "") . "</td> \n";
 		}
 	}
 
@@ -189,7 +188,7 @@ class Campos_numero extends class_campo
 	 */
 	public function generar_elemento_form_update(): string
 	{
-		return "<input type='number' class='input-text " . $this->getAtrRequerido () . " max='250000000.00' name='" . $this->getCampo () . "' id='" . $this->getCampo () . "' " . $this->autofocusAttr . " " . $this->getAtrDisabled () . " value='" . $this->getValor () . "' " . $this->establecerMaxLeng () . " " . $this->establecerHint () . " " . $this->getAdicionalInput () . "/> \n";
+		return "<input type='number' class='input-text " . $this->getAtrRequerido () . "' max='250000000.00' name='" . $this->getCampo () . "' id='" . $this->getCampo () . "' " . $this->autofocusAttr . " " . $this->getAtrDisabled () . " value='" . $this->getValor () . "' " . $this->establecerMaxLeng () . " " . $this->establecerHint () . " " . $this->getAdicionalInput () . "/> \n";
 	}
 
 	/**
@@ -199,7 +198,7 @@ class Campos_numero extends class_campo
 	 */
 	public function generar_elemento_form_nuevo(): string
 	{
-		return "<input type='number' class='input-text " . $this->getAtrRequerido () . " max='250000000.00' name='" . $this->getCampo () . "' id='" . $this->getCampo () . "' " . $this->autofocusAttr . " " . $this->getAtrDisabled () . " value='' " . $this->establecerMaxLeng () . " " . $this->establecerHint () . " " . $this->getAdicionalInput () . "/> \n";
+		return "<input type='number' class='input-text " . $this->getAtrRequerido () . "' max='250000000.00' name='" . $this->getCampo () . "' id='" . $this->getCampo () . "' " . $this->autofocusAttr . " " . $this->getAtrDisabled () . " value='" . $this->getValorPredefinido () . "' " . $this->establecerMaxLeng () . " " . $this->establecerHint () . " " . $this->getAdicionalInput () . "/> \n";
 	}
 
 	/**

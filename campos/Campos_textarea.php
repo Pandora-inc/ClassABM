@@ -52,7 +52,7 @@ class Campos_textarea extends class_campo
 	 *
 	 * @param array $array
 	 */
-	public function __construct(array $array = array())
+	public function __construct(array $array = array ())
 	{
 		if (isset ($array) and !empty ($array))
 		{
@@ -105,22 +105,22 @@ class Campos_textarea extends class_campo
 	{
 		if ($this->isNoLimpiar () == true)
 		{
-			return "<td " . $this->get_centrar_columna () . " " . $this->get_no_mostrar () . ">" . $this->get_spanColorear () . " " . substr (html_entity_decode ($this->getValor ()), 0, $this->getMaxMostrar ()) . " " . ($this->get_spanColorear () != "" ? "</span>" : "") . "</td> \n";
+			return "<td " . $this->get_extras_td () . ">" . $this->get_spanColorear () . " " . substr (html_entity_decode ($this->getValor ()), 0, $this->getMaxMostrar ()) . " " . ($this->get_spanColorear () != "" ? "</span>" : "") . "</td> \n";
 		}
 		else
 		{
-			return "<td " . $this->get_centrar_columna () . " " . $this->get_no_mostrar () . ">" . $this->get_spanColorear () . " " . substr ($this->getValor (), 0, $this->getMaxMostrar ()) . " " . ($this->get_spanColorear () != "" ? "</span>" : "") . "</td> \n";
+			return "<td " . $this->get_extras_td () . ">" . $this->get_spanColorear () . " " . substr ($this->getValor (), 0, $this->getMaxMostrar ()) . " " . ($this->get_spanColorear () != "" ? "</span>" : "") . "</td> \n";
 		}
 	}
 
 	public function generar_elemento_form_update(): string
 	{
-		return "<textarea class='input-textarea " . $this->getAtrRequerido () . " name='" . $this->getCampo () . "' id='" . $this->getCampo () . "' " . $this->autofocusAttr . " " . $this->getAtrDisabled () . " value='" . $this->getValor () . "' " . $this->establecerMaxLeng () . " " . $this->establecerHint () . " " . $this->getAdicionalInput () . "/>" . $this->getValor () . "</textarea>\n";
+		return "<textarea class='input-textarea " . $this->getAtrRequerido () . "' name='" . $this->getCampo () . "' id='" . $this->getCampo () . "' " . $this->autofocusAttr . " " . $this->getAtrDisabled () . " value='" . $this->getValor () . "' " . $this->establecerMaxLeng () . " " . $this->establecerHint () . " " . $this->getAdicionalInput () . "/>" . $this->getValor () . "</textarea>\n";
 	}
 
 	public function generar_elemento_form_nuevo(): string
 	{
-		return "<textarea class='input-textarea " . $this->getAtrRequerido () . " name='" . $this->getCampo () . "' id='" . $this->getCampo () . "' " . $this->autofocusAttr . " " . $this->getAtrDisabled () . " value='" . $this->getValor () . "' " . $this->establecerMaxLeng () . " " . $this->establecerHint () . " " . $this->getAdicionalInput () . "/></textarea>\n";
+		return "<textarea class='input-textarea " . $this->getAtrRequerido () . "' name='" . $this->getCampo () . "' id='" . $this->getCampo () . "' " . $this->autofocusAttr . " " . $this->getAtrDisabled () . " value='" . " . $this->getValorPredefinido () . " . "' " . $this->establecerMaxLeng () . " " . $this->establecerHint () . " " . $this->getAdicionalInput () . "/></textarea>\n";
 	}
 
 	/**

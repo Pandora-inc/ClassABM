@@ -16,8 +16,8 @@
  *
  */
 require_once 'class_campo.php';
-require_once '/web/html/classes/class_db.php';
-require_once '/web/html/classes/class_sitio.php';
+require_once '../class_db.php';
+require_once '../class_sitio.php';
 
 // require_once '../funciones.php';
 
@@ -99,6 +99,13 @@ class Campos_dbCombo extends class_campo
 	protected $direcionDinamico = "#";
 
 	/**
+	 * En caso de que utilice un orden especial.
+	 *
+	 * @var string
+	 */
+	protected $customOrder = "";
+
+	/**
 	 * Script js que se encarga del funcionamiento del dinamic.
 	 *
 	 * @var string
@@ -119,6 +126,27 @@ $(document).ready(function() {
 </script>';
 
 	/**
+	 * Retorna el valor del atributo $customOrder
+	 *
+	 * @return string $customOrder el dato de la variable.
+	 */
+	public function getCustomOrder()
+	{
+		return $this->customOrder;
+	}
+
+	/**
+	 * Setter del parametro $customOrder de la clase.
+	 *
+	 * @param string $customOrder
+	 *        	dato a cargar en la variable.
+	 */
+	public function setCustomOrder($customOrder)
+	{
+		$this->customOrder = $customOrder;
+	}
+
+	/**
 	 * Constructor de la clase.
 	 *
 	 * @param array $array
@@ -126,7 +154,7 @@ $(document).ready(function() {
 	 * @param class_db $db
 	 *        	Conector a la base de datos, si es nulo intenta recuperarlo global o crear uno.
 	 */
-	public function __construct(array $array = array(), $db = null)
+	public function __construct(array $array = array (), $db = null)
 	{
 		if (!isset ($db) or empty ($db) or $db == null)
 		{
@@ -229,7 +257,7 @@ $(document).ready(function() {
 	 * @param
 	 *        	boolean a cargar en la variable $textoMayuscula
 	 */
-	public function setTextoMayuscula($textoMayuscula)
+	public function setTextoMayuscula(bool $textoMayuscula)
 	{
 		$this->textoMayuscula = $textoMayuscula;
 	}
@@ -266,7 +294,7 @@ $(document).ready(function() {
 	 *
 	 * @param string $sqlQuery
 	 */
-	public function setSqlQuery($sqlQuery)
+	public function setSqlQuery(String $sqlQuery)
 	{
 		$this->sqlQuery = $sqlQuery;
 	}
@@ -347,7 +375,7 @@ $(document).ready(function() {
 		}
 		else
 		{
-			$sqlQuery = "SELECT " . $this->getCampoTexto () . ", " . $this->getCampoValor () . " FROM " . $this->getJoinTable ();
+			$sqlQuery = "SELECT " . $this->getCampoTexto () . ", " . $this->getCampoValor () . " FROM " . $this->getJoinTable () . ($this->customOrder == "" ? "" : " ORDER BY " . $this->customOrder);
 		}
 
 		// FIXME comprobar e implementar customCompare
@@ -410,7 +438,7 @@ $(document).ready(function() {
 	 */
 	public function generar_elemento_form_nuevo(): string
 	{
-		$imprForm = "<select name='" . $this->getCampo () . "' id='" . $this->getCampo () . "' " . $this->autofocusAttr . " class='input-select " . $this->getAtrRequerido () . "' " . $this->getAtrDisabled () . " " . $this->getAdicionalInput () . " onChange='function_c_" . $this->campo . "()'> \n";
+		$imprForm = "<select name='" . $this->getCampo () . "' id='" . $this->getCampo () . "' " . $this->autofocusAttr . " class='input-select " . $this->getAtrRequerido () . "' " . $this->getAtrDisabled () . " " . $this->getAdicionalInput () . ($this->esDinamico == true ? " onChange='function_c_" . $this->campo . "()'" : " ") . "> \n";
 		if ($this->isIncluirOpcionVacia ())
 		{
 			$imprForm .= "<option value=''></option> \n";
@@ -422,7 +450,7 @@ $(document).ready(function() {
 		}
 		else
 		{
-			$sqlQuery = "SELECT " . $this->getCampoTexto () . ", " . $this->getCampoValor () . " FROM " . $this->getJoinTable ();
+			$sqlQuery = "SELECT " . $this->getCampoTexto () . ", " . $this->getCampoValor () . " FROM " . $this->getJoinTable () . ($this->customOrder == "" ? "" : " ORDER BY " . $this->customOrder);
 		}
 
 		// FIXME comprobar e implementar customCompare
@@ -453,13 +481,12 @@ $(document).ready(function() {
 
 			if ($this->isTextoMayuscula () == true)
 			{
-				$combobit .= substr ($filaCombo[$this->getCampoTexto ()], 0, 50);
+				$combobit .= substr ($filaCombo[strtoupper ($this->getCampoTexto ())], 0, 50);
 			}
 			else
 			{
-				$combobit .= ucwords (strtolower (substr ($filaCombo[$this->getCampoTexto ()], 0, 50)));
+				$combobit .= ucwords (strtolower (substr ($filaCombo[strtoupper ($this->getCampoTexto ())], 0, 50)));
 			}
-
 			$imprForm .= "<option value='" . $filaCombo[strtoupper ($this->getCampoValor ())] . "' >" . $combobit . "</option> \n";
 		}
 		$imprForm .= "</select> \n";

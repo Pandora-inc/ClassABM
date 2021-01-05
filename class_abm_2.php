@@ -553,7 +553,7 @@ class class_abm
 	 *
 	 * @example AND userId=2
 	 */
-	public $adicionalesSelect;
+	public $adicionalesSelect = "";
 
 	/**
 	 * Esto es ultil cuando se necesita traer un campo para usar durante el listado y no esta como visible
@@ -705,13 +705,15 @@ class class_abm
 	/**
 	 * Icono de exportar a Excel.
 	 */
-	public $iconoExportarExcel = "<input type='button' class='btnExcel' title='Exportar a Excel' onclick='javascript:window.open(\"%s\", \"_blank\")'/>";
+	// public $iconoExportarExcel = "<input type='button' class='btnExcel' title='Exportar a Excel' onclick='javascript:window.open(\"%s\", \"_blank\")'/>";
+	public $iconoExportarExcel = "<a href=\"javascript:void(0)\" onclick=\"%s\" title='Exportar a Excel'><i class='fa fa-file-excel-o' aria-hidden='true'></i></a> &nbsp;";
 	// public $iconoExportarExcel = "<input type='button' class='btnExcel' title='Exportar a Excel' onclick='window.location=\"%s\"'/>";
 
 	/**
 	 * Icono de exportar a CSV.
 	 */
-	public $iconoExportarCsv = "<input type='button' class='btnCsv' title='Exportar a CSV' onclick='javascript:window.open(\"%s\", \"_blank\")'/>";
+	// public $iconoExportarCsv = "<input type='button' class='btnCsv' title='Exportar a CSV' onclick='javascript:window.open(\"%s\", \"_blank\")'/>";
+	public $iconoExportarCsv = "<a href=\"javascript:void(0)\" onclick=\"%s\" title='Exportar a CSV'><i class='fa fa-file-text-o' aria-hidden='true'></i></a> &nbsp;";
 
 	/**
 	 * Direccion a la que se tiene que dirigir en caso de que el formulario para agregar un nuevo registro no sea el standar
@@ -979,6 +981,9 @@ class class_abm
 	})
 }
 		</script>';
+	// className: 'vex-dialog-button-primary', text: 'Checkout', click: function
+	// vex.dialog.buttons.YES.text = \'Okiedokie\';
+	// vex.dialog.buttons.NO.text = \'Aahw hell no\';
 	private $jsAltaForm = '<script type="text/javascript">
 	function f_alta(direccion){
 	$.ajax({
@@ -989,6 +994,20 @@ class class_abm
 		vex.dialog.confirm({
 		    message: \'\',
             input: [data] .join(\'\'),
+			buttons: [
+        $.extend({}, vex.dialog.buttons.NO, {
+className: \'divBtnCancelar\',
+text: \'no\',
+click: function($vexContent, event) {
+            $vexContent.data().vex.value = \'no\';
+            vex.close($vexContent.data().vex.id);
+        }}),
+$.extend({}, vex.dialog.buttons.YES, {
+className: \'divBtnAceptar\',
+text: \'yes\',
+click: function($vexContent, event) {}})
+    ],
+
 		    callback: function (value) {
 		        if (value) {
 		            console.log(\'Successfully destroyed the planet.\')
@@ -996,11 +1015,19 @@ class class_abm
 		            console.log(\'Chicken.\')
 		        }
 		    }
-		})
+		});
 		}
 	})
 }
 		</script>';
+
+	// // $html .= " <div class ='divBtnCancelar'>
+	// <input type='button' class='input-button' title='Atajo: ALT+C' accesskey='c'
+	// value='$this->textoBotonCancelar' onclick=\"" . ($this->cancelarOnClickJS != "" ? $this->cancelarOnClickJS : "window.location='$_SERVER[PHP_SELF]?$qsamb'") . "\"/></div> ";
+	// // $html .= " <div class='divBtnAceptar'>
+	// <input type='submit' class='input-submit' title='Atajo: ALT+G' accesskey='G'
+	// value='$this->textoBotonSubmitNuevo' $this->adicionalesSubmit /></div>";
+
 	/**
 	 * Establece si los formularios del abm se separaran en solapas o no
 	 *
@@ -1548,13 +1575,14 @@ class class_abm
 		$html .= "<tfoot>";
 		$html .= "    <tr>";
 		$html .= "        <th colspan='2'>";
-		$html .= "			<div class ='divBtnCancelar'><input type='button' class='input-button' title='Atajo: ALT+C' accesskey='c' value='$this->textoBotonCancelar' onclick=\"" . ($this->cancelarOnClickJS != "" ? $this->cancelarOnClickJS : "window.location='$_SERVER[PHP_SELF]?$qsamb'") . "\"/></div> ";
+		$html .= " <div class ='divBtnCancelar'><input type='button' class='input-button' title='Atajo: ALT+C' accesskey='c' value='$this->textoBotonCancelar' onclick=\"" . ($this->cancelarOnClickJS != "" ? $this->cancelarOnClickJS : "window.location='$_SERVER[PHP_SELF]?$qsamb'") . "\"/></div> ";
 
 		if ($this->extraBtn == 'true')
 		{
 			$html .= "			<div class='divBtnExtra'><input type='button' class='input-button' title='$this->textoBotonExtraTitulo' value='$this->textoBotonExtra' $this->adicionalesExtra /></div>";
 		}
-		$html .= "			<div class='divBtnAceptar'><input type='submit' class='input-submit' title='Atajo: ALT+G' accesskey='G' value='$this->textoBotonSubmitNuevo' $this->adicionalesSubmit /></div>";
+
+		$html .= " <div class='divBtnAceptar'><input type='submit' class='input-submit' title='Atajo: ALT+G' accesskey='G' value='$this->textoBotonSubmitNuevo' $this->adicionalesSubmit /></div>";
 		$html .= "		  </th>";
 		$html .= "    </tr>";
 		$html .= "</tfoot>";
@@ -2687,6 +2715,7 @@ class class_abm
 			$sql = $sql . " " . $orderBy;
 		}
 
+		// print_r ("=000=");
 		// // class paginado
 		// $paginado = new class_paginado ();
 		// $paginado->registros_por_pagina = $this->registros_por_pagina;
@@ -2697,10 +2726,13 @@ class class_abm
 
 		if ($this->mostrarListado)
 		{
+			// print_r ("###");
 			$result = $this->paginado->query ($sql, $this->db);
 		}
 		$this->totalFilas = $this->paginado->total_registros;
 
+		// print_r ("###");
+		// print_r ($this->totalFilas);
 		// genera el query string de variables previamente existentes
 		$get = $_GET;
 		unset ($get['abmsg']);
@@ -2851,7 +2883,7 @@ class class_abm
 
 					if ($campo->getCampo () == "" or $campo->isNoOrdenar () == true)
 					{
-						$html .= "<th " . ($styleTh != "" ? "style='$styleTh'" : "") . $campo->get_no_mostrar () . ">" . (($campo->existeDato ("tituloListado")) ? $campo->getTituloListado () : (($campo->existeDato ("titulo")) ? $campo->getTitulo () : $campo->getCampo ())) . "</th> \n";
+						$html .= "<th " . ($styleTh != "" ? "style='$styleTh'" : "") . $campo->get_no_mostrar () . " " . $campo->get_prioridad_campo () . ">" . (($campo->existeDato ("tituloListado")) ? $campo->getTituloListado () : (($campo->existeDato ("titulo")) ? $campo->getTitulo () : $campo->getCampo ())) . "</th> \n";
 					}
 					else
 					{
@@ -2891,7 +2923,7 @@ class class_abm
 						}
 						// echo "<th " . ($styleTh != "" ? "style='$styleTh'" : "") . " $campo->get_no_mostrar() >" . $o->linkOrderBy(((isset($campo->getTituloListado()) and $campo->getTituloListado() != "") ? $campo->getTituloListado() : ($campo->getTitulo() != '' ? $campo->getTitulo() : $campo->getCampo())), $campoOrder) . "</th> \n";
 
-						$html .= "<th " . ($styleTh != "" ? "style='$styleTh'" : "") . " " . $campo->get_no_mostrar () . " >" . $linkas . "</th> \n";
+						$html .= "<th " . ($styleTh != "" ? "style='$styleTh'" : "") . " " . $campo->get_no_mostrar () . " " . $campo->get_prioridad_campo () . " >" . $linkas . "</th> \n";
 					}
 				}
 				if ($this->mostrarEditar)
@@ -2921,6 +2953,8 @@ class class_abm
 
 				$i++;
 				$rallado = !$rallado;
+
+				// print_r ($fila);
 
 				$html .= $this->armar_fila_listado ($fila, $rallado);
 			}
@@ -2983,6 +3017,9 @@ class class_abm
 	 */
 	private function armar_fila_listado($fila, &$rallado)
 	{
+		// print_r ("==");
+		// print_r ($fila);
+		// print_r ("==");
 		$filaListado = "<tr class='rallado$rallado' ";
 		if ($this->colorearFilas)
 		{
@@ -2997,19 +3034,22 @@ class class_abm
 		// print_r ($fila);
 		foreach ($this->campo as &$campo)
 		{
-			// print_r ($campo->getCampo ());
-			// print_r ("<Br/>");
-			if (isset ($fila[$campo->getCampo ()]))
-			{
-				// print_r ($campo->getCampo ());
 
-				$campo->setValor ($fila[$campo->getCampo ()]);
+			// print_r ($fila[$campo->getCampo ()]);
+			// print_r ($campo->getCampo ());
+			// print_r ($campo->getCampoTexto ());
+			// print_r (strtoupper ($campo->getCampoTexto ()));
+			// print_r ("<Br/>");
+			if (isset ($fila[strtoupper ($campo->getCampo ())]))
+			{
+				$campo->setValor ($fila[strtoupper ($campo->getCampo ())]);
 			}
-			elseif (isset ($fila[$campo->getCampoTexto ()]))
+			elseif (isset ($fila[strtoupper ($campo->getCampoTexto ())]))
 			{
 				// print_r ($campo->getCampoTexto ());
-
-				$campo->setValor ($fila[$campo->getCampoTexto ()]);
+				// print_r ($fila[strtoupper ($campo->getCampoTexto ())]);
+				// print_r ("<Br/>");
+				$campo->setValor ($fila[strtoupper ($campo->getCampoTexto ())]);
 			}
 
 			// if ($campo->getTipo () == "bit")
@@ -3048,6 +3088,8 @@ class class_abm
 			{
 				if ($campo->existeDato ("joinTable") and $campo->isOmitirJoin () == false)
 				{
+					// print_r ($campo);
+
 					$tablaJoin = $campo->getJoinTable ();
 					$tablaJoin = explode (".", $tablaJoin);
 					$tablaJoin = $tablaJoin[count ($tablaJoin) - 1];
@@ -3061,38 +3103,45 @@ class class_abm
 					{
 						$campo->setCampo ($tablaJoin . "_" . $campo->getCampo ());
 					}
+
+					if (array_key_exists (substr (strtoupper ($campo->getCampo ()), 0, 30), $fila))
+					{
+						$campo->setValor ($fila[substr (strtoupper ($campo->getCampo ()), 0, 30)]);
+					}
+
+					// print_r ($campo);
 				}
 			}
 
-			if ($campo->existeDato ("joinTable") and $campo->isOmitirJoin () == false)
-			{
-				$tablaJoin = $campo->getJoinTable ();
-				$tablaJoin = explode (".", $tablaJoin);
-				$tablaJoin = $tablaJoin[count ($tablaJoin) - 1];
+			// if ($campo->existeDato ("joinTable") and $campo->isOmitirJoin () == false)
+			// {
+			// $tablaJoin = $campo->getJoinTable ();
+			// $tablaJoin = explode (".", $tablaJoin);
+			// $tablaJoin = $tablaJoin[count ($tablaJoin) - 1];
 
-				$campo->setDato ($campo->getCampo ());
-				if ($campo->existeDato ("campoTexto"))
-				{
-					$campo->setCampo ($tablaJoin . "_" . $campo->getCampoTexto ());
-				}
-				else
-				{
-					$campo->setCampo ($tablaJoin . "_" . $campo->getCampo ());
-				}
+			// $campo->setDato ($campo->getCampo ());
+			// if ($campo->existeDato ("campoTexto"))
+			// {
+			// $campo->setCampo ($tablaJoin . "_" . $campo->getCampoTexto ());
+			// }
+			// else
+			// {
+			// $campo->setCampo ($tablaJoin . "_" . $campo->getCampo ());
+			// }
 
-				if (array_key_exists (substr ($campo->getCampo (), 0, 30), $fila))
-				{
-					$campo->setValor ($fila[substr ($campo->getCampo (), 0, 30)]);
-				}
-				// print_r ($campo->getCampo ());
-				// print_r (" | ");
-				// print_r (substr ($campo->getCampo (), 0, 30));
-				// print_r (" | ");
-				// print_r ($campo->getCampo ());
-				// print_r (" | ");
-				// print_r ($campo->getValor ());
-				// print_r ("<Br />");
-			}
+			// if (array_key_exists (substr ($campo->getCampo (), 0, 30), $fila))
+			// {
+			// $campo->setValor ($fila[substr ($campo->getCampo (), 0, 30)]);
+			// }
+			// // print_r ($campo->getCampo ());
+			// // print_r (" | ");
+			// // print_r (substr ($campo->getCampo (), 0, 30));
+			// // print_r (" | ");
+			// // print_r ($campo->getCampo ());
+			// // print_r (" | ");
+			// // print_r ($campo->getValor ());
+			// // print_r ("<Br />");
+			// }
 
 			// if ($campo->existeDato ("colorearValores") and (is_array ($campo->getColorearValores ())))
 			// {
@@ -3234,10 +3283,12 @@ class class_abm
 				// if ($campo->getTipo () == "fecha")
 				if ($campo instanceof Campos_fecha)
 				{
+					// print_r ($campo);
 					if ($fila[$campo->getCampo ()] != "" and $fila[$campo->getCampo ()] != "0000-00-00" and $fila[$campo->getCampo ()] != "0000-00-00 00:00:00")
 					{
 						if (strtotime ($fila[$campo->getCampo ()]) !== -1)
 						{
+							// print_r ($campo);
 							// FIXME Urgente arreglar el formateo de fecha y que pasa con strtotime -1
 
 							// $fila[$campo->getCampo()] = date ($this->formatoFechaListado, strtotime ($fila[$campo->getCampo()]));
@@ -3494,375 +3545,196 @@ class class_abm
 				}
 
 				// if ($campo->existeDato ("joinTable") and $campo->getJoinTable () != $tabla and $campo->getTipo () != 'extra' and $campo->getTipo () != 'dbCombo')
-				if ($campo->existeDato ("joinTable") and $campo->getJoinTable () != $tabla and $campo->getTipo () != 'extra' and ($campo instanceof Campos_dbCombo))
+				// if ($campo->existeDato ("joinTable") and $campo->getJoinTable () != $tabla and $campo->getTipo () != 'extra' and ($campo instanceof Campos_dbCombo))
+				// {
+
+				if (!is_array ($this->campoId))
 				{
 					if ($campo->getCampo () === $this->campoId)
 					{
 						$hayID = true;
 					}
-
-					if ($campo->isNoNuevo () == true)
+					elseif ($campo->getCampo () != "" and isset ($this->campoId) and is_array ($campo->getCampo ()) and (in_array ($campo->getCampo (), $this->campoId)))
 					{
-						continue;
+						$hayID = true;
 					}
+				}
 
-					if ($campo->getTipo () == '')
-					{
-						continue;
-					}
+				if ($campo->isNoNuevo () == true)
+				{
+					continue;
+				}
 
-					if (($campo instanceof Campos_upload) and $campo->isCargarEnBase () != true)
-					{
-						continue;
-					}
-					elseif ($campo instanceof Campos_upload)
-					{
-						if ($campo->isGrabarSinExtencion () == TRUE)
-						{
-							$partes_nombre = explode ('.', $_FILES[$campo->getCampo ()]['name']);
-							$valor = $partes_nombre[0];
-						}
-						else
-						{
-							$valor = $_FILES[$campo->getCampo ()]['name'];
-						}
+				if ($campo->getTipo () == '')
+				{
+					continue;
+				}
 
-						// Iniciamos el upload del archivo
+				if (($campo instanceof Campos_upload) and $campo->isCargarEnBase () != true)
+				{
+					$campo->realizarCarga ();
 
-						if (isset ($_FILES[$campo->getCampo ()]) and $_FILES[$campo->getCampo ()]['size'] > 1)
-						{
-							$nombre_tmp = $_FILES[$campo->getCampo ()]['tmp_name'];
-							$tipo = $_FILES[$campo->getCampo ()]['type'];
-							$tamano = $_FILES[$campo->getCampo ()]['size'];
-
-							if ($campo->getNombreArchivo () != "")
-							{
-								$nombre = $campo->getNombreArchivo ();
-							}
-							else
-							{
-								$nombre = $_FILES[$campo->getCampo ()]['name'];
-							}
-
-							if ($campo->getUbicacionArchivo () != "")
-							{
-								$estructura = $campo->getUbicacionArchivo ();
-							}
-							else
-							{
-								$estructura = "";
-							}
-
-							// FIXME urgente!!! esto esta obsoleto y hay que reeverlo
-							// if (isset ($campo['tipoArchivo']) and $campo['tipoArchivo'] != "")
-							// {
-							// // $tipo_correcto = preg_match ('/^image\/(pjpeg|jpeg|gif|png|txt|doc|pdf|xls|sql|html|htm|php|sql)$/', $tipo);
-							// $tipo_correcto = preg_match ('/^' . $campo['tipoArchivo'] . '$/', $tipo);
-							// }
-
-							if ($campo->getLimiteArchivo () != "")
-							{
-								$limite = $campo->getLimiteArchivo () * 1024;
-							}
-							else
-							{
-								$limite = 50000 * 1024;
-							}
-
-							if ($tamano <= $limite)
-							{
-
-								if ($_FILES[$campo->getCampo ()]['error'] > 0)
-								{
-									echo 'Error: ' . $_FILES[$campo->getCampo ()]['error'] . '<br/>' . var_dump ($_FILES) . " en linea " . __LINE__;
-								}
-								else
-								{
-
-									if (file_exists ($nombre))
-									{
-										echo '<br/>El archivo ya existe: ' . $nombre;
-									}
-									else
-									{
-										if (file_exists ($estructura))
-										{
-											move_uploaded_file ($nombre_tmp, $estructura . "/" . $nombre) or die (" Error en move_uploaded_file " . var_dump (move_uploaded_file) . " en linea " . __LINE__);
-											chmod ($estructura . "/" . $nombre, 0775);
-										}
-										else
-										{
-											mkdir ($estructura, 0777, true);
-											move_uploaded_file ($nombre_tmp, $estructura . "/" . $nombre) or die (" Error en move_uploaded_file " . var_dump (move_uploaded_file) . " en linea " . __LINE__);
-											chmod ($estructura . "/" . $nombre, 0775);
-										}
-									}
-								}
-							}
-							else
-							{
-								echo 'Archivo inv&aacute;lido';
-							}
-						}
-
-						// Finalizamos el upload del archivo
-					}
-					else
-					{
-						$campo->setValor ($_POST[$campo->getCampo ()]);
-						$valor = $campo->getValor ();
-					}
-
-					// chequeo de campos requeridos
-					if ($campo->isRequerido () and trim ($valor) == "")
-					{
-						// genera el query string de variables previamente existentes
-						$get = $_GET;
-						unset ($get['abmsg']);
-						unset ($get['abm_alta']);
-						$qsamb = http_build_query ($get);
-						if ($qsamb != "")
-						{
-							$qsamb = "&" . $qsamb;
-						}
-
-						$this->redirect ("$_SERVER[PHP_SELF]?abm_nuevo=1$qsamb&abmsg=" . urlencode (sprintf ($this->textoCampoRequerido, $campo->getTitulo ())));
-					}
-
-					if ($camposSql != "")
-					{
-						$camposSql .= ", \n";
-					}
-
-					if ($valoresSql != "")
-					{
-						$valoresSql .= ", \n";
-					}
-
-					if ($campo->getCustomFuncionValor () != "")
-					{
-						$valor = call_user_func_array ($campo->getCustomFuncionValor (), array (
-								$valor
-						));
-					}
-
-					$camposSql .= $campo->getCampo ();
-
-					if (trim ($valor) == '')
-					{
-						$valoresSql .= " NULL";
-					}
-					else
-					{
-						// Se agrega la comparativa para que en caso de sel bases de oracle haga la conversion del formato de fecha
-						// if ($campo->getTipo() == 'fecha' and $this->db->dbtype == 'oracle')
-						// if ($campo->getTipo () == 'fecha')
-						if ($campo instanceof Campos_fecha)
-						{
-							// $valoresSql .= "TO_DATE('" . $valor . "', 'RRRR-MM-DD')";
-							$valoresSql .= $this->db->toDate ($valor, 'RRRR-MM-DD');
-						}
-						else
-						{
-							$valoresSql .= " '" . $valor . "' ";
-						}
-					}
+					continue;
+				}
+				elseif ($campo instanceof Campos_upload)
+				{
+					$valor = $campo->realizarCarga ();
 				}
 				else
 				{
-					if (!is_array ($this->campoId))
+					$campo->setValor ($_POST[$campo->getCampo ()]);
+					$valor = $campo->getValor ();
+				}
+
+				// chequeo de campos requeridos
+				if ($campo->isRequerido () and trim ($valor) == "")
+				{
+					// genera el query string de variables previamente existentes
+					$get = $_GET;
+					unset ($get['abmsg']);
+					unset ($get['abm_alta']);
+					$qsamb = http_build_query ($get);
+					if ($qsamb != "")
 					{
-						if ($campo->getCampo () === $this->campoId)
-						{
-							$hayID = true;
-						}
-						elseif ($campo->getCampo () != "" and isset ($this->campoId) and is_array ($campo->getCampo ()) and (in_array ($campo->getCampo (), $this->campoId)))
-						{
-							$hayID = true;
-						}
+						$qsamb = "&" . $qsamb;
 					}
 
-					if ($campo->isNoNuevo () == true)
+					$this->redirect ("$_SERVER[PHP_SELF]?abm_nuevo=1$qsamb&abmsg=" . urlencode (sprintf ($this->textoCampoRequerido, $campo->getTitulo ())));
+				}
+
+				if ($camposSql != "")
+				{
+					$camposSql .= ", \n";
+				}
+
+				if ($valoresSql != "")
+				{
+					$valoresSql .= ", \n";
+				}
+
+				if ($campo->getCustomFuncionValor () != "")
+				{
+					$valor = call_user_func_array ($campo->getCustomFuncionValor (), array (
+							$valor
+					));
+				}
+
+				$camposSql .= $campo->getCampo ();
+
+				if (trim ($valor) == '')
+				{
+					$valoresSql .= " NULL";
+				}
+				else
+				{
+					// Se agrega la comparativa para que en caso de sel bases de oracle haga la conversion del formato de fecha
+					// if ($campo->getTipo() == 'fecha' and $this->db->dbtype == 'oracle')
+					// if ($campo->getTipo () == 'fecha')
+					if ($campo instanceof Campos_fecha)
 					{
-						continue;
-					}
-
-					if ($campo->getTipo () == '')
-					{
-						continue;
-					}
-
-					// if ($campo->getTipo () == 'upload' and $campo->isCargarEnBase () != true)
-					if (($campo instanceof Campos_upload) and $campo->isCargarEnBase () != true)
-					{
-						continue;
-					}
-					// elseif ($campo->getTipo () == 'upload' and $campo->isCargarEnBase () == true)
-					elseif ($campo instanceof Campos_upload)
-					{
-						if ($campo->isGrabarSinExtencion () == TRUE)
-						{
-							$partes_nombre = explode ('.', $_FILES[$campo->getCampo ()]['name']);
-							$valor = $partes_nombre[0];
-						}
-						else
-						{
-							$valor = $_FILES[$campo->getCampo ()]['name'];
-						}
-
-						// Iniciamos el upload del archivo
-						if ($campo->getNombreArchivo () != "")
-						{
-							$campo->setNombreArchivo (str_replace ("{{", "\$_REQUEST['", $campo->getNombreArchivo ()));
-							$campo->setNombreArchivo (str_replace ("}}", "']", $campo->getNombreArchivo ()));
-
-							$nombre = eval ($campo->getNombreArchivo ());
-							$nombre = $data;
-							if ($nombre == "")
-							{
-								$nombre = $campo->getNombreArchivo ();
-							}
-							$valor = $nombre;
-							if (isset ($partes_nombre))
-							{
-								$nombre = $nombre . "." . end ($partes_nombre);
-							}
-						}
-
-						if (isset ($_FILES[$campo->getCampo ()]) and $_FILES[$campo->getCampo ()]['size'] > 1)
-						{
-							$nombre_tmp = $_FILES[$campo->getCampo ()]['tmp_name'];
-							$tipo = $_FILES[$campo->getCampo ()]['type'];
-							$tamano = $_FILES[$campo->getCampo ()]['size'];
-
-							if ($campo->getNombreArchivo () == "")
-							{
-								$nombre = $_FILES[$campo->getCampo ()]['name'];
-							}
-
-							if ($campo->getUbicacionArchivo () != "")
-							{
-								$estructura = $campo->getUbicacionArchivo ();
-							}
-							else
-							{
-								$estructura = "";
-							}
-
-							// FIXME urgente!!
-							// if (isset ($campo['tipoArchivo']) and $campo['tipoArchivo'] != "")
-							// {
-							// $tipo_correcto = preg_match ('/^' . $campo['tipoArchivo'] . '$/', $tipo);
-							// }
-
-							if ($campo->getLimiteArchivo () != "")
-							{
-								$limite = $campo->getLimiteArchivo () * 1024;
-							}
-							else
-							{
-								$limite = 50000 * 1024;
-							}
-
-							if ($tamano <= $limite)
-							{
-
-								if ($_FILES[$campo->getCampo ()]['error'] > 0)
-								{
-									echo 'Error: ' . $_FILES[$campo->getCampo ()]['error'] . '<br/>' . var_dump ($_FILES) . " en linea " . __LINE__;
-								}
-								else
-								{
-
-									if (file_exists ($nombre))
-									{
-										echo '<br/>El archivo ya existe: ' . $nombre;
-									}
-									else
-									{
-										if (file_exists ($estructura))
-										{
-											move_uploaded_file ($nombre_tmp, $estructura . "/" . $nombre) or die (" Error en move_uploaded_file " . var_dump (move_uploaded_file) . " en linea " . __LINE__);
-											chmod ($estructura . "/" . $nombre, 0775);
-										}
-										else
-										{
-											mkdir ($estructura, 0777, true);
-											move_uploaded_file ($nombre_tmp, $estructura . "/" . $nombre) or die (" Error en move_uploaded_file " . var_dump (move_uploaded_file) . " en linea " . __LINE__);
-											chmod ($estructura . "/" . $nombre, 0775);
-										}
-									}
-								}
-								// $imagen = $nombre;
-							}
-							else
-							{
-								echo 'Archivo inv&aacute;lido';
-							}
-						}
-
-						// Finalizamos el upload del archivo
+						// $valoresSql .= "TO_DATE('" . $valor . "', 'RRRR-MM-DD')";
+						$valoresSql .= $this->db->toDate ($valor, 'RRRR-MM-DD');
 					}
 					else
 					{
-						$valor = $_POST[$campo->getCampo ()];
-					}
-
-					// chequeo de campos requeridos
-					if ($campo->isRequerido () == true and trim ($valor) == "")
-					{
-						// genera el query string de variables previamente existentes
-						$get = $_GET;
-						unset ($get['abmsg']);
-						unset ($get['abm_alta']);
-						$qsamb = http_build_query ($get);
-						if ($qsamb != "")
-						{
-							$qsamb = "&" . $qsamb;
-						}
-
-						$this->redirect ("$_SERVER[PHP_SELF]?abm_nuevo=1$qsamb&abmsg=" . urlencode (sprintf ($this->textoCampoRequerido, $campo->getTitulo ())));
-					}
-
-					if ($camposSql != "")
-					{
-						$camposSql .= ", \n";
-					}
-
-					if ($valoresSql != "")
-					{
-						$valoresSql .= ", \n";
-					}
-
-					if ($campo->getCustomFuncionValor () != "")
-					{
-						$valor = call_user_func_array ($campo->getCustomFuncionValor (), array (
-								$valor
-						));
-					}
-
-					$camposSql .= $campo->getCampo ();
-
-					if (trim ($valor) == '')
-					{
-						$valoresSql .= " NULL";
-					}
-					else
-					{
-						// Se agrega la comparativa para que en caso de sel bases de oracle haga la conversion del formato de fecha
-						// if ($campo->getTipo() == 'fecha' and $this->db->dbtype == 'oracle')
-						// if ($campo->getTipo () == 'fecha')
-						if ($campo instanceof Campos_fecha)
-						{
-							// $valoresSql .= "TO_DATE('" . $valor . "', 'RRRR-MM-DD')";
-							$valoresSql .= $this->db->toDate ($valor, 'RRRR-MM-DD');
-						}
-						else
-						{
-							$valoresSql .= " '" . $valor . "' ";
-						}
+						$valoresSql .= " '" . $valor . "' ";
 					}
 				}
+				// }
+				// else
+				// {
+				// if (!is_array ($this->campoId))
+				// {
+				// if ($campo->getCampo () === $this->campoId)
+				// {
+				// $hayID = true;
+				// }
+				// elseif ($campo->getCampo () != "" and isset ($this->campoId) and is_array ($campo->getCampo ()) and (in_array ($campo->getCampo (), $this->campoId)))
+				// {
+				// $hayID = true;
+				// }
+				// }
+
+				// if ($campo->isNoNuevo () == true)
+				// {
+				// continue;
+				// }
+
+				// if ($campo->getTipo () == '')
+				// {
+				// continue;
+				// }
+
+				// if (($campo instanceof Campos_upload) and $campo->isCargarEnBase () != true)
+				// {
+				// $campo->realizarCarga ();
+
+				// continue;
+				// }
+				// elseif ($campo instanceof Campos_upload)
+				// {
+				// $valor = $campo->realizarCarga ();
+				// }
+				// else
+				// {
+				// $valor = $_POST[$campo->getCampo ()];
+				// }
+
+				// // chequeo de campos requeridos
+				// if ($campo->isRequerido () == true and trim ($valor) == "")
+				// {
+				// // genera el query string de variables previamente existentes
+				// $get = $_GET;
+				// unset ($get['abmsg']);
+				// unset ($get['abm_alta']);
+				// $qsamb = http_build_query ($get);
+				// if ($qsamb != "")
+				// {
+				// $qsamb = "&" . $qsamb;
+				// }
+
+				// $this->redirect ("$_SERVER[PHP_SELF]?abm_nuevo=1$qsamb&abmsg=" . urlencode (sprintf ($this->textoCampoRequerido, $campo->getTitulo ())));
+				// }
+
+				// if ($camposSql != "")
+				// {
+				// $camposSql .= ", \n";
+				// }
+
+				// if ($valoresSql != "")
+				// {
+				// $valoresSql .= ", \n";
+				// }
+
+				// if ($campo->getCustomFuncionValor () != "")
+				// {
+				// $valor = call_user_func_array ($campo->getCustomFuncionValor (), array (
+				// $valor
+				// ));
+				// }
+
+				// $camposSql .= $campo->getCampo ();
+
+				// if (trim ($valor) == '')
+				// {
+				// $valoresSql .= " NULL";
+				// }
+				// else
+				// {
+				// // Se agrega la comparativa para que en caso de sel bases de oracle haga la conversion del formato de fecha
+				// // if ($campo->getTipo() == 'fecha' and $this->db->dbtype == 'oracle')
+				// // if ($campo->getTipo () == 'fecha')
+				// if ($campo instanceof Campos_fecha)
+				// {
+				// // $valoresSql .= "TO_DATE('" . $valor . "', 'RRRR-MM-DD')";
+				// $valoresSql .= $this->db->toDate ($valor, 'RRRR-MM-DD');
+				// }
+				// else
+				// {
+				// $valoresSql .= " '" . $valor . "' ";
+				// }
+				// }
+				// }
 			}
 
 			if (!is_array ($this->campoId) and strpos ($camposSql, $this->campoId) == false)
@@ -4347,7 +4219,7 @@ class class_abm
 	 *        	- Etiquetas a elininar en el texto dado.
 	 * @return string
 	 */
-	private function strip_selected_tags($text, $tags = array())
+	private function strip_selected_tags($text, $tags = array ())
 	{
 		$args = func_get_args ();
 		$text = array_shift ($args);
@@ -4452,6 +4324,11 @@ class class_abm
 
 				case "fecha" :
 					$this->campo[] = new Campos_fecha ($camp, $this->db);
+					$i = Funciones::endKey ($this->campo);
+					break;
+
+				case "textarea" :
+					$this->campo[] = new Campos_textarea ($camp);
 					$i = Funciones::endKey ($this->campo);
 					break;
 			}
@@ -5087,6 +4964,10 @@ class class_abm
 
 			case "fecha" :
 				$this->campo[] = new Campos_fecha (array (), $this->db);
+				$i = Funciones::endKey ($this->campo);
+				break;
+			case "textarea" :
+				$this->campo[] = new Campos_textarea ();
 				$i = Funciones::endKey ($this->campo);
 				break;
 		}
