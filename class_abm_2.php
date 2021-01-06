@@ -612,7 +612,7 @@ class class_abm
 	/**
 	 * texto del confirm() antes de borrar (escapar las comillas dobles si se usan) *
 	 */
-	public $textoPreguntarBorrar = "¿Confirma que desea borrar el elemento seleccionado?";
+	public $textoPreguntarBorrar = "ï¿½Confirma que desea borrar el elemento seleccionado?";
 
 	/**
 	 * Muestra el boton Editar en el listado
@@ -1429,7 +1429,7 @@ click: function($vexContent, event) {}})
 
 		if ($this->formularioSolapa == true)
 		{
-			for($e = 1; $e <= $this->cantidadSolapa; $e++)
+			for($e = 1; $e <= $this->cantidadSolapa; $e ++)
 			{
 				$html .= "<input id='tab-" . $e . "' type='radio' name='radio-set' class='tab-selector-" . $e . " folio' />";
 				$html .= "<label for='tab-" . $e . "' class='tab-label-" . $e . " folio'>" . $this->tituloSolapa[$e - 1] . "</label>";
@@ -1460,7 +1460,7 @@ click: function($vexContent, event) {}})
 							continue;
 						}
 
-						$i++;
+						$i ++;
 
 						$imprForm .= "<div class='elementForm'>\n";
 
@@ -1526,7 +1526,7 @@ click: function($vexContent, event) {}})
 					continue;
 				}
 
-				$i++;
+				$i ++;
 
 				$imprForm .= "<div class='elementForm'>\n";
 
@@ -1697,8 +1697,7 @@ click: function($vexContent, event) {}})
 
 		if (is_array ($this->campoId))
 		{
-			$camposSelect .= $this->convertirIdMultipleSelect ($this->campoId, $this->tabla);
-			$this->campoId = $this->convertirIdMultiple ($this->campoId, $this->tabla);
+			$camposSeleï¿½Eï¿½J:V  ï¿½Eï¿½J:V                  ï¿½ï¿½ï¿½I:V          ï¿½ï¿½I:V  ï¿½Eï¿½J:V          ï¿½Eï¿½J:V   @      ï¿½Eï¿½J:V          rtirIdMultiple ($this->campoId, $this->tabla);
 
 			$sql = "SELECT $this->campoId, $camposSelect FROM " . $this->tabla . $this->dbLink . " " . $joinSql . " " . $this->customJoin . " WHERE upper(" . substr ($this->campoId, 0, -6) . ") = upper('" . $id . "')";
 		}
@@ -1816,7 +1815,7 @@ click: function($vexContent, event) {}})
 
 		if ($this->formularioSolapa == true)
 		{
-			for($e = 1; $e <= $this->cantidadSolapa; $e++)
+			for($e = 1; $e <= $this->cantidadSolapa; $e ++)
 			{
 				$html .= "<input id='tab-" . $e . "' type='radio' name='radio-set' class='tab-selector-" . $e . " folio' />";
 				$html .= "<label for='tab-" . $e . "' class='tab-label-" . $e . " folio'>" . $this->tituloSolapa[$e - 1] . "</label>";
@@ -1849,7 +1848,7 @@ click: function($vexContent, event) {}})
 							continue;
 						}
 
-						$i++;
+						$i ++;
 
 						if ($i == 1 and $this->autofocus)
 						{
@@ -1928,7 +1927,7 @@ click: function($vexContent, event) {}})
 					continue;
 				}
 
-				$i++;
+				$i ++;
 
 				if ($i == 1 and $this->autofocus)
 				{
@@ -2040,18 +2039,18 @@ click: function($vexContent, event) {}})
 		// contar el total de campos que tienen el parametro "exportar"
 		$totalCamposExportar = 0;
 
-		for($i = 0; $i < count ($this->campo); $i++)
+		for($i = 0; $i < count ($this->campo); $i ++)
 		{
 			if (!isset ($this->campos[$i]['exportar']) or $this->campos[$i]['exportar'] != true)
 			{
 				continue;
 			}
-			$totalCamposExportar++;
+			$totalCamposExportar ++;
 		}
 
 		// FIXME WTF con essto
 		// Por cada campo...
-		for($i = 0; $i < count ($this->campo); $i++)
+		for($i = 0; $i < count ($this->campo); $i ++)
 		{
 
 			if ($campo->existeDato ('exportar') != true)
@@ -2253,7 +2252,7 @@ click: function($vexContent, event) {}})
 
 			// print_r("<Br />*******************<Br />");
 			$fila = Funciones::limpiarEntidadesHTML ($fila);
-			$i++;
+			$i ++;
 
 			if (strtolower ($formato) == 'excel')
 			{
@@ -2268,7 +2267,7 @@ click: function($vexContent, event) {}})
 			// foreach ($this->campos as $campo)
 			foreach ($this->campo as &$campo)
 			{
-				$c++;
+				$c ++;
 				if ($campo->getExportar () != true)
 				{
 					continue;
@@ -2449,7 +2448,7 @@ click: function($vexContent, event) {}})
 				// $requerido = "";
 				// }
 
-				$iColumna++;
+				$iColumna ++;
 				$formBuscar .= "<div>\n";
 				$formBuscar .= "<label>" . $campo->obtenerTitulo (true) . "</label>";
 
@@ -2951,7 +2950,7 @@ click: function($vexContent, event) {}})
 				}
 				$fila = Funciones::limpiarEntidadesHTML ($fila);
 
-				$i++;
+				$i ++;
 				$rallado = !$rallado;
 
 				// print_r ($fila);
@@ -3255,7 +3254,7 @@ click: function($vexContent, event) {}})
 
 					$cant = count ($camposIncuidos);
 
-					for($j = 0; $j < $cant; $j++)
+					for($j = 0; $j < $cant; $j ++)
 					{
 						// $campo->setCustomPrintListado (str_ireplace ("{" . trim ($camposIncuidos[$j]) . "}", $fila[trim ($camposIncuidos[$j])], $campo->getCustomPrintListado ()));
 
@@ -3308,8 +3307,7 @@ click: function($vexContent, event) {}})
 			$this->iconoEditar = str_ireplace ('{id}', $fila['ID'], $this->iconoEditar);
 			$this->iconoEditar = str_ireplace ('/img/', $this->directorioImagenes, $this->iconoEditar);
 
-			// echo "<td class='celdaEditar'>" . $this->iconoEditar . $fila['ID'] . "</td> \n";
-			// $html .= "<td class='celdaEditar' " . $campo->get_no_mostrar() . ">" . sprintf ($this->iconoEditar, $_SERVER['PHP_SELF'] . "?abm_editar=" . $fila['ID'] . $qsamb) . "</td> \n";
+			// echo "<td class='celdaEditar'>" . $this->iconoEditar . $fila['ID'] . "</td> \n"ï¿½Eï¿½J:V  ï¿½Eï¿½J:V                  ï¿½ï¿½ï¿½I:V          ï¿½ï¿½I:V  ï¿½Eï¿½J:V          ï¿½Eï¿½J:V   @      ï¿½Eï¿½J:V          tar, $_SERVER['PHP_SELF'] . "?abm_editar=" . $fila['ID'] . $qsamb) . "</td> \n";
 			// $html .= "<td class='celdaEditar' " . $campo->get_no_mostrar () . ">" . sprintf ($this->iconoEditar, "f_editar( '" . $_SERVER['PHP_SELF'] . "?abm_editar=" . $fila['ID'] . $qsamb . "')") . "</td> \n";
 			$filaListado .= "<td class='celdaEditar' " . $campo->get_no_mostrar () . ">" . sprintf ($this->iconoEditar, "f_editar( '" . $_SERVER['PHP_SELF'] . "?abm_editar=" . $fila['ID'] . "')") . "</td> \n";
 			// $html .= "<td class='celdaEditar' " . $campo->get_no_mostrar() . "><a href='#' title='editar' onclick='f_editar()'>" . $this->iconoEditar . "</a></td> \n";
@@ -3909,12 +3907,7 @@ click: function($vexContent, event) {}})
 								$estructura = $campo->getUbicacionArchivo ();
 							}
 							else
-							{
-								$estructura = "";
-							}
-
-							// FIXME urgente!!
-							// if (isset ($campo['tipoArchivo']) and $campo['tipoArchivo'] != "")
+					ï¿½Eï¿½J:V  ï¿½Eï¿½J:V                  ï¿½ï¿½ï¿½I:V          ï¿½ï¿½I:V  ï¿½Eï¿½J:V          ï¿½Eï¿½J:V   @      ï¿½Eï¿½J:V          Archivo']) and $campo['tipoArchivo'] != "")
 							// {
 							// $tipo_correcto = preg_match ('/^' . $campo['tipoArchivo'] . '$/', $tipo);
 							// }

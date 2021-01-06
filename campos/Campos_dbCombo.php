@@ -19,6 +19,8 @@ require_once 'class_campo.php';
 require_once '../class_db.php';
 require_once '../class_sitio.php';
 
+// require_once $_SERVER['CONTEXT_DOCUMENT_ROOT'] . '/classes/class_sitio.php';
+
 // require_once '../funciones.php';
 
 /**
