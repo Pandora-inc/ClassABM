@@ -1,4 +1,4 @@
-	<?php
+<?php
 
 /**
  * Esta clase se va a encargar de todo lo referente a las bases de datos.
@@ -22,71 +22,6 @@
  *
  */
 
-	/*
-	 * Querido programador:
-	 *
-	 * Cuando escribi este codigo, solo Dios y yo sabiamos como funcionaba.
-	 * Ahora, Solo Dios lo sabe!!!
-	 *
-	 * Asi que, si esta tratando de 'optimizar' esta rutina y fracasa (seguramente),
-	 * por favor, incremente el siguiente contador como una advertencia para el
-	 * siguiente colega:
-	 *
-	 * totalHorasPerdidasAqui = 177
-	 *
-	 */
-	/**
-	 * Esta clase se va a encargar de todo lo referente a las bases de datos.
-	 * Recuperacion e insercion de datos, conexiones ect.
-	 *
-	 *
-	 * deprecated las funciones de mssql dejan de funcionar en cualquier momento.
-	 *
-	 * @author iberlot
-	 * @example $db = new class_db ($dbSever, $dbUser, $dbPass, $dbBase);
-	 *          $db->connect ();
-	 *
-	 *          $db->dieOnError = true;
-	 *          $db->mostrarErrores = true;
-	 *          $db->debug = true;
-	 *
-	 *          $sql = "SELECT * FROM tabla WHERE 1 = 1 AND pepinos = :peps" ;
-	 *
-	 *          $parametros = "";
-	 *          $parametros[] = $pepinos;
-	 *
-	 *          $result = $db->query ($sql, $esParam = true, $parametros);
-	 *
-	 *          while ($rst = $db->fetch_array ($result))
-	 *          {
-	 *          echo $rst['CAMPO_1'];
-	 *          echo $rst['CAMPO_2'];
-	 *          }
-	 *
-	 *
-	 *          $sql = "INSERT INTO tabla (id ,pepinos) VALUES (:id, :peps)";
-	 *
-	 *          $parametros = "";
-	 *          $parametros[] = $ID;
-	 *          $parametros[] = $pepinos;
-	 *
-	 *          $db->query ($sql, $esParam = true, $parametros);
-	 *
-	 *          // use function class_db\fetch_array;
-	 *          // use function class_db\fetch_assoc;
-	 *          // use function class_db\num_rows;
-	 *          // use function class_db\query;
-	 *          // use function mysqli\real_escape_string;
-	 *
-	 */
-	class class_db
-	{
-		/**
-		 * Muestra por pantalla diferentes codigos para facilitar el debug
-		 *
-		 * @var bool
-		 */
-		public $debug = false;
 /*
  * Querido programador:
  *
@@ -205,7 +140,7 @@ class class_db
     private $dbUser;
 
     /**
-     * Contrase�a del usuario de coeccion.
+     * Contrasena del usuario de coeccion.
      *
      * @var string
      */
@@ -240,7 +175,7 @@ class class_db
      * @param string $user
      *            Usuario de conexion a la base
      * @param string $pass
-     *            Contrase�a de conexion a la base
+     *            Contrasena de conexion a la base
      * @param string $db
      * @param string $charset
      *            Juego de caracteres de la conexion
@@ -299,44 +234,6 @@ class class_db
             );
             $this->con = sqlsrv_connect($this->dbHost, $connectionInfo);
 
-		/**
-		 * Funcion que devuelve el codigo de error de la consulta
-		 *
-		 * @param object $result
-		 *        	- Si el objeto del que lebanter el error no es el defoult.
-		 *
-		 * @return string Con el codigo del error
-		 */
-		public function errorNro($result = "")
-		{
-			// Grabamos el codigo de error en una variable
-			if ($this->dbtype == 'mysql')
-			{
-				return mysqli_errno ($this->con);
-			}
-			elseif ($this->dbtype == 'oracle')
-			{
-				if ($result != "")
-				{
-					$e = oci_error ($result);
-				}
-				else
-				{
-					$e = oci_error ($this->con);
-				}
-				return htmlentities ($e['code']);
-			}
-			elseif ($this->dbtype == 'mssql')
-			{
-				$cod = "";
-				// return odbc_error ($this->con);
-				if (($errors = sqlsrv_errors ()) != null)
-				{
-					foreach ($errors as $error)
-					{
-						$cod .= $error['code'];
-					}
-				}
             if (! $this->con) {
                 throw new Exception('Algo fue mal mientras se conectaba a MSSQL');
             }
@@ -372,44 +269,6 @@ class class_db
                 }
             }
 
-		/**
-		 * Funcion que devuelve el texto del error de la consulta
-		 *
-		 * @param object $result
-		 *        	- Si el objeto del que lebanter el error no es el defoult.
-		 *
-		 * @return string Con el texto del error
-		 */
-		public function error($result = "")
-		{
-			// Grabamos el codigo de error en una variable
-			if ($this->dbtype == 'mysql')
-			{
-				return mysqli_error ($this->con);
-			}
-			elseif ($this->dbtype == 'oracle')
-			{
-				if ($result != "")
-				{
-					$e = oci_error ($result);
-				}
-				else
-				{
-					$e = oci_error ($this->con);
-				}
-				return htmlentities ($e['message']);
-			}
-			elseif ($this->dbtype == 'mssql')
-			{
-				// return odbc_errormsg ($this->con);
-				$message = "";
-				if (($errors = sqlsrv_errors ()) != null)
-				{
-					foreach ($errors as $error)
-					{
-						$message .= $error['message'];
-					}
-				}
             return $cod;
         }
     }
@@ -443,33 +302,6 @@ class class_db
                 }
             }
 
-		/**
-		 *
-		 * Funcion que se encarga de ejecutar las cunsultas SELECT
-		 *
-		 * A tener en cuenta, por el momento se recomienda no usar texto entre comillas
-		 * con el simbolo dos puntos ( : ) dentro de la consulta, por lo menos dentro de las consultas parametrizadas.
-		 *
-		 * @version 1.0.2 Se corrigio la funcion para que se pudieran usar consultas parametrizadas en mysql.
-		 *
-		 * @param string $str_query
-		 *        	codigo de la query a ejecutar
-		 * @param bool $esParam
-		 *        	Define si la consulta va a ser parametrizada o no. (por defecto false)
-		 * @param array $parametros
-		 *        	Array con los parametros a pasar.
-		 *
-		 * @return array
-		 */
-		public function query($str_query, $esParam = false, $parametros = array ())
-		{
-			$str_query = $this->format_query_usar ($str_query);
-			/**
-			 * Consulata a la base de datos ya compilada
-			 *
-			 * @var mixed $result
-			 */
-			$result = "";
             return $message;
         }
     }
@@ -494,9 +326,10 @@ class class_db
      */
     public function query($str_query, $esParam = false, $parametros = array())
     {
-        // print_r ($str_query);
         $str_query = $this->format_query_usar($str_query);
-        // print_r ($str_query);
+
+        error_log("\n----\n" . $str_query . "\n----\n");
+
         /**
          * Consulata a la base de datos ya compilada
          *
@@ -525,7 +358,7 @@ class class_db
 
                     $str_query = str_replace(":$paraY[0]", "?", $str_query);
                 }
-                /* ligar par�metros para marcadores */
+                /* ligar parnmetros para marcadores */
                 array_push($param_arr, $cantParam);
 
                 // FIXME - hasta que se encuentre otra solucion se va a usar un case y se va a hacer manual
@@ -570,6 +403,9 @@ class class_db
 
                 $result = mysqli_stmt_get_result($stmt);
             } else {
+
+                error_log("\n-*-\n" . $str_query . "\n-*-\n");
+
                 $result = mysqli_query($this->con, $str_query);
             }
         } elseif ($this->dbtype == 'oracle') { // Recuperamos los datos del estado del requerimiento
@@ -682,57 +518,6 @@ class class_db
         return $result;
     }
 
-		/**
-		 * Devuelve el fetch_row de una consulta dada
-		 *
-		 * @name fetch_row
-		 * @param string $result
-		 *        	consulta de la cual devolver el fetch_assoc
-		 * @param bool $limpiarEntidadesHTML
-		 *        	true/false
-		 * @return array - Obtiene una fila de datos del conjunto de resultados y la devuelve como un array enumerado, donde cada columna es almacenada en un �ndice del array comenzando por 0 (cero). Cada llamada subsiguiente a esta funci�n devolver� la siguiente fila del conjunto de resultados, o NULL si no hay m�s filas.
-		 *
-		 */
-		public function fetch_row($result, $limpiarEntidadesHTML = false)
-		{
-			if ($this->dbtype == 'mysql')
-			{
-				if ($limpiarEntidadesHTML)
-				{
-					return limpiarEntidadesHTML (mysqli_fetch_row ($result));
-				}
-				else
-				{
-					return mysqli_fetch_row ($result);
-				}
-			}
-			elseif ($this->dbtype == 'oracle')
-			{
-				if ($limpiarEntidadesHTML)
-				{
-					return limpiarEntidadesHTML (oci_fetch_row ($result));
-				}
-				else
-				{
-					return oci_fetch_row ($result);
-				}
-			}
-			elseif ($this->dbtype == 'mssql')
-			{
-				if ($limpiarEntidadesHTML)
-				{
-					// return limpiarEntidadesHTML (mssql_fetch_row ($result));
-					// return limpiarEntidadesHTML (odbc_fetch_row ($result));
-					return limpiarEntidadesHTML (sqlsrv_fetch_array ($result));
-				}
-				else
-				{
-					// return mssql_fetch_row ($result);
-					// return odbc_fetch_row ($result);
-					return sqlsrv_fetch_array ($result);
-				}
-			}
-		}
     /**
      * Devuelve el fetch_assoc de una consulta dada
      *
@@ -777,7 +562,7 @@ class class_db
      *            consulta de la cual devolver el fetch_assoc
      * @param bool $limpiarEntidadesHTML
      *            true/false
-     * @return array - Obtiene una fila de datos del conjunto de resultados y la devuelve como un array enumerado, donde cada columna es almacenada en un �ndice del array comenzando por 0 (cero). Cada llamada subsiguiente a esta funci�n devolver� la siguiente fila del conjunto de resultados, o NULL si no hay m�s filas.
+     * @return array - Obtiene una fila de datos del conjunto de resultados y la devuelve como un array enumerado, donde cada columna es almacenada en un indice del array comenzando por 0 (cero). Cada llamada subsiguiente a esta funcion devolvera la siguiente fila del conjunto de resultados, o NULL si no hay mas filas.
      *        
      */
     public function fetch_row($result, $limpiarEntidadesHTML = false)
@@ -953,32 +738,6 @@ class class_db
         }
     }
 
-		/**
-		 * Devuelve el numero de registros afectado por la ultima sentencia SQL de escritura
-		 *
-		 * @param mixed $stid
-		 *        	Obligatorio para oracle es la consulta sobre la que se trabaja.$this
-		 *
-		 * @return mixed la cantidad de filas afectadas
-		 *
-		 */
-		public function affected_rows($stid = "")
-		{
-			if ($this->dbtype == 'mysql')
-			{
-				return mysqli_affected_rows ($this->con);
-			}
-			elseif ($this->dbtype == 'oracle')
-			{
-				return oci_num_rows ($stid);
-			}
-			elseif ($this->dbtype == 'mssql')
-			{
-				// return mssql_rows_affected ($this->con);
-				// return odbc_num_rows ($stid);
-				return sqlsrv_num_rows ($stid);
-			}
-		}
     /**
      * Devuelve la cantidad de campos de la consulta
      *
@@ -1090,11 +849,7 @@ class class_db
     {
         $str_query_debug = nl2br(htmlentities($str_query));
 
-        if ($this->dbtype != "mysql") {
-            $str_query_debug = strtolower($str_query);
-        } else {
-            $str_query_debug = $str_query;
-        }
+        $str_query_debug = strtolower($str_query_debug);
 
         $str_query_debug = str_ireplace("SELECT", "<span style='color:green;font-weight:bold;'>SELECT</span>", $str_query_debug);
         $str_query_debug = str_ireplace("INSERT", "<span style='color:#660000;font-weight:bold;'>INSERT</span>", $str_query_debug);
@@ -1120,27 +875,9 @@ class class_db
         $str_query_debug = str_ireplace("JOIN", "<span style='color:magenta;font-weight:bold;'>JOIN</span>", $str_query_debug);
         $str_query_debug = str_ireplace(" ON ", "<span style='color:magenta;font-weight:bold;'> ON </span>", $str_query_debug);
 
-			$str_query_debug = str_ireplace ("STR_TO_DATE", "STR_TO_DATE", $str_query_debug);
-			$str_query_debug = str_ireplace ("%y-%m-%d", "%Y-%m-%d", $str_query_debug);
-
-			return $str_query_debug;
-		}
         $str_query_debug = str_ireplace("TO_CHAR", "<span style='color:pink;font-weight:bold;'>TO_CHAR</span>", $str_query_debug);
         $str_query_debug = str_ireplace("TO_DATE", "<span style='color:pink;font-weight:bold;'>TO_DATE</span>", $str_query_debug);
 
-		/**
-		 * Formatea una query a utilizar
-		 *
-		 * @param mixed $str_query
-		 *        	La query a tratar
-		 * @return mixed La query formateada
-		 */
-		private function format_query_usar($str_query)
-		{
-			if ($this->dbtype != "mysql")
-			{
-				$str_query_debug = strtolower ($str_query);
-			}
         $str_query_debug = str_ireplace("STR_TO_DATE", "STR_TO_DATE", $str_query_debug);
         $str_query_debug = str_ireplace("%y-%m-%d", "%Y-%m-%d", $str_query_debug);
 
@@ -1175,11 +912,6 @@ class class_db
         $str_query_debug = str_ireplace("VALUES", "VALUES", $str_query_debug);
         $str_query_debug = str_ireplace(" AND ", " AND ", $str_query_debug);
 
-			$str_query_debug = str_ireplace ("STR_TO_DATE", "STR_TO_DATE", $str_query_debug);
-			$str_query_debug = str_ireplace ("%y-%m-%d", "%Y-%m-%d", $str_query_debug);
-
-			return $str_query_debug;
-		}
         $str_query_debug = str_ireplace(" AS ", " AS ", $str_query_debug);
         $str_query_debug = str_ireplace("INNER", "INNER", $str_query_debug);
         $str_query_debug = str_ireplace("LEFT", "LEFT", $str_query_debug);
@@ -1216,40 +948,6 @@ class class_db
         $sql = "SELECT $field FROM $table WHERE $fieldId='$id'";
         $result = query($sql);
 
-		/**
-		 * Retorna un array con el arbol jerarquico a partir del nodo indicado (0 si es el root)
-		 * Esta funcion es para ser usada en tablas con este formato de campos: id, valor, idPadre
-		 *
-		 * @param string $tabla
-		 *        	Nombre de la tabla
-		 * @param string $campoId
-		 *        	Nombre del campo que es id de la tabla
-		 * @param string $campoPadreId
-		 *        	Nombre del campo que es el FK sobre la misma tabla
-		 * @param string $campoDato
-		 *        	Nombre del campo que tiene el dato
-		 * @param string $orderBy
-		 *        	Para usar en ORDER BY $orderBy
-		 * @param int $padreId
-		 *        	El id del nodo del cual comienza a generar el arbol, o 0 si es el root
-		 * @param int $nivel
-		 *        	No enviar (es unicamente para recursividad)
-		 * @return array Formato: array("nivel" => X, "dato" => X, "id" => X, "padreId" => X);
-		 *
-		 *         Un codigo de ejemplo para hacer un arbol de categorias con links:
-		 *
-		 *         for ($i=0; $i<count($arbol); $i++){
-		 *         echo str_repeat("&nbsp;&nbsp;&nbsp;", $arbol[$i][nivel])."<a href='admin_categorias.php?c=".$arbol[$i][id]."'>".$arbol[$i][dato]."</a><br/>";
-		 *         }
-		 */
-		public function getArbol($tabla, $campoId, $campoPadreId, $campoDato, $orderBy, $padreId = 0, $nivel = 0)
-		{
-			$tabla = real_escape_string ($tabla);
-			$campoId = real_escape_string ($campoId);
-			$campoPadreId = real_escape_string ($campoPadreId);
-			$campoDato = real_escape_string ($campoDato);
-			$orderBy = real_escape_string ($orderBy);
-			$padreId = real_escape_string ($padreId);
         if ($result and num_rows($result) == 1) {
             if ($fila = fetch_assoc($result)) {
                 if ($this->dbtype == 'oracle') {
@@ -1378,55 +1076,6 @@ class class_db
 
         $result = $this->query("SELECT $campoId, $campoDato, $campoPadreId FROM $tabla WHERE $campoId='$id'");
 
-		/**
-		 * Realiza un INSERT en una tabla usando los datos que vienen por POST, donde el nombre de cada campo es igual al nombre en la tabla.
-		 * Esto es especialmente util para backends, donde con solo agregar un campo al <form> ya estamos agregandolo al query automaticamente
-		 *
-		 * Ejemplos:
-		 *
-		 * Para casos como backend donde no hay que preocuparse por que el usuario altere los campos del POST se puede omitir el parametro $campos
-		 * $db->insertFromPost("usuarios");
-		 *
-		 * Si ademas queremos agregar algo al insert
-		 * $db->insertFromPost("usuarios", "", "fechaAlta=NOW()");
-		 *
-		 * Este es el caso mas seguro, se indican cuales son los campos que se tienen que insertar
-		 * $db->insertFromPost("usuarios", array("nombre", "email"));
-		 *
-		 * @param string $tabla
-		 *        	Nombre de la tabla en BD
-		 * @param array $campos
-		 *        	Campos que vienen por $_POST que queremos insertar, ej: array("nombre", "email")
-		 * @param string $adicionales
-		 *        	Si queremos agregar algo al insert, ej: fechaAlta=NOW()
-		 * @return boolean El resultado de la funcion query
-		 */
-		public function insertFromPost($tabla, $campos = array (), $adicionales = "")
-		{
-			foreach ($_POST as $campo => $valor)
-			{
-				if (is_array ($campos) and count ($campos) > 0)
-				{
-					// solo los campos indicados
-					if (in_array ($campo, $campos))
-					{
-						if ($camposInsert != "")
-						{
-							$camposInsert .= ", ";
-						}
-						$camposInsert .= "`$campo`='" . real_escape_string ($valor) . "'";
-					}
-				}
-				else
-				{
-					// van todos los campos que vengan en $_POST
-					if ($camposInsert != "")
-					{
-						$camposInsert .= ", ";
-					}
-					$camposInsert .= "`$campo`='" . real_escape_string ($valor) . "'";
-				}
-			}
         while ($this->num_rows($result) == 1 or $fila[$campoId] == '0') {
             $fila = $this->fetch_assoc($result);
             $arrayRuta[$fila[$campoId]] = $fila[$campoDato];
@@ -1438,33 +1087,6 @@ class class_db
         return $arrayRuta;
     }
 
-		/**
-		 * Realiza un UPDATE en una tabla usando los datos que vienen por POST, donde el nombre de cada campo es igual al nombre en la tabla.
-		 * Esto es especialmente util para backends, donde con solo agregar un campo al <form> ya estamos agregandolo al query automaticamente
-		 *
-		 * Ejemplos:
-		 *
-		 * Para casos como backend donde no hay que preocuparse por que el usuario altere los campos del POST se puede omitir el parametro $campos
-		 * $db->updateFromPost("usuarios");
-		 *
-		 * Si ademas queremos agregar algo al update
-		 * $db->updateFromPost("usuarios", "", "fechaModificacion=NOW()");
-		 *
-		 * Este es el caso mas seguro, se indican cuales son los campos que se tienen que insertar
-		 * $db->updateFromPost("usuarios", array("nombre", "email"));
-		 *
-		 * @param string $tabla
-		 *        	Nombre de la tabla en BD
-		 * @param string $where
-		 *        	Condiciones para el WHERE. Ej: id=2. Tambien puede agregarse un LIMIT para los casos donde solo se necesita actualizar un solo registro. Ej: id=3 LIMIT 1. El limit en este caso es por seguridad
-		 * @param array $campos
-		 *        	Campos que vienen por $_POST que queremos insertar, ej: array("nombre", "email")
-		 * @param string $adicionales
-		 *        	Si queremos agregar algo al insert, ej: fechaAlta=NOW()
-		 * @return boolean El resultado de la funcion query
-		 */
-		public function updateFromPost($tabla, $where, $campos = array (), $adicionales = "")
-		{
     /**
      * Realiza un INSERT en una tabla usando los datos que vienen por POST, donde el nombre de cada campo es igual al nombre en la tabla.
      * Esto es especialmente util para backends, donde con solo agregar un campo al <form> ya estamos agregandolo al query automaticamente
@@ -1586,7 +1208,7 @@ class class_db
     {
         echo "<Br /><Br />";
 
-        if ($this->dbtype == 'mysql') {
+        if ($this->dbtype == 'mysql') {} elseif ($this->dbtype == 'oracle') {
             $cantidad = substr_count($str_query, ':');
 
             $para = explode(':', $str_query);
@@ -1594,48 +1216,6 @@ class class_db
             for ($i = 0; $i < $cantidad; $i ++) {
                 $e = $i + 1;
 
-                $paraY = explode(' ', $para[$e]);
-
-                $paraY[0] = trim(str_replace(",", "", $paraY[0]));
-
-                $paraY[0] = str_replace(")", "", $paraY[0]);
-
-                echo "-- :" . $paraY[0] . " = " . $parametros[$i] . "<Br />";
-            }
-        } elseif ($this->dbtype == 'oracle') {
-            $cantidad = substr_count($str_query, ':');
-
-            $para = explode(':', $str_query);
-
-            for ($i = 0; $i < $cantidad; $i ++) {
-                $e = $i + 1;
-
-		/**
-		 * Genera un string para agregar a la consulta convirtiendo una fecha en string
-		 * Usa el tipo correspondiente para cada motor.
-		 *
-		 * @author iberlot <@> iberlot@usal.edu.ar
-		 * @name toChar
-		 *
-		 * @param string $campo
-		 *        	- Nombre del campo del que se extrae la fecha
-		 * @param string $nombre
-		 *        	- Nombre que eremos que tenga luego AS ......
-		 * @param string $mascara
-		 *        	- Si queremos que use alguna mascara personalizada
-		 * @throws Exception
-		 * @return string|Error
-		 */
-		public function toChar($campo, $nombre = "", $mascara = "")
-		{
-			if ($nombre != "")
-			{
-				$nombre = " AS " . $nombre;
-			}
-			else
-			{
-				$nombre = "";
-			}
                 $paraY = explode(' ', $para[$e]);
 
                 $paraY[0] = trim(str_replace(",", "", $paraY[0]));
@@ -1653,40 +1233,6 @@ class class_db
         }
     }
 
-		/**
-		 * Genera un string para agregar a la consulta convirtiendo un string en una fecha
-		 * Usa el tipo correspondiente para cada motor.
-		 *
-		 * @author iberlot <@> iberlot@usal.edu.ar
-		 * @name toDate
-		 *
-		 * @param string $valor
-		 *        	- Dato a convertir en fecha
-		 * @param string $mascara
-		 *        	- Si queremos que use alguna mascara personalizada
-		 * @throws Exception
-		 * @return string|Error
-		 */
-		public function toDate($valor, $mascara = "")
-		{
-			if ($this->dbtype == 'mysql')
-			{
-				if ($mascara == "")
-				{
-					$mascara = "%Y-%m-%d";
-				}
-				else
-				{
-					$mascara = str_replace ('YYYY', '%Y', $mascara);
-					$mascara = str_replace ('RRRR', '%Y', $mascara);
-					$mascara = str_replace ('yyyy', '%Y', $mascara);
-					$mascara = str_replace ('yy', '%y', $mascara);
-					$mascara = str_replace ('YY', '%y', $mascara);
-					$mascara = str_replace ('mm', '%m', $mascara);
-					$mascara = str_replace ('MM', '%m', $mascara);
-					$mascara = str_replace ('dd', '%d', $mascara);
-					$mascara = str_replace ('DD', '%d', $mascara);
-				}
     /**
      * Devuelve el valor de un campo de la fila obtenida
      *
@@ -1849,24 +1395,6 @@ class class_db
                 $mascara = str_replace('DD', '%d', $mascara);
             }
 
-		/**
-		 * Recive un array con los campos a modificar en una tabla y el nombre de la tabla y en base a eso arma la consulta de Update y carga el array de parametros.
-		 *
-		 * @param String[] $array
-		 *        	- Los valores del array van a ser el valor a modificar en la tabla y los indices el nombre del campo.
-		 * @param String $tabla
-		 *        	- Nombre de la tabla en la que se va a modificar.
-		 * @param mixed[] $parametros
-		 *        	- Array de parametros, se pasa por parametro y se borra antes de usar.
-		 * @param String[] $where
-		 *        	- Los valores del array van a ser el valor a usar en el where y los indices el nombre del campo.
-		 *
-		 * @return string - Retorna el string de la consulta de modificacion preparada, adicionalmente el array parametros queda cargado con los parametros a utilizar.
-		 */
-		public function prepararConsultaUpdate($array, $tabla, &$parametros, $where)
-		{
-			$parametros = array ();
-			$campos = array ();
             $retorno = " STR_TO_DATE('" . $valor . "','" . $mascara . "') ";
         } elseif ($this->dbtype == 'oracle') {
             if ($mascara == "") {
@@ -1905,25 +1433,6 @@ class class_db
         return false;
     }
 
-		/**
-		 * Recive un array con los campos a buscar en una tabla y el nombre de la tabla y en base a eso arma la consulta de Select y carga el array de parametros.
-		 *
-		 * @param String $tabla
-		 *        	- Nombre de la tabla en la que se va a modificar.
-		 * @param mixed[] $parametros
-		 *        	- Array de parametros, se pasa por parametro y se borra antes de usar.
-		 * @param String $where
-		 *        	- Los valores del array van a ser el valor a usar en el where y los indices el nombre del campo.
-		 * @param String[] $array
-		 *        	- Los valores del array van a ser el valor a modificar en la tabla y los indices el nombre del campo.
-		 *
-		 * @return string - Retorna el string de la consulta de Select preparada, adicionalmente el array parametros queda cargado con los parametros a utilizar.
-		 */
-		public function prepararConsultaSelect($tabla, &$parametros, $where = "1=1", $array = "*")
-		{
-			$parametros = array ();
-			$campos = $array;
-			// $valores = array ();
     /**
      * Recive un array con los campos a insertar en una tabla y el nombre de la tabla y en base a eso arma la consulta de insert y carga el array de parametros.
      *
@@ -1994,22 +1503,6 @@ class class_db
         }
         $campos = implode(", ", $campos);
 
-		/**
-		 * Prepara y ejecuta la consulta de Select.
-		 *
-		 * @param String $tabla
-		 *        	- Nombre de la tabla donde se va a realizar el Select.
-		 * @param String[] $where
-		 *        	- Los valores del array van a ser el valor a usar en el where y los indices el nombre del campo.
-		 * @param String[] $campos
-		 *        	- Array con los campos que se quieren buscar.
-		 *
-		 * @throws Exception - Retorno de errores.
-		 * @return boolean true en caso de estar todo OK o el error en caso de que no.
-		 */
-		function realizarSelect($tabla, $where = "1=1", $campos = "*")
-		{
-			$parametros = array ();
         foreach ($where as $clave => $valor) {
             if (strpos($valor, "TO_DATE") === false) {
                 if (strpos($valor, "!=") === false) {
@@ -2057,22 +1550,6 @@ class class_db
             $campos = $array;
         }
 
-		/**
-		 * Prepara y ejecuta la consulta de Select.
-		 *
-		 * @param String $tabla
-		 *        	- Nombre de la tabla donde se va a realizar el Select.
-		 * @param String[] $where
-		 *        	- Los valores del array van a ser el valor a usar en el where y los indices el nombre del campo.
-		 * @param String[] $campos
-		 *        	- Array con los campos que se quieren buscar.
-		 *
-		 * @throws Exception - Retorno de errores.
-		 * @return boolean true en caso de estar todo OK o el error en caso de que no.
-		 */
-		function realizarSelectAll($tabla, $where = "1=1", $campos = "*")
-		{
-			$parametros = array ();
         foreach ($where as $clave => $valor) {
             if (strpos($valor, "TO_DATE") === false) {
                 if (strpos($valor, "!=") === false) {
@@ -2097,22 +1574,6 @@ class class_db
         return "SELECT " . $campos . " FROM " . $tabla . " WHERE " . $wheres;
     }
 
-		/**
-		 * Prepara y ejecuta la consulta de Update.
-		 *
-		 * @param mixed[] $datos
-		 *        	- Los valores del array van a ser el valor a Update en la tabla y los indices el nombre del campo.
-		 * @param String $tabla
-		 *        	- Nombre de la tabla donde se va a realizar el Update.
-		 * @param String $where
-		 *        	- Los valores del array van a ser el valor a usar en el where y los indices el nombre del campo.
-		 *
-		 * @throws Exception - Retorno de errores.
-		 * @return boolean true en caso de estar todo OK o el error en caso de que no.
-		 */
-		function realizarUpdate($datos, $tabla, $where)
-		{
-			$parametros = array ();
     /**
      * Prepara y ejecuta la consulta de Select.
      *
