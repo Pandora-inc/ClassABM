@@ -976,11 +976,10 @@ class class_abm
             input: [data] .join(\'\'),
 		    callback: function (value) {
 		        if (value) {
-		 			document.getElementById(\'formularioAbm\').submit();
-		            console.log(\'Successfully destroyed the planet.\');
+		            console.log(\'Successfully destroyed the planet.\')
 		        } else {
-		            console.log(\'Chicken.\');
-					location.reload();
+
+		            console.log(\'Chicken.\')
 		        }
 		    }
 		})
