@@ -47,6 +47,46 @@ class Campos_textarea extends class_campo
 	protected $maxMostrar = 0;
 
 	/**
+	 * Establece si el campo va a mostrar las funcioes de edicion y formateo del texto
+	 *
+	 * @name textoConFormato
+	 * @var boolean
+	 */
+	protected $textoConFormato = true;
+
+	/**
+	 * Script js que se encarga del funcionamiento del dinamic.
+	 *
+	 * @var string
+	 */
+	protected $js_editor = "<script>
+				  	function abilitarCKE(){
+						ClassicEditor.create(
+							document.querySelector( '#{CampoACambiar}' ),
+							{toolbar: {shouldNotGroupWhenFull: true}}
+						);
+					}
+				</script>";
+
+	/**
+	 *
+	 * @return bool $textoConFormato
+	 */
+	public function isTextoConFormato()
+	{
+		return $this->textoConFormato;
+	}
+
+	/**
+	 *
+	 * @param boolean $textoConFormato
+	 */
+	public function setTextoConFormato($textoConFormato)
+	{
+		$this->textoConFormato = $textoConFormato;
+	}
+
+	/**
 	 * Constructor de la clase.
 	 * Puede recibir un array con los datos a inicializar. Utiliza el constructor padre y en caso de corresponder carga los propios.
 	 *
@@ -54,18 +94,18 @@ class Campos_textarea extends class_campo
 	 */
 	public function __construct(array $array = array ())
 	{
-		if (isset ($array) and !empty ($array))
+		if (isset ($array) and ! empty ($array))
 		{
 			parent::__construct ($array);
 
 			if (array_key_exists ('maxMostrar', $array))
 			{
-				$this->setMaxMostrar ($array['maxMostrar']);
+				$this->setMaxMostrar ($array ['maxMostrar']);
 			}
 			// XXX esto existe para ofrecer compatibilidad con verciones anteriores
 			if (array_key_exists ('tmostrar', $array))
 			{
-				$this->setMaxMostrar ($array['tmostrar']);
+				$this->setMaxMostrar ($array ['tmostrar']);
 			}
 		}
 		else
@@ -105,11 +145,11 @@ class Campos_textarea extends class_campo
 	{
 		if ($this->isNoLimpiar () == true)
 		{
-			return "<td " . $this->get_extras_td () . ">" . $this->get_spanColorear () . " " . substr (html_entity_decode ($this->getValor ()), 0, $this->getMaxMostrar ()) . " " . ($this->get_spanColorear () != "" ? "</span>" : "") . "</td> \n";
+			return "<td " . $this->get_extras_td () . " >" . $this->get_spanColorear () . " " . (($this->getMaxMostrar () > 0) ? substr ($this->getValor (), 0, $this->getMaxMostrar ()) : $this->getValor ()) . " " . ($this->get_spanColorear () != "" ? "</span>" : "") . "</td> \n";
 		}
 		else
 		{
-			return "<td " . $this->get_extras_td () . ">" . $this->get_spanColorear () . " " . substr ($this->getValor (), 0, $this->getMaxMostrar ()) . " " . ($this->get_spanColorear () != "" ? "</span>" : "") . "</td> \n";
+			return "<td " . $this->get_extras_td () . ">" . $this->get_spanColorear () . " " . (($this->getMaxMostrar () > 0) ? substr ($this->getValor (), 0, $this->getMaxMostrar ()) : $this->getValor ()) . " " . ($this->get_spanColorear () != "" ? "</span>" : "") . "</td> \n";
 		}
 	}
 
@@ -120,7 +160,7 @@ class Campos_textarea extends class_campo
 
 	public function generar_elemento_form_nuevo(): string
 	{
-		return "<textarea class='input-textarea " . $this->getAtrRequerido () . "' name='" . $this->getCampo () . "' id='" . $this->getCampo () . "' " . $this->autofocusAttr . " " . $this->getAtrDisabled () . " value='" . " . $this->getValorPredefinido () . " . "' " . $this->establecerMaxLeng () . " " . $this->establecerHint () . " " . $this->getAdicionalInput () . "/></textarea>\n";
+		return "<textarea class='input-textarea " . $this->getAtrRequerido () . "' name='" . $this->getCampo () . "' id='" . $this->getCampo () . "' " . $this->autofocusAttr . " " . $this->getAtrDisabled () . " value='" . $this->getValorPredefinido () . "' " . $this->establecerMaxLeng () . " " . $this->establecerHint () . " " . $this->getAdicionalInput () . "/></textarea>\n";
 	}
 
 	/**
@@ -143,6 +183,11 @@ class Campos_textarea extends class_campo
 		}
 	}
 
+	public function getJs_editor()
+	{
+		$this->js_editor = str_ireplace ('{CampoACambiar}', $this->getCampo (), $this->js_editor);
+		return $this->js_editor;
+	}
 	// /**
 	// *
 	// * @return boolean

@@ -976,13 +976,17 @@ class class_abm
             input: [data] .join(\'\'),
 		    callback: function (value) {
 		        if (value) {
-		            console.log(\'Successfully destroyed the planet.\')
+		 			document.getElementById(\'formularioAbm\').submit();
+		            console.log(\'Successfully destroyed the planet.\');
 		        } else {
-
-		            console.log(\'Chicken.\')
+		            console.log(\'Chicken.\');
+					location.reload();
 		        }
-		    }
-		})
+			}
+		});
+
+		abilitarCKE();
+
 		}
 	})
 }
@@ -1001,8 +1005,6 @@ class class_abm
 		vex.dialog.confirm({
 		    message: \'\',
             input: [data] .join(\'\'),
-
-
 		    callback: function (value) {
 		        if (value) {
 		 			document.getElementById(\'formularioAbm\').submit();
@@ -1013,6 +1015,8 @@ class class_abm
 		        }
 		    }
 		});
+
+		abilitarCKE();
 		}
 	})
 }
@@ -1109,8 +1113,7 @@ class class_abm
 <script src='https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js'></script>
 <script src='%dirname%/jsABM/vex.combined.min.js'></script>
 <script>vex.defaultOptions.className = 'vex-theme-os'</script>
-";
-	// <script src='https://cdn.ckeditor.com/ckeditor5/24.0.0/classic/ckeditor.js'></script>
+<script src='https://cdn.ckeditor.com/ckeditor5/24.0.0/classic/ckeditor.js'></script>";
 
 	/**
 	 * Array de objetos campo
@@ -1986,20 +1989,20 @@ class class_abm
 		 * 2015/11/12
 		 * Modificado por @iberlot para poder agregar btns extra
 		 */
-
-		$html .= "<tfoot>";
-		$html .= "    <tr>";
-		$html .= "        <th colspan='2'>";
-		$html .= "			<div class ='divBtnCancelar'><input type='button' class='input-button' title='Atajo: ALT+C' accesskey='c' value='$this->textoBotonCancelar' onclick=\"" . ($this->cancelarOnClickJS != "" ? $this->cancelarOnClickJS : "window.location='$_SERVER[PHP_SELF]?$qsamb'") . "\"/></div> ";
-		$html .= "			<div class='divBtnAceptar'><input type='submit' class='input-submit' title='Atajo: ALT+G' accesskey='G' value='$this->textoBotonSubmitNuevo' $this->adicionalesSubmit /></div>";
 		if ($this->extraBtn == 'true')
 		{
-			$html .= "			<div class='divBtnExtra'><input type='button' class='input-button' title='$this->textoBotonExtraTitulo' value='$this->textoBotonExtra' $this->adicionalesExtra /></div>";
-		}
-		$html .= "		  </th>";
-		$html .= "    </tr>";
-		$html .= "</tfoot>";
+			$html .= "<tfoot>";
+			$html .= "    <tr>";
+			$html .= "        <th colspan='2'>";
+			// $html .= " <div class ='divBtnCancelar'><input type='button' class='input-button' title='Atajo: ALT+C' accesskey='c' value='$this->textoBotonCancelar' onclick=\"" . ($this->cancelarOnClickJS != "" ? $this->cancelarOnClickJS : "window.location='$_SERVER[PHP_SELF]?$qsamb'") . "\"/></div> ";
+			// $html .= " <div class='divBtnAceptar'><input type='submit' class='input-submit' title='Atajo: ALT+G' accesskey='G' value='$this->textoBotonSubmitNuevo' $this->adicionalesSubmit /></div>";
 
+			$html .= "			<div class='divBtnExtra'><input type='button' class='input-button' title='$this->textoBotonExtraTitulo' value='$this->textoBotonExtra' $this->adicionalesExtra /></div>";
+
+			$html .= "		  </th>";
+			$html .= "    </tr>";
+			$html .= "</tfoot>";
+		}
 		$html .= "</table> \n";
 		$html .= "</form> \n";
 		$html .= "</div>";
@@ -2723,14 +2726,10 @@ class class_abm
 
 		if ($this->mostrarListado)
 		{
-			// print_r ("###");
 			$result = $this->paginado->query ($sql, $this->db);
 		}
 		$this->totalFilas = $this->paginado->total_registros;
 
-		// print_r ("###");
-		// print_r ($this->totalFilas);
-		// genera el query string de variables previamente existentes
 		$get = $_GET;
 		unset ($get ['abmsg']);
 		$qsamb = http_build_query ($get);
@@ -2994,11 +2993,22 @@ class class_abm
 		// FIXME esto debe retornarse y no mostrarse por pantalla
 		foreach ($this->campo as &$campo)
 		{
+			$edi = false;
+
 			if ($campo instanceof Campos_dbCombo)
 			{
 				if ($campo->isEsDinamico () == true)
 				{
 					$html .= $campo->getJs_dinamic ();
+				}
+			}
+			elseif ($campo instanceof Campos_textarea)
+			{
+				if ($campo->isTextoConFormato () == true && $edi == false)
+				{
+					$html .= $campo->getJs_editor ();
+
+					$edi = true;
 				}
 			}
 		}
