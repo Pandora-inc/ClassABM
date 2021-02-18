@@ -1113,7 +1113,8 @@ class class_abm
 <script src='https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js'></script>
 <script src='%dirname%/jsABM/vex.combined.min.js'></script>
 <script>vex.defaultOptions.className = 'vex-theme-os'</script>
-<script src='https://cdn.ckeditor.com/ckeditor5/24.0.0/classic/ckeditor.js'></script>";
+<script src='%dirname%/jsABM/ckeditor5/ckeditor.js'></script>";
+	// <script src='https://cdn.ckeditor.com/ckeditor5/24.0.0/classic/ckeditor.js'></script>";
 
 	/**
 	 * Array de objetos campo
