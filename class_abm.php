@@ -2311,7 +2311,7 @@ class class_abm
         $camposSelect = "";
         $camposOrder = "";
         $estaBuscando = "";
-        $camposWhereBuscar = " ";
+        $camposWhereBuscar = "";
 
         $this->estilosBasicos = str_ireplace('%dirname%', dirname(__FILE__), $this->estilosBasicos);
         $this->estilosBasicos = str_ireplace($_SERVER['DOCUMENT_ROOT'], "", $this->estilosBasicos);
@@ -2630,8 +2630,6 @@ class class_abm
 
                 $i ++;
                 $rallado = !$rallado;
-
-                // print_r ($fila);
 
                 $html .= $this->armar_fila_listado($fila, $rallado);
             }
