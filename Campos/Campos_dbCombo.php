@@ -1,4 +1,10 @@
 <?php
+namespace Campos;
+
+use Funciones;
+use Sitios;
+use class_db;
+
 /**
  * Archivo con el funcionamiento de la clase dbCombo
  */
@@ -15,11 +21,11 @@
  * totalHorasPerdidasAqui = 0
  *
  */
-require_once 'class_campo.php';
-require_once $_SERVER['CONTEXT_DOCUMENT_ROOT'] . '/ClassABM/class_db.php';
+// require_once 'class_campo.php';
+// require_once $_SERVER['CONTEXT_DOCUMENT_ROOT'] . '/ClassABM/class_db.php';
 // require_once '../class_sitio.php';
 
-require_once $_SERVER['CONTEXT_DOCUMENT_ROOT'] . '/ClassABM/class_sitio.php';
+// require_once $_SERVER['CONTEXT_DOCUMENT_ROOT'] . '/ClassABM/class_sitio.php';
 
 // require_once '../funciones.php';
 
@@ -470,7 +476,7 @@ $(document).ready(function() {
             if ($this->existeDato("campoTexto")) {
                 return $tablaJoin . "_" . $this->getCampoTexto();
             } else {
-                return $tablaJoin . "_" . $campo->getCampo();
+                return $tablaJoin . "_" . $this->getCampo();
             }
         }
     }
