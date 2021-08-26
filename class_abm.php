@@ -35,6 +35,18 @@
 // require_once 'class_sitio.php';
 // require_once 'class_paginado.php';
 // require_once 'class_orderby.php';
+use Campos\Campos_bit;
+use Campos\Campos_combo;
+use Campos\Campos_dbCombo;
+use Campos\Campos_fecha;
+use Campos\Campos_moneda;
+use Campos\Campos_numero;
+use Campos\Campos_password;
+use Campos\Campos_rownum;
+use Campos\Campos_textarea;
+use Campos\Campos_texto;
+use Campos\Campos_upload;
+
 require_once __DIR__ . '/autoload.php';
 
 /*
