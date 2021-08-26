@@ -1,4 +1,4 @@
-	<?php
+<?php
 
 /**
  * Esta clase se va a encargar de todo lo referente a las bases de datos.
@@ -140,7 +140,7 @@ class class_db
     private $dbUser;
 
     /**
-     * Contraseña del usuario de coeccion.
+     * Contrasena del usuario de coeccion.
      *
      * @var string
      */
@@ -175,7 +175,7 @@ class class_db
      * @param string $user
      *            Usuario de conexion a la base
      * @param string $pass
-     *            Contraseï¿½a de conexion a la base
+     *            Contrasena de conexion a la base
      * @param string $db
      * @param string $charset
      *            Juego de caracteres de la conexion
@@ -326,9 +326,10 @@ class class_db
      */
     public function query($str_query, $esParam = false, $parametros = array())
     {
-        // print_r ($str_query);
         $str_query = $this->format_query_usar($str_query);
-        // print_r ($str_query);
+
+        error_log("\n----\n" . $str_query . "\n----\n");
+
         /**
          * Consulata a la base de datos ya compilada
          *
@@ -357,7 +358,7 @@ class class_db
 
                     $str_query = str_replace(":$paraY[0]", "?", $str_query);
                 }
-                /* ligar parï¿½metros para marcadores */
+                /* ligar parnmetros para marcadores */
                 array_push($param_arr, $cantParam);
 
                 // FIXME - hasta que se encuentre otra solucion se va a usar un case y se va a hacer manual
@@ -402,6 +403,9 @@ class class_db
 
                 $result = mysqli_stmt_get_result($stmt);
             } else {
+
+                error_log("\n-*-\n" . $str_query . "\n-*-\n");
+
                 $result = mysqli_query($this->con, $str_query);
             }
         } elseif ($this->dbtype == 'oracle') { // Recuperamos los datos del estado del requerimiento
@@ -558,7 +562,7 @@ class class_db
      *            consulta de la cual devolver el fetch_assoc
      * @param bool $limpiarEntidadesHTML
      *            true/false
-     * @return array - Obtiene una fila de datos del conjunto de resultados y la devuelve como un array enumerado, donde cada columna es almacenada en un ï¿½ndice del array comenzando por 0 (cero). Cada llamada subsiguiente a esta funciï¿½n devolverï¿½ la siguiente fila del conjunto de resultados, o NULL si no hay mï¿½s filas.
+     * @return array - Obtiene una fila de datos del conjunto de resultados y la devuelve como un array enumerado, donde cada columna es almacenada en un indice del array comenzando por 0 (cero). Cada llamada subsiguiente a esta funcion devolvera la siguiente fila del conjunto de resultados, o NULL si no hay mas filas.
      *        
      */
     public function fetch_row($result, $limpiarEntidadesHTML = false)
@@ -845,11 +849,7 @@ class class_db
     {
         $str_query_debug = nl2br(htmlentities($str_query));
 
-        if ($this->dbtype != "mysql") {
-            $str_query_debug = strtolower($str_query);
-        } else {
-            $str_query_debug = $str_query;
-        }
+        $str_query_debug = strtolower($str_query_debug);
 
         $str_query_debug = str_ireplace("SELECT", "<span style='color:green;font-weight:bold;'>SELECT</span>", $str_query_debug);
         $str_query_debug = str_ireplace("INSERT", "<span style='color:#660000;font-weight:bold;'>INSERT</span>", $str_query_debug);
@@ -1208,23 +1208,7 @@ class class_db
     {
         echo "<Br /><Br />";
 
-        if ($this->dbtype == 'mysql') {
-            $cantidad = substr_count($str_query, ':');
-
-            $para = explode(':', $str_query);
-
-            for ($i = 0; $i < $cantidad; $i ++) {
-                $e = $i + 1;
-
-                $paraY = explode(' ', $para[$e]);
-
-                $paraY[0] = trim(str_replace(",", "", $paraY[0]));
-
-                $paraY[0] = str_replace(")", "", $paraY[0]);
-
-                echo "-- :" . $paraY[0] . " = " . $parametros[$i] . "<Br />";
-            }
-        } elseif ($this->dbtype == 'oracle') {
+        if ($this->dbtype == 'mysql') {} elseif ($this->dbtype == 'oracle') {
             $cantidad = substr_count($str_query, ':');
 
             $para = explode(':', $str_query);

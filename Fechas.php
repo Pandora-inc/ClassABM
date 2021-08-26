@@ -1,0 +1,522 @@
+<?php
+
+/**
+ *
+ * @author iberlot <@> iberlot@usal.edu.ar
+ * @todo 21 nov. 2018
+ * @lenguage PHP
+ * @name class_fechas.php
+ * @version 0.1 version inicial del archivo.
+ * @package
+ * @project
+ */
+
+/*
+ * Querido programador:
+ *
+ * Cuando escribi este codigo, solo Dios y yo sabiamos como funcionaba.
+ * Ahora, Solo Dios lo sabe!!!
+ *
+ * Asi que, si esta tratando de 'optimizar' esta rutina y fracasa (seguramente),
+ * por favor, incremente el siguiente contador como una advertencia para el
+ * siguiente colega:
+ *
+ * totalHorasPerdidasAqui = 0
+ *
+ */
+abstract class Fechas
+{
+
+	/**
+	 * Formatea la fecha de la forma dd/mm/yyyy
+	 *
+	 * @param string $fecha_inicio
+	 * @return string
+	 */
+	public static function fecha_DD_MM_YYYY_Oracle($fecha_inicio)
+	{
+		$fecha_inicio = str_replace ('-', '', $fecha_inicio);
+		$fecha_inicio = str_replace ('/', '', $fecha_inicio);
+		// $dato_post_fecha_recibo_usal = preg_replace('([^0-9])', '', $dato_post_valorcuota);
+		$dd = substr ($fecha_inicio, -2);
+		$mm = substr ($fecha_inicio, 4, 2);
+		$yyyy = substr ($fecha_inicio, 0, 4);
+
+		if ($fecha_inicio)
+		{
+			$fecha_inicio = $dd . "/" . $mm . "/" . $yyyy;
+		}
+		return $fecha_inicio;
+	}
+
+	/**
+	 * Agarra caulquier fecha con el format inicial YYYY MM DD y la formatea para oracle.
+	 *
+	 * @param string $fecha_inicio
+	 *        	- Fecha con el formato YYYY-MM-DD o YYYY/MM/DD.
+	 * @param string $separador
+	 *        	- Caracter con el cual se va a separar la fecha, por defecto /.
+	 * @throws Exception - retorna un error si la cantidad de digitos numericos de $fecha_inicio es menor que 8.
+	 *        
+	 * @return string - retorna la fecha con el formato DD MM YYYY separado por el caracter separador.
+	 */
+	public static function formatear_fecha_Oracle($fecha_inicio, $separador = "/")
+	{
+		$fecha_inicio = preg_replace ('([^0-9])', '', $fecha_inicio);
+
+		if (strlen ($fecha_inicio) == 8)
+		{
+			$dd = substr ($fecha_inicio, -2);
+			$mm = substr ($fecha_inicio, 4, 2);
+			$yyyy = substr ($fecha_inicio, 0, 4);
+
+			$fecha_inicio = $dd . $separador . $mm . $separador . $yyyy;
+
+			return $fecha_inicio;
+		}
+		else
+		{
+			throw new Exception ('ERROR: El formato de fecha es incorrecto.');
+		}
+	}
+
+	/**
+	 * Recibe una fecha, la formatea y retorna un string con el TO_DATE para meter en una consulta.
+	 *
+	 * @param DateTime $fecha
+	 *        	fecha con el formato ano-mes-dia
+	 * @return string
+	 */
+	public static function fecha_oracle($fecha)
+	{
+		$fecha = Fechas::formatear_fecha_Oracle ($fecha, "-");
+
+		$fecha = "TO_DATE('$fecha', 'DD-MM-YYYY')";
+		// $fecha = "TO_DATE('$fecha', 'DD-MM-YYYY HH24:MI:SS')";
+
+		return $fecha;
+	}
+
+	/**
+	 * invierte el orden de la fecha para que quede en el formato dia-mes-a�o
+	 *
+	 * @deprecated - Conviene utilizar formatear_fecha_Oracle.
+	 *            
+	 * @param DateTime $fecha
+	 *        	fecha con el formato ano-mes-dia
+	 * @return string $aux
+	 */
+	public static function invertirFecha($fecha)
+	{
+		list ($ano, $mes, $dia) = explode ('-', $fecha);
+		$aux = $dia . "-" . $mes . "-" . $ano;
+
+		return $aux;
+	}
+
+	/**
+	 * Devuelve el dia correspondiente de la semana en formato de tres letras.
+	 *
+	 * @param string $fecha
+	 *        	- fecha con el formato ano-mes-dia
+	 * @return string $dias
+	 */
+	public static function nombreDiacorto($fecha)
+	{
+		list ($ano, $mes, $dia) = explode ('-', $fecha);
+		$dias = array (
+				'Dom',
+				'Lun',
+				'Mar',
+				'Mie',
+				'Jue',
+				'Vie',
+				'Sab',
+				'86776'
+		);
+
+		return $dias[date ("w", mktime (0, 0, 0, $mes, $dia, $ano))];
+	}
+
+	/**
+	 * Pasandosele un numero devielve el nombre del mes que le corresponde.
+	 *
+	 * @param int $numMes
+	 * @return string
+	 */
+	public static function getNombreMes($numMes)
+	{
+		switch ($numMes)
+		{
+			case 1 :
+				return "Enero";
+				break;
+			case 2 :
+				return "Febrero";
+				break;
+			case 3 :
+				return "Marzo";
+				break;
+			case 4 :
+				return "Abril";
+				break;
+			case 5 :
+				return "Mayo";
+				break;
+			case 6 :
+				return "Junio";
+				break;
+			case 7 :
+				return "Julio";
+				break;
+			case 8 :
+				return "Agosto";
+				break;
+			case 9 :
+				return "Septiembre";
+				break;
+			case 10 :
+				return "Octubre";
+				break;
+			case 11 :
+				return "Noviembre";
+				break;
+			case 12 :
+				return "Diciembre";
+				break;
+
+			default :
+				throw new Exception ('Numero de mes incorrecto.');
+				break;
+		}
+	}
+
+	/**
+	 * Suma una cantidad X de dias a una fecha.
+	 *
+	 * @param string $fecha
+	 *        	- fecha con el formato ano-mes-dia.
+	 * @param int $dia
+	 *        	- numero de dias a sumar.
+	 * @return string - fecha con los dias sumados.
+	 */
+	public static function sumaDia($fecha, $dia)
+	{
+		list ($year, $mon, $day) = explode ('-', $fecha);
+
+		return date ('Y-m-d', mktime (0, 0, 0, $mon, $day + $dia, $year));
+	}
+
+	/**
+	 * Diferencia de Dias - Fecha mayor, Fecha menor
+	 *
+	 * @param string $fecha2
+	 *        	- Fecha mayor con el formato ano-mes-dia
+	 * @param string $fecha1
+	 *        	- fecha menor con el formato ano-mes-dia
+	 * @return string $dias_diferencia - Cantidad de dias que hay entre las dos fechas
+	 */
+	public static function diferenciaDias($fecha2, $fecha1)
+	{
+		list ($ano2, $mes2, $dia2) = explode ('-', $fecha1);
+		list ($ano1, $mes1, $dia1) = explode ('-', $fecha2);
+
+		// calculo timestam de las dos fechas
+		$timestamp1 = mktime (0, 0, 0, $mes1, $dia1, $ano1);
+		$timestamp2 = mktime (0, 0, 0, $mes2, $dia2, $ano2);
+
+		// resto a una fecha la otra
+		$segundos_diferencia = $timestamp1 - $timestamp2;
+
+		// convierto segundos en D&iacute;as
+		$dias_diferencia = $segundos_diferencia / (60 * 60 * 24);
+
+		return round ($dias_diferencia);
+	}
+
+	/**
+	 * Chequea que la fecha ingresada sea correcta
+	 *
+	 * @deprecated conviene usar checkdate directamente.
+	 *            
+	 * @param int $d
+	 *        	- El Dia que esta dentro del Numero de Duas del mes m dado. Los anos a bisiestos son tomados en consideracion.
+	 * @param int $m
+	 *        	- El mes entre 1 y 12 inclusive.
+	 * @param int $a
+	 *        	- El ano entre 1 y 32767 inclusive.
+	 *        	
+	 * @return bool puede ser true o false dependiendo si la fecha es correcta o no
+	 */
+	public static function fechaCorrecta($d, $m, $a)
+	{
+		if (checkdate ($m, $d, $a))
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
+
+	/**
+	 * Se le pasan dos horas y realiza la diferencia entre ambas.
+	 *
+	 * @deprecated Por su mayor presicion se recomienda la utilizacion de difHoras.
+	 *            
+	 * @param string $hora1
+	 *        	- Hora base con el formato hh:mm.
+	 * @param string $hora2
+	 *        	- Hora a restar con el formato hh:mm.
+	 *        	
+	 * @return number - Cantidad de minutos de diferencia entre horas.
+	 */
+	public static function calcularMminutosExcedentes($hora1, $hora2)
+	{
+		$separar[1] = explode (':', $hora1);
+		$separar[2] = explode (':', $hora2);
+
+		$total_minutos_trasncurridos[1] = ($separar[1][0] * 60) + $separar[1][1];
+		$total_minutos_trasncurridos[2] = ($separar[2][0] * 60) + $separar[2][1];
+		$total_minutos_trasncurridos = $total_minutos_trasncurridos[1] - $total_minutos_trasncurridos[2];
+
+		return ($total_minutos_trasncurridos);
+	}
+
+	/**
+	 * Diferencia de horas - Hora mayor, Hora menor
+	 *
+	 * @param string $inicio
+	 *        	- Hora mayor con el formato H:i:s
+	 * @param string $fin
+	 *        	- Hora menor con el formato H:i:s
+	 * @return string - Hora con el valor de la resta
+	 */
+	public static function difHoras($inicio, $fin)
+	{
+		$inicio = strtotime ($inicio);
+		$fin = strtotime ($fin);
+		$dife = $fin - $inicio;
+		$dif = date ("H:i", strtotime ("00:00") + $dife);
+
+		return $dif;
+	}
+
+	/**
+	 * Suma de horas
+	 *
+	 * @param string $hora1
+	 *        	- Primer valor a sumar con el formato H:i:s
+	 * @param string $hora2
+	 *        	- Segundo valor a sumar con el formato H:i:s
+	 * @return string - resultado de la suma de horas
+	 */
+	public static function sumaHoras($hora1, $hora2)
+	{
+		$hora1 = strtotime ($hora1);
+		$hora2 = strtotime ($hora2);
+		$horaSum = $hora2 + $hora1;
+		$sum = date ("H:i", strtotime ("00:00") + $horaSum);
+
+		return $sum;
+	}
+
+	/**
+	 * Resibe un int con la cantidad de meses y retorna un string con la cantidad de años y meses.
+	 *
+	 * @param int $meses
+	 *        	Cantidad de meses
+	 * @return string - XxXx años y XxXx meses.
+	 */
+	public static function mesesAnios($meses)
+	{
+		$restoMeses = $meses % 12;
+		$anios = ($meses - $restoMeses) / 12;
+
+		return $anios . " a&ntilde;os" . (($restoMeses > 0) ? " y " . $restoMeses . " meses." : ".");
+	}
+
+	// FIXME estas dos funciones hay que revisarlas porque no paresen correctas.
+	// /**
+	// * Convierte un valor en segundos a horas.
+	// *
+	// * @param string $hora - Valor con el formato H:m:s
+	// * @return string - resultado de la suma de horas
+	// */
+	// function segundos_a_hora($hora)
+	// {
+	// list ($h, $m, $s) = explode (':', $hora);
+	// return ($h * 3600) + ($m * 60) + $s;
+	// }
+
+	// /* De hora a segundos */
+	// function hora_a_segundos($segundos)
+	// {
+	// $h = floor ($segundos / 3600);
+	// $m = floor (($segundos % 3600) / 60);
+	// $s = $segundos - ($h * 3600) - ($m * 60);
+	// return sprintf ('%02d:%02d', $h, $m);
+	// }
+
+	/**
+	 * Formatea la fecha que usa el MySQL (YYYY-MM-DD) o (YYYY-MM-DD HH:MM:SS) a un formato de fecha m�s claro
+	 * En caso de que falle el formateo retorna FALSE
+	 *
+	 * @param String $mysqldate
+	 *        	La fecha en formato YYYY-MM-DD o YYYY-MM-DD HH:MM:SS
+	 * @param Boolean $conHora
+	 *        	True si se quiere dejar la hora o false si se quiere quitar
+	 * @return String La fecha formateada
+	 * @version 1.1
+	 *         
+	 */
+	public static function mysql2date($mysqldate, $conHora = false)
+	{
+		$fecha_orig = $mysqldate;
+
+		if (strlen ($fecha_orig) > 10)
+		{ // si es formato YYYY-MM-DD HH:MM:SS
+			$hora = substr ($mysqldate, 11, strlen ($mysqldate));
+			$mysqldate = substr ($mysqldate, 0, 10);
+		}
+
+		$datearray = explode ("-", $mysqldate);
+
+		if (count ($datearray) != 3)
+			return ""; // en caso de que no sean tres bloques de numeros falla
+
+		$yyyy = $datearray[0];
+
+		$mm = $datearray[1];
+
+		$dd = $datearray[2];
+
+		if (strlen ($fecha_orig) > 10 and $conHora)
+		{ // si es formato YYYY-MM-DD HH:MM:SS
+			return "$dd/$mm/$yyyy $hora";
+		}
+		else
+		{
+			return "$dd/$mm/$yyyy";
+		}
+	}
+
+	/**
+	 * Convierte el formato de fecha (DD/MM/YYYY) al que usa el MySQL (YYYY-MM-DD)
+	 * Se pueden enviar dias y meses con un digito (ej: 3/2/1851) o as� (ej: 03/02/1851)
+	 * La fecha tiene que enviarse en el orden dia/mes/ano
+	 * En caso de que falle el formateo retorna FALSE
+	 *
+	 * @param String $date
+	 *        	La fecha en formato DD/MM/YYYY o D/M/YYYY
+	 * @return String La fecha formateada o FALSE si el formato es invalido
+	 * @version 1.3
+	 *         
+	 */
+	public static function date2mysql($date)
+	{
+		if (!ereg ('^[0-9]{1,2}/[0-9]{1,2}/[0-9]{4}$', $date))
+		{
+			return false;
+		}
+		$datearray = explode ("/", $date);
+
+		$dd = $datearray[0];
+		if ($dd > 0 and $dd <= 31)
+		{
+			$dd = sprintf ("%02d", $dd);
+		}
+		else
+		{
+			return false;
+		} // un minimo chequeo del dia
+
+		$mm = $datearray[1];
+		if ($mm > 0 and $mm <= 12)
+		{
+			$mm = sprintf ("%02d", $mm);
+		}
+		else
+		{
+			return false;
+		} // un minimo chequeo del mes
+
+		$yyyy = $datearray[2];
+		if ($yyyy > 0 and $yyyy <= 9999)
+		{
+			$yyyy = sprintf ("%04d", $yyyy);
+		}
+		else
+		{
+			return false;
+		} // un minimo chequeo del a�o
+
+		return "$yyyy-$mm-$dd";
+	}
+
+	/**
+	 * Retorna la representacion de una fecha (por ejemplo: Hace 3 dias.
+	 * o Ayer)
+	 * Para usar entre 0 minutos de diferencia hasta semanas
+	 *
+	 * @param Integer $ts
+	 *        	Timestamp
+	 * @param String $formatoFecha
+	 *        	El formato de fecha a mostrar para cuando es mayor a 31 d�as
+	 * @return String
+	 * @version 1.2
+	 */
+	public static function mysql2preety($ts, $formatoFecha = "d/m/Y")
+	{
+		if (!ctype_digit ($ts))
+		{
+			$ts = strtotime ($ts);
+		}
+		$diff = time () - $ts;
+		$day_diff = floor ($diff / 86400);
+
+		if ($day_diff < 0)
+		{
+			return date ($formatoFecha, $ts); // fecha futura! no deberia pasar..
+		}
+		if ($day_diff == 0)
+		{
+			if ($diff < 60)
+			{
+				return "Recien";
+			}
+			if ($diff < 120)
+			{
+				return "Hace un minuto";
+			}
+			if ($diff < 3600)
+			{
+				return "Hace " . floor ($diff / 60) . " minutos";
+			}
+			if ($diff < 7200)
+			{
+				return "Hace una hora";
+			}
+			if ($diff < 86400)
+			{
+				return "Hace " . floor ($diff / 3600) . " horas";
+			}
+		}
+
+		if ($day_diff == 1)
+		{
+			return "Ayer";
+		}
+		if ($day_diff < 7)
+		{
+			return "Hace " . $day_diff . " dias";
+		}
+		if ($day_diff < 31)
+		{
+			return "Hace " . ceil ($day_diff / 7) . " semanas";
+		}
+		return date ($formatoFecha, $ts);
+	}
+}
+?>
