@@ -11,7 +11,7 @@
  * @version 0.1 version inicial del archivo.
  * @version 0.2 Tipado de funciones y parametros valido en php. A partir de esta version se deshabilita su uso en php5.
  */
-require_once '../funciones.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/ClassABM/funciones.php';
 
 /*
  * Querido programador:
